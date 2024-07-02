@@ -4,13 +4,13 @@ namespace App\Service\Module\WebShop\External\Cart\Order\Mapper;
 
 use App\Entity\Customer;
 use App\Form\Module\WebShop\External\Order\DTO\Components\Components\OrderItemDTO;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 
 class CartToOrderObjectDTOMapper
 {
 
-    public function __construct(private readonly CartSessionService $cartService,
+    public function __construct(private readonly CartSessionProductService $cartService,
     ) {
     }
 

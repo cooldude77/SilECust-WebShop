@@ -62,4 +62,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(): User
+    {
+
+        return new User();
+    }
 }

@@ -4,14 +4,14 @@ namespace App\Tests\Controller\MasterData\Customer;
 
 use App\Factory\CustomerFactory;
 use App\Factory\SalutationFactory;
-use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CustomerControllerTest extends WebTestCase
 {
 
-    use HasBrowser,CustomerFixture;
+    use HasBrowser,EmployeeFixture;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase

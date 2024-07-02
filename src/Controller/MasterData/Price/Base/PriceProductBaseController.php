@@ -3,6 +3,7 @@
 namespace App\Controller\MasterData\Price\Base;
 
 // ...
+use App\Entity\PriceProductBase;
 use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use App\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper;
 use App\Form\MasterData\Price\PriceProductBaseCreateForm;
@@ -12,6 +13,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PriceProductBaseController extends AbstractController
 {
+
     #[Route('/price/product/base/create', name: 'price_product_base_create')]
     public function create(PriceProductBaseDTOMapper $mapper, EntityManagerInterface $entityManager,
         Request $request
@@ -151,5 +154,21 @@ class PriceProductBaseController extends AbstractController
             'admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid]
         );
+    }
+
+    #[Route('/price/product/base/{id}/fetch', name: 'price_product_base_fetch')]
+    public function fetch(int $id, ProductRepository $productRepository,
+        PriceProductBaseRepository $priceProductBaseRepository
+    ):
+    Response {
+
+        $product = $productRepository->find($id);
+        /** @var PriceProductBase $price */
+        $price = $priceProductBaseRepository->findOneBy(['product' => $product]);
+
+        return new JsonResponse(['price' => $price->getPrice(),
+                                 'currency' => $price->getCurrency()
+                                     ->getSymbol()]);
+
     }
 }

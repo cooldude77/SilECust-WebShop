@@ -132,8 +132,7 @@ class CustomerController extends AbstractController
                      'link_id' => 'id-customer',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'firstName',
-                                    'action' => 'display',],
-                         ],
+                                    'action' => 'display',],],
                      'createButtonConfig' => ['link_id' => ' id-create-Customer',
                                               'function' => 'customer',
                                               'anchorText' => 'create Customer']];

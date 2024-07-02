@@ -20,7 +20,7 @@ class PriceProductBase
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Currency $currency = null;
 

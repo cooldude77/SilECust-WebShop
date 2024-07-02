@@ -1,0 +1,19 @@
+<div>
+    <div>
+        <div id="product-name">
+            {{ product.name }}
+        </div>
+        <div id="product-description">
+            {{ product.description }}
+        </div>
+        <div><img height="50px" width="50px"
+                  src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+                  alt="{{ product.description }}"/>
+        </div>
+        <div>
+            <b>  {{ price.currency.symbol }} &nbsp; {{ price.price * quantity }}</b>
+        </div>
+
+    </div>
+
+</div>

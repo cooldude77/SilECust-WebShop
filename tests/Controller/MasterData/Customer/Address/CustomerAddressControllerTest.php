@@ -3,7 +3,7 @@
 namespace App\Tests\Controller\MasterData\Customer\Address;
 
 use App\Factory\CustomerAddressFactory;
-use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -15,7 +15,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     use HasBrowser;
     use LocationFixture;
-    use CustomerFixture;
+    use EmployeeFixture;
     use SelectElement;
 
     public function testCreate()

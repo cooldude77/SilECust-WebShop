@@ -2,16 +2,28 @@
 Single product content fragment
     Includes add to cart button
 #}
-<div>
+<div id="product-name">
+    {{ product.name }}
+</div>
+<div id="product-description">
     {{ product.description }}
 </div>
-<img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
-     alt="{{ product.description }}"/>
-
-<p>
+<div><img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+          alt="{{ product.description }}"/>
+</div>
+<div>
     {{ product.longDescription }}
-</p>
+</div>
 
-{{
-render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',
-    { 'id':product.id})) }}
+<div id="price">
+    {% set price = render(controller('App\\Controller\\MasterData\\Price\\Base\\PriceProductBaseController::fetch',
+        { 'id':product.id}))|json_decode %}
+    {{ price.currency }}
+    {{ price.price}}
+
+</div>
+
+<div id="cart-form">
+    {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',
+        { 'id':product.id})) }}
+</div>

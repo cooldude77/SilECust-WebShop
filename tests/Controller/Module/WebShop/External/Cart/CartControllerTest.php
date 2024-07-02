@@ -2,52 +2,117 @@
 
 namespace App\Tests\Controller\Module\WebShop\External\Cart;
 
-use App\Factory\ProductFactory;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionService;
+use App\Entity\OrderHeader;
+use App\Entity\OrderItem;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use App\Tests\Fixtures\CartFixture;
+use App\Tests\Fixtures\CurrencyFixture;
+use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Fixtures\PriceFixture;
+use App\Tests\Fixtures\ProductFixture;
+use App\Tests\Fixtures\SessionFactoryFixture;
+use App\Tests\Utility\FindByCriteria;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class CartControllerTest extends WebTestCase
 {
-    use HasBrowser;
+    use HasBrowser,
+        CurrencyFixture,
+        CustomerFixture,
+        ProductFixture,
+        PriceFixture,
+        LocationFixture,
+        FindByCriteria,
+        CartFixture,
+        SessionFactoryFixture;
 
-    public function testCart()
+    public function testInCartProcesses()
     {
+
+        $this->createCustomer();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
         $cartUri = '/cart';
 
-
-        $product1 = ProductFactory::createOne(["name" => 'prod1']);
-        $uri1 = "/cart/product/" . $product1->getId() . '/add';
-
-        $product2 = ProductFactory::createOne(["name" => 'prod2']);
-        $uri2 = "/cart/product/" . $product2->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
         $clearCartUri = '/cart/clear';
 
-        $cartDeleteUri = "/cart/product/" . $product1->getId() . '/delete';
+        $cartDeleteUri = "/cart/product/" . $this->productA->getId() . '/delete';
 
-        // first add products to cart
-        $this->browser()->visit($uri1)
-            ->fillField('cart_add_product_single_form[productId]', $product1->getId())
+        // Test : just visit cart
+        $this->browser()
+            // todo: don't allow cart when user is not logged in
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->visit($cartUri)
+            ->use(function (Browser $browser) {
+                $session = $browser->client()->getRequest()->getSession();
+
+                // Test : Cart got created
+                $this->assertNotNull($session->get(CartSessionProductService::CART_SESSION_KEY));
+                // Todo: More tests
+                // Test : An order got created
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+
+                $this->assertNotNull($order);
+
+            })
+            //Test :  add products to cart
+            ->visit($uriAddProductA)
+            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')->assertSuccessful()
+            ->click('Add To Cart')
             ->assertSuccessful()
-            ->visit($uri2)
-            ->fillField('cart_add_product_single_form[productId]', $product2->getId())
+            ->use(function (Browser $browser) {
+
+                // Test : An order got created
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+
+                $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                            'product' => $this->productA->object()]
+                );
+
+                $this->assertEquals($this->priceValueOfProductA, $item->getPricePerUnit());
+            })
+            ->visit($uriAddProductB)
+            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
             ->click('Add To Cart')
-            ->assertSuccessful()
-            // check cart
-            ->visit($cartUri)
-            ->use(function (\Zenstruck\Browser $browser) {
-                $session = $browser->client()->getRequest()->getSession();
-                $this->assertNotNull($session->get(CartSessionService::CART_SESSION_KEY));
-                // Todo: More tests
+            ->use(function (Browser $browser) {
+
+                // Test : An order got created
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+
+                $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                            'product' => $this->productB->object()]
+                );
+
+                $this->assertEquals($this->priceValueOfProductB, $item->getPricePerUnit());
             })
+            ->assertSuccessful()
+            // visit cart after update
+            ->visit($cartUri)
             // update quantities
             ->fillField(
                 'cart_multiple_entry_form[items][0][quantity]', 4
@@ -57,90 +122,222 @@ class CartControllerTest extends WebTestCase
             )
             // // todo: check for valid product ids in cart
             ->click("Update Cart")
-            ->use(function (\Zenstruck\Browser $browser) use ($product1, $product2) {
+            ->use(function (\Zenstruck\Browser $browser) {
+
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
-                $this->assertEquals(4, $cart[$product1->getId()]->quantity);
-                $this->assertEquals(6, $cart[$product2->getId()]->quantity);
-                // Todo: More tests
+                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+
+                // Test: Cart has right items and quantities
+                $this->assertEquals(4, $cart[$this->productA->getId()]->quantity);
+                $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
+
+                // Test : An order got created
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
+
+                $this->assertEquals(4, $itemA->getQuantity());
+
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
+
+                $this->assertEquals(6, $itemB->getQuantity());
+
             })
             // item delete from cart
             ->visit($cartDeleteUri)
-            ->use(function (\Zenstruck\Browser $browser) use ($product1,$product2) {
+            ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
-                $this->assertTrue(empty($cart[$product1->getId()]));
-               $this->assertTrue(isSet($cart[$product2->getId()]));
+                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+
+                // Test: Product is removed from car
+                $this->assertTrue(empty($cart[$this->productA->getId()]));
+
+                // Test : Other product still exists
+                $this->assertTrue(isset($cart[$this->productB->getId()]));
                 // Todo: More tests
+
+
+                // Test : An order got created
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
+
+                $this->assertNull($itemA);
+
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
+
+                $this->assertNotNull($itemB);
+
             })
             // clear cart
             ->visit($clearCartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNull($session->get(CartSessionService::CART_SESSION_KEY));
-                // Todo: More tests
+
+                // Test: Cart is cleared
+                $this->assertNull($session->get(CartSessionProductService::CART_SESSION_KEY));
+
+                $order = $this->findOneBy(
+                    OrderHeader::class, ['customer' => $this->customer->object()]
+                );
+                $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productA->object()]
+                );
+                $this->assertNull($itemA);
+
+                $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
+                                                             'product' => $this->productB->object()]
+                );
+
+                $this->assertNull($itemB);
+
+
             })
             ->assertSuccessful();
 
-    } public function testDeleteItem()
+    }
+
+    public function testCartFillWhenUserLogsOutAndLogsInAgain()
     {
+
+        $this->createCustomer();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
         $cartUri = '/cart';
 
+        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
-        $product1 = ProductFactory::createOne(["name" => 'prod1']);
-        $uri1 = "/cart/product/" . $product1->getId() . '/add';
 
-        $product2 = ProductFactory::createOne(["name" => 'prod2']);
-        $uri2 = "/cart/product/" . $product2->getId() . '/add';
-
-        $cartDelete = "/cart/product/" . $product1->getId() . '/delete';
-
-        // first add products to cart
-        $this->browser()->visit($uri1)
-            ->fillField('cart_add_product_single_form[productId]', $product1->getId())
+        // Test : just visit cart
+        $this->browser()
+            // todo: don't allow cart when user is not logged in
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->visit($cartUri)
+            //Test :  add products to cart
+            ->visit($uriAddProductA)
+            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')->assertSuccessful()
+            ->click('Add To Cart')
             ->assertSuccessful()
-            ->visit($uri2)
-            ->fillField('cart_add_product_single_form[productId]', $product2->getId())
+            ->visit($uriAddProductB)
+            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
             ->click('Add To Cart')
             ->assertSuccessful()
-            // check cart
-            ->visit($cartUri)
-            ->use(function (\Zenstruck\Browser $browser) {
-                $session = $browser->client()->getRequest()->getSession();
-                $this->assertNotNull($session->get(CartSessionService::CART_SESSION_KEY));
-                // Todo: More tests
-            })
-            // update quantities
+            ->visit('/logout')
+            ->assertNotAuthenticated();
+
+
+        $this->browser()->visit('/login')
             ->fillField(
-                'cart_multiple_entry_form[items][0][quantity]', 4
+                '_username', $this->loginForCustomerInString
+            )->fillField(
+                '_password', $this->passwordForCustomerInString
             )
-            ->fillField(
-                'cart_multiple_entry_form[items][1][quantity]', 6
-            )
-            // // todo: check for valid product ids in cart
-            ->click("Update Cart")
-            ->use(function (\Zenstruck\Browser $browser) use ($product1, $product2) {
-                $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionService::CART_SESSION_KEY);
-                $this->assertEquals(4, $cart[$product1->getId()]->quantity);
-                $this->assertEquals(6, $cart[$product2->getId()]->quantity);
-                // Todo: More tests
-            })
-            // clear cart
-            ->visit($cartDelete)
+            ->click('login')
+            ->followRedirects()
+            ->assertAuthenticated()
             ->use(function (\Zenstruck\Browser $browser) {
+
                 $session = $browser->client()->getRequest()->getSession();
-                $this->assertNull($session->get(CartSessionService::CART_SESSION_KEY));
-                // Todo: More tests
+                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+
+                // Test: Cart has right items and quantities
+                $this->assertEquals(1, $cart[$this->productA->getId()]->quantity);
+                $this->assertEquals(2, $cart[$this->productB->getId()]->quantity);
+
+            });
+
+    }
+
+    public function testCheckOutCart()
+    {
+
+
+        $this->createCustomer();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+        $cartUri = '/cart';
+
+        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+
+        $browser = $this->browser()
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+
             })
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                $this->createSessionKey($this->session);
+                $this->addProductToCart($this->session, $this->productA->object(), 10);
+            });
+
+        $browser->visit($cartUri)
+            ->interceptRedirects()
+            ->click('Checkout')
+            ->assertRedirectedTo('/checkout', 1);
+
+    }
+
+    public function testAddProductToCartTest()
+    {
+
+        $this->createCustomer();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createProductFixtures();
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+        $uri = "/cart/product/" . $this->productA->getId() . '/add';
+
+
+        $browser = $this->browser()
+            ->use(function (Browser $browser) {
+                // log in User
+                $browser->client()->loginUser($this->userForCustomer->object());
+            })
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                $this->createSessionKey($this->session);
+            })
+            ->visit($uri)
+            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 1
+            )
+            ->click('Add To Cart')
             ->assertSuccessful();
+
+
+        // Todo: more validations needed
 
     }
 }

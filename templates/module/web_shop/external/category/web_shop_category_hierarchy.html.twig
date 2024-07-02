@@ -2,7 +2,7 @@
     <ul>
         {% for category in categories %}
             <li>
-                <a href="">{{ category.description }}</a>
+                <a href="{{ path('home',{'category':category.name}) }}">{{ category.description }}</a>
             </li>
         {% endfor %}
     </ul>

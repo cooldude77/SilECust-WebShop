@@ -18,11 +18,11 @@ class OrderAddress
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn]
     private ?CustomerAddress $shippingAddress = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn]
     private ?CustomerAddress $billingAddress = null;
 
 

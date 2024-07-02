@@ -21,6 +21,10 @@ class OrderHeader
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateTimeOfOrder = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OrderStatusType $orderStatusType = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +50,18 @@ class OrderHeader
     public function setDateTimeOfOrder(\DateTimeInterface $dateTimeOfOrder): static
     {
         $this->dateTimeOfOrder = $dateTimeOfOrder;
+
+        return $this;
+    }
+
+    public function getOrderStatusType(): ?OrderStatusType
+    {
+        return $this->orderStatusType;
+    }
+
+    public function setOrderStatusType(?OrderStatusType $orderStatusType): static
+    {
+        $this->orderStatusType = $orderStatusType;
 
         return $this;
     }

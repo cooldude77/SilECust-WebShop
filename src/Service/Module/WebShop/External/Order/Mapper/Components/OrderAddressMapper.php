@@ -5,11 +5,11 @@ namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
 use App\Entity\OrderAddress;
 use App\Entity\OrderHeader;
 use App\Repository\OrderAddressRepository;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 
 readonly class OrderAddressMapper
 {
-    public function __construct(private CheckOutAddressService $checkOutAddressService,
+    public function __construct(private CheckOutAddressQuery $checkOutAddressQuery,
         private OrderAddressRepository $orderAddressRepository
     ) {
     }
@@ -19,8 +19,8 @@ readonly class OrderAddressMapper
 
         $orderAddress = $this->orderAddressRepository->create($orderHeader);
 
-        $orderAddress->setBillingAddress( $this->checkOutAddressService->getBillingAddress());
-        $orderAddress->setShippingAddress($this->checkOutAddressService->getShippingAddress());
+        $orderAddress->setBillingAddress( $this->checkOutAddressQuery->getBillingAddress());
+        $orderAddress->setShippingAddress($this->checkOutAddressQuery->getShippingAddress());
 
         return $orderAddress;
 

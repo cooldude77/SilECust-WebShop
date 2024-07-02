@@ -1,0 +1,18 @@
+{# templates/user/create.html.twig #}
+{% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
+{% block sidebar %}
+{% endblock %}
+{% block content %}
+     <div id="addresses">{{ addressTypeCaption }}
+        {{ form_start(form) }}
+
+        <ul class="address">
+            {% for address in form.addresses %}
+                <li>{{ form_widget(address) }}</li>
+                {{  address.vars.value.id| singleLine }}
+
+            {% endfor %}
+        </ul>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

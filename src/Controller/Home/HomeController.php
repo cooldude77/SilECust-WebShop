@@ -3,6 +3,7 @@
 namespace App\Controller\Home;
 
 // ...
+use App\Controller\Module\WebShop\External\Shop\MainController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function createCustomer(EntityManagerInterface $entityManager, Request $request): Response
+    public function home( Request $request): Response
     {
-        return $this->render("home/home.html.twig");
+        return $this->forward(MainController::class.'::'.'shop',['request'=>$request]);
     }
 
 }

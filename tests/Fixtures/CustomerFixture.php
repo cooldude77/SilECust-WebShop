@@ -10,14 +10,30 @@ use Zenstruck\Foundry\Proxy;
 
 trait CustomerFixture
 {
-    private User|Proxy $user;
+    private User|Proxy $userForCustomer;
+
+    private string $loginForCustomerInString = 'cust@customer.com';
+    private string $passwordForCustomerInString = 'CustomerPassword';
+    private string $firstNameInString = 'Jack';
+    private string $lastNameInString = 'Johnson';
+
+    private string $customerEmailInString = 'cust@customer.com';
+
     private Proxy|Customer $customer;
 
     public function createCustomer(): void
     {
 
-        $this->user = UserFactory::createOne();
-        $this->customer = CustomerFactory::createOne(['user' => $this->user]);
+        $this->userForCustomer = UserFactory::createOne
+        (
+            ['login' => $this->loginForCustomerInString,
+             'password' => $this->passwordForCustomerInString]
+        );
+        $this->customer = CustomerFactory::createOne([
+            'firstName' => $this->firstNameInString,
+            'lastName' => $this->lastNameInString,
+            'email' => $this->customerEmailInString,
+            'user' => $this->userForCustomer]);
 
     }
 }

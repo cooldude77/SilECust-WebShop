@@ -3,7 +3,7 @@
 namespace App\Tests\Fixtures;
 
 use App\Entity\CustomerAddress;
-use App\Service\Module\WebShop\External\CheckOut\Address\CheckOutAddressService;
+use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Zenstruck\Foundry\Proxy;
 
@@ -17,8 +17,8 @@ trait CustomerAddressInSessionFixture
     ):
     void {
 
-        $session->set(CheckOutAddressService::BILLING_ADDRESS_ID, $addressBilling->getId());
-        $session->set(CheckOutAddressService::SHIPPING_ADDRESS_ID, $addressShipping->getId());
+        $session->set(CheckOutAddressSession::BILLING_ADDRESS_ID, $addressBilling->getId());
+        $session->set(CheckOutAddressSession::SHIPPING_ADDRESS_ID, $addressShipping->getId());
 
     }
 }

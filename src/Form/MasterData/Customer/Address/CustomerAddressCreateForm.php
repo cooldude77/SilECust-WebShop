@@ -2,10 +2,8 @@
 
 namespace App\Form\MasterData\Customer\Address;
 
-use App\Entity\PinCode;
 use App\Form\MasterData\Customer\Address\Attribute\PinCode\PinCodeAutoCompleteField;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Repository\PinCodeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,17 +41,21 @@ class CustomerAddressCreateForm extends AbstractType
             ]
         );
         $builder->add('isDefault', CheckboxType::class);
+        $builder->add('pinCodeId', HiddenType::class);
 
         $builder->add('save', SubmitType::class);
 
 
-     /*   $builder->get('pinCodeId')->addEventListener(
-            FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
-            $data = $formEvent->getForm()->get('pinCodeIdFake');
-            $formEvent->setData($data->getId());
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
+            $form = $formEvent->getForm();
+            $data = $formEvent->getData();
+            $data['pinCodeId'] = $data['pinCode'];
+
+            $formEvent->setData($data);
         }
         );
-     */
+
 
     }
 

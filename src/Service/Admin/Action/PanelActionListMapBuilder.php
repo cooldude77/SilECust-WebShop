@@ -106,6 +106,11 @@ class PanelActionListMapBuilder
                             'list' => 'file_list'
                         ]
                     ],
+                    'settings' => [
+                        'routes' => [
+                            'list' => 'system_settings'
+                        ]
+                    ],
                     'category_file_image' => [
                         'routes' => [
                             'create' => 'category_file_image_create',
@@ -120,6 +125,18 @@ class PanelActionListMapBuilder
                             'edit' => 'web_shop_edit',
                             'display' => 'web_shop_display',
                             'list' => 'web_shop_list'
+                        ]
+                    ],
+                    'my_orders' => [
+                        'routes' => [
+                            'list' => 'my_order_list',
+                            'display' => 'web_shop_display',
+                        ]
+                    ],
+                    'my_addresses' => [
+                        'routes' => [
+                            'list' => 'my_address_list',
+                            'display' => 'my_address_display',
                         ]
                     ],
                 ]

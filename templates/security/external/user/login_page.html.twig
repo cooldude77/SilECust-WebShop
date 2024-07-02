@@ -1,7 +1,0 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Log in!{% endblock %}
-
-{% block body %}
-    {% include 'security/external/user/_login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
-{% endblock %}

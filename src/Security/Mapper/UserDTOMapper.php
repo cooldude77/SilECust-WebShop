@@ -18,23 +18,6 @@ class UserDTOMapper
     {
     }
 
-    public function mapUserForCustomerCreate(CustomerDTO $customerDTO, Customer $customer): User
-    {
-        $user = new User();
-        $user->setLogin($customer->getEmail());
-
-        // encode the plain password
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-                $customerDTO->plainPassword
-            )
-        );
-
-        $user->setRoles(['ROLE_CUSTOMER']);
-
-        return $user;
-    }
 
     public function mapUserForEmployeeCreate(EmployeeDTO $employeeDTO, Employee $employee):User
     {

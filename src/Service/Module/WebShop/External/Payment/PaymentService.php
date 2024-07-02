@@ -3,11 +3,11 @@
 namespace App\Service\Module\WebShop\External\Payment;
 
 use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
-use App\Service\Module\WebShop\External\Order\OrderService;
+use App\Service\Module\WebShop\External\Order\OrderSave;
 
 class PaymentService
 {
-    public function __construct(private readonly OrderService $webShopOrderService)
+    public function __construct(private readonly OrderSave $webShopOrderService)
     {
 
     }

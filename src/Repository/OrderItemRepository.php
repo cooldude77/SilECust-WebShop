@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\OrderItem;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,10 +46,19 @@ class OrderItemRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\OrderHeader $orderHeader): OrderItem
-    {
+    public function create(\App\Entity\OrderHeader $orderHeader,
+        Product $product,
+        int $quantity,
+        int $price
+    ): OrderItem {
         $orderItem = new OrderItem();
         $orderItem->setOrderHeader($orderHeader);
+
+        $orderItem->setProduct($product);
+
+        $orderItem->setQuantity($quantity);
+
+        $orderItem->setPricePerUnit($price);
 
         return $orderItem;
 

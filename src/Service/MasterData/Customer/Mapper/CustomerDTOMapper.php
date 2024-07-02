@@ -37,7 +37,7 @@ class CustomerDTOMapper
         $customer->setEmail($customerDTO->email);
         $customer->setPhoneNumber($customerDTO->phoneNumber);
 
-        $customer->setUser($this->userMapper->mapUserForCustomerCreate($customerDTO, $customer));
+        $customer->setUser($this->userMapper->map($customerDTO, $customer));
 
         return $customer;
     }

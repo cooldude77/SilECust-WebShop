@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
 class CustomerAddress
 {
+
+    public const ADDRESS_TYPE_SHIPPING = 'shipping';
+    public const ADDRESS_TYPE_BILLING = 'billing';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

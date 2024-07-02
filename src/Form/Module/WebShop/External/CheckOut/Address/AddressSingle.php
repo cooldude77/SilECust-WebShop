@@ -3,7 +3,7 @@
 namespace App\Form\Module\WebShop\External\CheckOut\Address;
 
 use App\Form\Module\WebShop\External\CheckOut\Address\DTO\AddressDTO;
-use App\Service\MasterData\Customer\Address\CustomerAddressService;
+use App\Service\MasterData\Customer\Address\CustomerAddressSave;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AddressSingle extends AbstractType
 {
 
-    public function __construct(private readonly CustomerAddressService $customerAddressService)
+    public function __construct(private readonly CustomerAddressSave $customerAddressService)
     {
     }
 

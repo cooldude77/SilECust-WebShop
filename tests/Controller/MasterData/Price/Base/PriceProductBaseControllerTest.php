@@ -34,18 +34,18 @@ class PriceProductBaseControllerTest extends WebTestCase
             ->use(function (Browser $browser) use ($currency) {
                 $this->addOption($browser,
                     'select[name="price_product_base_create_form[product]"]',
-                    $this->product->getId());
+                    $this->productA->getId());
 
                 $this->addOption($browser, 'select[name="price_product_base_create_form[currency]"]',
                     $currency->getId());
 
-            })->fillField('price_product_base_create_form[product]', $this->product->getId())
+            })->fillField('price_product_base_create_form[product]', $this->productA->getId())
             ->fillField('price_product_base_create_form[currency]', $currency->getId())
             ->fillField('price_product_base_create_form[price]', 100)
             ->click('Save')
             ->assertSuccessful();
 
-        $created = PriceProductBaseFactory::find(array('product' => $this->product));
+        $created = PriceProductBaseFactory::find(array('product' => $this->productA));
 
         $this->assertEquals(100, $created->getPrice());
 

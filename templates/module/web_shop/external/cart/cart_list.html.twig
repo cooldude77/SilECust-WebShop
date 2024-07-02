@@ -1,0 +1,18 @@
+{# templates/user/create.html.twig #}
+
+<div class="container">
+    {{ form_start(form) }}
+
+    {% for element in form.items %}
+        <div class="row">
+            {# form_row does not work well. Shows label as indexes #}
+
+            {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::single',
+                {'id': element.productId.vars.value } )) }}
+            {{ form_widget(element) }}
+        </div>
+    {% endfor %}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+</div>
+

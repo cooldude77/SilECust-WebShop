@@ -10,14 +10,22 @@ use Zenstruck\Foundry\Proxy;
 
 trait EmployeeFixture
 {
-    private User|Proxy $user;
+    private User|Proxy $userForEmployee;
+
+    private string $loginForEmployeeInString = 'emp@employee.com';
+    private string $passwordForEmployeeInString = 'EmployeePassword';
+
     private Proxy|Employee $employee;
 
     public function createEmployee(): void
     {
 
-        $this->user = UserFactory::createOne();
-        $this->employee = EmployeeFactory::createOne(['user' => $this->user]);
+        $this->userForEmployee = UserFactory::createOne
+        (
+            ['login' => $this->loginForEmployeeInString,
+             'password' => $this->passwordForEmployeeInString]
+        );
+        $this->employee = EmployeeFactory::createOne(['user' => $this->userForEmployee]);
 
     }
 }

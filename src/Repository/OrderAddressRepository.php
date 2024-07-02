@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\CustomerAddress;
 use App\Entity\OrderAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,11 +46,18 @@ class OrderAddressRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\OrderHeader $orderHeader): OrderAddress
-    {
+    public function create(\App\Entity\OrderHeader $orderHeader,
+        CustomerAddress $address
+    ): OrderAddress {
         $orderAddress = new OrderAddress();
+
         $orderAddress->setOrderHeader($orderHeader);
 
-        return $orderAddress;
+        if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
+            $orderAddress->setShippingAddress($address);
+        } else if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING)
+            $orderAddress->setBillingAddress($address);
+
+            return $orderAddress;
     }
 }

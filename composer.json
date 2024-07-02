@@ -1,4 +1,6 @@
 {
+  "name": "silecust/silecust",
+  "description": "Web Shop that helps you to set up online quickly",
   "type": "project",
   "license": "proprietary",
   "minimum-stability": "stable",
@@ -25,7 +27,9 @@
     "symfony/flex": "^2",
     "symfony/form": "7.0.*",
     "symfony/framework-bundle": "7.0.*",
+    "symfony/mailer": "7.0.*",
     "symfony/mime": "7.0.*",
+    "symfony/monolog-bundle": "^3.10",
     "symfony/property-access": "7.0.*",
     "symfony/property-info": "7.0.*",
     "symfony/runtime": "7.0.*",
@@ -99,6 +103,8 @@
     "symfony/var-dumper": "7.0.*",
     "symfony/web-profiler-bundle": "7.0.*",
     "zenstruck/browser": "^1.8",
-    "zenstruck/foundry": "^1.37"
+    "zenstruck/console-test": "^1.5",
+    "zenstruck/foundry": "^1.37",
+    "zenstruck/mailer-test": "^1.4"
   }
 }

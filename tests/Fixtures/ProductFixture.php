@@ -10,19 +10,51 @@ use Zenstruck\Foundry\Proxy;
 
 trait ProductFixture
 {
-    public Category|Proxy $category;
+    public Category|Proxy $categoryA;
 
-    public Product|Proxy $product;
+    public Product|Proxy $productA;
+
+    public Category|Proxy $categoryB;
+
+    public Product|Proxy $productB;
+
+    public string $productAName = 'Prod A';
+    public string $productBName = 'Prod B';
+
+
+    public string $productADescription = 'Product A';
+    public string $productBDescription = 'Product B';
+
+
+    public string $categoryAName = 'Cat A';
+    public string $categoryBName = 'Cat B';
+
+    public string $categoryADescription = 'Category A';
+    public string $categoryBDescription = 'Category B';
+
 
     function createProductFixtures(): void
     {
-        $this->category = CategoryFactory::createOne(['name' => 'Cat', 'description' => 'Category']
+        $this->categoryA = CategoryFactory::createOne(
+            ['name' => $this->categoryAName,
+             'description' => $this->categoryADescription]
         );
 
-        $this->product = ProductFactory::createOne(['category' => $this->category,
-                                                    'name' => 'Product',
-                                                    'description' => 'A new product',
-                                                    'isActive' => true]);
+        $this->productA = ProductFactory::createOne(['category' => $this->categoryA,
+                                                     'name' => $this->productAName,
+                                                     'description' => $this->productADescription,
+                                                     'isActive' => true]);
+
+        $this->categoryB = CategoryFactory::createOne(
+
+            ['name' => $this->categoryBName,
+             'description' => $this->categoryBDescription]
+        );
+
+        $this->productB = ProductFactory::createOne(['category' => $this->categoryB,
+                                                     'name' => 'Product B',
+                                                     'description' => 'B new product',
+                                                     'isActive' => true]);
     }
 
 }

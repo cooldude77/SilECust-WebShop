@@ -32,17 +32,17 @@ class OrderStatusMapper
      */
     public function mapAndSetHeader($orderHeader, string $orderStatusType, string $note
     ): OrderStatus {
-        $orderStatus = $this->orderStatusRepository->create($orderHeader);
 
-        $orderStatus->setOrderStatusType(
-            $this->orderStatusTypeRepository->findOneBy(['type' => $orderStatusType])
+        $orderStatusType = $this->orderStatusTypeRepository->findOneBy(
+            ['type' => $orderStatusType]
         );
+        $orderStatus = $this->orderStatusRepository->create($orderHeader, $orderStatusType);
+        $orderStatus->setOrderStatusType($orderStatusType);
 
         $orderStatus->setDateOfStatusSet(new \DateTime());
-
         $orderStatus->setNote($note);
 
-        $orderStatus->setSnapShot($this->orderSnapShotCreator->createSnapShot($orderHeader));
+        // snapshot will be created after flush
 
         return $orderStatus;
 
