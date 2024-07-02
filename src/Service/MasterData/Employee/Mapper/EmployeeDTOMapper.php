@@ -13,20 +13,15 @@ use Symfony\Component\Form\FormInterface;
 class EmployeeDTOMapper
 {
 
-    public function __construct(private EmployeeRepository $employeeRepository,
-        private SalutationRepository $salutationRepository,
-        private UserDTOMapper $userMapper
+    public function __construct(private readonly EmployeeRepository $employeeRepository,
+        private readonly SalutationRepository $salutationRepository,
+        private readonly UserDTOMapper $userMapper
     ) {
     }
 
-    public function mapToEntityForCreate(FormInterface $form): Employee
+    public function mapToEntityForCreate(EmployeeDTO $employeeDTO): Employee
     {
-        /** @var Category $category */
-        $salutation = $this->salutationRepository->find($form->get('salutationId')->getData());
-        $employee = $this->employeeRepository->create($salutation);
-
-        /** @var EmployeeDTO $employeeDTO */
-        $employeeDTO = $form->getData();
+        $employee = $this->employeeRepository->create();
 
         $employee->setFirstName($employeeDTO->firstName);
         $employee->setMiddleName($employeeDTO->middleName);

@@ -45,11 +45,10 @@ class EmployeeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(mixed $salutation): Employee
+    public function create(): Employee
     {
 
         $employee = new Employee();
-        $employee->setSalutation($salutation);
         return $employee;
     }
 }

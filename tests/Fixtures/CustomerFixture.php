@@ -14,6 +14,10 @@ trait CustomerFixture
 
     private string $loginForCustomerInString = 'cust@customer.com';
     private string $passwordForCustomerInString = 'CustomerPassword';
+    private string $firstNameInString = 'Jack';
+    private string $lastNameInString = 'Johnson';
+
+    private string $customerEmailInString = 'cust@customer.com';
 
     private Proxy|Customer $customer;
 
@@ -25,7 +29,11 @@ trait CustomerFixture
             ['login' => $this->loginForCustomerInString,
              'password' => $this->passwordForCustomerInString]
         );
-        $this->customer = CustomerFactory::createOne(['user' => $this->userForCustomer]);
+        $this->customer = CustomerFactory::createOne([
+            'firstName' => $this->firstNameInString,
+            'lastName' => $this->lastNameInString,
+            'email' => $this->customerEmailInString,
+            'user' => $this->userForCustomer]);
 
     }
 }

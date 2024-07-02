@@ -103,6 +103,7 @@
     "symfony/var-dumper": "7.0.*",
     "symfony/web-profiler-bundle": "7.0.*",
     "zenstruck/browser": "^1.8",
+    "zenstruck/console-test": "^1.5",
     "zenstruck/foundry": "^1.37",
     "zenstruck/mailer-test": "^1.4"
   }
