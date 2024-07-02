@@ -12,7 +12,8 @@ On your webserver, open a terminal
 9. You should see the application working in http\(s\)://YourServer/web-app
    -- more steps pending --
    -- deployment steps pending -- 
-
+10. To create a user with SUPER_ADMIN privilege ( super admin can create other employees ) . Type command `silecust:user:super:create` and provide the details
+11. Now you can log in as super admin
 
 **References:**
 Files for testing taken from creations by
