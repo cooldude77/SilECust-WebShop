@@ -6,6 +6,8 @@ use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\MasterData\Customer\Address\CustomerAddressController;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,19 +56,8 @@ class MainController extends AbstractController
      * @param Request $request
      *
      * @return Response
-     * @throws \App\Exception\Security\User\UserNotLoggedInException
-     * @throws \App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException
-     *
-     *
-     *           Url can be called separately
-     *
-     *           Or it will display inside PanelContentController thru
-     * The call will happen like profile -> main panel -> content panel->get url from route in
-     * get and then arrive here from that url .
-     * This method supplies the result of forward to reusable address controller
-     *
-     * -> final result gets shown in content controller
-     *
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
      */
     #[Route('/my/addresses', name: 'my_address_list')]
     public function addresses(Request $request): Response

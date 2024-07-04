@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Employee\FrameWork;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
@@ -36,6 +37,16 @@ class MainController extends AbstractController
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
         );
+
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+            'content'
+        );
+
+        $session->set(PanelMainController::BASE_TEMPLATE, 'base/admin_base_template.html.twig');
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 
