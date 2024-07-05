@@ -12,7 +12,11 @@ trait EmployeeFixture
 {
     private User|Proxy $userForEmployee;
 
-    private string $loginForEmployeeInString = 'emp@employee.com';
+
+    private string $firstNameOfEmployeeInString = 'Erin';
+    private string $lastNameOfEmployeeInString = 'Fukuhara';
+
+    private string $emailOfEmployeeInString = 'emp@employee.com';
     private string $passwordForEmployeeInString = 'EmployeePassword';
 
     private Proxy|Employee $employee;
@@ -22,10 +26,14 @@ trait EmployeeFixture
 
         $this->userForEmployee = UserFactory::createOne
         (
-            ['login' => $this->loginForEmployeeInString,
+            ['login' => $this->emailOfEmployeeInString,
              'password' => $this->passwordForEmployeeInString]
         );
-        $this->employee = EmployeeFactory::createOne(['user' => $this->userForEmployee]);
+        $this->employee = EmployeeFactory::createOne([
+            'firstName' => $this->firstNameOfEmployeeInString,
+            'lastName' => $this->lastNameOfEmployeeInString,
+            'email' => $this->emailOfEmployeeInString,
+            'user' => $this->userForEmployee]);
 
     }
 }
