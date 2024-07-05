@@ -19,12 +19,14 @@ class MainControllerTest extends WebTestCase
         $this->browser()->visit($uri)->assertNotAuthenticated();
 
         $this->createEmployee();
-        
+
         // authenticate before visit
         $this->browser()->use(function (KernelBrowser $browser) {
             $browser->loginUser($this->userForEmployee->object());
         })
             ->visit($uri)
+            ->click("a#admin-panel-home-url")
+            ->followRedirects()
             ->click('a#sidebar-link-category-list')
             ->followRedirects()
             ->assertSuccessful()
