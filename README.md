@@ -12,7 +12,16 @@ On your webserver, open a terminal
    -- more steps pending --
    -- deployment steps pending -- 
 10. To create a user with SUPER_ADMIN privilege ( super admin can create other employees ) . Type command `php bin/console silecust:user:super:create` and provide the details
-11. Now you can log in as super admin
+11. Now you can log in as super admin_
+
+<p>
+   Please note that for now there is no release version of the repo and it is not fit for production. DO NOT USE IT ON PRODUCTION SERVER.
+</p>
+
+**Pending tasks**
+<p>
+<a href="https://docs.google.com/spreadsheets/d/1VdEItM5627GQX1xD8RuF6sroZU90rYMgpzv3eR0kHc4/edit?usp=sharing">Tasks to be done(Phew!!)</a>
+</p>
 
 **References:**
 Files for testing taken from creations by
