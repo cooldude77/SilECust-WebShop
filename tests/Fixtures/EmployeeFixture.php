@@ -27,7 +27,9 @@ trait EmployeeFixture
         $this->userForEmployee = UserFactory::createOne
         (
             ['login' => $this->emailOfEmployeeInString,
-             'password' => $this->passwordForEmployeeInString]
+             'password' => $this->passwordForEmployeeInString,
+             'roles' => ['ROLE_EMPLOYEE']
+            ]
         );
         $this->employee = EmployeeFactory::createOne([
             'firstName' => $this->firstNameOfEmployeeInString,

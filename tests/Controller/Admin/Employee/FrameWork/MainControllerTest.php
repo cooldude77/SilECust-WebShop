@@ -2,17 +2,19 @@
 
 namespace App\Tests\Controller\Admin\Employee\FrameWork;
 
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class MainControllerTest extends WebTestCase
 {
-    use HasBrowser, AuthenticateTestEmployee, EmployeeFixture;
+    use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture;
 
-    public function testAdmin()
+    public function testAdminWithEmployee()
     {
         // Unauthenticated entry
         $uri = '/admin?_function=dashboard';
@@ -58,5 +60,21 @@ class MainControllerTest extends WebTestCase
         //todo: intercept redirects
         // todo: check for country/city/state/postal code
 
+    }
+
+    public function testAdminWithCustomer()
+    {
+        // Unauthenticated entry
+        $uri = '/admin?_function=dashboard';
+
+        $this->createCustomer();
+
+        // authenticate before visit
+        $this->browser()->use(function (KernelBrowser $browser) {
+            $browser->loginUser($this->userForCustomer->object());
+        })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

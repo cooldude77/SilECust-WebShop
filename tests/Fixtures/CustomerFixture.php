@@ -27,7 +27,9 @@ trait CustomerFixture
         $this->userForCustomer = UserFactory::createOne
         (
             ['login' => $this->loginForCustomerInString,
-             'password' => $this->passwordForCustomerInString]
+             'password' => $this->passwordForCustomerInString,
+             'roles' => ['ROLE_CUSTOMER']
+            ]
         );
         $this->customer = CustomerFactory::createOne([
             'firstName' => $this->firstNameInString,
