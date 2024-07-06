@@ -4,6 +4,7 @@ namespace App\Tests\Controller\Admin\Employee\FrameWork;
 
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\SuperAdminFixture;
 use App\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -12,7 +13,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class MainControllerTest extends WebTestCase
 {
-    use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture;
+    use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture, SuperAdminFixture;
 
     public function testAdminWithEmployee()
     {
@@ -76,5 +77,21 @@ class MainControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uri)
             ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+
+    public function testSuperAdmin()
+    {
+        $uri = '/admin?_function=dashboard';
+
+        $this->createSuperAdmin();
+
+        // authenticate before visit
+        $this->browser()->use(function (KernelBrowser $browser) {
+            $browser->loginUser($this->userForSuperAdmin->object());
+        })
+            ->visit($uri)
+            ->assertAuthenticated()
+            ->assertSuccessful();
     }
 }
