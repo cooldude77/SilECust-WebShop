@@ -1,1 +1,4 @@
 {% extends 'admin/ui/panel/header/header.html.twig' %}
+
+{% block profile_link %}{{ path('admin_panel',{ '_function':'profile'})  }}{% endblock %}
+{% block logo_link %}{{ path('admin_panel',{ '_function':'dashboard'}) }}{% endblock %}
