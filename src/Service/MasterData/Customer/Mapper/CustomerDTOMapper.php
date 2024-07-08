@@ -55,4 +55,18 @@ class CustomerDTOMapper
     }
 
 
+    public function mapToDTOForEdit(Customer $customer): CustomerDTO
+    {
+        $customerDTO = new CustomerDTO();
+
+        $customerDTO->firstName = $customer->getFirstName();
+        $customerDTO->middleName = $customer->getMiddleName();
+        $customerDTO->lastName = $customer->getLastName();
+        $customerDTO->givenName = $customer->getGivenName();
+
+        return $customerDTO;
+
+    }
+
+
 }

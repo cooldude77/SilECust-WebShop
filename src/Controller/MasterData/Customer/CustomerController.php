@@ -69,11 +69,9 @@ class CustomerController extends AbstractController
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
-        $customerDTO = new CustomerDTO();
-        $customerDTO->id = $id;
+        $customerDTO = $customerDTOMapper->mapToDTOForEdit($customer);
 
         $form = $this->createForm(CustomerEditForm::class, $customerDTO);
-
 
         $form->handleRequest($request);
 
