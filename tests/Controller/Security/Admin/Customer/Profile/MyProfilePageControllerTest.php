@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller\Security\Admin\Customer\Profile;
 
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -10,7 +11,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 
 class MyProfilePageControllerTest extends WebTestCase
 {
-    use HasBrowser, EmployeeFixture;
+    use HasBrowser, CustomerFixture;
 
     public function testProfile()
     {
@@ -24,7 +25,7 @@ class MyProfilePageControllerTest extends WebTestCase
         $this->browser()
             ->use(function (KernelBrowser $browser) {
 
-                $browser->loginUser($this->user->object());
+                $browser->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->assertSuccessful();

@@ -28,8 +28,6 @@ class MainControllerTest extends WebTestCase
             $browser->loginUser($this->userForEmployee->object());
         })
             ->visit($uri)
-            ->click("a#admin-panel-home-url")
-            ->followRedirects()
             ->click('a#sidebar-link-category-list')
             ->followRedirects()
             ->assertSuccessful()
