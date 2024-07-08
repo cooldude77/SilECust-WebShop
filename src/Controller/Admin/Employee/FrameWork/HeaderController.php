@@ -12,7 +12,7 @@ class HeaderController extends AbstractController
     {
 
         // for now common header
-        return $this->render('admin/ui/panel/header/header.html.twig');
+        return $this->render('admin/employee/dashboard/header.html.twig');
 
 
     }

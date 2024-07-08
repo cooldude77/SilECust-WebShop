@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Employee;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,10 +46,12 @@ class EmployeeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(): Employee
+    public function create(User $user): Employee
     {
 
         $employee = new Employee();
+
+        $employee->setUser($user);
         return $employee;
     }
 }

@@ -41,14 +41,14 @@ class PanelContentController extends AbstractController
 
         $methodName = $session->get(self::CONTENT_CONTROLLER_CLASS_METHOD_NAME);
         if ($methodName == null) {
-            throw new NoContentControllerMethodProvided();
+            throw new NoContentControllerMethodProvided($className);
         }
 
         if (!class_exists($className)) {
-            throw  new ControllerContentClassDoesNotExist();
+            throw  new ControllerContentClassDoesNotExist($className);
         }
         if (!method_exists($className, $methodName)) {
-            throw  new ControllerContentMethodDoesNotExist();
+            throw  new ControllerContentMethodDoesNotExist($className, $methodName);
         }
 
         $response = $this->forward(

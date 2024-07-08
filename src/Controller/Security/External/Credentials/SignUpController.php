@@ -100,7 +100,7 @@ class SignUpController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $customerEntity = $customerDTOMapper->mapToEntityForCreate($form);
+            $customerEntity = $customerDTOMapper->mapToEntityForCreate($form->getData());
 
 
             // perform some action...

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Customer\Framework;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Controller is for showing panel to customers
@@ -20,15 +22,67 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class MainController extends AbstractController
 {
-    public function __construct(private readonly CustomerFromUserFinder $customerFromUserFinder)
-    {
-    }
 
-    #[Route('/my/profile', name: 'my_profile_panel')]
-    public function profile(Request $request): Response
+    #[Route('/my/dashboard', name: 'my_dashboard')]
+    #[Route('/my', name: 'my')]
+    #[Route('/my/profile', name: 'my_profile')]
+    #[Route('/my/orders', name: 'my_orders')]
+    #[Route('/my/addresses', name: 'my_addresses')]
+    public function dashboard(RouterInterface $router, Request $request): Response
     {
         $session = $request->getSession();
-        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my_profile_panel');
+
+        $this->setSessionVariables($session);
+
+        $matches = $router->matchRequest($request);
+
+        switch ($matches['_route']) {
+
+            case 'my':
+            case 'my_dashboard':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'dashboard'
+                );
+                break;
+            case 'my_profile':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'profile'
+                );
+                break;
+            case 'my_addresses':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addresses'
+                );
+                break;
+            case 'my_orders':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'orders'
+                );
+                break;
+        }
+
+        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
+
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     *
+     * @return void
+     */
+    public function setSessionVariables(\Symfony\Component\HttpFoundation\Session\SessionInterface $session
+    ): void {
+
+        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my');
+
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class
+        );
+
 
         $session->set(
             PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_NAME, SideBarController::class
@@ -47,37 +101,7 @@ class MainController extends AbstractController
         );
 
 
-
-        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
-
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
-     */
-    #[Route('/my/addresses', name: 'my_address_list')]
-    public function addresses(Request $request): Response
-    {
-        $customer = $this->customerFromUserFinder->getLoggedInCustomer();
-        return $this->forward(CustomerAddressController::class . '::list', [
-            'id' => $customer->getId(),
-            'request' => $request]);
-    }
-
-    #[Route('/my/orders', name: 'my_orders_list')]
-    public function orders(Request $request): Response
-    {
-        return new Response("Hello");
-    }
-
-    #[Route('/my/personal-data', name: 'my_personal_data')]
-    public function personal(Request $request): Response
-    {
-        return new Response("Hello");
+        $session->set(PanelMainController::BASE_TEMPLATE, 'base/admin_base_template.html.twig');
     }
 
 

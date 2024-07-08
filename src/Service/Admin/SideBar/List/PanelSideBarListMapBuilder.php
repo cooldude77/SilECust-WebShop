@@ -18,7 +18,7 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'category-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'category'
                                     ),
@@ -34,7 +34,7 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'product-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'product'
                                     ),
@@ -43,7 +43,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'product-type-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'product_type'
                                     ),
@@ -52,7 +52,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'product-attribute-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'product_attribute'
                                     ),
@@ -68,7 +68,7 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'customer-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'customer'
                                     ),
@@ -77,7 +77,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'customer-address-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'customer_address'
                                     ),
@@ -86,7 +86,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'country-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'country'
                                     ),
@@ -95,7 +95,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'state-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'customer'
                                     ),
@@ -104,7 +104,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'city-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'city'
                                     ),
@@ -113,7 +113,7 @@ class PanelSideBarListMapBuilder
                                 ],
                                 [
                                     'id' => 'pin-code-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'postal_code'
                                     ),
@@ -129,7 +129,7 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'order-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'order'
                                     ),
@@ -144,7 +144,7 @@ class PanelSideBarListMapBuilder
                             'header_text' => 'WebShop',
                             'items' => [
                                 [
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'web_shop'
                                     ),
@@ -160,7 +160,7 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'user-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'user'
                                     ),
@@ -175,7 +175,7 @@ class PanelSideBarListMapBuilder
                             'header_text' => 'Files',
                             'items' => [
                                 [
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'file'
                                     ),
@@ -189,7 +189,7 @@ class PanelSideBarListMapBuilder
                             'header_text' => 'Settings',
                             'items' => [
                                 [
-                                    'url' => $this->append(
+                                    'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'settings'
                                     ),
@@ -205,9 +205,9 @@ class PanelSideBarListMapBuilder
                             'items' => [
                                 [
                                     'id' => 'my-order-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForCustomer(
                                         $adminUrl,
-                                        'my_orders'
+                                        'orders'
                                     ),
                                     'text' => 'My Orders',
                                     'css-id' => 'sidebar-link-my-order-list'
@@ -215,31 +215,16 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_CUSTOMER'],
                         ],
-                        [
-                            'id' => 'my-personal-details',
-                            'header_text' => 'My Personal Details',
-                            'items' => [
-                                [
-                                    'id' => 'my-personal-details',
-                                    'url' => $this->append(
-                                        $adminUrl,
-                                        'my_personal_details'
-                                    ),
-                                    'text' => 'My Personal Details',
-                                    'css-id' => 'sidebar-link-my-personal-details-list'
-                                ]
-                            ],
-                            'roles' => ['ROLE_CUSTOMER'],
-                        ],
+
                         [
                             'id' => 'my-addresses',
                             'header_text' => 'My Addresses',
                             'items' => [
                                 [
                                     'id' => 'my-addresses-list',
-                                    'url' => $this->append(
+                                    'url' => $this->appendForCustomer(
                                         $adminUrl,
-                                        'my_addresses'
+                                        'addresses'
                                     ),
                                     'text' => 'My Addresses',
                                     'css-id' => 'sidebar-link-my-addresses-list'
@@ -253,9 +238,14 @@ class PanelSideBarListMapBuilder
         );
     }
 
-    private function append(string $adminUrl,
+    private function appendForAdmin(string $adminUrl,
         string $function
     ): string {
         return $adminUrl . "?_function={$function}&_type=list";
+    }
+    private function appendForCustomer(string $adminUrl,
+        string $arg
+    ): string {
+        return $adminUrl . "/{$arg}";
     }
 }

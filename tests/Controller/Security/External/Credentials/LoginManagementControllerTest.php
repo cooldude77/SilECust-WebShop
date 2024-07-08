@@ -59,7 +59,7 @@ class LoginManagementControllerTest extends WebTestCase
             // test: fill wrong creds
             ->visit($uri)
             ->fillField(
-                '_username', $this->loginForEmployeeInString
+                '_username', $this->emailOfEmployeeInString
             )->fillField(
                 '_password', 'Wrong Password'
             )
@@ -69,14 +69,14 @@ class LoginManagementControllerTest extends WebTestCase
             ->assertRedirectedTo('/login')
             // test: fill correct cred
             ->fillField(
-                '_username', $this->loginForEmployeeInString
+                '_username', $this->emailOfEmployeeInString
             )->fillField(
                 '_password', $this->passwordForEmployeeInString
             )
             ->interceptRedirects()
             ->click('login')
             ->assertAuthenticated()
-            ->assertRedirectedTo('/admin')
+            ->assertRedirectedTo('/admin?_function=dashboard')
             // test: logoug
             ->visit('/logout')
             ->assertRedirectedTo('/')

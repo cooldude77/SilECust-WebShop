@@ -11,7 +11,7 @@ class HeaderController extends AbstractController
     public function header() :Response {
 
         // for now common header
-        return $this->render('admin/ui/panel/header/header.html.twig');
+        return $this->render('admin/customer/dashboard/header.html.twig');
 
 
     }

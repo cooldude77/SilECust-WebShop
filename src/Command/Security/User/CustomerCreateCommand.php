@@ -1,11 +1,12 @@
 <?php
 /** @noinspection PhpArithmeticTypeCheckInspection */
 
-namespace App\Command;
+namespace App\Command\Security\User;
 
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
+use App\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
+use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Service\Component\Database\DatabaseOperations;
-use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
+use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -13,15 +14,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
-    name: 'silecust:user:super:create',
-    description: 'Create a super user for your website administration',
+    name: 'silecust:customer:sample:create',
+    description: 'Create a sample customer',
 )]
-class SilecustUserSuperCreateCommand extends Command
+class CustomerCreateCommand extends Command
 {
-    public function __construct(private readonly EmployeeDTOMapper $employeeDTOMapper,
-        private readonly DatabaseOperations $databaseOperations
+    public function __construct(private readonly CustomerDTOMapper $customerDTOMapper,
+        private readonly DatabaseOperations $databaseOperations,
+        #[Autowire('%env(APP_ENV)%')] private readonly string $environment
     ) {
         parent::__construct();
     }
@@ -30,12 +33,24 @@ class SilecustUserSuperCreateCommand extends Command
     {
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+
+        if (!$this->isEnabled()) {
+            throw new CommandNotAvailableOutsideDev($this->getName());
+
+        }
+
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
 
-        $question = new Question('Enter Email for super user:', null);
+        $question = new Question('Enter Email for customer:', null);
 
         $question->setValidator(function (string $answer): string {
             if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
@@ -64,27 +79,31 @@ class SilecustUserSuperCreateCommand extends Command
         $password = $helper->ask($input, $output, $question);
 
 
-        $employeeDTO = new EmployeeDTO();
-        $employeeDTO->firstName = $firstName;
-        $employeeDTO->email = $email;
-        $employeeDTO->lastName = $lastName;
-        $employeeDTO->plainPassword = $password;
+        $customerDTO = new CustomerDTO();
+        $customerDTO->firstName = $firstName;
+        $customerDTO->email = $email;
+        $customerDTO->lastName = $lastName;
+        $customerDTO->plainPassword = $password;
 
-        $employee = $this->employeeDTOMapper->mapToEntityForCreate($employeeDTO);
+        $customer = $this->customerDTOMapper->mapToEntityForCreate($customerDTO);
 
-        $user = $employee->getUser();
-        $user->setRoles(['ROLE_SUPER_ADMIN']);
-
-        $this->databaseOperations->save($user);
+        $this->databaseOperations->save($customer);
 
         /** @noinspection PhpArithmeticTypeCheckInspection */
         $io = new SymfonyStyle($input, $output);
 
 
         $io->success(
-            'Super User created successfully. You can log into the app now'
+            'Customer created successfully. You can log into the app now as customer'
         );
 
         return Command::SUCCESS;
     }
+
+    public function isEnabled(): bool
+    {
+        // todo: How to eliminate 'test' value here and yet get it tested
+        return in_array($this->environment, ['dev', 'test']);
+    }
+
 }
