@@ -4,27 +4,26 @@ Also has a block to insert your function
 #}
  {#  https://github.com/twigphp/Twig/issues/1980 can't use - in block naam #}
 
-<div id="header" class="bg-secondary bg-gradient ">
+ {% block admin_header %}
 
+     <div id="header" class="bg-primary bg-light">
 
-    {% block admin_logo %}
-        {% include 'admin/ui/panel/header/header_logo.html.twig' %}
-    {% endblock %}
-
-    {% block admin_functions %}
-        {# add your functions here #}
-    {% endblock %}
-
-    {% block admin_common_functions %}
-        <nav class="navbar navbar-expand-sm d-flex flex-row-reverse ">
-            <ul class="navbar-nav ">
-                <li class="nav-item">
-                    <a href="">Profile</a>
-                </li>
-                <li class="nav-item">
-                    {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
-                </li>
-            </ul>
-        </nav>
-    {% endblock %}
-</div>
+         <nav class="navbar navbar-expand-sm d-flex">
+             <div class="container-fluid">
+                 <nav class="navbar-brand">
+                     {% include 'admin/ui/panel/header/header_logo.html.twig' %}
+                 </nav>
+                 <nav class="justify-content-end">
+                     <ul class="navbar-nav ">
+                         <li class="nav-item">
+                             <a class="nav-link" href="http://mnprofil.com">Profile</a>
+                         </li>
+                         <li class="nav-item">
+                             {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                         </li>
+                     </ul>
+                 </nav>
+             </div>
+         </nav>
+     </div>
+ {% endblock %}

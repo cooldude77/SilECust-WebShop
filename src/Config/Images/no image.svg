@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="no image.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showguides="true"
+     inkscape:zoom="0.71179153"
+     inkscape:cx="396.18342"
+     inkscape:cy="561.25984"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="49.438048,291.42428"
+       orientation="1,0"
+       id="guide8"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="150.17271,253.13768"
+       orientation="1,0"
+       id="guide9"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="100.36295,214.47936"
+       orientation="1,0"
+       id="guide10"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-85.122651,246.81853"
+       orientation="0,-1"
+       id="guide11"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-60.589485,146.45557"
+       orientation="0,-1"
+       id="guide12"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="192.47209"
+       y="512.79059"
+       width="268.337"
+       height="56.19623"
+       id="rect7" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#020000;stroke-width:2.1;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.133588"
+       id="rect1"
+       width="98.876091"
+       height="98.876091"
+       x="50.181477"
+       y="50.9249" />
+    <circle
+       style="fill:#000000;fill-opacity:0.0114504;fill-rule:evenodd;stroke:#020202;stroke-width:2.165;stroke-dasharray:none;stroke-opacity:0.133588"
+       id="path6"
+       cx="100.13638"
+       cy="94.146309"
+       r="30.618513" />
+    <circle
+       style="fill:#000000;fill-opacity:0.0114504;fill-rule:evenodd;stroke:#020202;stroke-width:2.165;stroke-dasharray:none;stroke-opacity:0.133588"
+       id="path6-8"
+       cx="99.917458"
+       cy="94.233032"
+       r="35.109333" />
+    <rect
+       style="fill:#000000;fill-opacity:0.0114504;fill-rule:evenodd;stroke:#020202;stroke-width:2.165;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.133588"
+       id="rect6"
+       width="51.76368"
+       height="10.841598"
+       x="111.31812"
+       y="2.4761469"
+       transform="matrix(0.76274204,0.64670285,-0.64626474,0.76311329,0,0)" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23938492,0,0,0.23938492,26.303236,11.239942)"
+       id="text6"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect7);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.10526" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:6.69348px;line-height:1.25;font-family:sans-serif;fill:#333333;fill-opacity:0.603922;stroke:none;stroke-width:0.264999;stroke-dasharray:none"
+       x="85.775795"
+       y="141.31578"
+       id="text8"
+       inkscape:export-filename="no_image.png"
+       inkscape:export-xdpi="251.54471"
+       inkscape:export-ydpi="251.54471"><tspan
+         sodipodi:role="line"
+         id="tspan8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:1.25;font-family:'Sans Serif Collection';-inkscape-font-specification:'Sans Serif Collection';fill:#333333;fill-opacity:0.603922;stroke-width:0.264999;stroke-dasharray:none"
+         x="85.775795"
+         y="141.31578">No Image</tspan></text>
+  </g>
+</svg>
