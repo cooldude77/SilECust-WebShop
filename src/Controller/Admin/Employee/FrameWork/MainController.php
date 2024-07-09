@@ -7,6 +7,7 @@ use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,7 +16,8 @@ class MainController extends AbstractController
 {
 
     #[Route('/admin', name: 'admin_panel')]
-    public function admin(Request $request): Response
+    public function admin(Request $request,
+        EventDispatcherInterface $eventDispatcher): Response
     {
 
         $session = $request->getSession();
@@ -47,6 +49,8 @@ class MainController extends AbstractController
         );
 
         $session->set(PanelMainController::BASE_TEMPLATE, 'base/admin_base_template.html.twig');
+
+
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 

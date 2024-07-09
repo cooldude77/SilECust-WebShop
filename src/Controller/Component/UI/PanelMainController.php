@@ -39,8 +39,7 @@ class PanelMainController extends AbstractController
 
         // get header
         $headerResponse = $this->forward(
-            PanelHeaderController::class . '::' . 'header',
-            ['request' => $request]
+            PanelHeaderController::class . '::' . 'header', ['request' => $request]
         );
 
         // if redirect
@@ -51,11 +50,10 @@ class PanelMainController extends AbstractController
 
         // get content
         $contentResponse = $this->forward(
-            PanelContentController::class . '::' . 'content',
-            ['request' => $request]
+            PanelContentController::class . '::' . 'content', ['request' => $request]
         );
 
-        // if redicrect
+        // if redirect
         if ($contentResponse instanceof RedirectResponse) {
             $this->resetParameters($request->getSession());
             return $this->redirect($contentResponse->getTargetUrl());
@@ -63,10 +61,11 @@ class PanelMainController extends AbstractController
 
 
         // no redirect, just print data
-        $response = $this->render('admin/ui/panel/panel_main.html.twig', [
-            'header' => $headerResponse->getContent(),
-            'content' => $contentResponse->getContent(),
-            'request' => $request]);
+        $response = $this->render(
+            'admin/ui/panel/panel_main.html.twig', ['header' => $headerResponse->getContent(),
+                                                    'content' => $contentResponse->getContent(),
+                                                    'request' => $request]
+        );
 
 
         // reset parameter is only to be done after above resposne is complete
