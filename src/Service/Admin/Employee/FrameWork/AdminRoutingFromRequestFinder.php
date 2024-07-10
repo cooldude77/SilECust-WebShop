@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
-class AdminRoutingFromRequestFinder
+readonly class AdminRoutingFromRequestFinder
 {
-    public function __construct(private readonly PanelActionListMapBuilder $builder,
-        private readonly RouterInterface $router
+    public function __construct(private PanelActionListMapBuilder $builder,
+        private RouterInterface $router
     ) {
     }
 
@@ -46,6 +46,7 @@ class AdminRoutingFromRequestFinder
         }
 
         $controllerAction = $callRoute->getDefault('_controller');
+
 
         $params = ['request' => $request];
         if (!empty($request->get('id'))) {

@@ -62,6 +62,8 @@ class AdminRouteObject
         $this->routeName = $routeName;
     }
 
-
-
+    public function getController(): string
+    {
+        return explode("::", $this->controllerAction)[0];
+    }
 }
