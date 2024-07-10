@@ -3,7 +3,9 @@
 namespace App\Controller\Component\UI;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -37,6 +39,18 @@ class PanelMainController extends AbstractController
 
         $this->checkMandatoryParameters($request->getSession(), $environment);
 
+
+        // get head controller
+        $headResponse = $this->forward(
+            PanelHeadController::class . '::' . 'head', ['request' => $request]
+        );
+
+        // if redirect
+        if ($headResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($headResponse->getTargetUrl());
+        }
+
         // get header
         $headerResponse = $this->forward(
             PanelHeaderController::class . '::' . 'header', ['request' => $request]
@@ -59,12 +73,26 @@ class PanelMainController extends AbstractController
             return $this->redirect($contentResponse->getTargetUrl());
         }
 
+        // get sideBar
+        $sideBarResponse = $this->forward(
+            PanelSideBarController::class . '::' . 'sideBar', ['request' => $request]
+        );
+
+        // if redirect
+        if ($sideBarResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($sideBarResponse->getTargetUrl());
+        }
+
 
         // no redirect, just print data
         $response = $this->render(
-            'admin/ui/panel/panel_main.html.twig', ['header' => $headerResponse->getContent(),
-                                                    'content' => $contentResponse->getContent(),
-                                                    'request' => $request]
+            'admin/ui/panel/panel_main.html.twig', [
+                'head' => $headResponse->getContent(),
+                'header' => $headerResponse->getContent(),
+                'content' => $contentResponse->getContent(),
+                'sideBar' => $sideBarResponse->getContent(),
+                'request' => $request]
         );
 
 

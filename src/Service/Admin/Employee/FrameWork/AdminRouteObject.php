@@ -10,6 +10,7 @@ class AdminRouteObject
     private string $controllerAction;
     private array $params;
     private string $routeName;
+    private int $id;
 
     public function getFunction(): string
     {
@@ -65,5 +66,20 @@ class AdminRouteObject
     public function getController(): string
     {
         return explode("::", $this->controllerAction)[0];
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

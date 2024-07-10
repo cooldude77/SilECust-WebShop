@@ -6,6 +6,7 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
+use App\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +18,14 @@ class MainController extends AbstractController
 
     #[Route('/admin', name: 'admin_panel')]
     public function admin(Request $request,
-        EventDispatcherInterface $eventDispatcher): Response
-    {
+        EventDispatcherInterface $eventDispatcher
+    ): Response {
+
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request, $request->getSession()),
+            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
+        );
+
 
         $session = $request->getSession();
 
@@ -49,7 +56,6 @@ class MainController extends AbstractController
         );
 
         $session->set(PanelMainController::BASE_TEMPLATE, 'base/admin_base_template.html.twig');
-
 
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);

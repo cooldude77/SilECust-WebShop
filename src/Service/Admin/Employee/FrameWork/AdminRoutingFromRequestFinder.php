@@ -49,8 +49,10 @@ readonly class AdminRoutingFromRequestFinder
 
 
         $params = ['request' => $request];
+        $id = 0;
         if (!empty($request->get('id'))) {
             $params['id'] = $request->get('id');
+            $id=  $request->get('id');
         }
 
 
@@ -59,6 +61,7 @@ readonly class AdminRoutingFromRequestFinder
         $adminRouteObject->setRouteName($routeName);
         $adminRouteObject->setControllerAction($controllerAction);
         $adminRouteObject->setParams($params);
+        $adminRouteObject->setId($id);
 
         return $adminRouteObject;
 

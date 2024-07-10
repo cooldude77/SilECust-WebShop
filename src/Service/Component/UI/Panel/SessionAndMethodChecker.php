@@ -4,11 +4,11 @@ namespace App\Service\Component\UI\Panel;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class SessionAndMethodChecker
+readonly class SessionAndMethodChecker
 {
 
 
-    public function __construct(private readonly RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
     }
 
@@ -24,12 +24,9 @@ class SessionAndMethodChecker
         }
 
         // check if they exist in code
-        $c = method_exists(
+        return method_exists(
             $this->requestStack->getSession()->get($className),
             $this->requestStack->getSession()->get($methodName)
         );
-
-
-        return $c;
     }
 }
