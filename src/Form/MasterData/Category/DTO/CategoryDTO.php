@@ -16,7 +16,7 @@ class CategoryDTO
         maxMessage: 'Length cannot exceed 255'
     )]
     #[Assert\Regex(
-        pattern: '/^[A-Za-z0-9\-\_]$/',
+        pattern: '/[A-Za-z0-9\-\_\s]/',
         message: 'Only characters and numbers are allowed',
         match: true
     )]
@@ -28,10 +28,9 @@ class CategoryDTO
 
     #[Assert\Length(
         min: 1,
-        max: 1000,
-        maxMessage: 'Length cannot exceed 1000'
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
     )]
-
     public ?string $description = null;
 
     public ?string $parent = null;

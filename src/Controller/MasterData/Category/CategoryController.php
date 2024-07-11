@@ -33,7 +33,7 @@ class CategoryController extends AbstractController
             $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($form);
 
             // todo:
-           $errors =  $validator->validate($categoryEntity);
+            $errors = $validator->validate($categoryEntity);
 
             // perform some action...
             $entityManager->persist($categoryEntity);
@@ -46,6 +46,7 @@ class CategoryController extends AbstractController
                 ), 200
             );
         }
+        $errors = $form->getErrors(true);
 
         return $this->render(
             'master_data/category/category_create.html.twig', ['form' => $form]
