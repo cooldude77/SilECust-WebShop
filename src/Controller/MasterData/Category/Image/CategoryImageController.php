@@ -57,7 +57,9 @@ class CategoryImageController extends AbstractController
             $categoryImageDTO = $form->getData();
 
             $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
-            $categoryImageOperation->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
+            $categoryImageOperation->createOrReplace(
+                $categoryImage, $categoryImageDTO->getUploadedFile()
+            );
 
 
             $entityManager->persist($categoryImage);
@@ -76,7 +78,9 @@ class CategoryImageController extends AbstractController
             );
         }
 
-        return $this->render('master_data/category/image/create.html.twig', ['form' => $form]);
+        return $this->render(
+            'master_data/category/image/category_image_create.html.twig', ['form' => $form]
+        );
     }
 
     /**
@@ -115,7 +119,9 @@ class CategoryImageController extends AbstractController
                 $form->getData(), $categoryImage
             );
 
-            $categoryImageService->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
+            $categoryImageService->createOrReplace(
+                $categoryImage, $categoryImageDTO->getUploadedFile()
+            );
 
             $entityManager->persist($categoryImage);
             $entityManager->flush();
