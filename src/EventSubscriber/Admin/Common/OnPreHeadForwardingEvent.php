@@ -1,30 +1,32 @@
 <?php
 /** @noinspection PhpUnused */
 
-namespace App\EventSubscriber\MasterData\Category;
+namespace App\EventSubscriber\Admin\Common;
 
 use App\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
+use App\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
+use App\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
 use App\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
 use App\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
 use App\Service\Admin\Action\Exception\EmptyActionListMapException;
 use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
 use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
+use App\Service\Admin\Employee\Common\AdminTitle;
 use App\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
-use App\Service\MasterData\Category\CategoryService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
 {
     public function __construct(private AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder,
-        private CategoryService $categoryService
+        private AdminTitle $adminTitle,
+        private readonly LoggerInterface $logger
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
-        return [
-            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT => 'setHeadData'
-        ];
+        return [PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT => 'setHeadData'];
 
     }
 
@@ -43,12 +45,19 @@ readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
             // should handle function and type relevant to it
             if ($object->getFunction() == 'category') {
                 $event->setPageTitle(
-                    $this->categoryService->getTitle($object->getType(), $object->getId())
+                    $this->adminTitle->getTitle($object)
                 );
             }
-        } catch (EmptyActionListMapException|FunctionNotFoundInMap|TypeNotFoundInMap
-        |AdminUrlFunctionKeyParameterNull|AdminUrlTypeKeyParameterNull) {
+        } catch (
+        EmptyActionListMapException
+        |FunctionNotFoundInMap
+        |TypeNotFoundInMap
+        |AdminUrlFunctionKeyParameterNull
+        |AdminUrlTypeKeyParameterNull
+        |FunctionNotMappedToAnyEntity
+        |TitleNotFoundForAdminRouteObject $e) {
             // do nothing
+            $this->logger->warning($e);
         }
     }
 }
