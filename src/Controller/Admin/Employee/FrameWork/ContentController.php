@@ -41,14 +41,14 @@ class ContentController extends AbstractController
         // todo: check context route
         // todo: make a class for getting system session variables ?
 
-        $parameterObject = $adminRoutingFromRequestFinder->getAdminRouteObject($request);
-
         if ($request->query->get('_function') == 'dashboard') {
             return $this->render(
                 'admin/employee/dashboard/dashboard.html.twig',
                 ['request' => $request]
             );
         }
+
+        $parameterObject = $adminRoutingFromRequestFinder->getAdminRouteObject($request);
 
 
         $response = $this->forward(

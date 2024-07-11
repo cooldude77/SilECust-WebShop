@@ -4,6 +4,9 @@ namespace App\Service\Admin\Employee\FrameWork;
 
 use App\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
 use App\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
+use App\Service\Admin\Action\Exception\EmptyActionListMapException;
+use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
+use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -16,6 +19,16 @@ readonly class AdminRoutingFromRequestFinder
     ) {
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return AdminRouteObject
+     * @throws AdminUrlFunctionKeyParameterNull
+     * @throws AdminUrlTypeKeyParameterNull
+     * @throws EmptyActionListMapException
+     * @throws FunctionNotFoundInMap
+     * @throws TypeNotFoundInMap
+     */
     public function getAdminRouteObject(Request $request): AdminRouteObject
     {
 
@@ -52,7 +65,7 @@ readonly class AdminRoutingFromRequestFinder
         $id = 0;
         if (!empty($request->get('id'))) {
             $params['id'] = $request->get('id');
-            $id=  $request->get('id');
+            $id = $request->get('id');
         }
 
 
