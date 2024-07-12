@@ -40,7 +40,8 @@ class PanelSideBarListMapBuilder
                                     ),
                                     'text' => 'Products',
                                     'css-id' => 'sidebar-link-product-list'
-                                ], [
+                                ],
+                                [
                                     'id' => 'price_product_base-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
@@ -49,50 +50,34 @@ class PanelSideBarListMapBuilder
                                     'text' => 'Base price',
                                     'css-id' => 'sidebar-link-base-price-list'
                                 ],
-                               /* [
-                                    'id' => 'product-type-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'product_type'
-                                    ),
-                                    'text' => 'Product Types',
-                                    'css-id' => 'sidebar-link-product-type-list'
-                                ],
-                                [
-                                    'id' => 'product-attribute-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'product_attribute'
-                                    ),
-                                    'text' => 'Product Attributes',
-                                    'css-id' => 'sidebar-link-product-attribute-list'
-                                ],
-                               */
+                                // todo: implement
+                                /* [
+                                     'id' => 'product-type-list',
+                                     'url' => $this->appendForAdmin(
+                                         $adminUrl,
+                                         'product_type'
+                                     ),
+                                     'text' => 'Product Types',
+                                     'css-id' => 'sidebar-link-product-type-list'
+                                 ],
+                                 [
+                                     'id' => 'product-attribute-list',
+                                     'url' => $this->appendForAdmin(
+                                         $adminUrl,
+                                         'product_attribute'
+                                     ),
+                                     'text' => 'Product Attributes',
+                                     'css-id' => 'sidebar-link-product-attribute-list'
+                                 ],
+                                */
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
+                        // todo: implement
                         [
-                            'id' => 'customers',
-                            'header_text' => 'Customers',
+                            'id' => 'location-data',
+                            'header_text' => 'Location Data',
                             'items' => [
-                                [
-                                    'id' => 'customer-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'customer'
-                                    ),
-                                    'text' => 'Customer',
-                                    'css-id' => 'sidebar-link-customer-list'
-                                ],
-                                [
-                                    'id' => 'customer-address-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'customer_address'
-                                    ),
-                                    'text' => 'Customer Address',
-                                    'css-id' => 'sidebar-link-customer-address-list'
-                                ],
                                 [
                                     'id' => 'country-list',
                                     'url' => $this->appendForAdmin(
@@ -128,6 +113,23 @@ class PanelSideBarListMapBuilder
                                     ),
                                     'text' => 'Pin Code',
                                     'css-id' => 'sidebar-link-postal-list'
+                                ],
+                            ],
+                            'roles' => ['ROLE_EMPLOYEE'],
+                        ],
+                        // todo: implement
+                        [
+                            'id' => 'financial-data',
+                            'header_text' => 'Financial Data',
+                            'items' => [
+                                [
+                                    'id' => 'currency-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'currency'
+                                    ),
+                                    'text' => 'Currency',
+                                    'css-id' => 'sidebar-link-currency-list'
                                 ],
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
@@ -193,7 +195,8 @@ class PanelSideBarListMapBuilder
                                 ]
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
-                        ],                   [
+                        ],
+                        [
                             'id' => 'settings',
                             'header_text' => 'Settings',
                             'items' => [
@@ -252,6 +255,7 @@ class PanelSideBarListMapBuilder
     ): string {
         return $adminUrl . "?_function={$function}&_type=list";
     }
+
     private function appendForCustomer(string $adminUrl,
         string $arg
     ): string {
