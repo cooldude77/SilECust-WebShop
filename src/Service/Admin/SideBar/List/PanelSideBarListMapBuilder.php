@@ -75,6 +75,23 @@ class PanelSideBarListMapBuilder
                         ],
                         // todo: implement
                         [
+                            'id' => 'customer',
+                            'header_text' => 'Customers',
+                            'items' => [
+                                [
+                                    'id' => 'customer-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'customer'
+                                    ),
+                                    'text' => 'Customers',
+                                    'css-id' => 'sidebar-link-customer-list'
+                                ],
+                            ],
+                            'roles' => ['ROLE_EMPLOYEE'],
+                        ],
+                        // todo: implement
+                        [
                             'id' => 'location-data',
                             'header_text' => 'Location Data',
                             'items' => [

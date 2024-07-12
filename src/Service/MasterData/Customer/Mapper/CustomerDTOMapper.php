@@ -63,6 +63,8 @@ class CustomerDTOMapper
         $customerDTO->middleName = $customer->getMiddleName();
         $customerDTO->lastName = $customer->getLastName();
         $customerDTO->givenName = $customer->getGivenName();
+        $customerDTO->email = $customer->getEmail();
+        $customerDTO->phoneNumber = $customer->getPhoneNumber();
 
         return $customerDTO;
 
