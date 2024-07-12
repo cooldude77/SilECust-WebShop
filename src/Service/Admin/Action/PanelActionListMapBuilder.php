@@ -105,6 +105,14 @@ class PanelActionListMapBuilder
                             'list' => 'category_list'
                         ]
                     ],
+                    'order' => [
+                        'routes' => [
+                            'create' => 'order_create',
+                            'edit' => 'order_edit',
+                            'display' => 'order_display',
+                            'list' => 'order_list'
+                        ]
+                    ],
                     'file' => [
                         'routes' => [
                             'create' => 'file_create',

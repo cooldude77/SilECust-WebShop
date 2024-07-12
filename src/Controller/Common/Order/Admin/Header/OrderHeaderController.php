@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderHeaderController extends AbstractController
 {
-    #[Route('/order/header/create', name: 'order_header_create')]
+    #[Route('/order/create', name: 'order_create')]
     public function createOrderHeader(EntityManagerInterface $entityManager, Request $request): Response
     {
         $type = new OrderHeader();
@@ -31,7 +31,7 @@ class OrderHeaderController extends AbstractController
 
             return $this->redirectToRoute('common/order/header/success_create.html.twig');
         }
-        return $this->render('common/order/header/create.html.twig', ['form' => $form]);
+        return $this->render('transaction/order/order_create.html.twig', ['form' => $form]);
     }
 
 
