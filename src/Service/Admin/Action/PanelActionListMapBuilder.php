@@ -119,6 +119,14 @@ class PanelActionListMapBuilder
                             'list' => 'category_file_image_list'
                         ]
                     ],
+                    'product_file_image' => [
+                        'routes' => [
+                            'create' => 'product_file_image_create',
+                            'edit' => 'product_file_image_edit',
+                            'display' => 'product_file_image_display',
+                            'list' => 'product_file_image_list'
+                        ]
+                    ],
                     'web_shop' => [
                         'routes' => [
                             'create' => 'web_shop_create',
