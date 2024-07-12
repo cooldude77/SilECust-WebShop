@@ -33,11 +33,11 @@ readonly class AdminTitle
 
                 return "$string List";
             case 'create':
-                return 'Create {$adminRouteObject->getFunction()}';
+                return "Create {$adminRouteObject->getFunction()}";
             case 'edit':
-                return 'Edit ' . $repo->find($adminRouteObject->getId())->getName();
+                return "Edit {$repo->find($adminRouteObject->getId())->getName()}";
             case 'display':
-                return 'Display ' . $repo->find($adminRouteObject->getId())->getName();
+                return "Display  {$repo->find($adminRouteObject->getId())->getName()}";
         }
 
         (new TitleNotFoundForAdminRouteObject())->setAdminRouteObject($adminRouteObject);

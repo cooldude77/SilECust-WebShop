@@ -43,11 +43,10 @@ readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
                 $event->getRequest()
             );
             // should handle function and type relevant to it
-            if ($object->getFunction() == 'category') {
-                $event->setPageTitle(
-                    $this->adminTitle->getTitle($object)
-                );
-            }
+            $event->setPageTitle(
+                $this->adminTitle->getTitle($object)
+            );
+
         } catch (
         EmptyActionListMapException
         |FunctionNotFoundInMap
