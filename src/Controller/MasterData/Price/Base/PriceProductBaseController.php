@@ -56,9 +56,8 @@ class PriceProductBaseController extends AbstractController
             );
         }
 
-        return $this->render(
-            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
-        );
+        return $this->render('master_data/price/base_product/price_product_base_create.html.twig', ['form' => $form]);
+
 
     }
 
@@ -96,9 +95,9 @@ class PriceProductBaseController extends AbstractController
             );
         }
 
-        return $this->render(
-            'admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
-        );
+        return $this->render('master_data/price/base_product/price_product_base_edit.html.twig',
+            ['form' => $form]);
+
 
     }
 
@@ -120,7 +119,7 @@ class PriceProductBaseController extends AbstractController
                                         'propertyName' => 'description'],]];
 
         return $this->render(
-            'master_data/product/product_display.html.twig',
+            'master_data/price/base_product/price_product_base_display.html.twig',
             ['entity' => $product, 'params' => $displayParams]
         );
 
@@ -139,7 +138,7 @@ class PriceProductBaseController extends AbstractController
                                     'action' => 'display',],
                                    ['label' => 'Description', 'propertyName' => 'description'],],
                      'createButtonConfig' => ['link_id' => ' id-create-price',
-                                              'function' => 'product',
+                                              'function' => 'price_product_base',
                                               'anchorText' => 'Create Price']];
 
         $query = $productRepository->getQueryForSelect();

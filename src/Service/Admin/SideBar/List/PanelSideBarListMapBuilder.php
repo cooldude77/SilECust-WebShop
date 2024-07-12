@@ -40,8 +40,16 @@ class PanelSideBarListMapBuilder
                                     ),
                                     'text' => 'Products',
                                     'css-id' => 'sidebar-link-product-list'
+                                ], [
+                                    'id' => 'price_product_base-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'price_product_base'
+                                    ),
+                                    'text' => 'Base price',
+                                    'css-id' => 'sidebar-link-base-price-list'
                                 ],
-                                [
+                               /* [
                                     'id' => 'product-type-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
@@ -59,6 +67,7 @@ class PanelSideBarListMapBuilder
                                     'text' => 'Product Attributes',
                                     'css-id' => 'sidebar-link-product-attribute-list'
                                 ],
+                               */
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
