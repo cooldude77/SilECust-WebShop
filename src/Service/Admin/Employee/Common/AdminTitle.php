@@ -6,6 +6,8 @@ use App\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 use App\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
 use App\Service\Admin\Employee\FrameWork\AdminRouteObject;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Inflector\EnglishInflector;
+use Symfony\Component\String\UnicodeString;
 
 readonly class AdminTitle
 {
@@ -22,11 +24,16 @@ readonly class AdminTitle
     {
         $class = $this->functionToEntityMapper->map($adminRouteObject->getFunction());
         $repo = $this->entityManager->getRepository($class);
-        switch ($adminRouteObject->getFunction()) {
+        switch ($adminRouteObject->getType()) {
             case 'list':
-                return 'Categories List';
+
+              $string =   (new UnicodeString(
+                  (new EnglishInflector())->pluralize($adminRouteObject->getFunction())[0])
+              )->camel()->title();
+
+                return "$string List";
             case 'create':
-                return 'Create category';
+                return 'Create {$adminRouteObject->getFunction()}';
             case 'edit':
                 return 'Edit ' . $repo->find($adminRouteObject->getId())->getName();
             case 'display':
