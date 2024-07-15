@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PriceProductBaseRepository;
+use App\Repository\PriceProductDiscountRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PriceProductBaseRepository::class)]
-class PriceProductBase
+#[ORM\Entity(repositoryClass: PriceProductDiscountRepository::class)]
+class PriceProductDiscount
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class PriceProductBase
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?float $price = null;
+    private ?float $value = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,14 +41,14 @@ class PriceProductBase
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getValue(): ?float
     {
-        return $this->price;
+        return $this->value;
     }
 
-    public function setPrice(float $price): static
+    public function setValue(float $value): static
     {
-        $this->price = $price;
+        $this->value = $value;
 
         return $this;
     }
@@ -58,7 +58,7 @@ class PriceProductBase
         return $this->currency;
     }
 
-    public function setCurrency(Currency $currency): static
+    public function setCurrency(?Currency $currency): static
     {
         $this->currency = $currency;
 

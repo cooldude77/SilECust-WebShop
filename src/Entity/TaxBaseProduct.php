@@ -18,7 +18,11 @@ class TaxBaseProduct
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?int $taxRate = null;
+    private ?float $taxRate = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Currency $currency = null;
 
     public function getId(): ?int
     {
@@ -37,15 +41,27 @@ class TaxBaseProduct
         return $this;
     }
 
-    public function getTaxRate(): ?int
+    public function getTaxRate(): ?float
     {
         return $this->taxRate;
     }
 
-    public function setTaxRate(int $taxRate): static
+    public function setTaxRate(float $taxRate): static
     {
         $this->taxRate = $taxRate;
 
         return $this;
     }
+
+    public function setCurrency(?Currency $currency): TaxBaseProduct
+    {
+        $this->currency = $currency;
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
 }
