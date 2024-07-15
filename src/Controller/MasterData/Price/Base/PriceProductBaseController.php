@@ -56,7 +56,9 @@ class PriceProductBaseController extends AbstractController
             );
         }
 
-        return $this->render('master_data/price/base_product/price_product_base_create.html.twig', ['form' => $form]);
+        return $this->render(
+            'master_data/price/base_product/price_product_base_create.html.twig', ['form' => $form]
+        );
 
 
     }
@@ -95,53 +97,65 @@ class PriceProductBaseController extends AbstractController
             );
         }
 
-        return $this->render('master_data/price/base_product/price_product_base_edit.html.twig',
-            ['form' => $form]);
+        return $this->render(
+            'master_data/price/base_product/price_product_base_edit.html.twig',
+            ['form' => $form]
+        );
 
 
     }
 
     #[Route('/price/product/base/{id}/display', name: 'price_product_base_display')]
-    public function display(ProductRepository $productRepository, int $id): Response
-    {
-        $product = $productRepository->find($id);
-        if (!$product) {
+    public function display(PriceProductBaseRepository $priceProductBaseRepository, int $id
+    ): Response {
+        $priceProductBase = $priceProductBaseRepository->find($id);
+        if (!$priceProductBase) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
         $displayParams = ['title' => 'Price',
                           'link_id' => 'id-price',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Name',
-                                        'propertyName' => 'name',
-                                        'link_id' => 'id-display-price'],
-                                       ['label' => 'Description',
-                                        'propertyName' => 'description'],]];
+                          'fields' => [
+                              ['label' => 'Price',
+                               'propertyName' => 'price',]
+                              ,
+                              ['label' => 'Product',
+                               'propertyName' => 'product',
+                              ]]
+        ];
 
         return $this->render(
             'master_data/price/base_product/price_product_base_display.html.twig',
-            ['entity' => $product, 'params' => $displayParams]
+            ['entity' => $priceProductBase, 'params' => $displayParams]
         );
 
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/price/product/base/list', name: 'price_product_base_list')]
-    public function list(ProductRepository $productRepository, PaginatorInterface $paginator,
+    public function list(PriceProductBaseRepository $priceProductBaseRepository,
+        PaginatorInterface $paginator,
         Request $request
     ):
     Response {
 
         $listGrid = ['title' => 'Price',
                      'link_id' => 'id-price',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display',],
-                                   ['label' => 'Description', 'propertyName' => 'description'],],
+                     'columns' => [
+                         ['label' => 'Price',
+                          'propertyName' => 'price',
+                          'action' => 'display'],
+                         ['label' => 'Product',
+                          'propertyName' => 'product',
+                         ],
+
+                     ],
                      'createButtonConfig' => ['link_id' => ' id-create-price',
                                               'function' => 'price_product_base',
                                               'anchorText' => 'Create Price']];
 
-        $query = $productRepository->getQueryForSelect();
+        $query = $priceProductBaseRepository->getQueryForSelect();
+
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

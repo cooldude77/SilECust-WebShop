@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TaxController extends AbstractController
+class PriceProductTaxController extends AbstractController
 {
     #[Route('/product/{id}/base/tax', name: 'create_tax')]
     public function createBaseTaxRateForProduct($id, EntityManagerInterface $entityManager, ProductRepository $productRepository, Request $request): Response

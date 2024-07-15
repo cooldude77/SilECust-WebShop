@@ -3,12 +3,13 @@
 namespace App\Tests\Controller\MasterData\Price\Base;
 
 use App\Factory\CategoryFactory;
-use App\Factory\CurrencyFactory;
 use App\Factory\PriceProductBaseFactory;
 use App\Factory\ProductFactory;
+use App\Tests\Fixtures\CurrencyFixture;
+use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Utility\SelectElement;
-use http\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -16,7 +17,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 class PriceProductBaseControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture, SelectElement;
+    use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture, PriceFixture;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -27,27 +28,33 @@ class PriceProductBaseControllerTest extends WebTestCase
 
         $this->createProductFixtures();
 
-        $currency = CurrencyFactory::createOne();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+
         $createUrl = '/price/product/base/create';
 
         $this->browser()->visit($createUrl)
-            ->use(function (Browser $browser) use ($currency) {
-                $this->addOption($browser,
+            ->use(function (Browser $browser) {
+                $this->addOption(
+                    $browser,
                     'select[name="price_product_base_create_form[product]"]',
-                    $this->productA->getId());
+                    $this->productA->getId()
+                );
 
-                $this->addOption($browser, 'select[name="price_product_base_create_form[currency]"]',
-                    $currency->getId());
+                $this->addOption(
+                    $browser, 'select[name="price_product_base_create_form[currency]"]',
+                    $this->currency->getId()
+                );
 
             })->fillField('price_product_base_create_form[product]', $this->productA->getId())
-            ->fillField('price_product_base_create_form[currency]', $currency->getId())
-            ->fillField('price_product_base_create_form[price]', 100)
+            ->fillField('price_product_base_create_form[currency]', $this->currency->getId())
+            ->fillField('price_product_base_create_form[price]', 500)
             ->click('Save')
             ->assertSuccessful();
 
         $created = PriceProductBaseFactory::find(array('product' => $this->productA));
 
-        $this->assertEquals(100, $created->getPrice());
+        $this->assertEquals(500, $created->getPrice());
 
 
     }
@@ -58,18 +65,16 @@ class PriceProductBaseControllerTest extends WebTestCase
      */
     public function testEdit()
     {
-        $category1 = CategoryFactory::createOne(['name' => 'Cat1',
-                                                 'description' => 'Category 1']);
 
-        $category2 = CategoryFactory::createOne(['name' => 'Cat2',
-                                                 'description' => 'Category 2']);
+        $this->createProductFixtures();
+
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
 
-        $product = ProductFactory::createOne(['category' => $category1]);
 
-        $id = $product->getId();
-
-        $url = "/product/$id/edit";
+        $url = "price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
         $visit = $this->browser()->visit($url);
 
