@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controller\MasterData\Price\Base;
 
-use App\Factory\CategoryFactory;
+use App\Entity\PriceProductBase;
 use App\Factory\PriceProductBaseFactory;
-use App\Factory\ProductFactory;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
+use App\Tests\Utility\FindByCriteria;
 use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
@@ -17,7 +17,8 @@ use Zenstruck\Browser\Test\HasBrowser;
 class PriceProductBaseControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture, PriceFixture;
+    use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture,
+        PriceFixture, FindByCriteria;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -73,36 +74,49 @@ class PriceProductBaseControllerTest extends WebTestCase
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
 
-
         $url = "price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
-        $visit = $this->browser()->visit($url);
 
-        $crawler = $visit->client()->getCrawler();
+        $this
+            ->browser()
+            ->visit($url)
+            ->use(function (Browser $browser) {
 
-        $domDocument = $crawler->getNode(0)?->parentNode;
+                $crawler = $browser->crawler();
+                $domDocument = $crawler->getNode(0)?->parentNode;
 
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category1->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
+                $option = $domDocument->createElement('option');
+                $option->setAttribute('value', $this->productA->getId());
 
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category2->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
+                $selectElement = $crawler->filter('[name="price_product_base_edit_form[product]"]')
+                    ->getNode(0);
+                $selectElement->appendChild($option);
 
-        $visit->fillField('product_edit_form[name]', 'Prod1')
+
+            })
+            ->use(function (Browser $browser) {
+                $crawler = $browser->crawler();
+                $domDocument = $crawler->getNode(0)?->parentNode;
+
+                $option = $domDocument->createElement('option');
+                $option->setAttribute('value', $this->currency->getId());
+
+                $selectElement = $crawler->filter('[name="price_product_base_edit_form[currency]"]')
+                    ->getNode(0);
+                $selectElement->appendChild($option);
+            })
+            ->fillField('price_product_base_edit_form[product]', $this->productA->getId())
             ->fillField(
-                'product_edit_form[description]', 'Price 1'
+                'price_product_base_edit_form[currency]', $this->currency->getId()
             )
-            ->fillField('product_edit_form[category]', $category2->getId())
+            ->fillField('price_product_base_edit_form[price]', 200)
             ->click('Save')
             ->assertSuccessful();
 
-        $created = ProductFactory::find(array('name' => "Prod1"));
-
-        $this->assertEquals("Prod1", $created->getName());
+        /** @var PriceProductBase $edited */
+        $edited = $this->findOneBy(PriceProductBase::class, ['product' => $this->productA->object()]
+        );
+        $this->assertEquals(200, $edited->getPrice());
 
 
     }
@@ -113,16 +127,15 @@ class PriceProductBaseControllerTest extends WebTestCase
      */
     public function testDisplay()
     {
-        $category = CategoryFactory::createOne(['name' => 'Cat1',
-                                                'description' => 'Category 1']);
 
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
-        $product = ProductFactory::createOne(['category' => $category]);
+        $url = "price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
-        $id = $product->getId();
-        $createUrl = "/product/$id/display";
-
-        $this->browser()->visit($createUrl)->assertSuccessful();
+        $this->browser()->visit($url)->assertSuccessful();
 
 
     }
@@ -131,7 +144,7 @@ class PriceProductBaseControllerTest extends WebTestCase
     public function testList()
     {
 
-        $url = '/product/list';
+        $url = "price/product/base/list";
         $this->browser()->visit($url)->assertSuccessful();
 
     }

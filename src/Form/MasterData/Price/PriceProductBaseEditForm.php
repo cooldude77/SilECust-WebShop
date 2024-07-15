@@ -20,7 +20,7 @@ class PriceProductBaseEditForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('id', ProductAutoCompleteField::class);
+        $builder->add('id', HiddenType::class);
 
         $builder->add('product', ProductAutoCompleteField::class, ['mapped' => false]);
         $builder->add('price', NumberType::class);
