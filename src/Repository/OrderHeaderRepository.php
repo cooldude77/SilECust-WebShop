@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,6 +55,13 @@ class OrderHeaderRepository extends ServiceEntityRepository
         $header->setCustomer($customer);
 
         return $header;
+
+    }
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT oh FROM App\Entity\OrderHeader oh";
+        return $this->getEntityManager()->createQuery($dql);
 
     }
 }
