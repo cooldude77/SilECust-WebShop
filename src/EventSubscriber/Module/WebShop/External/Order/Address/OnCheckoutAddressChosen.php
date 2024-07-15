@@ -5,8 +5,8 @@ namespace App\EventSubscriber\Module\WebShop\External\Order\Address;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
-use App\Service\Module\WebShop\External\Order\OrderRead;
-use App\Service\Module\WebShop\External\Order\OrderSave;
+use App\Service\Transaction\Order\OrderRead;
+use App\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnCheckoutAddressChosen implements EventSubscriberInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order;
+namespace App\Service\Transaction\Order;
 
 use App\Entity\Customer;
 use App\Entity\CustomerAddress;
@@ -12,11 +12,11 @@ use App\Repository\OrderAddressRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderAddressMapper;
-use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
-use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderItemMapper;
-use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderStatusMapper;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderHeaderMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderItemMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 
 /**
  *

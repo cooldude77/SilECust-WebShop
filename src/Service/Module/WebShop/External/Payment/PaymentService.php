@@ -3,7 +3,7 @@
 namespace App\Service\Module\WebShop\External\Payment;
 
 use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
-use App\Service\Module\WebShop\External\Order\OrderSave;
+use App\Service\Transaction\Order\OrderSave;
 
 class PaymentService
 {

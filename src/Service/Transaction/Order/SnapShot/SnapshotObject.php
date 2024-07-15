@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\SnapShot;
+namespace App\Service\Transaction\Order\SnapShot;
 
 class SnapshotObject
 {

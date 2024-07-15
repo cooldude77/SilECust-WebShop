@@ -3,7 +3,6 @@
 namespace App\Service\Module\WebShop\External\Order;
 
 use App\Entity\OrderItem;
-use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 

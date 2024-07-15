@@ -8,7 +8,7 @@ use App\Factory\OrderHeaderFactory;
 use App\Factory\OrderItemFactory;
 use App\Factory\OrderPaymentFactory;
 use App\Factory\OrderStatusTypeFactory;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use Zenstruck\Foundry\Proxy;
 
 trait OrderFixture

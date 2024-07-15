@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order;
+namespace App\Service\Transaction\Order;
 
 use App\Entity\Customer;
 use App\Entity\OrderHeader;
@@ -14,8 +14,8 @@ use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Repository\PriceProductBaseRepository;
-use App\Service\Module\WebShop\External\Order\Object\OrderObject;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\Object\OrderObject;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 
 readonly class OrderRead
 {

@@ -3,7 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Payment;
 
 use App\Entity\OrderHeader;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\OrderFixture;

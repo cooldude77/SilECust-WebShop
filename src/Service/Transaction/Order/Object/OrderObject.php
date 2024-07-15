@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\Object;
+namespace App\Service\Transaction\Order\Object;
 
 use App\Entity\OrderHeader;
 use App\Entity\OrderPayment;

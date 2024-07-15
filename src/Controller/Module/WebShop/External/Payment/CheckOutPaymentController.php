@@ -4,8 +4,8 @@ namespace App\Controller\Module\WebShop\External\Payment;
 
 use App\Event\Module\WebShop\External\Payment\PaymentEvent;
 use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
-use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Transaction\Order\OrderRead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

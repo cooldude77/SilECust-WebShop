@@ -10,8 +10,8 @@ use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use App\Exception\Module\WebShop\External\Order\NoOrderItemExistsWith;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\Order\OrderRead;
-use App\Service\Module\WebShop\External\Order\OrderSave;
+use App\Service\Transaction\Order\OrderRead;
+use App\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

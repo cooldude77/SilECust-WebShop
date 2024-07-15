@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
+namespace App\Service\Transaction\Order\Mapper\Components;
 
 use App\Entity\OrderAddress;
 use App\Entity\OrderHeader;

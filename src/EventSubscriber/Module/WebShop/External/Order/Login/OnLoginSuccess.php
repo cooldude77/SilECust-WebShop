@@ -4,9 +4,9 @@ namespace App\EventSubscriber\Module\WebShop\External\Order\Login;
 
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Module\WebShop\External\Order\OrderToCart;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Transaction\Order\OrderRead;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 

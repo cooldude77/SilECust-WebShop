@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\Mapper\Components;
+namespace App\Service\Transaction\Order\Mapper\Components;
 
 use App\Entity\OrderStatus;
 use App\Repository\OrderStatusRepository;
 use App\Repository\OrderStatusTypeRepository;
-use App\Service\Module\WebShop\External\Order\SnapShot\OrderSnapShotCreator;
+use App\Service\Transaction\Order\SnapShot\OrderSnapShotCreator;
 
 /**
  *

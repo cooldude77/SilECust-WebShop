@@ -2,8 +2,8 @@
 
 namespace App\Controller\Module\WebShop\External\Order;
 
-use App\Service\Module\WebShop\External\Order\OrderRead;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Transaction\Order\OrderRead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

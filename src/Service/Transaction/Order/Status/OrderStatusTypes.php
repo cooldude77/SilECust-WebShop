@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order\Status;
+namespace App\Service\Transaction\Order\Status;
 
 readonly class OrderStatusTypes
 {

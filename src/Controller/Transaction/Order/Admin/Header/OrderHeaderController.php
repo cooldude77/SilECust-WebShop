@@ -3,11 +3,10 @@
 namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
-use App\Entity\OrderHeader;
 use App\Form\Common\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
 use App\Repository\OrderHeaderRepository;
-use App\Service\Module\WebShop\External\Order\Mapper\Components\OrderHeaderMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderHeaderMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
