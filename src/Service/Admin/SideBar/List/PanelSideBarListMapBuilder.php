@@ -73,6 +73,32 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
+                        [
+                            'id' => 'price',
+                            'header_text' => 'Prices',
+                            'items' => [
+                                [
+                                    'id' => 'price_product_base-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'price_product_base'
+                                    ),
+                                    'text' => 'Base price',
+                                    'css-id' => 'sidebar-link-price-discount-list'
+                                ],
+                                  [
+                                    'id' => 'price_product_discount-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'price_product_discount'
+                                    ),
+                                    'text' => 'Discount',
+                                    'css-id' => 'sidebar-link-price-discount-list'
+                                ],
+
+                                                           ],
+                            'roles' => ['ROLE_EMPLOYEE'],
+                        ],
                         // todo: implement
                         [
                             'id' => 'customer',

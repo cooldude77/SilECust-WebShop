@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PriceProductDiscount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,20 @@ class PriceProductDiscountRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency
+    ): PriceProductDiscount {
+
+        $discount = new PriceProductDiscount();
+        $discount->setProduct($product);
+        $discount->setCurrency($currency);
+        return $discount;
+    }
+
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT ppd FROM App\Entity\PriceProductDiscount ppd";
+        return $this->getEntityManager()->createQuery($dql);
+
+    }
 }

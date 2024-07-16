@@ -25,12 +25,21 @@ class PanelActionListMapBuilder
                             'display' => 'product_display',
                             'list' => 'product_list'
                         ]
-                    ], 'price_product_base' => [
+                    ],
+                    'price_product_base' => [
                         'routes' => [
                             'create' => 'price_product_base_create',
                             'edit' => 'price_product_base_edit',
                             'display' => 'price_product_base_display',
                             'list' => 'price_product_base_list'
+                        ]
+                    ],
+                    'price_product_discount' => [
+                        'routes' => [
+                            'create' => 'price_product_discount_create',
+                            'edit' => 'price_product_discount_edit',
+                            'display' => 'price_product_discount_display',
+                            'list' => 'price_product_discount_list'
                         ]
                     ],
                     'product_attribute' => [
