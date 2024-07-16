@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller\MasterData\Price\Discount;
 
-use App\Entity\PriceProductBase;
 use App\Entity\PriceProductDiscount;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\LocationFixture;
@@ -54,7 +53,8 @@ class PriceProductDiscountControllerTest extends WebTestCase
             ->assertSuccessful();
 
         $created = $this->findOneBy(PriceProductDiscount::class, array('product' =>
-                                                                           $this->productA->object()));
+                                                                           $this->productA->object(
+                                                                           )));
 
         $this->assertEquals(500, $created->getValue());
 
@@ -75,53 +75,39 @@ class PriceProductDiscountControllerTest extends WebTestCase
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
 
-        $url = "price/product/discount/{$this->priceProductBaseA->getId()}/edit";
+        $url = "price/product/discount/{$this->productDiscountA->getId()}/edit";
 
 
         $this
             ->browser()
             ->visit($url)
             ->use(function (Browser $browser) {
+                $this->addOption(
+                    $browser,
+                    'select[name="price_product_discount_edit_form[product]"]',
+                    $this->productA->getId()
+                );
 
-                $crawler = $browser->crawler();
-                $domDocument = $crawler->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $this->productA->getId());
-
-                $selectElement = $crawler->filter(
-                    '[name="price_product_discount_edit_form[product]"]'
-                )
-                    ->getNode(0);
-                $selectElement->appendChild($option);
+                $this->addOption(
+                    $browser, 'select[name="price_product_discount_edit_form[currency]"]',
+                    $this->currency->getId()
+                );
 
 
-            })
-            ->use(function (Browser $browser) {
-                $crawler = $browser->crawler();
-                $domDocument = $crawler->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $this->currency->getId());
-
-                $selectElement = $crawler->filter(
-                    '[name="price_product_discount_edit_form[currency]"]'
-                )
-                    ->getNode(0);
-                $selectElement->appendChild($option);
             })
             ->fillField('price_product_discount_edit_form[product]', $this->productA->getId())
             ->fillField(
                 'price_product_discount_edit_form[currency]', $this->currency->getId()
             )
-            ->fillField('price_product_discount_edit_form[price]', 200)
+            ->fillField('price_product_discount_edit_form[value]', 200)
             ->click('Save')
             ->assertSuccessful();
 
-        /** @var PriceProductBase $edited */
-        $edited = $this->findOneBy(PriceProductBase::class, ['product' => $this->productA->object()]
+        /** @var PriceProductDiscount $edited */
+        $edited = $this->findOneBy(
+            PriceProductDiscount::class, ['product' => $this->productA->object()]
         );
-        $this->assertEquals(200, $edited->getPrice());
+        $this->assertEquals(200, $edited->getValue());
 
 
     }
@@ -138,7 +124,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
-        $url = "price/product/discount/{$this->priceProductBaseA->getId()}/edit";
+        $url = "price/product/discount/{$this->productDiscountA->getId()}/edit";
 
         $this->browser()->visit($url)->assertSuccessful();
 
