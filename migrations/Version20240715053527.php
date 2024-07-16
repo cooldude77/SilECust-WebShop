@@ -30,7 +30,7 @@ final class Version20240715053527 extends AbstractMigration
             'ALTER TABLE price_product_discount ADD CONSTRAINT FK_D92BC34638248176 FOREIGN KEY (currency_id) REFERENCES currency (id)'
         );
         $this->addSql(
-            'ALTER TABLE price_product_base DROP INDEX UNIQ_B98FB0DD4584665A, ADD INDEX IDX_B98FB0DD4584665A (product_id)'
+            'ALTER TABLE price_product_base ADD INDEX IDX_B98FB0DD4584665A (product_id)'
         );
         $this->addSql(
             'ALTER TABLE tax_base_product ADD currency_id INT NOT NULL, CHANGE tax_rate tax_rate DOUBLE PRECISION NOT NULL'
