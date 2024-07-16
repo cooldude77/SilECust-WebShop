@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Transaction\Admin\Order\Header;
+namespace App\Form\Transaction\Order\Header\DTO;
 
 class OrderHeaderDTO
 {

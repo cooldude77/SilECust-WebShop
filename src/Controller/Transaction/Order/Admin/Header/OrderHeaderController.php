@@ -3,9 +3,9 @@
 namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
-use App\Form\Common\Order\Header\OrderHeaderCreateForm;
-use App\Form\Common\Order\Header\OrderHeaderEditForm;
-use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
+use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
+use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
+use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
 use App\Repository\OrderHeaderRepository;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;

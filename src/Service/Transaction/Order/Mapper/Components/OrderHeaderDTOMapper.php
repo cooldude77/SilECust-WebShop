@@ -4,7 +4,7 @@ namespace App\Service\Transaction\Order\Mapper\Components;
 
 use App\Entity\OrderHeader;
 use App\Entity\OrderStatusType;
-use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
+use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Repository\CustomerRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderStatusTypeRepository;

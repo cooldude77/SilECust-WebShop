@@ -3,9 +3,11 @@
 namespace App\Controller\Transaction\Order\Admin\Item;
 
 // ...
-use App\Entity\OrderItem;
-use App\Form\Common\Order\Item\OrderItemCreateForm;
-use App\Repository\ProductRepository;
+use App\Form\Common\Order\Header\OrderItemCreateForm;
+use App\Form\Common\Order\Header\OrderItemEditForm;
+use App\Form\Transaction\Admin\Order\Header\OrderItemDTO;
+use App\Repository\OrderItemRepository;
+use App\Service\Transaction\Order\Mapper\Components\OrderItemDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,51 +17,121 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderItemController extends AbstractController
 {
-    #[Route('/order/header/{id}/item/create', name: 'order_item_create')]
-    public function createOrderItem($id, EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $orderItem = new OrderItem();
+    #[Route('/order/item/create', name: 'order_item_create')]
+    public function createOrderItem(EntityManagerInterface $entityManager,
+        OrderItemDTOMapper $orderItemMapper, Request $request
+    ): Response {
+        $orderItemDTO = new OrderItemDTO();
 
-        $form = $this->createForm(OrderItemCreateForm::class, $orderItem);
+        $form = $this->createForm(OrderItemCreateForm::class, $orderItemDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // perform some action...
-            $entityManager->persist($form->getData());
+            $orderItem = $orderItemMapper->mapToEntityForCreate($form->getData());
+
+            $entityManager->persist($orderItem);
             $entityManager->flush();
 
-            return $this->redirectToRoute('common/order/item/success_create.html.twig');
+            $this->addFlash(
+                'success', "Order created successfully"
+            );
+
+            $id = $orderItem->getId();
+            $this->addFlash(
+                'success', "Order created successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Order created successfully"]
+                ), 200
+            );
+
         }
-        return $this->render('common/order/item/create.html.twig', ['form' => $form]);
+
+        return $this->render('transaction/order/item/order_item_create.html.twig', ['form' => $form]);
     }
 
+    #[\Symfony\Component\Routing\Attribute\Route('/order/item/{id}/edit', name: 'order_item_edit')]
+    public function edit(int $id, OrderItemDTOMapper $mapper,
+        EntityManagerInterface $entityManager, OrderItemRepository $orderItemRepository,
+        Request $request
+    ): Response {
+        $orderItemDTO = new OrderItemDTO();
 
-    #[Route('/orderItem/edit/{id}', name: 'orderItem_edit')]
+        $orderItem = $orderItemRepository->find($id);
 
-    #[\Symfony\Component\Routing\Attribute\Route('/order/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository,PaginatorInterface $paginator,
-        Request $request):
-    Response
+        $form = $this->createForm(OrderItemEditForm::class, $orderItemDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $orderItem = $mapper->mapDtoToEntityForEdit(
+                $form->getData(), $orderItem
+            );
+
+            $entityManager->persist($orderItem);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success', "Order updated successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Order updated successfully"]
+                ), 200
+            );
+        }
+
+        return $this->render('transaction/order/item/order_item_edit.html.twig', ['form' => $form]);
+
+
+    }
+
+    #[Route('/order/item/{id}/display', name: 'order_item_display')]
+    public function display(OrderItemRepository $OrderItemRepository, int $id): Response
     {
+        $OrderItem = $OrderItemRepository->find($id);
+        if (!$OrderItem) {
+            throw $this->createNotFoundException('No product found for id ' . $id);
+        }
+
+        $displayParams = ['title' => 'Price',
+                          'link_id' => 'id-price',
+                          'editButtonLinkText' => 'Edit',
+                          'fields' => [['label' => 'id',
+                                        'propertyName' => 'id',],
+                          ]];
+
+        return $this->render(
+            'transaction/order/item/order_item_display.html.twig',
+            ['entity' => $OrderItem, 'params' => $displayParams]
+        );
+    }
+
+    #[\Symfony\Component\Routing\Attribute\Route('/order/item/list', name: 'order_item_list')]
+    public function list(OrderItemRepository $orderRepository, PaginatorInterface $paginator,
+        Request $request
+    ): Response {
 
         $listGrid = ['title' => 'Order',
                      'link_id' => 'id-order',
                      'columns' => [['label' => 'Id',
-                                    'propertyName' => 'orderGuid',
-                                    'action' => 'display',],
-                                   ['label' => 'Date Created', 'propertyName' => 'dateP'],],
+                                    'propertyName' => 'id',
+                                    'action' => 'display',],],
                      'createButtonConfig' => ['link_id' => ' id-create-order',
                                               'function' => 'order',
                                               'anchorText' => 'Create Order']];
 
-        $query = $productRepository->getQueryForSelect();
+        $query = $orderRepository->getQueryForSelect();
 
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            1 /*limit per page*/
+            $query, /* query NOT result */ $request->query->getInt('page', 1),
+            /*page number*/ 1 /*limit per page*/
         );
 
         return $this->render(

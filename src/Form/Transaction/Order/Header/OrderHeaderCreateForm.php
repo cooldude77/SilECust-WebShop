@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Form\Common\Order\Header;
+namespace App\Form\Transaction\Order\Header;
 
-use App\Entity\OrderStatusType;
-use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\MasterData\Customer\DTO\CustomerAutoCompleteField;
+use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,26 +12,23 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OrderHeaderEditForm extends AbstractType
+class OrderHeaderCreateForm extends AbstractType
 {
 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'orderStatusType', EntityType::class,
-            ['mapped' => false, 'class' => OrderStatusType::class]
-        );
+        $builder->add('customer', CustomerAutoCompleteField::class,['mapped'=>false]);
         $builder->add('choose', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
 
-            $formEvent->getForm()->add('orderStatusTypeId', HiddenType::class);
+            $formEvent->getForm()->add('customerId', HiddenType::class);
 
             // dto jugglery
             $data = $formEvent->getData();
 
-            $data['orderStatusTypeId'] = $data['orderStatusType'];
+            $data['customerId'] = $data['customer'];
 
             $formEvent->setData($data);
 
@@ -47,7 +43,7 @@ class OrderHeaderEditForm extends AbstractType
     public function getBlockPrefix(): string
     {
 
-        return 'order_header_edit_form';
+        return 'order_header_create_form';
     }
 
 }
