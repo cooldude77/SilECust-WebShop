@@ -14,7 +14,7 @@ use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
-use App\Service\Transaction\Order\Mapper\Components\OrderHeaderMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderItemMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
@@ -26,15 +26,15 @@ readonly class OrderSave
 {
 
     /**
-     * @param OrderHeaderMapper  $orderHeaderMapper
-     * @param OrderItemMapper    $orderItemMapper
-     * @param OrderAddressMapper $orderAddressMapper
-     * @param OrderStatusMapper  $orderStatusMapper
-     * @param DatabaseOperations $databaseOperations
+     * @param OrderHeaderDTOMapper $orderHeaderMapper
+     * @param OrderItemMapper      $orderItemMapper
+     * @param OrderAddressMapper   $orderAddressMapper
+     * @param OrderStatusMapper    $orderStatusMapper
+     * @param DatabaseOperations   $databaseOperations
      */
     public function __construct(
         private OrderHeaderRepository $orderHeaderRepository,
-        private OrderHeaderMapper $orderHeaderMapper,
+        private OrderHeaderDTOMapper $orderHeaderMapper,
         private OrderItemMapper $orderItemMapper,
         private OrderAddressMapper $orderAddressMapper,
         private OrderStatusMapper $orderStatusMapper,
@@ -68,38 +68,6 @@ readonly class OrderSave
     {
         $this->databaseOperations->flush();
 
-
-    }
-
-    /**
-     * @return OrderHeader
-     */
-    public function mapAndPersist(): OrderHeader
-    {
-        $this->orderPreMapAndPersistChecks();
-
-        $orderHeader = null;//$this->orderHeaderRepository->create();
-
-        $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
-        $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);
-        $orderStatus = $this->orderStatusMapper->mapAndSetHeader(
-            $orderHeader, OrderStatusTypes::ORDER_CREATED, "note" //todo
-        );
-
-        // validate
-
-        $this->databaseOperations->persist($orderHeader);
-
-        foreach ($orderItems as $item) {
-            $this->databaseOperations->persist($item);
-        }
-
-
-        $this->databaseOperations->persist($orderAddresses);
-        $this->databaseOperations->persist($orderStatus);
-
-
-        return $orderHeader;
 
     }
 

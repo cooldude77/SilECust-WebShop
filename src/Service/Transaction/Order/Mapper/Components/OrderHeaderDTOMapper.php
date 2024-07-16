@@ -2,12 +2,14 @@
 
 namespace App\Service\Transaction\Order\Mapper\Components;
 
+use App\Entity\OrderHeader;
+use App\Entity\OrderStatusType;
 use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
 use App\Repository\CustomerRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderStatusTypeRepository;
 
-class OrderHeaderMapper
+class OrderHeaderDTOMapper
 {
     public function __construct(private readonly OrderHeaderRepository $orderHeaderRepository,
         private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
@@ -21,6 +23,23 @@ class OrderHeaderMapper
 
         return $this->orderHeaderRepository->create($customer);
 
+    }
+
+    /**
+     * @param OrderHeaderDTO $orderHeaderDTO
+     *
+     * @return OrderHeader
+     */
+    public function mapDtoToEntityForEdit(OrderHeaderDTO $orderHeaderDTO): OrderHeader
+    {
+        /** @var OrderHeader $orderHeader */
+        $orderHeader = $this->orderHeaderRepository->find($orderHeaderDTO->id);
+
+        /** @var OrderStatusType $statusType */
+        $statusType = $this->orderStatusTypeRepository->find($orderHeaderDTO->orderStatusTypeId);
+        $orderHeader->setOrderStatusType($statusType);
+
+         return $orderHeader;
     }
 
 

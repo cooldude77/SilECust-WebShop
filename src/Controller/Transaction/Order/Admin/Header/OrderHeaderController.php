@@ -4,9 +4,10 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use App\Form\Common\Order\Header\OrderHeaderCreateForm;
+use App\Form\Common\Order\Header\OrderHeaderEditForm;
 use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
 use App\Repository\OrderHeaderRepository;
-use App\Service\Transaction\Order\Mapper\Components\OrderHeaderMapper;
+use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ class OrderHeaderController extends AbstractController
 {
     #[Route('/order/create', name: 'order_create')]
     public function createOrderHeader(EntityManagerInterface $entityManager,
-        OrderHeaderMapper $orderHeaderMapper,
+        OrderHeaderDTOMapper $orderHeaderMapper,
         Request $request
     ): Response {
         $orderHeaderDTO = new OrderHeaderDTO();
@@ -54,9 +55,45 @@ class OrderHeaderController extends AbstractController
         return $this->render('transaction/order/order_create.html.twig', ['form' => $form]);
     }
 
+    #[\Symfony\Component\Routing\Attribute\Route('/order/{id}/edit', name: 'price_product_discount_edit')]
+    public function edit(int $id, OrderHeaderDTOMapper $mapper,
+        EntityManagerInterface $entityManager,
+        OrderHeaderRepository $orderHeaderRepository, Request $request
+    ): Response {
+        $orderHeaderDTO = new OrderHeaderDTO();
 
-    #[
-        \Symfony\Component\Routing\Attribute\Route('/order/list', name: 'order_list')]
+        $orderHeader = $orderHeaderRepository->find($id);
+
+        $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $orderHeader = $mapper->mapDtoToEntityForEdit(
+                $form->getData(), $orderHeader
+            );
+
+            $entityManager->persist($orderHeader);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success', "Order updated successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Order updated successfully"]
+                ), 200
+            );
+        }
+
+        return $this->render('transaction/order/order_edit.html.twig', ['form' => $form]);
+
+
+    }
+
+    #[\Symfony\Component\Routing\Attribute\Route('/order/list', name: 'order_list')]
     public function list(OrderHeaderRepository $orderRepository, PaginatorInterface $paginator,
         Request $request
     ):
@@ -64,11 +101,10 @@ class OrderHeaderController extends AbstractController
 
         $listGrid = ['title' => 'Order',
                      'link_id' => 'id-order',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display',],
-                                   ['label' => 'Description',
-                                    'propertyName' => 'dateTimeOfOrder'],],
+                     'columns' => [['label' => 'Id',
+                                    'propertyName' => 'id',
+                                    'action' => 'display',]
+                                   ,],
                      'createButtonConfig' => ['link_id' => ' id-create-order',
                                               'function' => 'order',
                                               'anchorText' => 'Create Order']];
