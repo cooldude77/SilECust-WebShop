@@ -9,6 +9,7 @@ use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderAddressRepository;
+use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
@@ -31,7 +32,9 @@ readonly class OrderSave
      * @param OrderStatusMapper  $orderStatusMapper
      * @param DatabaseOperations $databaseOperations
      */
-    public function __construct(private OrderHeaderMapper $orderHeaderMapper,
+    public function __construct(
+        private OrderHeaderRepository $orderHeaderRepository,
+        private OrderHeaderMapper $orderHeaderMapper,
         private OrderItemMapper $orderItemMapper,
         private OrderAddressMapper $orderAddressMapper,
         private OrderStatusMapper $orderStatusMapper,
@@ -49,11 +52,9 @@ readonly class OrderSave
     {
 
 
-        $orderHeader = $this->orderHeaderMapper->create($customer);
-
+        $orderHeader = $this->orderHeaderRepository->create($customer);
 
         $this->databaseOperations->persist($orderHeader);
-
         $this->databaseOperations->flush();
 
     }
@@ -77,7 +78,7 @@ readonly class OrderSave
     {
         $this->orderPreMapAndPersistChecks();
 
-        $orderHeader = $this->orderHeaderMapper->create();
+        $orderHeader = null;//$this->orderHeaderRepository->create();
 
         $orderItems = $this->orderItemMapper->mapAndSetHeader($orderHeader);
         $orderAddresses = $this->orderAddressMapper->mapAndSetHeader($orderHeader);

@@ -2,32 +2,26 @@
 
 namespace App\Service\Transaction\Order\Mapper\Components;
 
-use App\Entity\Customer;
+use App\Form\Transaction\Admin\Order\Header\OrderHeaderDTO;
+use App\Repository\CustomerRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderStatusTypeRepository;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
 
 class OrderHeaderMapper
 {
     public function __construct(private readonly OrderHeaderRepository $orderHeaderRepository,
-        private readonly OrderStatusTypeRepository $orderStatusTypeRepository
+        private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
+        private readonly CustomerRepository $customerRepository
     ) {
     }
 
-    public function create(Customer $customer): \App\Entity\OrderHeader
+    public function mapToEntityForCreate(OrderHeaderDTO $orderHeaderDTO): \App\Entity\OrderHeader
     {
+        $customer = $this->customerRepository->findOneBy(['id' => $orderHeaderDTO->customerId]);
 
-        $orderHeader = $this->orderHeaderRepository->create($customer);
-
-        $orderHeader->setDateTimeOfOrder(new \DateTime());
-
-        $orderStatusType = $this->orderStatusTypeRepository->findOneBy(
-            ['type' => OrderStatusTypes::ORDER_CREATED]
-        );
-
-        $orderHeader->setOrderStatusType($orderStatusType);
-
-        return $orderHeader;
+        return $this->orderHeaderRepository->create($customer);
 
     }
+
+
 }

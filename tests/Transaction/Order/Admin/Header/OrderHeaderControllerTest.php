@@ -3,9 +3,9 @@
 namespace App\Tests\Transaction\Order\Admin\Header;
 
 use App\Entity\OrderHeader;
-use App\Factory\OrderFactory;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Utility\FindByCriteria;
+use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -13,7 +13,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 class OrderHeaderControllerTest extends WebTestCase
 {
 
-    use HasBrowser, FindByCriteria, CustomerFixture;
+    use HasBrowser, FindByCriteria, CustomerFixture, SelectElement;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -26,15 +26,11 @@ class OrderHeaderControllerTest extends WebTestCase
 
         $createUrl = '/order/create';
 
-        $visit = $this->browser()->visit($createUrl)->use(function (Browser $browser) {
-            $crawler = $browser->crawler();
-
-            $domDocument = $crawler->getNode(0)?->parentNode;
-
-            $option = $domDocument->createElement('option');
-            $option->setAttribute('value', $this->customer->getId());
-            $selectElement = $crawler->filter('select')->getNode(0);
-            $selectElement->appendChild($option);
+        $this->browser()->visit($createUrl)->use(function (Browser $browser) {
+            $this->addOption(
+                $browser, 'select[name="order_header_create_form[customer]"]',
+                $this->customer->getId()
+            );
 
         })->fillField('order_header_create_form[customer]', $this->customer->getId())
             ->click('Choose')
@@ -42,6 +38,7 @@ class OrderHeaderControllerTest extends WebTestCase
 
         $created = $this->findOneBy(OrderHeader::class, ['customer' => $this->customer->object()]);
 
+        self::assertNotNull($created);
 
     }
 

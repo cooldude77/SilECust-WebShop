@@ -25,9 +25,6 @@ class OrderHeader
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatusType $orderStatusType = null;
 
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $orderGuid = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -65,18 +62,6 @@ class OrderHeader
     public function setOrderStatusType(?OrderStatusType $orderStatusType): static
     {
         $this->orderStatusType = $orderStatusType;
-
-        return $this;
-    }
-
-    public function getOrderGuid(): ?string
-    {
-        return $this->orderGuid;
-    }
-
-    public function setOrderGuid(string $orderGuid): static
-    {
-        $this->orderGuid = $orderGuid;
 
         return $this;
     }

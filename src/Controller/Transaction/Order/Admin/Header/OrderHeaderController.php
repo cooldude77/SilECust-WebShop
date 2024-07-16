@@ -19,8 +19,7 @@ class OrderHeaderController extends AbstractController
     #[Route('/order/create', name: 'order_create')]
     public function createOrderHeader(EntityManagerInterface $entityManager,
         OrderHeaderMapper $orderHeaderMapper,
-    Request
-    $request
+        Request $request
     ): Response {
         $orderHeaderDTO = new OrderHeaderDTO();
 
@@ -30,46 +29,61 @@ class OrderHeaderController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-             // perform some action...
-            $entityManager->persist($form->getData());
+            $orderHeader = $orderHeaderMapper->mapToEntityForCreate($form->getData());
+
+            $entityManager->persist($orderHeader);
             $entityManager->flush();
 
-            return $this->redirectToRoute('common/order/header/success_create.html.twig');
+            $this->addFlash(
+                'success', "Order created successfully"
+            );
+
+            $id = $orderHeader->getId();
+            $this->addFlash(
+                'success', "Order created successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Order created successfully"]
+                ), 200
+            );
+
         }
 
-return $this->render('transaction/order/order_create.html.twig', ['form' => $form]);
-}
+        return $this->render('transaction/order/order_create.html.twig', ['form' => $form]);
+    }
 
 
-#[
-\Symfony\Component\Routing\Attribute\Route('/order/list', name: 'order_list')]
+    #[
+        \Symfony\Component\Routing\Attribute\Route('/order/list', name: 'order_list')]
     public function list(OrderHeaderRepository $orderRepository, PaginatorInterface $paginator,
         Request $request
     ):
     Response {
 
-    $listGrid = ['title' => 'Order',
-                 'link_id' => 'id-order',
-                 'columns' => [['label' => 'Name',
-                                'propertyName' => 'name',
-                                'action' => 'display',],
-                               ['label' => 'Description',
-                                'propertyName' => 'dateTimeOfOrder'],],
-                 'createButtonConfig' => ['link_id' => ' id-create-order',
-                                          'function' => 'order',
-                                          'anchorText' => 'Create Order']];
+        $listGrid = ['title' => 'Order',
+                     'link_id' => 'id-order',
+                     'columns' => [['label' => 'Name',
+                                    'propertyName' => 'name',
+                                    'action' => 'display',],
+                                   ['label' => 'Description',
+                                    'propertyName' => 'dateTimeOfOrder'],],
+                     'createButtonConfig' => ['link_id' => ' id-create-order',
+                                              'function' => 'order',
+                                              'anchorText' => 'Create Order']];
 
-    $query = $orderRepository->getQueryForSelect();
+        $query = $orderRepository->getQueryForSelect();
 
-    $pagination = $paginator->paginate(
-        $query, /* query NOT result */
-        $request->query->getInt('page', 1), /*page number*/
-        1 /*limit per page*/
-    );
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            1 /*limit per page*/
+        );
 
-    return $this->render(
-        'admin/ui/panel/section/content/list/list_paginated.html.twig',
-        ['pagination' => $pagination, 'listGrid' => $listGrid]
-    );
-}
+        return $this->render(
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid]
+        );
+    }
 }
