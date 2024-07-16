@@ -7,7 +7,7 @@ class OrderItemDTO
 
     private ?int $id = 0;
 
-    private ?int $orderHeaderId = 0;
+    public ?int $orderHeaderId = 0;
 
     public ?int $productId = 0;
 

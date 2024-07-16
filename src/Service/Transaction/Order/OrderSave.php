@@ -13,11 +13,10 @@ use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
-use App\Service\Transaction\Order\Mapper\Components\OrderItemMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
 
 /**
  *
@@ -27,7 +26,7 @@ readonly class OrderSave
 
     /**
      * @param OrderHeaderDTOMapper $orderHeaderMapper
-     * @param OrderItemMapper      $orderItemMapper
+     * @param OrderItemDTOMapper   $orderItemMapper
      * @param OrderAddressMapper   $orderAddressMapper
      * @param OrderStatusMapper    $orderStatusMapper
      * @param DatabaseOperations   $databaseOperations
@@ -35,7 +34,7 @@ readonly class OrderSave
     public function __construct(
         private OrderHeaderRepository $orderHeaderRepository,
         private OrderHeaderDTOMapper $orderHeaderMapper,
-        private OrderItemMapper $orderItemMapper,
+        private OrderItemDTOMapper $orderItemMapper,
         private OrderAddressMapper $orderAddressMapper,
         private OrderStatusMapper $orderStatusMapper,
         private OrderAddressRepository $orderAddressRepository,
