@@ -24,7 +24,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
 
@@ -70,7 +70,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer,
                                                               'addressType' => 'shipping']);
@@ -114,7 +114,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     public function testList()
     {
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         CustomerAddressFactory::createMany(10, ['customer' => $this->customer,
                                                 'addressType' => 'shipping']);

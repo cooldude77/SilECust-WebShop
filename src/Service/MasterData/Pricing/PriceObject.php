@@ -14,10 +14,8 @@ class PriceObject
 
     private PriceProductTax $priceProductTax;
 
-    public function __construct()
-    {
-    }
-
+   // todo: make sure that product without pricing and taxes give a warning
+    // or provide a setting
     /**
      * @return PriceProductBase
      */
@@ -27,9 +25,9 @@ class PriceObject
     }
 
     /**
-     * @param PriceProductBase $priceProductBase
+     * @param PriceProductBase|null $priceProductBase
      */
-    public function setPriceProductBase(PriceProductBase $priceProductBase): void
+    public function setPriceProductBase(?PriceProductBase $priceProductBase = null): void
     {
         $this->priceProductBase = $priceProductBase;
     }
@@ -43,10 +41,10 @@ class PriceObject
     }
 
     /**
-     * @param PriceProductDiscount $priceProductDiscount
+     * @param PriceProductDiscount|null $priceProductDiscount
      */
-    public function setPriceProductDiscount(PriceProductDiscount $priceProductDiscount = null): void
-    {
+    public function setPriceProductDiscount(?PriceProductDiscount $priceProductDiscount = null):
+    void {
         $this->priceProductDiscount = $priceProductDiscount;
     }
 
@@ -59,9 +57,9 @@ class PriceObject
     }
 
     /**
-     * @param PriceProductTax $priceProductTax
+     * @param PriceProductTax|null $priceProductTax
      */
-    public function setPriceProductTax(PriceProductTax $priceProductTax): void
+    public function setPriceProductTax(?PriceProductTax $priceProductTax = null): void
     {
         $this->priceProductTax = $priceProductTax;
     }

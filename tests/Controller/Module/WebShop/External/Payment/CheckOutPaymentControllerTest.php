@@ -21,7 +21,7 @@ class CheckOutPaymentControllerTest extends WebTestCase
 
     public function testOnPaymentSuccess()
     {
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createLocationFixtures();
 
         $uri = "/checkout/payment/success";
@@ -29,7 +29,7 @@ class CheckOutPaymentControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrder($this->customer);
+                $this->createOpenOrderFixtures($this->customer);
 
             })
             ->interceptRedirects()
@@ -52,7 +52,7 @@ class CheckOutPaymentControllerTest extends WebTestCase
 
     public function testOnPaymentFailure()
     {
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createLocationFixtures();
 
         $uri = "/checkout/payment/failure";
@@ -60,7 +60,7 @@ class CheckOutPaymentControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrder($this->customer);
+                $this->createOpenOrderFixtures($this->customer);
 
             })
             ->visit($uri)

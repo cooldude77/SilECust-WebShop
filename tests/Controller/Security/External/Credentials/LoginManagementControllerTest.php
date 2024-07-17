@@ -18,7 +18,7 @@ class LoginManagementControllerTest extends WebTestCase
      */
     public function testLoginAsCustomer()
     {
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $uri = '/login';
         // user with customer
         $this->browser()

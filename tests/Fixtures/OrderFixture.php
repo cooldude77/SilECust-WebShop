@@ -17,7 +17,7 @@ trait OrderFixture
 
     private Proxy|null|OrderHeader $orderHeader = null;
 
-    public function createOpenOrder(Proxy $customer): void
+    public function createOpenOrderFixtures(Proxy $customer): void
     {
         OrderAddressFactory::truncate();
         OrderItemFactory::truncate();

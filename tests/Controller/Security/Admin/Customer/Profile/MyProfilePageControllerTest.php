@@ -20,7 +20,7 @@ class MyProfilePageControllerTest extends WebTestCase
 
         $this->browser()->visit($uri)->assertNotAuthenticated();
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $this->browser()
             ->use(function (KernelBrowser $browser) {

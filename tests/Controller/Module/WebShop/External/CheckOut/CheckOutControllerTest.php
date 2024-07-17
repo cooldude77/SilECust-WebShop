@@ -22,7 +22,7 @@ class CheckOutControllerTest extends WebTestCase
     public function testCheckout()
     {
         $this->createLocationFixtures();
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createProductFixtures();
 
 

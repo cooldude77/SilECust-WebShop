@@ -16,11 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderItemController extends AbstractController
 {
-    #[Route('/order/item/create', name: 'order_item_create')]
-    public function createOrderItem(EntityManagerInterface $entityManager,
+    #[Route('/order/{id}/item/create', name: 'order_item_create')]
+    public function create(int $id, EntityManagerInterface $entityManager,
         OrderItemDTOMapper $orderItemMapper, Request $request
     ): Response {
         $orderItemDTO = new OrderItemDTO();
+        $orderItemDTO->orderHeaderId = $id;
 
         $form = $this->createForm(OrderItemCreateForm::class, $orderItemDTO);
 
@@ -34,23 +35,24 @@ class OrderItemController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', "Order created successfully"
+                'success', "Order Item created successfully"
             );
 
             $id = $orderItem->getId();
             $this->addFlash(
-                'success', "Order created successfully"
+                'success', "Order Item created successfully"
             );
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Order created successfully"]
+                    ['id' => $id, 'message' => "Order Item created successfully"]
                 ), 200
             );
 
         }
 
-        return $this->render('transaction/order/item/order_item_create.html.twig', ['form' => $form]);
+        return $this->render('transaction/order/item/order_item_create.html.twig', ['form' => $form]
+        );
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/order/item/{id}/edit', name: 'order_item_edit')]
@@ -76,12 +78,12 @@ class OrderItemController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', "Order updated successfully"
+                'success', "Order Item updated successfully"
             );
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Order updated successfully"]
+                    ['id' => $id, 'message' => "Order Item updated successfully"]
                 ), 200
             );
         }

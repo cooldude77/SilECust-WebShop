@@ -2,7 +2,6 @@
 
 namespace App\Form\Transaction\Order\Item;
 
-use App\Form\Common\Order\Item\Transformer\OrderItemToIdTransformer;
 use App\Form\MasterData\Product\ProductAutoCompleteField;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +18,8 @@ class OrderItemCreateForm extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('product', ProductAutoCompleteField::class);
+        $builder->add('orderHeaderId', HiddenType::class);
+        $builder->add('product', ProductAutoCompleteField::class,['mapped'=>false]);
         $builder->add('quantity', NumberType::class);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {

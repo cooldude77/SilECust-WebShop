@@ -33,7 +33,7 @@ class CartControllerTest extends WebTestCase
     public function testInCartProcesses()
     {
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
@@ -212,7 +212,7 @@ class CartControllerTest extends WebTestCase
     public function testCartFillWhenUserLogsOutAndLogsInAgain()
     {
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
@@ -277,7 +277,7 @@ class CartControllerTest extends WebTestCase
     {
 
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
@@ -310,7 +310,7 @@ class CartControllerTest extends WebTestCase
     public function testAddProductToCartTest()
     {
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createProductFixtures();

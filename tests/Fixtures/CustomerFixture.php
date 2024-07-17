@@ -21,7 +21,7 @@ trait CustomerFixture
 
     private Proxy|Customer $customer;
 
-    public function createCustomer(): void
+    public function createCustomerFixtures(): void
     {
 
         $this->userForCustomer = UserFactory::createOne
