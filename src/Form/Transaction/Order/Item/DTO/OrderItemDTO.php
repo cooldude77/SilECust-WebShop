@@ -5,7 +5,7 @@ namespace App\Form\Transaction\Order\Item\DTO;
 class OrderItemDTO
 {
 
-    private ?int $id = 0;
+    public ?int $id = 0;
 
     public ?int $orderHeaderId = 0;
 

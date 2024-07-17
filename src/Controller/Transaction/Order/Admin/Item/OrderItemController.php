@@ -5,6 +5,7 @@ namespace App\Controller\Transaction\Order\Admin\Item;
 // ...
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
+use App\Form\Transaction\Order\Item\OrderItemEditForm;
 use App\Repository\OrderItemRepository;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,9 +61,10 @@ class OrderItemController extends AbstractController
         EntityManagerInterface $entityManager, OrderItemRepository $orderItemRepository,
         Request $request
     ): Response {
-        $orderItemDTO = new OrderItemDTO();
 
         $orderItem = $orderItemRepository->find($id);
+
+        $orderItemDTO = $mapper->mapFromEntityToDtoForEdit($orderItem);
 
         $form = $this->createForm(OrderItemEditForm::class, $orderItemDTO);
 
@@ -70,9 +72,7 @@ class OrderItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $orderItem = $mapper->mapDtoToEntityForEdit(
-                $form->getData(), $orderItem
-            );
+            $orderItem = $mapper->mapDtoToEntityForEdit($form->getData());
 
             $entityManager->persist($orderItem);
             $entityManager->flush();

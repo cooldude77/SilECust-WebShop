@@ -11,9 +11,19 @@ use App\Repository\ProductRepository;
 use App\Service\MasterData\Pricing\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
+/**
+ *
+ */
 readonly class OrderItemDTOMapper
 {
-    public function __construct(private CartSessionProductService $cartSessionService,
+    /**
+     * @param CartSessionProductService $cartSessionService
+     * @param OrderItemRepository       $orderItemRepository
+     * @param OrderHeaderRepository     $orderHeaderRepository
+     * @param ProductRepository         $productRepository
+     * @param PriceCalculator           $calculator
+     */
+    public function __construct(
         private OrderItemRepository $orderItemRepository,
         private OrderHeaderRepository $orderHeaderRepository,
         private ProductRepository $productRepository,
@@ -21,27 +31,12 @@ readonly class OrderItemDTOMapper
     ) {
     }
 
-    public function mapAndSetHeader(OrderHeader $orderHeader): array
-    {
 
-        $orderItems = [];
-
-        foreach ($this->cartSessionService->getCartArray() as $item) {
-
-            $orderItem = $this->orderItemRepository->create($orderHeader);
-
-            $orderItem->setQuantity($item->quantity);
-
-            $product = $this->productRepository->find($item->productId);
-
-            $orderItem->setProduct($product);
-
-            $orderItems[] = $orderItem;
-        }
-        return $orderItems;
-    }
-
-
+    /**
+     * @param OrderItemDTO $orderItemDTO
+     *
+     * @return OrderItem
+     */
     public function mapToEntityForCreate(OrderItemDTO $orderItemDTO): OrderItem
     {
         $product = $this->productRepository->find($orderItemDTO->productId);
@@ -58,5 +53,33 @@ readonly class OrderItemDTOMapper
         );
 
 
+    }
+
+    /**
+     * @param OrderItem|null $orderItem
+     *
+     * @return OrderItemDTO
+     */
+    public function mapFromEntityToDtoForEdit(?OrderItem $orderItem): OrderItemDTO
+    {
+
+        $orderItemDTO = new OrderItemDTO();
+        $orderItemDTO->id = $orderItem->getId();
+        $orderItemDTO->quantity = $orderItem->getQuantity();
+        return $orderItemDTO;
+    }
+
+    /**
+     * @param OrderItemDTO $orderItemDTO
+     *
+     * @return OrderItem
+     */
+    public function mapDtoToEntityForEdit(OrderItemDTO  $orderItemDTO): OrderItem
+    {
+        $orderItem = $this->orderItemRepository->find($orderItemDTO->id);
+
+        $orderItem->setQuantity($orderItemDTO->quantity);
+
+        return $orderItem;
     }
 }

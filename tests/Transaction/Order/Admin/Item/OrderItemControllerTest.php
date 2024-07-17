@@ -2,15 +2,12 @@
 
 namespace App\Tests\Transaction\Order\Admin\Item;
 
-use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
-use App\Entity\OrderStatusType;
-use App\Factory\OrderStatusTypeFactory;
-use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\OrderFixture;
+use App\Tests\Fixtures\OrderItemFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Utility\FindByCriteria;
@@ -23,7 +20,7 @@ class OrderItemControllerTest extends WebTestCase
 {
 
     use HasBrowser, FindByCriteria, ProductFixture, CustomerFixture, PriceFixture, SelectElement,
-        OrderFixture, LocationFixture, CurrencyFixture;
+        OrderFixture, OrderItemFixture, LocationFixture, CurrencyFixture;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -38,6 +35,7 @@ class OrderItemControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
 
         $createUrl = "/order/{$this->orderHeader->getId()}/item/create";
 
@@ -67,25 +65,25 @@ class OrderItemControllerTest extends WebTestCase
 
         $this->createCustomerFixtures();
         $this->createOpenOrderFixtures($this->customer);
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createOrderItemsFixture($this->orderHeader, $this->productA, $this->productB);
 
-        $createUrl = "/order/{$this->orderHeader->getId()}/edit";
 
-        /** @var OrderStatusType $statusType */
-        $statusType = OrderStatusTypeFactory::find(['type' => 'ORDER_SHIPPED']);
+        $createUrl = "/order/item/{$this->orderHeader->getId()}/edit";
 
-        $this->browser()->visit($createUrl)->use(function (Browser $browser) use ($statusType) {
-            $this->addOption(
-                $browser, 'select[name="order_header_edit_form[orderStatusType]"]',
-                $statusType->getId()
-            );
 
-        })->fillField('order_header_create_form[customer]', $statusType->getId())
-            ->click('Choose')
+        $this->browser()->visit($createUrl)
+            ->fillField('order_item_edit_form[quantity]', 200)
+            ->click('Save')
             ->assertSuccessful();
 
-        $created = $this->findOneBy(OrderHeader::class, ['customer' => $this->customer->object()]);
+        /** @var OrderItem $created */
+        $created = $this->findOneBy(OrderItem::class, ['product' => $this->productA->object()]);
 
-        self::assertNotNull($created);
+        self::assertEquals(200, $created->getQuantity());
 
     }
 
@@ -94,8 +92,12 @@ class OrderItemControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createOpenOrderFixtures($this->customer);
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
-        $url = "order/list";
+        $url = "order/item/list";
         $this->browser()->visit($url)->assertSuccessful();
 
     }
