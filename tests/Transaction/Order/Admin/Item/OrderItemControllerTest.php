@@ -97,7 +97,7 @@ class OrderItemControllerTest extends WebTestCase
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
-        $url = "order/item/list";
+        $url = "order/{$this->orderHeader->getId()}/item/list";
         $this->browser()->visit($url)->assertSuccessful();
 
     }
