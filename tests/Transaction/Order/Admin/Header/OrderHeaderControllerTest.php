@@ -66,7 +66,7 @@ class OrderHeaderControllerTest extends WebTestCase
                 $statusType->getId()
             );
 
-        })->fillField('order_header_create_form[customer]', $statusType->getId())
+        })->fillField('order_header_edit_form[orderStatusType]', $statusType->getId())
             ->click('Choose')
             ->assertSuccessful();
 

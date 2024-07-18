@@ -59,9 +59,11 @@ class OrderHeaderController extends AbstractController
         EntityManagerInterface $entityManager, OrderHeaderRepository $orderHeaderRepository,
         Request $request
     ): Response {
-        $orderHeaderDTO = new OrderHeaderDTO();
 
         $orderHeader = $orderHeaderRepository->find($id);
+
+        $orderHeaderDTO = new OrderHeaderDTO();
+        $orderHeaderDTO->id = $orderHeader->getId();
 
         $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
 
@@ -70,7 +72,7 @@ class OrderHeaderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $orderHeader = $mapper->mapDtoToEntityForEdit(
-                $form->getData(), $orderHeader
+                $form->getData()
             );
 
             $entityManager->persist($orderHeader);

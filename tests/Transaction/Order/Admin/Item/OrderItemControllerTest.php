@@ -45,7 +45,7 @@ class OrderItemControllerTest extends WebTestCase
                 $this->productA->getId()
             );
 
-        })->fillField('order_item_create_form[product]', $this->customer->getId())
+        })->fillField('order_item_create_form[product]', $this->productTaxA->getId())
             ->fillField('order_item_create_form[quantity]', 4)
             ->click('Save')
             ->assertSuccessful();
@@ -72,7 +72,7 @@ class OrderItemControllerTest extends WebTestCase
         $this->createOrderItemsFixture($this->orderHeader, $this->productA, $this->productB);
 
 
-        $createUrl = "/order/item/{$this->orderHeader->getId()}/edit";
+        $createUrl = "/order/item/{$this->orderItemA->getId()}/edit";
 
 
         $this->browser()->visit($createUrl)
