@@ -126,20 +126,20 @@ class OrderItemController extends AbstractController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/order/item/list', name: 'order_item_list')]
-    public function list(OrderItemRepository $orderRepository, PaginatorInterface $paginator,
+    public function list(OrderItemRepository $orderItemRepository, PaginatorInterface $paginator,
         Request $request
     ): Response {
 
-        $listGrid = ['title' => 'Order',
-                     'link_id' => 'id-order',
+        $listGrid = ['title' => 'Order Items',
+                     'link_id' => 'id-order-items',
                      'columns' => [['label' => 'Id',
                                     'propertyName' => 'id',
                                     'action' => 'display',],],
-                     'createButtonConfig' => ['link_id' => ' id-create-order',
-                                              'function' => 'order',
-                                              'anchorText' => 'Create Order']];
+                     'createButtonConfig' => ['link_id' => ' id-create-order-item',
+                                              'function' => 'order_item_create',
+                                              'anchorText' => 'Create Order Item']];
 
-        $query = $orderRepository->getQueryForSelect();
+        $query = $orderItemRepository->getQueryForSelect();
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */ $request->query->getInt('page', 1),
