@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\MasterData\Pricing;
+namespace App\Service\MasterData\Pricing\Item;
 
 use App\Entity\Product;
 use App\Repository\PriceProductBaseRepository;
 use App\Repository\PriceProductDiscountRepository;
 use App\Repository\PriceProductTaxRepository;
 
-readonly class PriceCalculator
+readonly class PriceBreakUp
 {
     public function __construct(
         private PriceProductBaseRepository $priceProductBaseRepository,
@@ -35,15 +35,6 @@ readonly class PriceCalculator
         return $priceObject;
     }
 
-    public function calculatePrice(PriceObject $priceObject): float
-    {
 
-        $basePrice = $priceObject->getPriceProductBase()->getPrice();
-        $discount = $priceObject->getPriceProductDiscount()->getValue();
-        $tax = $priceObject->getPriceProductTax()->getTaxSlab()->getRateOfTax();
-
-        return $basePrice - $discount * (1 - $tax / 100);
-
-    }
 
 }

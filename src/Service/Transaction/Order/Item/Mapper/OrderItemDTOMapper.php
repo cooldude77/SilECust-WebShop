@@ -2,14 +2,15 @@
 
 namespace App\Service\Transaction\Order\Item\Mapper;
 
-use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\PriceCalculator;
+use App\Service\MasterData\Pricing\Item\PriceBreakUp;
+use App\Service\MasterData\Pricing\Item\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use SebastianBergmann\Complexity\Calculator;
 
 /**
  *
@@ -21,13 +22,14 @@ readonly class OrderItemDTOMapper
      * @param OrderItemRepository       $orderItemRepository
      * @param OrderHeaderRepository     $orderHeaderRepository
      * @param ProductRepository         $productRepository
-     * @param PriceCalculator           $calculator
+     * @param PriceBreakUp              $priceBreakUp
      */
     public function __construct(
         private OrderItemRepository $orderItemRepository,
         private OrderHeaderRepository $orderHeaderRepository,
         private ProductRepository $productRepository,
-        private PriceCalculator $calculator,
+        private PriceBreakUp $priceBreakUp,
+        private PriceCalculator $priceCalculator
     ) {
     }
 
@@ -42,10 +44,10 @@ readonly class OrderItemDTOMapper
         $product = $this->productRepository->find($orderItemDTO->productId);
         $orderHeader = $this->orderHeaderRepository->find($orderItemDTO->orderHeaderId);
 
-        $priceObject = $this->calculator->getPriceObject($product);
+        $priceObject = $this->priceBreakUp->getPriceObject($product);
         // todo : what to do with the price object
 
-        $pricePerUnit = $this->calculator->calculatePrice($priceObject);
+        $pricePerUnit = $this->priceCalculator->calculatePrice($priceObject);
 
         return $this->orderItemRepository->create(
             $orderHeader, $product, $orderItemDTO->quantity,

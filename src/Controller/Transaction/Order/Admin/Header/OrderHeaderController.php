@@ -131,6 +131,7 @@ class OrderHeaderController extends AbstractController
 
         $query = $orderRepository->getQueryForSelect();
 
+        // todo : to bring price ( calculated field on the list) 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */ $request->query->getInt('page', 1),
             /*page number*/ 1 /*limit per page*/

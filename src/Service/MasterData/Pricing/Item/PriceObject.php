@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\MasterData\Pricing;
+namespace App\Service\MasterData\Pricing\Item;
 
 use App\Entity\PriceProductBase;
 use App\Entity\PriceProductDiscount;

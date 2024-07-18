@@ -6,14 +6,14 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemPriceBreakup;
 use App\Entity\Product;
 use App\Repository\OrderItemPriceBreakupRepository;
-use App\Service\MasterData\Pricing\PriceCalculator;
+use App\Service\MasterData\Pricing\Item\PriceBreakUp;
 
 class OrderItemPriceBreakupMapper
 {
     /**
-     * @param PriceCalculator $priceCalculator
+     * @param PriceBreakUp $priceCalculator
      */
-    public function __construct(private readonly PriceCalculator $priceCalculator,
+    public function __construct(private readonly PriceBreakUp $priceCalculator,
         private readonly OrderItemPriceBreakupRepository $orderItemPriceBreakupRepository
     ) {
     }
