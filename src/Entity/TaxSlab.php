@@ -22,6 +22,10 @@ class TaxSlab
     #[ORM\Column]
     private ?float $rateOfTax = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class TaxSlab
     public function setRateOfTax(float $rateOfTax): static
     {
         $this->rateOfTax = $rateOfTax;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }
