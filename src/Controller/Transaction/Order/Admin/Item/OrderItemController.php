@@ -125,8 +125,9 @@ class OrderItemController extends AbstractController
         );
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/order/item/list', name: 'order_item_list')]
-    public function list(OrderItemRepository $orderItemRepository, PaginatorInterface $paginator,
+    #[\Symfony\Component\Routing\Attribute\Route('/order/{id}/item/list', name: 'order_item_list')]
+    public function list(int $id, OrderItemRepository $orderItemRepository,
+        PaginatorInterface $paginator,
         Request $request
     ): Response {
 
@@ -136,7 +137,8 @@ class OrderItemController extends AbstractController
                                     'propertyName' => 'id',
                                     'action' => 'display',],],
                      'createButtonConfig' => ['link_id' => ' id-create-order-item',
-                                              'function' => 'order_item_create',
+                                              'id' => $id,
+                                              'function' => 'order_item',
                                               'anchorText' => 'Create Order Item']];
 
         $query = $orderItemRepository->getQueryForSelect();
