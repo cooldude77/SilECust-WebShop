@@ -86,7 +86,7 @@ class PanelSideBarListMapBuilder
                                     'text' => 'Base price',
                                     'css-id' => 'sidebar-link-price-discount-list'
                                 ],
-                                  [
+                                [
                                     'id' => 'price_product_discount-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
@@ -95,8 +95,16 @@ class PanelSideBarListMapBuilder
                                     'text' => 'Discount',
                                     'css-id' => 'sidebar-link-price-discount-list'
                                 ],
-
-                                                           ],
+                                [
+                                    'id' => 'price_product_tax-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'price_product_tax'
+                                    ),
+                                    'text' => 'Tax',
+                                    'css-id' => 'sidebar-link-price-tax-list'
+                                ],
+                            ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
                         // todo: implement
@@ -173,6 +181,15 @@ class PanelSideBarListMapBuilder
                                     ),
                                     'text' => 'Currency',
                                     'css-id' => 'sidebar-link-currency-list'
+                                ],
+                                [
+                                    'id' => 'tax-slabs-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'tax-slab'
+                                    ),
+                                    'text' => 'Tax Slabs',
+                                    'css-id' => 'sidebar-link-tax-slabs-list'
                                 ],
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],

@@ -42,6 +42,22 @@ class PanelActionListMapBuilder
                             'list' => 'price_product_discount_list'
                         ]
                     ],
+                    'price_product_tax' => [
+                        'routes' => [
+                            'create' => 'price_product_tax_create',
+                            'edit' => 'price_product_tax_edit',
+                            'display' => 'price_product_tax_display',
+                            'list' => 'price_product_tax_list'
+                        ]
+                    ],
+                    'tax_slab' => [
+                        'routes' => [
+                            'create' => 'tax_slab_create',
+                            'edit' => 'tax_slab_edit',
+                            'display' => 'tax_slab_display',
+                            'list' => 'tax_slab_list'
+                        ]
+                    ],
                     'product_attribute' => [
                         'routes' => [
                             'create' => 'product_attribute_create',
