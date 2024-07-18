@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\OrderItem;
 use App\Entity\OrderItemPriceBreakup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,10 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderItemPriceBreakupRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, OrderItemPriceBreakup::class);
-    }
+
 
     //    /**
     //     * @return OrderItemPriceBreakup[] Returns an array of OrderItemPriceBreakup objects
@@ -45,4 +43,22 @@ class OrderItemPriceBreakupRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, OrderItemPriceBreakup::class);
+    }
+
+    public function create(OrderItem $orderItem, array $prices): OrderItemPriceBreakup
+    {
+
+        $breakup = new OrderItemPriceBreakup();
+
+        $breakup->setOrderItem($orderItem);
+        $breakup->setBasePrice($prices[OrderItemPriceBreakup::BASE_PRICE]);
+        $breakup->setDiscount($prices[OrderItemPriceBreakup::DISCOUNT] ?? 0);
+        $breakup->setRateOfTax(isset($prices[OrderItemPriceBreakup::RATE_OF_TAX]));
+
+        return $breakup;
+    }
 }

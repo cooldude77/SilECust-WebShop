@@ -8,6 +8,7 @@ use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
 use App\Repository\OrderItemRepository;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
+use App\Service\Transaction\Order\Item\Mapper\OrderItemPriceBreakupMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,9 @@ class OrderItemController extends AbstractController
 {
     #[Route('/order/{id}/item/create', name: 'order_item_create')]
     public function create(int $id, EntityManagerInterface $entityManager,
-        OrderItemDTOMapper $orderItemMapper, Request $request
+        OrderItemDTOMapper $orderItemMapper,
+        OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
+        Request $request
     ): Response {
         $orderItemDTO = new OrderItemDTO();
         $orderItemDTO->orderHeaderId = $id;
@@ -31,8 +34,11 @@ class OrderItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $orderItem = $orderItemMapper->mapToEntityForCreate($form->getData());
+            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForCreate($orderItem);
 
             $entityManager->persist($orderItem);
+            $entityManager->persist($priceBreakUp);
+
             $entityManager->flush();
 
             $this->addFlash(
@@ -59,6 +65,7 @@ class OrderItemController extends AbstractController
     #[\Symfony\Component\Routing\Attribute\Route('/order/item/{id}/edit', name: 'order_item_edit')]
     public function edit(int $id, OrderItemDTOMapper $mapper,
         EntityManagerInterface $entityManager, OrderItemRepository $orderItemRepository,
+        OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
         Request $request
     ): Response {
 
@@ -74,7 +81,11 @@ class OrderItemController extends AbstractController
 
             $orderItem = $mapper->mapDtoToEntityForEdit($form->getData());
 
+            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForCreate($orderItem);
+
             $entityManager->persist($orderItem);
+            $entityManager->persist($priceBreakUp);
+
             $entityManager->flush();
 
             $this->addFlash(
