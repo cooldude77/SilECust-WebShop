@@ -27,7 +27,7 @@ class HeaderController extends AbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/shop/header.html.twig',
+            'module/web_shop/external/base/web_shop_common_header.html.twig',
             ['form' => $form]
         );
 

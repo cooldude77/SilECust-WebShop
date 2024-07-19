@@ -3,15 +3,15 @@
     {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
 {% endblock %}
 {% block body %}
-    <div id="wrapper" class="container ">
+    <div id="wrapper" class="container">
         <div class="row">
             <div id="header" class="col">
                 {% block header %}
                 {% endblock %}
             </div>
         </div>
-        <div class="row">
-            <div id="sidebar-wrapper" class="col-sm-3">
+        <div class="row my-2">
+            <div id="sidebar-wrapper" class="col-sm-3 sidenav">
                 {% block sidebar %}
                 {% endblock %}
             </div>

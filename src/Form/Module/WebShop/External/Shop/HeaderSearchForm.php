@@ -14,9 +14,6 @@ class HeaderSearchForm extends AbstractType
     {
 
         $builder->add('searchTerm', TextType::class, ['required' => false]);
-        $builder->add('Search', SubmitType::class);
-
-
     }
 
     public function getBlockPrefix(): string

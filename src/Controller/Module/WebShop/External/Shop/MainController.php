@@ -54,7 +54,7 @@ class MainController extends AbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/base/web_shop_base_template.html.twig'
+            'module/web_shop/external/shop/page/web_shop_home_page.html.twig'
         );
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
