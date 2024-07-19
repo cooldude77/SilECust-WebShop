@@ -32,14 +32,14 @@ trait PriceFixture
     public float $taxValueOfProductA = 100;
     public float $taxValueOfProductB = 200;
 
-     public TaxSlab|Proxy $taxSlabForProductA;
+    public TaxSlab|Proxy $taxSlabForProductA;
     public TaxSlab|Proxy $taxSlabForProductB;
     public float $taxRateOfProductA = 100;
     public float $taxRateOfProductB = 200;
 
-    
+
     public TaxSlab|Proxy $taxSlab;
-    
+
     function createPriceFixtures(Proxy|Product $productA, Proxy|Product $productB,
         Proxy|Currency $currency
     ): void {
@@ -65,9 +65,14 @@ trait PriceFixture
                  $this->discountValueOfProductB]
         );
 
-        $this->taxSlabForProductA = TaxSlabFactory::createOne(['rateOfTax'=>10]);
-        $this->taxSlabForProductB = TaxSlabFactory::createOne(['rateOfTax'=>20]);
-        
+        $this->taxSlabForProductA = TaxSlabFactory::createOne
+        (
+            ['country' => $this->country, 'rateOfTax' => 10]
+        );
+        $this->taxSlabForProductB = TaxSlabFactory::createOne(
+            ['country' => $this->country, 'rateOfTax' => 20]
+        );
+
         $this->productTaxA = PriceProductTaxFactory::createOne(
             ['product' => $productA,
              'taxSlab' =>

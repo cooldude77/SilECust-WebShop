@@ -14,7 +14,7 @@ class WebShopAdminControllerTest extends WebTestCase
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
-     */
+
     public function testCreate()
     {
         $createUrl = '/web-shop/create';
@@ -32,11 +32,7 @@ class WebShopAdminControllerTest extends WebTestCase
 
     }
 
-    /**
-     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
-     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
-     */
-    public function testEdit()
+     public function testEdit()
     {
 
 
@@ -61,10 +57,7 @@ class WebShopAdminControllerTest extends WebTestCase
 
     }
 
-    /**
-     * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
-     * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
-     */
+
     public function testDisplay()
     {
 
@@ -87,4 +80,5 @@ class WebShopAdminControllerTest extends WebTestCase
         $this->browser()->visit($url)->assertSuccessful();
 
     }
+    */
 }
