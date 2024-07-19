@@ -151,10 +151,14 @@ class  CartController extends AbstractController
         RouterInterface $router
     ):
     Response {
-        $this->initializeCartAndDispatchEvents(
-            $cartService,
-            $eventDispatcher, $customerFromUserFinder
-        );
+
+
+        if ($request->isMethod(Request::METHOD_POST)) {
+            // When a non-logged-in user presses add to cart button
+            if ($customerFromUserFinder->isLoggedInCustomer()) {
+                return $this->redirectToRoute('app_login');
+            }
+        }
 
         $product = $productRepository->find($id);
 
@@ -169,6 +173,12 @@ class  CartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $this->initializeCartAndDispatchEvents(
+                $cartService,
+                $eventDispatcher, $customerFromUserFinder
+            );
 
             $cartProductDTO = $form->getData();
 
