@@ -1,0 +1,7 @@
+<div id="price">
+    {% set price = render(controller('App\\Controller\\MasterData\\Price\\Base\\PriceProductBaseController::fetch',
+        { 'id':product.id}))|json_decode %}
+    {{ price.currency }}
+    {{ price.price}}
+
+</div>

@@ -15,13 +15,7 @@ Single product content fragment
     {{ product.longDescription }}
 </div>
 
-<div id="price">
-    {% set price = render(controller('App\\Controller\\MasterData\\Price\\Base\\PriceProductBaseController::fetch',
-        { 'id':product.id}))|json_decode %}
-    {{ price.currency }}
-    {{ price.price}}
-
-</div>
+{% include 'master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id}%}
 
 <div id="cart-form">
     {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',

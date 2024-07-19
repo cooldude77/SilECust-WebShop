@@ -26,22 +26,36 @@ VALUES (1, 1, 'Indian Rupees', 'INR', '₹');
 
 
 INSERT INTO `category` (`id`, `parent_id`, `name`, `description`)
-VALUES (1, NULL, 'Clothes', 'Clothes And Apparels');
-
+VALUES (1, NULL, 'CLOTHES', 'Clothes And Apparels');
+INSERT INTO `category` (`id`, `parent_id`, `name`, `description`)
+VALUES (2, NULL, 'ELECTRONICS', 'Electronics');
 
 INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
 VALUES (1, 'T_SHIRT_PLAIN', 'T Shirt Plain', 1, NULL, 1, 'Plain T Shirt');
+INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
+VALUES (2, 'T_SHIRT_CHECKS', 'T Shirt Checks', 1, NULL, 1, 'Check T Shirt');
+INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
+VALUES (3, 'TROUSER', 'Trouser Top Quality', 1, NULL, 1, 'Trouser');
 
 INSERT INTO `price_product_base` (`id`, `product_id`, `currency_id`, `price`)
 VALUES (1, 1, 1, 100);
-
 INSERT INTO `price_product_discount` (`id`, `product_id`, `currency_id`, `value`)
 VALUES (1, 1, 1, 10);
-
 INSERT INTO `price_product_tax` (`id`, `product_id`, `tax_slab_id`)
 VALUES (1, 1, 1);
 
+INSERT INTO `price_product_base` (`id`, `product_id`, `currency_id`, `price`)
+VALUES (2, 2, 1, 500);
+INSERT INTO `price_product_discount` (`id`, `product_id`, `currency_id`, `value`)
+VALUES (2, 2, 1, 5);
+INSERT INTO `price_product_tax` (`id`, `product_id`, `tax_slab_id`)
+VALUES (2, 2, 1);
 
-
+INSERT INTO `price_product_base` (`id`, `product_id`, `currency_id`, `price`)
+VALUES (3, 3, 1, 500);
+INSERT INTO `price_product_discount` (`id`, `product_id`, `currency_id`, `value`)
+VALUES (3, 3, 1, 5);
+INSERT INTO `price_product_tax` (`id`, `product_id`, `tax_slab_id`)
+VALUES (3, 3, 1);
 
 -- 2024-07-18 08:02:08
