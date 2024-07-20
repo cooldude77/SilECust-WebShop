@@ -4,8 +4,10 @@ namespace App\Controller\Module\WebShop\External\Cart;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\SideBarController;
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
@@ -57,9 +59,10 @@ class  CartController extends AbstractController
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
             'list'
         );
+
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/base/web_shop_base_template.html.twig'
+            'module/web_shop/external/cart/page/cart_page.html.twig'
         );
 
 
@@ -151,7 +154,7 @@ class  CartController extends AbstractController
         RouterInterface $router
     ):
     Response {
-        
+
 
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button

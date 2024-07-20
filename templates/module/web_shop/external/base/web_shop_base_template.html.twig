@@ -4,25 +4,32 @@
 {% endblock %}
 {% block body %}
     <div id="wrapper" class="h-100 container">
-        <div id="header" class="row">
-            {% block header %}
-            {% endblock %}
-        </div>
 
+        {% block header_wrapper %}
+            {% block header %}
+                <div id="header" class="row">
+                </div>
+            {% endblock %}
+        {% endblock %}
 
         <div id="content-wrapper" class="row h-100 my-4 ">
-            <div id="sidebar" class="col-sm-3 sidenav card p-3">
-                {% block sidebar %}
-                {% endblock %}
-            </div>
+
+            {% block sidebar_wrapper %}
+                <div id="sidebar" class="col-sm-3 sidenav card p-3">
+                    {% block sidebar %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
             <div id="content" class="col-sm card p-3">
+                {% block flash %}
                 <div id="flash-messages">
                     {% for message in app.flashes('success') %}
                         <div class="alert alert-success">
                             {{ message }}
                         </div>
                     {% endfor %}
-
+                    {% endblock %}
                 </div>
                 {% block content %}{% endblock %}
             </div>
