@@ -40,8 +40,23 @@ class CustomerFromUserFinder
         return $customer;
     }
 
-    public function isLoggedInCustomer(): bool
+    public function isLoggedInUserAlsoACustomer(): bool
     {
-        return $this->security->getUser() == null;
+        if ($this->security->getUser() == null) {
+
+            return false;
+        }
+
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        $customer = $this->customerRepository->findOneBy(['user' => $user]);
+
+        if ($customer == null) {
+
+            return false;
+        }
+        return true;
     }
+
 }

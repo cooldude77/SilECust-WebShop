@@ -28,10 +28,20 @@ Also has a block to insert your function
                  </div>
 
                  <div class="nav">
+                     {% if isLoggedInUserAlsoACustomer() == true %}
+                         {% block cart_link %}
+                             <a class="nav-link" href="{{ path('module_web_shop_cart') }}">Cart
+                             </a>
+                         {% endblock %}
+                     {% endif %}
                      {% block profile %}
                          <a class="nav-link" href="{% block profile_link %}{% endblock %}">Profile</a>
                      {% endblock %}
-                     {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                     {% if app.user is not null %}
+                         {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                     {% else %}
+                         {% include 'admin/ui/panel/header/header_login_link.html.twig' %}
+                     {% endif %}
                  </div>
              </div>
          </nav>

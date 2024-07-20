@@ -155,7 +155,7 @@ class  CartController extends AbstractController
 
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button
-            if ($customerFromUserFinder->isLoggedInCustomer()) {
+            if ($customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
                 return $this->redirectToRoute('app_login');
             }
         }
