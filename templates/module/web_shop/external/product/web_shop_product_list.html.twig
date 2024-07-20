@@ -1,9 +1,9 @@
 {% if products|length == 0 %}
     No products found
 {% else %}
-    <div class="row">
+    <div class="d-flex flex-row">
         {% for product in products %}
-            <div class="col-sm-3 card p-2 mx-2">
+            <div class="col-sm-3 card p-2 mx-auto">
                 <div id="product-image">
                     <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
                         <img width="100%" height="100%"

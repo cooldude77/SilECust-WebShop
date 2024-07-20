@@ -3,26 +3,34 @@
     {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
 {% endblock %}
 {% block body %}
-    <div id="wrapper" class="container">
-        <div class="row">
-            <div id="header" class="col">
-                {% block header %}
-                {% endblock %}
-            </div>
+    <div id="wrapper" class="h-100 container">
+        <div id="header" class="row">
+            {% block header %}
+            {% endblock %}
         </div>
-        <div class="row my-2">
-            <div id="sidebar-wrapper" class="col-sm-3 sidenav my-2">
+
+
+        <div id="content-wrapper" class="row h-100 my-4 ">
+            <div id="sidebar" class="col-sm-3 sidenav card p-3">
                 {% block sidebar %}
                 {% endblock %}
             </div>
-            <div id="content-wrapper" class="col-sm my-2">
+            <div id="content" class="col-sm card p-3">
+                <div id="flash-messages">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                </div>
                 {% block content %}{% endblock %}
             </div>
         </div>
-        <div class="row">
-            <div id="footer-wrapper">
-                {% block footer %}{% endblock %}
-            </div>
+
+        <div id="footer" class="row">
+            {% block footer %}{% endblock %}
         </div>
+
     </div>
 {% endblock %}

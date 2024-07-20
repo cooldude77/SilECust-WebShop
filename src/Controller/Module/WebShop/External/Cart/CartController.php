@@ -151,11 +151,11 @@ class  CartController extends AbstractController
         RouterInterface $router
     ):
     Response {
-
+        
 
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button
-            if ($customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
+            if (!$customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
                 return $this->redirectToRoute('app_login');
             }
         }
@@ -203,7 +203,6 @@ class  CartController extends AbstractController
 
         }
 
-        $error = $form->getErrors(true);
         return $this->render(
             'module/web_shop/external/cart/add_to_cart_form.html.twig',
             ['form' => $form]
