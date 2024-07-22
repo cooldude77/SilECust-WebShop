@@ -5,7 +5,6 @@ namespace App\Form\Module\WebShop\External\Address\New;
 use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -22,9 +21,10 @@ class AddressCreateForm extends AbstractType
     {
         // use address structure
         // default is in this structure
-        $builder->add('address', CustomerAddressCreateForm::class);
-        // check box if this is to be chosen
-        $builder->add('isChosen', CheckboxType::class);
+        $builder->add(
+            'address', CustomerAddressCreateForm::class, ['addressType' => $options['addressType']]
+        );
+
         $builder->add('save', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -32,12 +32,16 @@ class AddressCreateForm extends AbstractType
 
         });
 
+
     }
 
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', AddressCreateAndChooseDTO::class);
+        $resolver->setDefaults(
+            ['data_class' => AddressCreateAndChooseDTO::class]
+        );
+        $resolver->setRequired(['addressType']);
 
     }
 
