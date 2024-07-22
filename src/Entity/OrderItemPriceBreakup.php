@@ -17,8 +17,8 @@ class OrderItemPriceBreakup
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne]
+    #[ORM\JoinColumn(nullable: false,onDelete: 'CASCADE')]
     private ?OrderItem $orderItem = null;
 
     #[ORM\Column]

@@ -19,7 +19,7 @@ Note: These two will give different result
 
     {% block sidebar %}
         {% if sideBarResponse is defined and sideBarResponse is not null %}
-            {{ sideBar | raw }}
+            {{ sideBarResponse | raw }}
         {% endif %}
     {% endblock %}
 
