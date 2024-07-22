@@ -49,8 +49,7 @@ class OrderItemRepository extends ServiceEntityRepository
     //    }
     public function create(\App\Entity\OrderHeader $orderHeader,
         Product $product,
-        int $quantity,
-        int $price
+        int $quantity
     ): OrderItem {
         $orderItem = new OrderItem();
         $orderItem->setOrderHeader($orderHeader);
@@ -58,8 +57,6 @@ class OrderItemRepository extends ServiceEntityRepository
         $orderItem->setProduct($product);
 
         $orderItem->setQuantity($quantity);
-
-        $orderItem->setPricePerUnit($price);
 
         return $orderItem;
 

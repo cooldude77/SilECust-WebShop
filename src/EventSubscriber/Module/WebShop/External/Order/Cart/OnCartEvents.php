@@ -75,12 +75,12 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItemObjects = $this->orderRead->getOrderItemObjects($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
 
 
         $this->orderSave->updateOrderItemsFromCartArray(
             $this->cartSessionProductService->getCartArray(),
-            $orderItemObjects
+            $orderItems
         );
 
     }
@@ -90,6 +90,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
      *
      * @return void
      * @throws NoOpenOrderExists
+     * @throws NoOrderItemExistsWith
      */
     public function newItemAdded(CartItemAddedEvent $event): void
     {
@@ -100,17 +101,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItem = $this->orderRead->createOrderItem(
-            $orderHeader, $event->getProduct(),
-            $event->getQuantity()
-        );
-        if($orderItem == null)
-            throw new NoOrderItemExistsWith($event->getCustomer(),
-                $event->getProduct(),
-                $event->getQuantity());
-
-
-        $this->orderSave->updateOrderAddItem($orderItem);
+        $this->orderSave->addNewItem( $event->getProduct(),$event->getQuantity(),$orderHeader);
 
     }
 
@@ -128,7 +119,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItems = $this->orderRead->getOrderItemObjects($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->updateOrderRemoveItem($event->getProduct(), $orderItems);
 
     }
@@ -146,7 +137,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItems = $this->orderRead->getOrderItemObjects($orderHeader);
+        $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->removeAllItems($orderItems);
 
     }

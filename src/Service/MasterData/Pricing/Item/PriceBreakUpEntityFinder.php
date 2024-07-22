@@ -7,7 +7,7 @@ use App\Repository\PriceProductBaseRepository;
 use App\Repository\PriceProductDiscountRepository;
 use App\Repository\PriceProductTaxRepository;
 
-readonly class PriceBreakUp
+readonly class PriceBreakUpEntityFinder
 {
     public function __construct(
         private PriceProductBaseRepository $priceProductBaseRepository,

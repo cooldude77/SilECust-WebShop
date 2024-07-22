@@ -7,7 +7,7 @@ use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\Item\PriceBreakUp;
+use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
 use App\Service\MasterData\Pricing\Item\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use SebastianBergmann\Complexity\Calculator;
@@ -22,13 +22,13 @@ readonly class OrderItemDTOMapper
      * @param OrderItemRepository       $orderItemRepository
      * @param OrderHeaderRepository     $orderHeaderRepository
      * @param ProductRepository         $productRepository
-     * @param PriceBreakUp              $priceBreakUp
+     * @param PriceBreakUpEntityFinder  $priceBreakUp
      */
     public function __construct(
         private OrderItemRepository $orderItemRepository,
         private OrderHeaderRepository $orderHeaderRepository,
         private ProductRepository $productRepository,
-        private PriceBreakUp $priceBreakUp,
+        private PriceBreakUpEntityFinder $priceBreakUp,
         private PriceCalculator $priceCalculator
     ) {
     }

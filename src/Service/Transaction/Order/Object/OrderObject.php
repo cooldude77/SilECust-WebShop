@@ -10,7 +10,7 @@ class OrderObject
 
     private OrderHeader $orderHeader;
 
-    private array $orderItemObjects;
+    private array $orderItems;
 
     private array $orderAddress;
 
@@ -28,14 +28,14 @@ class OrderObject
         $this->orderHeader = $orderHeader;
     }
 
-    public function getOrderItemObjects(): array
+    public function getOrderItems(): array
     {
-        return $this->orderItemObjects;
+        return $this->orderItems;
     }
 
-    public function setOrderItemObjects(?array $orderItemObjects = null): void
+    public function setOrderItems(?array $orderItems = null): void
     {
-        $this->orderItemObjects = $orderItemObjects;
+        $this->orderItems = $orderItems;
     }
 
     public function getOrderAddress(): array

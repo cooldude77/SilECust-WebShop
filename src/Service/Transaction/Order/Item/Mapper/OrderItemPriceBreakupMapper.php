@@ -6,14 +6,14 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemPriceBreakup;
 use App\Entity\Product;
 use App\Repository\OrderItemPriceBreakupRepository;
-use App\Service\MasterData\Pricing\Item\PriceBreakUp;
+use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
 
 class OrderItemPriceBreakupMapper
 {
     /**
-     * @param PriceBreakUp $priceCalculator
+     * @param PriceBreakUpEntityFinder $priceCalculator
      */
-    public function __construct(private readonly PriceBreakUp $priceCalculator,
+    public function __construct(private readonly PriceBreakUpEntityFinder $priceCalculator,
         private readonly OrderItemPriceBreakupRepository $orderItemPriceBreakupRepository
     ) {
     }
@@ -30,15 +30,7 @@ class OrderItemPriceBreakupMapper
 
         return $this->orderItemPriceBreakupRepository->create(
             $orderItem,
-            [
-                OrderItemPriceBreakup::BASE_PRICE => $priceObject->getPriceProductBase()
-                    ->getPrice(),
-                OrderItemPriceBreakup::DISCOUNT => $priceObject->getPriceProductDiscount()
-                    ->getValue(),
-                OrderItemPriceBreakup::RATE_OF_TAX => $priceObject->getPriceProductTax()->getTaxSlab
-                ()->getRateOfTax()
-
-            ]
+            []
         );
 
     }

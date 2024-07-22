@@ -3,13 +3,13 @@
 namespace App\Service\Transaction\Order\Item;
 
 use App\Entity\OrderItem;
-use App\Service\MasterData\Pricing\Item\PriceBreakUp;
+use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
 use App\Service\MasterData\Pricing\Item\PriceCalculator;
 
 readonly class ItemPriceCalculator
 {
     public function __construct(private PriceCalculator $priceCalculator,
-    private PriceBreakUp $priceBreakUp)
+    private PriceBreakUpEntityFinder $priceBreakUp)
     {
     }
 

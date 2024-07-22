@@ -10,14 +10,16 @@ use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
+use App\Repository\OrderItemPriceBreakupRepository;
+use App\Repository\OrderItemRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
+use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
-use App\Service\Transaction\Order\Object\OrderItemObject;
 
 /**
  *
@@ -34,13 +36,10 @@ readonly class OrderSave
      */
     public function __construct(
         private OrderHeaderRepository $orderHeaderRepository,
-        private OrderHeaderDTOMapper $orderHeaderMapper,
-        private OrderItemDTOMapper $orderItemMapper,
-        private OrderAddressMapper $orderAddressMapper,
-        private OrderStatusMapper $orderStatusMapper,
+        private OrderItemRepository $orderItemRepository,
         private OrderAddressRepository $orderAddressRepository,
         private OrderStatusTypeRepository $orderStatusTypeRepository,
-        private DatabaseOperations $databaseOperations
+        private DatabaseOperations $databaseOperations,
     ) {
     }
 
@@ -71,15 +70,8 @@ readonly class OrderSave
 
     }
 
-    public function updateOrderAddItem(OrderItem $item): void
-    {
-        // todo: check validity?
 
-        $this->databaseOperations->persist($item);
-        $this->databaseOperations->flush();
-    }
-
-    public function updateOrderItemsFromCartArray(array $cartArray, array $orderItemObjects): void
+    public function updateOrderItemsFromCartArray(array $cartArray, array $orderItems): void
     {
 
         // todo: check count same
@@ -88,11 +80,10 @@ readonly class OrderSave
          * @var   int              $key
          * @var  CartSessionObject $cartObject
          */
-        foreach ($cartArray as $key => $cartObject)
-            /** @var OrderItemObject $orderItemObject */ {
-            foreach ($orderItemObjects as $orderItemObject) {
-                if ($orderItemObject->getOrderItem()->getProduct()->getId() == $key) {
-                    $orderItemObject->getOrderItem()->setQuantity($cartObject->quantity);
+        foreach ($cartArray as $key => $cartObject) /** @var OrderItem $orderItem */ {
+            foreach ($orderItems as $orderItem) {
+                if ($orderItem->getProduct()->getId() == $key) {
+                    $orderItem->setQuantity($cartObject->quantity);
 
                 }
             }
@@ -164,6 +155,15 @@ readonly class OrderSave
         $orderHeader->setOrderStatusType($orderStatusType);
 
         $this->databaseOperations->flush();
+
+    }
+
+    public function addNewItem(Product $product, int $quantity, OrderHeader $orderHeader): void
+    {
+        // todo: check if the item already exists
+        $item = $this->orderItemRepository->create($orderHeader, $product, $quantity);
+
+        $this->databaseOperations->save($item);
 
     }
 
