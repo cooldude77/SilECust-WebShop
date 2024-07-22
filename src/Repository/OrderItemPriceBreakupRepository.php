@@ -61,4 +61,19 @@ class OrderItemPriceBreakupRepository extends ServiceEntityRepository
 
         return $breakup;
     }
+
+    public function findAllByOrderHeader(\App\Entity\OrderHeader $orderHeader): mixed
+    {
+
+        return $this->getEntityManager()->createQueryBuilder('pb')
+            ->select('pb')
+            ->from('App\Entity\OrderItemPriceBreakup','pb')
+            ->join('pb.orderItem', 'item')
+            ->join('item.orderHeader', 'oh')
+            ->where('oh=:oh')
+            ->setParameter('oh', $orderHeader)
+            ->getQuery()
+            ->getResult();
+
+    }
 }

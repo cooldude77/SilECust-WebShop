@@ -10,6 +10,15 @@ class OrderObject
 
     private OrderHeader $orderHeader;
 
+    private array $orderItems;
+
+    private array $orderAddress;
+
+    private  ?OrderPayment $orderPayment = null;
+
+    private array $orderItemPriceBreakUp;
+
+
     public function getOrderHeader(): OrderHeader
     {
         return $this->orderHeader;
@@ -39,20 +48,27 @@ class OrderObject
     {
         $this->orderAddress = $orderAddress;
     }
-    private array $orderItems;
-
-    private array $orderAddress;
-
-    private  OrderPayment $orderPayment;
 
     public function getOrderPayment(): OrderPayment
     {
         return $this->orderPayment;
     }
 
-    public function setOrderPayment(OrderPayment $orderPayment): void
+    public function setOrderPayment(?OrderPayment $orderPayment =null): void
     {
         $this->orderPayment = $orderPayment;
+    }
+
+    public function getOrderItemPriceBreakUp(): array
+    {
+        return $this->orderItemPriceBreakUp;
+    }
+
+
+
+    public function setOrderItemPriceBreakUp(array $orderItemPriceBreakUp):void
+    {
+        $this->orderItemPriceBreakUp = $orderItemPriceBreakUp;
     }
 
 

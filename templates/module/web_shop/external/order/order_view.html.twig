@@ -1,3 +1,12 @@
-This is the order data
+Your order details
 
-<a href="{{ path('web_shop_payment_start') }}">Goto Payment</a>
+{% for item in orderObject.getOrderItems %}
+    <div class="row">
+        <div class="col-sm-3">
+            {{ item.product.description }}
+        </div>
+        <div class="col-sm-3">
+            {{ item.quantity }}
+        </div>
+    </div>
+{% endfor %}
