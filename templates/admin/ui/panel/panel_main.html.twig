@@ -1,7 +1,7 @@
 {# templates/admin/ui/panel/panel_admin.html.twig #}
 {% extends app.session.get( constant('App\\Controller\\Component\\UI\\PanelMainController::BASE_TEMPLATE')) %}
 {% block head %}
-    {{ head | raw }}
+    {{ headResponse | raw }}
 {% endblock %}
 
 {#
@@ -12,18 +12,18 @@ Note: These two will give different result
 // so always pass request as a parameter
 {{ dump(request.query) }} #}
 {% block header %}
-    {% if header is defined %}
-        {{ header | raw }}
+    {% if headerResponse is defined and headerResponse is not null%}
+        {{ headerResponse | raw }}
     {% endif %}
 {% endblock %}
 
     {% block sidebar %}
-        {% if sideBar is defined and sideBar is not null %}
+        {% if sideBarResponse is defined and sideBarResponse is not null %}
             {{ sideBar | raw }}
         {% endif %}
     {% endblock %}
 
 {% block content %}
-    {{ content | raw }}
+    {{ contentResponse | raw }}
 
 {% endblock %}

@@ -88,10 +88,10 @@ class PanelMainController extends AbstractController
         // no redirect, just print data
         $response = $this->render(
             'admin/ui/panel/panel_main.html.twig', [
-                'head' => $headResponse->getContent(),
-                'header' => $headerResponse->getContent(),
-                'content' => $contentResponse->getContent(),
-                'sideBar' => $sideBarResponse->getContent(),
+                'headResponse' => $headResponse->getContent(),
+                'headerResponse' => $headerResponse->getContent(),
+                'contentResponse' => $contentResponse->getContent(),
+                'sideBarResponse' => $sideBarResponse->getContent(),
                 'request' => $request]
         );
 

@@ -36,11 +36,14 @@ class AddressController extends AbstractController
 
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
+     * @param Request         $request
+     * @param RouterInterface $router
+     *
+     * @return Response
      */
     #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
     #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
+    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
     public function main(Request $request, RouterInterface $router): Response
     {
         $session = $request->getSession();
@@ -64,6 +67,9 @@ class AddressController extends AbstractController
             case 'web_shop_checkout_address_create':
                 $method = "create";
                 break;
+            case 'web_shop_checkout_choose_address_from_list':
+                $method = "choose";
+                break;
         }
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
@@ -72,7 +78,7 @@ class AddressController extends AbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/cart/page/cart_page.html.twig'
+            'module/web_shop/external/address/page/address_page.html.twig'
         );
 
 
@@ -84,7 +90,7 @@ class AddressController extends AbstractController
         CheckOutAddressQuery $checkOutAddressQuery,
         CustomerFromUserFinder $customerFromUserFinder,
         Request $request
-    ) {
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
 
         $ownRoute = $this->generateUrl('web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
@@ -136,7 +142,14 @@ class AddressController extends AbstractController
         }
 
         // everything ok, go back to check out
-        return $this->redirect($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL));
+        if ($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL) != null) {
+            return $this->redirect(
+                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
+            );
+        } else {
+            return $this->redirectToRoute('web_shop_view_order');
+        }
+
 
     }
 
@@ -158,8 +171,9 @@ class AddressController extends AbstractController
 
         $x = $request->query->get('type');
 
-        $form = $this->createForm(AddressCreateForm::class, $dto,
-            ['addressType'=>$request->query->get('type')]
+        $form = $this->createForm(
+            AddressCreateForm::class, $dto,
+            ['addressType' => $request->query->get('type')]
         );
 
         $form->handleRequest($request);
@@ -204,8 +218,7 @@ class AddressController extends AbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException Choose from multiple addresses
      */
-    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
-    public function chooseAddressFromList(CustomerAddressRepository $customerAddressRepository,
+    public function choose(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,
         ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
         CheckoutAddressChooseParser $checkoutAddressChooseParser,
@@ -257,11 +270,15 @@ class AddressController extends AbstractController
 
         }
 
-
+        if ($request->query->get('type') == 'shipping') {
+            $caption = 'Choose Shipping Address';
+        } else {
+            $caption = 'Choose Billing Address';
+        }
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_chooser_page.html.twig',
+            'module/web_shop/external/address/address_choose.html.twig',
             ['form' => $form,
-             'addressTypeCaption' => 'Shipping Address']
+             'addressTypeCaption' => $caption]
         );
     }
 
