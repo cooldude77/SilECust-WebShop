@@ -167,12 +167,4 @@ readonly class OrderSave
 
     }
 
-    /**
-     * @return void
-     */
-    private function orderPreMapAndPersistChecks()
-    {
-
-        // todo
-    }
 }

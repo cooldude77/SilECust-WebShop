@@ -76,7 +76,7 @@ class CartControllerTest extends WebTestCase
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->assertSuccessful()
             ->use(function (Browser $browser) {
 
@@ -96,7 +96,7 @@ class CartControllerTest extends WebTestCase
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->use(function (Browser $browser) {
 
                 // Test : An order got created
@@ -238,14 +238,14 @@ class CartControllerTest extends WebTestCase
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->assertSuccessful()
             ->visit($uriAddProductB)
             ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->assertSuccessful()
             ->visit('/logout')
             ->assertNotAuthenticated();
@@ -333,7 +333,7 @@ class CartControllerTest extends WebTestCase
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->assertSuccessful();
 
 

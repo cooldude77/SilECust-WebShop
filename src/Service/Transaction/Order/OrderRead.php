@@ -130,7 +130,6 @@ readonly class OrderRead
         $orderItems = $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
 
         $orderItemObjects = array();
-        /** @var OrderItem $item */
         foreach ($orderItems as $item) {
             $orderItemObject = new OrderItemObject();
             $orderItemObject->setOrderItem($item);

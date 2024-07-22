@@ -33,7 +33,7 @@ class OrderObject
         return $this->orderItemObjects;
     }
 
-    public function setOrderItemObjects(array $orderItemObjects): void
+    public function setOrderItemObjects(?array $orderItemObjects = null): void
     {
         $this->orderItemObjects = $orderItemObjects;
     }
