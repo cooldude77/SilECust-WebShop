@@ -4,7 +4,7 @@ namespace App\Service\MasterData\Pricing\Item;
 
 class PriceCalculator
 {
-    public function calculatePrice(PriceObject $priceObject): float
+    public function calculatePrice(PriceBreakUpObject $priceObject): float
     {
 
         $basePrice = $priceObject->getPriceProductBase()->getPrice();

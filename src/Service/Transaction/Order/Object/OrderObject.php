@@ -10,13 +10,12 @@ class OrderObject
 
     private OrderHeader $orderHeader;
 
-    private array $orderItems;
+    private array $orderItemObjects;
 
     private array $orderAddress;
 
     private  ?OrderPayment $orderPayment = null;
 
-    private array $orderItemPriceBreakUp;
 
 
     public function getOrderHeader(): OrderHeader
@@ -29,14 +28,14 @@ class OrderObject
         $this->orderHeader = $orderHeader;
     }
 
-    public function getOrderItems(): array
+    public function getOrderItemObjects(): array
     {
-        return $this->orderItems;
+        return $this->orderItemObjects;
     }
 
-    public function setOrderItems(array $orderItems): void
+    public function setOrderItemObjects(array $orderItemObjects): void
     {
-        $this->orderItems = $orderItems;
+        $this->orderItemObjects = $orderItemObjects;
     }
 
     public function getOrderAddress(): array
@@ -59,17 +58,6 @@ class OrderObject
         $this->orderPayment = $orderPayment;
     }
 
-    public function getOrderItemPriceBreakUp(): array
-    {
-        return $this->orderItemPriceBreakUp;
-    }
-
-
-
-    public function setOrderItemPriceBreakUp(array $orderItemPriceBreakUp):void
-    {
-        $this->orderItemPriceBreakUp = $orderItemPriceBreakUp;
-    }
 
 
 }

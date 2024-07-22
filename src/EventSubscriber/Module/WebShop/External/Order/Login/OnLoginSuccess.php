@@ -36,9 +36,9 @@ readonly class OnLoginSuccess implements EventSubscriberInterface
             if ($this->orderRead->isOpenOrder($customer)
             ) {  // todo handle exceptions
                 $order = $this->orderRead->getOpenOrder($customer);
-                $items = $this->orderRead->getOrderItems($order);
-                if (count($items) > 0) {
-                    $this->orderToCart->copyProductsFromOrderToCart($items);
+                $orderItemObjects = $this->orderRead->getOrderItemObjects($order);
+                if (count($orderItemObjects) > 0) {
+                    $this->orderToCart->copyProductsFromOrderToCart($orderItemObjects);
                 }
 
             }

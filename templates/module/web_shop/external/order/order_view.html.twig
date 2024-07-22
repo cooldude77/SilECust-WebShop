@@ -8,5 +8,12 @@ Your order details
         <div class="col-sm-3">
             {{ item.quantity }}
         </div>
+        <div class="col-sm-3">
+            {{ item_price_calculator.getPrice(item) }}
+            <div class="row">
+                {{ orderItem.orderItemPriceBreakUp.basePrice }}
+            </div>
+        </div>
+
     </div>
 {% endfor %}

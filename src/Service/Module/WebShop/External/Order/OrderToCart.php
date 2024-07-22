@@ -2,9 +2,9 @@
 
 namespace App\Service\Module\WebShop\External\Order;
 
-use App\Entity\OrderItem;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Transaction\Order\Object\OrderItemObject;
 
 readonly class OrderToCart
 {
@@ -12,11 +12,11 @@ readonly class OrderToCart
     ) {
     }
 
-    public function copyProductsFromOrderToCart(array $orderItems): void
+    public function copyProductsFromOrderToCart(array $orderItemObjects): void
     {
 
-        /** @var OrderItem $item */
-        foreach ($orderItems as $item) {
+        /** @var OrderItemObject $item */
+        foreach ($orderItemObjects as $item) {
 
             // todo: check if product exists any more ,
             // todo: check if price changed
@@ -27,8 +27,8 @@ readonly class OrderToCart
             $this->cartSessionProductService->addItemToCart(
                 new CartSessionObject
                 (
-                    $item->getProduct()->getId(),
-                    $item->getQuantity()
+                    $item->getOrderItem()->getProduct()->getId(),
+                    $item->getOrderItem()->getQuantity()
                 )
             );
 

@@ -2,16 +2,22 @@
 
 namespace App\Service\Transaction\Order\Item;
 
+use App\Entity\OrderItem;
+use App\Service\MasterData\Pricing\Item\PriceBreakUp;
 use App\Service\MasterData\Pricing\Item\PriceCalculator;
 
-class ItemPriceCalculator
+readonly class ItemPriceCalculator
 {
-    public function __construct(private PriceCalculator $priceCalculator)
+    public function __construct(private PriceCalculator $priceCalculator,
+    private PriceBreakUp $priceBreakUp)
     {
     }
 
-    public function getItemPrice(OrderItem $orderItem)
+    public function getPrice(OrderItem $orderItem): float
     {
+
+       return $this->priceCalculator->calculatePrice(
+           $this->priceBreakUp->getPriceObject($orderItem->getProduct()));
 
     }
 }

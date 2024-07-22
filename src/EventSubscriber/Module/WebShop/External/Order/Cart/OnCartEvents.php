@@ -75,12 +75,12 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItems = $this->orderRead->getOrderItems($orderHeader);
+        $orderItemObjects = $this->orderRead->getOrderItemObjects($orderHeader);
 
 
         $this->orderSave->updateOrderItemsFromCartArray(
             $this->cartSessionProductService->getCartArray(),
-            $orderItems
+            $orderItemObjects
         );
 
     }
@@ -128,7 +128,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItems = $this->orderRead->getOrderItems($orderHeader);
+        $orderItems = $this->orderRead->getOrderItemObjects($orderHeader);
         $this->orderSave->updateOrderRemoveItem($event->getProduct(), $orderItems);
 
     }
@@ -146,7 +146,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItems = $this->orderRead->getOrderItems($orderHeader);
+        $orderItems = $this->orderRead->getOrderItemObjects($orderHeader);
         $this->orderSave->removeAllItems($orderItems);
 
     }

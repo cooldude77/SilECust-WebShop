@@ -17,6 +17,7 @@ use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
+use App\Service\Transaction\Order\Object\OrderItemObject;
 
 /**
  *
@@ -70,15 +71,6 @@ readonly class OrderSave
 
     }
 
-    /**
-     * @return void
-     */
-    private function orderPreMapAndPersistChecks()
-    {
-
-        // todo
-    }
-
     public function updateOrderAddItem(OrderItem $item): void
     {
         // todo: check validity?
@@ -87,7 +79,7 @@ readonly class OrderSave
         $this->databaseOperations->flush();
     }
 
-    public function updateOrderItemsFromCartArray(array $cartArray, array $orderItems): void
+    public function updateOrderItemsFromCartArray(array $cartArray, array $orderItemObjects): void
     {
 
         // todo: check count same
@@ -96,10 +88,11 @@ readonly class OrderSave
          * @var   int              $key
          * @var  CartSessionObject $cartObject
          */
-        foreach ($cartArray as $key => $cartObject) /** @var OrderItem $item */ {
-            foreach ($orderItems as $item) {
-                if ($item->getProduct()->getId() == $key) {
-                    $item->setQuantity($cartObject->quantity);
+        foreach ($cartArray as $key => $cartObject)
+            /** @var OrderItemObject $orderItemObject */ {
+            foreach ($orderItemObjects as $orderItemObject) {
+                if ($orderItemObject->getOrderItem()->getProduct()->getId() == $key) {
+                    $orderItemObject->getOrderItem()->setQuantity($cartObject->quantity);
 
                 }
             }
@@ -172,5 +165,14 @@ readonly class OrderSave
 
         $this->databaseOperations->flush();
 
+    }
+
+    /**
+     * @return void
+     */
+    private function orderPreMapAndPersistChecks()
+    {
+
+        // todo
     }
 }

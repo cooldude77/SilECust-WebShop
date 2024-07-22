@@ -16,7 +16,7 @@ readonly class PriceBreakUp
     ) {
     }
 
-    public function getPriceObject(Product $product): PriceObject
+    public function getPriceObject(Product $product): PriceBreakUpObject
     {
 
         $basePrice = $this->priceProductBaseRepository->findOneBy(['product' => $product]);
@@ -25,7 +25,7 @@ readonly class PriceBreakUp
 
         $tax = $this->priceProductTaxRepository->findOneBy(['product' => $product]);
 
-        $priceObject = new PriceObject();
+        $priceObject = new PriceBreakUpObject();
 
         $priceObject->setPriceProductBase($basePrice);
         $priceObject->setPriceProductDiscount($discount);

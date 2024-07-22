@@ -6,7 +6,7 @@ use App\Entity\PriceProductBase;
 use App\Entity\PriceProductDiscount;
 use App\Entity\PriceProductTax;
 
-class PriceObject
+class PriceBreakUpObject
 {
     private PriceProductBase $priceProductBase;
 

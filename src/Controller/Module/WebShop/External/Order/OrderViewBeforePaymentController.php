@@ -6,6 +6,8 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Transaction\Order\OrderRead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,12 +60,16 @@ class OrderViewBeforePaymentController extends AbstractController
     }
 
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     public function order(OrderRead $orderRead, CustomerFromUserFinder $customerFromUserFinder
     ): Response {
 
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
-
         $orderObject = $orderRead->getOrderObject($orderHeader);
+
 
         return $this->render(
             'module/web_shop/external/order/order_view.html.twig',

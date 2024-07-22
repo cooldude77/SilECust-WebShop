@@ -15,6 +15,7 @@ use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Repository\PriceProductBaseRepository;
+use App\Service\Transaction\Order\Object\OrderItemObject;
 use App\Service\Transaction\Order\Object\OrderObject;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
 
@@ -102,9 +103,8 @@ readonly class OrderRead
         $object = new OrderObject();
         $object->setOrderHeader($orderHeader);
         $object->setOrderAddress($this->getAddresses($orderHeader));
-        $object->setOrderItems($this->getOrderItems($orderHeader));
+        $object->setOrderItemObjects($this->getOrderItemObjects($orderHeader));
         $object->setOrderPayment($this->getPayment($orderHeader));
-        $object->setOrderItemPriceBreakUp($this->getPriceBrakeUp($orderHeader));
 
         return $object;
     }
@@ -124,11 +124,25 @@ readonly class OrderRead
      *
      * @return array
      */
-    public function getOrderItems(OrderHeader $orderHeader): array
+    public function getOrderItemObjects(OrderHeader $orderHeader): array
     {
 
-        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
+        $orderItems = $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
 
+        $orderItemObjects = array();
+        /** @var OrderItem $item */
+        foreach ($orderItems as $item) {
+            $orderItemObject = new OrderItemObject();
+            $orderItemObject->setOrderItem($item);
+            $orderItemObject->setOrderItemPriceBreakUp(
+                $this->orderItemPriceBreakupRepository->findOneBy(['orderItem' => $item])
+            );
+
+            $orderItemObjects[] = $orderItemObject;
+        }
+
+
+        return $orderItemObjects;
     }
 
 
