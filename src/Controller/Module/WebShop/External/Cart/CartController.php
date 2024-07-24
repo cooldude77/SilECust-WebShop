@@ -220,7 +220,6 @@ class  CartController extends AbstractController
     ):
     Response {
 
-
         $product = $productRepository->find($id);
 
         $cartService->initialize();

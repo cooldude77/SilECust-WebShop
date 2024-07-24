@@ -90,7 +90,6 @@ readonly class OnCartEvents implements EventSubscriberInterface
      *
      * @return void
      * @throws NoOpenOrderExists
-     * @throws NoOrderItemExistsWith
      */
     public function newItemAdded(CartItemAddedEvent $event): void
     {
