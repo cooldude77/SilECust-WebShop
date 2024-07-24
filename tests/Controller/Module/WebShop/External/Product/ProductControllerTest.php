@@ -6,6 +6,7 @@ use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CurrencyFixture;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;
+use App\Tests\Fixtures\OrderFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
 use App\Tests\Fixtures\SessionFactoryFixture;
@@ -24,6 +25,7 @@ class ProductControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
+        OrderFixture,
         SessionFactoryFixture;
 
     public function testAddToCart()
@@ -33,33 +35,28 @@ class ProductControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createOpenOrderFixtures($this->customer);
 
         $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
 
         // From the product page, click on add to cart button
         $this->browser()
-            // todo: don't allow cart when user is not logged in
+            // don't allow cart when user is not logged in
             // not logged-in
-            ->interceptRedirects()
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
-            ->fillField(
-                'cart_add_product_single_form[quantity]', 1
-            )
-            ->click('Add To Cart')
-            ->assertRedirectedTo('/login')
-            // now login
-            ->use(callback: function (Browser $browser) {
+            ->assertNotAuthenticated()
+            ->interceptRedirects()
+            ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
-            //Test :  add products to cart
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField(
+                'cart_add_product_single_form[productId]', $this->productA->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
-            ->click('Add To Cart')
+            ->click('button[name="addToCart"]')
             ->assertSuccessful();
 
     }
