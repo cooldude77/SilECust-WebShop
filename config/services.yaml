@@ -10,6 +10,7 @@ parameters:
   silecust.sign_up.email.email_from_address: '%env(string:SILECUST_SIGN_UP_EMAIL_FROM_ADDRESS)%'
   silecust.sign_up.email.template_location: '%env(string:SILECUST_SIGN_UP_EMAIL_TEMPLATE_LOCATION)%'
   silecust.sign_up.email.headline: '%env(string:SILECUST_SIGN_UP_EMAIL_HEADLINE)%'
+  silecust.default_country: '%env(string:SILECUST_DEFAULT_COUNTRY)%'
 
 services:
   # default configuration for services in *this* file

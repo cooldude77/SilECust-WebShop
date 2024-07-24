@@ -5,15 +5,15 @@ namespace App\Service\Transaction\Order;
 use App\Entity\Customer;
 use App\Entity\OrderHeader;
 use App\Entity\OrderPayment;
+use App\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderItemPriceBreakupRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
-use App\Repository\PriceProductBaseRepository;
 use App\Service\Transaction\Order\Object\OrderObject;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  *
@@ -119,4 +119,27 @@ readonly class OrderRead
         return $this->orderPaymentRepository->findOneBy(['orderHeader' => $orderHeader]);
     }
 
+    public function getOrderItem(OrderHeader $orderHeader, ?\App\Entity\Product $product
+    ): ?\App\Entity\OrderItem {
+        return $this->orderItemRepository->findOneBy([
+            'orderHeader' => $orderHeader,
+            'product' => $product]);
+    }
+
+
+    public function getShippingAddress($orderHeader)
+    {
+
+        $address = $this->orderAddressRepository->findOneBy([
+            'orderHeader' => $orderHeader,
+            'addressType' => 'shipping'
+        ]);
+
+        if ($address == null) {
+            throw new ShippingAddressNotSetException();
+        }
+
+        return $address;
+
+    }
 }

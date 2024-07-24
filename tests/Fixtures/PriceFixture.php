@@ -24,8 +24,8 @@ trait PriceFixture
 
     public PriceProductDiscount|Proxy $productDiscountA;
     public PriceProductDiscount|Proxy $productDiscountB;
-    public float $discountValueOfProductA = 100;
-    public float $discountValueOfProductB = 200;
+    public float $discountValueOfProductA = 10;
+    public float $discountValueOfProductB = 20;
 
     public PriceProductTax|Proxy $productTaxA;
     public PriceProductTax|Proxy $productTaxB;

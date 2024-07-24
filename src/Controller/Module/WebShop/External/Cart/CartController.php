@@ -4,29 +4,32 @@ namespace App\Controller\Module\WebShop\External\Cart;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
-use App\Controller\Module\WebShop\External\Shop\SideBarController;
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
+use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
+use App\Repository\CountryRepository;
+use App\Repository\CurrencyRepository;
 use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\PriceService;
+use App\Service\MasterData\Pricing\Item\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Transaction\Order\OrderRead;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -260,27 +263,41 @@ class  CartController extends AbstractController
 
     /**
      * @throws ProductNotFoundInCart
+     * @throws PriceProductBaseNotFound
      */
-    public function single(string $id, ProductRepository $productRepository,
-        PriceService $priceService,
-        CartSessionProductService $cartSessionService
+    public function single(string $id,
+        OrderRead $orderRead,
+        ProductRepository $productRepository,
+        PriceCalculator $priceCalculator,
+        CustomerFromUserFinder $customerFromUserFinder,
+        CartSessionProductService $cartSessionService,
+        CountryRepository $countryRepository,
+        CurrencyRepository $currencyRepository,
+        #[Autowire(param: 'silecust.default_country')]
+            $countryCode
     ):
     Response {
+
 
         $product = $productRepository->find($id);
 
         $quantity = $cartSessionService->getQuantity($id);
 
-        $price = $priceService->getPrice($id);
+        $country = $countryRepository->findOneBy(['code' => $countryCode]);
+        $currency = $currencyRepository->findOneBy(['country'=>$country]);
 
+        $unitPrice = $priceCalculator->calculatePriceWithoutTax(
+            $product,
+            $currency
+        );
 
         return $this->render(
             'module/web_shop/external/cart/cart_single_product.html.twig',
             [
                 'product' => $product,
-                'price' => $price,
+                'unitPrice' => $unitPrice,
                 'quantity' => $quantity,
-                'current' => $price->getCurrency()
+                'currency' => $currency
             ]
         );
     }
