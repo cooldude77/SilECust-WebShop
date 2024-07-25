@@ -50,6 +50,7 @@ class ProductControllerTest extends WebTestCase
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
+            ->interceptRedirects()
             ->visit($uriAddProductA)
             ->fillField(
                 'cart_add_product_single_form[productId]', $this->productA->getId())
@@ -57,7 +58,7 @@ class ProductControllerTest extends WebTestCase
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
-            ->assertSuccessful();
+            ->assertRedirectedTo('/cart');
 
     }
 
