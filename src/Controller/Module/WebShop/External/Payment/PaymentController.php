@@ -4,6 +4,9 @@ namespace App\Controller\Module\WebShop\External\Payment;
 
 use App\Event\Module\WebShop\External\Payment\PaymentEvent;
 use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
+use App\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Transaction\Order\OrderRead;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,13 +19,27 @@ use Symfony\Component\Routing\Attribute\Route;
 class PaymentController extends AbstractController
 {
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     #[Route('/checkout/payment/start', 'web_shop_payment_start')]
-    public function startPayment(EventDispatcherInterface $eventDispatcher): Response
+    public function startPayment(EventDispatcherInterface $eventDispatcher,
+        OrderRead $orderRead,
+    CustomerFromUserFinder $customerFromUserFinder,
+    PaymentPriceCalculator $paymentPriceCalculator): Response
     {
         $eventDispatcher->dispatch(new PaymentEvent(), PaymentEventTypes::BEFORE_PAYMENT_PROCESS);
 
+        $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
+        
+        $orderItemPaymentPrices = $orderRead->getOrderItemPaymentPrices($orderHeader);
+
+        $finalPrice = $paymentPriceCalculator->calculateOrderPaymentPrice($orderItemPaymentPrices);
+        
         return $this->render(
-            'module/web_shop/external/payment/start.html.twig'
+            'module/web_shop/external/payment/start.html.twig',
+            ['finalPrice'=>$finalPrice]
         );
     }
 

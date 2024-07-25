@@ -8,6 +8,7 @@ use App\Entity\OrderPayment;
 use App\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
+use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
@@ -31,6 +32,7 @@ readonly class OrderRead
         private OrderItemRepository $orderItemRepository,
         private OrderStatusTypeRepository $orderStatusTypeRepository,
         private OrderAddressRepository $orderAddressRepository,
+        private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
         private OrderPaymentRepository $orderPaymentRepository
     ) {
     }
@@ -79,6 +81,7 @@ readonly class OrderRead
         $object->setOrderAddress($this->getAddresses($orderHeader));
         $object->setOrderItems($this->getOrderItems($orderHeader));
         $object->setOrderPayment($this->getPayment($orderHeader));
+        $object->setOrderItemPaymentPrices($this->getOrderItemPaymentPrices($orderHeader));
 
         return $object;
     }
@@ -91,18 +94,6 @@ readonly class OrderRead
     public function getAddresses(?OrderHeader $orderHeader): array
     {
         return $this->orderAddressRepository->findBy(['orderHeader' => $orderHeader]);
-    }
-
-    /**
-     * @param OrderHeader $orderHeader
-     *
-     * @return array
-     */
-    public function getOrderItems(OrderHeader $orderHeader): array
-    {
-
-        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
-
     }
 
 
@@ -142,4 +133,14 @@ readonly class OrderRead
         return $address;
 
     }
+
+    public function getOrderItems(OrderHeader $orderHeader): array
+    {
+        return $this->orderItemRepository->findBy(['orderHeader'=>$orderHeader]);
+    }
+   public function getOrderItemPaymentPrices(OrderHeader $orderHeader): array
+    {
+        return $this->orderItemPaymentPriceRepository->findByOrderHeader($orderHeader);
+    }
+
 }

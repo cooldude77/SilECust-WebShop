@@ -4,11 +4,13 @@ namespace App\Service\MasterData\Pricing;
 
 use App\Entity\Country;
 use App\Entity\Currency;
+use App\Entity\OrderItem;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use App\Repository\CountryRepository;
 use App\Repository\CurrencyRepository;
 use App\Repository\ProductRepository;
+use App\Service\Transaction\Order\PriceObject;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
@@ -20,9 +22,8 @@ readonly class PriceByCountryCalculator
         private CountryRepository $countryRepository, private ProductRepository $productRepository,
         private CurrencyRepository $currencyRepository,
         #[Autowire(param: 'silecust.default_country')]
-       private string $countryCode
+        private string $countryCode
     ) {
-
 
 
     }
@@ -34,13 +35,22 @@ readonly class PriceByCountryCalculator
     public function getPriceWithoutTax(int $productId): float
     {
 
-        $country = $this->countryRepository->findOneBy(['code' => $this->countryCode]);
-        $currency = $this->currencyRepository->findOneBy(['country' => $country]);
+        list($country, $currency) = $this->setCurrencyAndCountry();
 
         $product = $this->productRepository->find($productId);
         return $this->priceCalculator->calculatePriceWithoutTax(
             $product, $currency
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function setCurrencyAndCountry(): array
+    {
+        $country = $this->countryRepository->findOneBy(['code' => $this->countryCode]);
+        $currency = $this->currencyRepository->findOneBy(['country' => $country]);
+        return array($country, $currency);
     }
 
     /**
@@ -50,8 +60,7 @@ readonly class PriceByCountryCalculator
     public function getPriceWithTax(int $productId): float
     {
 
-        $country = $this->countryRepository->findOneBy(['code' => $this->countryCode]);
-        $currency = $this->currencyRepository->findOneBy(['country' => $country]);
+        list($country, $currency) = $this->setCurrencyAndCountry();
 
         $product = $this->productRepository->find($productId);
         return $this->priceCalculator->calculatePriceWithTax(
@@ -64,5 +73,15 @@ readonly class PriceByCountryCalculator
 
         $country = $this->countryRepository->findOneBy(['code' => $this->countryCode]);
         return $this->currencyRepository->findOneBy(['country' => $country]);
+    }
+
+    public function getPriceObject(OrderItem $orderItem
+    ): PriceObject {
+        list($country, $currency) = $this->setCurrencyAndCountry();
+        return $this->priceCalculator->getPriceObject(
+            $orderItem->getProduct(), $country, $currency
+        );
+
+
     }
 }

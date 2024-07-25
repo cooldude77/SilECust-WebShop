@@ -10,16 +10,11 @@ use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderItemPriceBreakupRepository;
+use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
-use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
-use App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper;
-use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
-use App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper;
 
 /**
  *
@@ -28,17 +23,18 @@ readonly class OrderSave
 {
 
     /**
-     * @param OrderHeaderDTOMapper $orderHeaderMapper
-     * @param OrderItemDTOMapper   $orderItemMapper
-     * @param OrderAddressMapper   $orderAddressMapper
-     * @param OrderStatusMapper    $orderStatusMapper
-     * @param DatabaseOperations   $databaseOperations
+     * @param OrderHeaderRepository     $orderHeaderRepository
+     * @param OrderItemRepository       $orderItemRepository
+     * @param OrderAddressRepository    $orderAddressRepository
+     * @param OrderStatusTypeRepository $orderStatusTypeRepository
+     * @param DatabaseOperations        $databaseOperations
      */
     public function __construct(
         private OrderHeaderRepository $orderHeaderRepository,
         private OrderItemRepository $orderItemRepository,
         private OrderAddressRepository $orderAddressRepository,
         private OrderStatusTypeRepository $orderStatusTypeRepository,
+        private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
         private DatabaseOperations $databaseOperations,
     ) {
     }
@@ -165,6 +161,14 @@ readonly class OrderSave
 
         $this->databaseOperations->save($item);
 
+    }
+
+
+    public function savePrice(OrderItem $orderItem, PriceObject $priceObject): void
+    {
+
+        $price = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
+        $this->databaseOperations->save($price);
     }
 
 }

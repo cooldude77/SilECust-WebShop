@@ -16,7 +16,7 @@ class OrderObject
 
     private  ?OrderPayment $orderPayment = null;
 
-
+private  ?array $orderItemPaymentPrices = null;
 
     public function getOrderHeader(): OrderHeader
     {
@@ -58,6 +58,10 @@ class OrderObject
         $this->orderPayment = $orderPayment;
     }
 
+    public function setOrderItemPaymentPrices(array $orderItemPaymentPrices): void
+    {
+        $this->orderItemPaymentPrices = $orderItemPaymentPrices;
+    }
 
 
 }
