@@ -12,6 +12,7 @@ use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use App\Repository\PriceProductBaseRepository;
 use App\Repository\PriceProductDiscountRepository;
 use App\Repository\PriceProductTaxRepository;
+use App\Repository\TaxSlabRepository;
 
 /**
  *
@@ -25,7 +26,8 @@ readonly class PriceCalculator
      */
     public function __construct(private PriceProductBaseRepository $priceProductBaseRepository,
         private PriceProductDiscountRepository $priceProductDiscountRepository,
-        private PriceProductTaxRepository $priceProductTaxRepository
+        private PriceProductTaxRepository $priceProductTaxRepository,
+        private TaxSlabRepository $taxSlabRepository
     ) {
     }
 
@@ -40,7 +42,7 @@ readonly class PriceCalculator
         $discount = $this->getDiscount($product);
 
 
-        return $basePrice->getPrice() - ($discount!=null?$discount->getValue():0);
+        return $basePrice->getPrice() - ($discount != null ? $discount->getValue() : 0);
 
     }
 
@@ -93,15 +95,17 @@ readonly class PriceCalculator
 
         $discount = $this->priceProductDiscountRepository->findOneBy(['product' => $product]);
 
-
+        $taxSlab = $this->taxSlabRepository->findOneBy(['country'=>$country]) ;
         $tax = $this->priceProductTaxRepository->findOneBy(
-            ['product' => $product, 'country' => $country]
+            ['product' => $product, 'taxSlab'=>$taxSlab]
         );
         if ($tax == null) {
             throw new PriceProductTaxNotFound($product, $country);
         }
 
-        return $basePrice->getPrice() - $discount * (1 - $tax->getTaxSlab()->getRateOfTax() / 100);
+        return ($basePrice->getPrice() - $discount->getValue()) * (1 + $tax->getTaxSlab()
+                ->getRateOfTax() /
+                100);
 
     }
 }

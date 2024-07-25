@@ -259,7 +259,7 @@ class  CartController extends AbstractController
         );
 
 
-        return new Response("Cart Cleared");
+        return $this->redirectToRoute('home');
 
     }
 

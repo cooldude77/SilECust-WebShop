@@ -3,7 +3,14 @@
 <div class="container">
     {{ form_start(form) }}
 
+
+    <div class="row-flex mr-auto">
+        <a class="btn btn-link" href="{{ path('module_web_shop_cart_clear') }}">
+            <i class="bi bi-trash"></i> Clear Cart
+        </a>
+    </div>
     <div class="bg-light py-2">
+
         {% for element in form.items %}
             <div class="row">
                 {# form_row does not work well. Shows label as indexes #}
@@ -18,8 +25,15 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                        {{ price_by_country_code.currency }} {{ price_by_country_code.getPriceWithoutTax(element.productId.vars.value)
+                        {{ price_by_country_code.currency }}
+                    {{ price_by_country_code.getPriceWithoutTax(element.productId.vars.value)
                     * element.quantity.vars.value }}
+                </div>
+
+                <div class="col-sm-1">
+                    <a href="{{ path('module_web_shop_cart_delete_product',{'id':element.productId.vars.value}) }}">
+                        <i class="bi bi-trash"></i>
+                    </a>
                 </div>
             </div>
         {% endfor %}

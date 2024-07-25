@@ -9,10 +9,7 @@ Your order details
             {{ item.quantity }}
         </div>
         <div class="col-sm-3">
-            {{ item_price_calculator.getPrice(item) }}
-            <div class="row">
-                {{ orderItem.orderItemPriceBreakUp.basePrice }}
-            </div>
+            {{ item_price_calculator.getPriceWithTax(item) }}
         </div>
 
     </div>
