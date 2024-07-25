@@ -17,6 +17,10 @@
                         {{ form_widget(element.productId) }}
                     </div>
                 </div>
+                <div class="col-sm-1">
+                        {{ price_by_country_code.currency }} {{ price_by_country_code.getPriceWithoutTax(element.productId.vars.value)
+                    * element.quantity.vars.value }}
+                </div>
             </div>
         {% endfor %}
     </div>

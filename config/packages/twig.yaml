@@ -3,6 +3,7 @@ twig:
   form_themes: [ 'bootstrap_5_layout.html.twig' ]
   globals:
     item_price_calculator: "@item_price_calculator"
+    price_by_country_code: "@price_by_country_code"
 
 when@test:
   twig:

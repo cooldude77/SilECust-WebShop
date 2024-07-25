@@ -20,7 +20,8 @@ use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\CountryRepository;
 use App\Repository\CurrencyRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\Item\PriceCalculator;
+use App\Service\MasterData\Pricing\PriceByCountryCalculator;
+use App\Service\MasterData\Pricing\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
@@ -170,6 +171,7 @@ class  CartController extends AbstractController
 
         $cartProductDTO = new CartProductDTO();
         $cartProductDTO->productId = $product->getId();
+        $cartProductDTO->quantity = 1;
 
         $form = $this->createForm(
             CartSingleEntryForm::class, $cartProductDTO,
@@ -266,16 +268,10 @@ class  CartController extends AbstractController
      * @throws PriceProductBaseNotFound
      */
     public function single(string $id,
-        OrderRead $orderRead,
         ProductRepository $productRepository,
-        PriceCalculator $priceCalculator,
-        CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartSessionService,
-        CountryRepository $countryRepository,
-        CurrencyRepository $currencyRepository,
-        #[Autowire(param: 'silecust.default_country')]
-            $countryCode
-    ):
+        PriceByCountryCalculator $priceByCountryCalculator,
+      ):
     Response {
 
 
@@ -283,13 +279,8 @@ class  CartController extends AbstractController
 
         $quantity = $cartSessionService->getQuantity($id);
 
-        $country = $countryRepository->findOneBy(['code' => $countryCode]);
-        $currency = $currencyRepository->findOneBy(['country'=>$country]);
 
-        $unitPrice = $priceCalculator->calculatePriceWithoutTax(
-            $product,
-            $currency
-        );
+        $unitPrice = $priceByCountryCalculator->getPriceWithoutTax($id);
 
         return $this->render(
             'module/web_shop/external/cart/cart_single_product.html.twig',
@@ -297,7 +288,7 @@ class  CartController extends AbstractController
                 'product' => $product,
                 'unitPrice' => $unitPrice,
                 'quantity' => $quantity,
-                'currency' => $currency
+                'currency' => $priceByCountryCalculator->getCurrency()
             ]
         );
     }

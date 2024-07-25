@@ -7,10 +7,8 @@ use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
-use App\Service\MasterData\Pricing\Item\PriceCalculator;
+use App\Service\MasterData\Pricing\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use SebastianBergmann\Complexity\Calculator;
 
 /**
  *
@@ -22,15 +20,11 @@ readonly class OrderItemDTOMapper
      * @param OrderItemRepository       $orderItemRepository
      * @param OrderHeaderRepository     $orderHeaderRepository
      * @param ProductRepository         $productRepository
-     * @param PriceBreakUpEntityFinder  $priceBreakUp
      */
     public function __construct(
         private OrderItemRepository $orderItemRepository,
         private OrderHeaderRepository $orderHeaderRepository,
-        private ProductRepository $productRepository,
-        private PriceBreakUpEntityFinder $priceBreakUp,
-        private PriceCalculator $priceCalculator
-    ) {
+        private ProductRepository $productRepository) {
     }
 
 
@@ -44,15 +38,12 @@ readonly class OrderItemDTOMapper
         $product = $this->productRepository->find($orderItemDTO->productId);
         $orderHeader = $this->orderHeaderRepository->find($orderItemDTO->orderHeaderId);
 
-        $priceObject = $this->priceBreakUp->getPriceObject($product);
+//        $priceObject = $this->priceBreakUp->getPriceObject($product);
         // todo : what to do with the price object
 
-        $pricePerUnit = $this->priceCalculator->calculatePrice($priceObject);
+  //      $pricePerUnit = $this->priceCalculator->calculatePrice($priceObject);
 
-        return $this->orderItemRepository->create(
-            $orderHeader, $product, $orderItemDTO->quantity,
-            $pricePerUnit
-        );
+        return $this->orderItemRepository->create($orderHeader, $product, $orderItemDTO->quantity);
 
 
     }

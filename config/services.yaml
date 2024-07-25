@@ -42,6 +42,9 @@ services:
   item_price_calculator:
     class: App\Service\Transaction\Order\Item\ItemPriceCalculator
 
+  price_by_country_code:
+    class: App\Service\MasterData\Pricing\PriceByCountryCalculator
+
 when@test:
   services:
     session.storage.factory.mock_file:

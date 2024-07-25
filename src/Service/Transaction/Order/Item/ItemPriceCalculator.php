@@ -6,8 +6,7 @@ use App\Entity\Country;
 use App\Entity\Currency;
 use App\Entity\OrderItem;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
-use App\Service\MasterData\Pricing\Item\PriceCalculator;
+use App\Service\MasterData\Pricing\PriceCalculator;
 
 readonly class ItemPriceCalculator
 {

@@ -5,6 +5,7 @@ namespace App\Service\Module\WebShop\External\Cart\Session;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use App\Repository\ProductRepository;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -13,18 +14,32 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class CartSessionProductService
 {
+    /**
+     *
+     */
     public final const string CART_SESSION_KEY = '_WEB_SHOP_CART';
 
+    /**
+     * @var Session
+     */
     private Session $session;
 
-    public function __construct(private readonly RequestStack $requestStack,
-        private readonly ProductRepository $productRepository
-    ) {
+    /**
+     * @param RequestStack      $requestStack
+     * @param ProductRepository $productRepository
+     */
+    public function __construct(private readonly RequestStack $requestStack) {
         // Accessing the session in the constructor is *NOT* recommended, since
         // it might not be accessible yet or lead to unwanted side-effects
         // $this->session = $requestStack->getSession();
     }
 
+    /**
+     * @param CartSessionObject $cartObject
+     *
+     * @return void
+     * @throws ProductNotFoundInCart
+     */
     public function addItemToCart(CartSessionObject $cartObject): void
     {
         // Todo: check quantity proper values
@@ -33,10 +48,23 @@ class CartSessionProductService
         //if($this->productRepository->find($productId)==null)
         //  throw new NoSuchProductException($id);
 
-        $this->setCartObject($cartObject);
+        if($this->isProductInCartArray($cartObject->productId)) {
+            $cartObjectInSession = $this->getCartObjectByKey($cartObject->productId);
+            $cartObjectInSession->quantity += 1;
+            $this->setCartObject($cartObjectInSession);
+        }
+        else{
+            $this->setCartObject($cartObject);
+        }
+
 
     }
 
+    /**
+     * @param CartSessionObject $cartObject
+     *
+     * @return void
+     */
     private function setCartObject(CartSessionObject $cartObject): void
     {
         $array = $this->getCartArray();
@@ -47,6 +75,33 @@ class CartSessionProductService
 
     }
 
+    /**
+     * @param int $productId
+     *
+     * @return CartSessionObject
+     * @throws ProductNotFoundInCart
+     */
+    private function getCartObjectByKey(int $productId): CartSessionObject{
+
+        if($this->isProductInCartArray($productId))
+            return $this->getCartArray()[$productId];
+        else
+            throw new ProductNotFoundInCart($productId);
+    }
+
+    /**
+     * @param int $productId
+     *
+     * @return bool
+     */
+    private function isProductInCartArray(int $productId):bool{
+
+        return in_array($productId,array_keys($this->getCartArray()));
+    }
+
+    /**
+     * @return array
+     */
     public function getCartArray(): array
     {
         $this->initialize();
@@ -68,6 +123,11 @@ class CartSessionProductService
         }
     }
 
+    /**
+     * @param array $array
+     *
+     * @return void
+     */
     private function setCartArrayInSession(array $array = []): void
     {
         // always serialize
@@ -85,6 +145,9 @@ class CartSessionProductService
 
     }
 
+    /**
+     * @return void
+     */
     public function clearCart(): void
     {
         $this->initialize();
@@ -93,7 +156,12 @@ class CartSessionProductService
 
     }
 
-    public function updateItemArray(\Doctrine\Common\Collections\ArrayCollection $array): void
+    /**
+     * @param ArrayCollection $array
+     *
+     * @return void
+     */
+    public function updateItemArray(ArrayCollection $array): void
     {
         $this->initialize();
         $cartArray = $this->getCartArray();
@@ -104,7 +172,12 @@ class CartSessionProductService
         $this->setCartArrayInSession($cartArray);
     }
 
-    public function deleteItem($id)
+    /**
+     * @param $id
+     *
+     * @return void
+     */
+    public function deleteItem($id): void
     {
         $this->initialize();
 
@@ -115,6 +188,9 @@ class CartSessionProductService
 
     }
 
+    /**
+     * @return bool
+     */
     public function hasItems(): bool
     {
         $this->initialize();
@@ -122,6 +198,12 @@ class CartSessionProductService
     }
 
 
+    /**
+     * @param string $id
+     *
+     * @return int
+     * @throws ProductNotFoundInCart
+     */
     public function getQuantity(string $id): int
     {
 
@@ -132,6 +214,9 @@ class CartSessionProductService
         return $this->getCartArray()[$id]->quantity;
     }
 
+    /**
+     * @return bool
+     */
     public function isCartEmpty(): bool
     {
 
