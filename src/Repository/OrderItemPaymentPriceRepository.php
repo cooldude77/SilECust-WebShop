@@ -43,7 +43,7 @@ class OrderItemPaymentPriceRepository extends ServiceEntityRepository
     //    }
     public function findByOrderHeader(OrderHeader $orderHeader): mixed
     {
-       return $this->createQueryBuilder('ipp')
+       return $this->getEntityManager()->createQueryBuilder()
             ->select('ipp')
             ->from(OrderItemPaymentPrice::class,'ipp')
             ->join('ipp.orderItem','oi')
@@ -52,5 +52,18 @@ class OrderItemPaymentPriceRepository extends ServiceEntityRepository
             ->setParameter('oh',$orderHeader)
             ->getQuery()
             ->getResult();
+    }
+
+    public function create(\App\Entity\OrderItem $orderItem,
+        \App\Service\Transaction\Order\PriceObject $priceObject
+    ): OrderItemPaymentPrice {
+
+        $orderItemPaymentPrice = new OrderItemPaymentPrice();
+        $orderItemPaymentPrice->setOrderItem($orderItem);
+        $orderItemPaymentPrice->setBasePrice($priceObject->getBasePrice());
+        $orderItemPaymentPrice->setDiscount($priceObject->getDiscount());
+        $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRate());
+
+        return $orderItemPaymentPrice;
     }
 }

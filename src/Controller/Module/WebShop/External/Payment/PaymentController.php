@@ -29,7 +29,9 @@ class PaymentController extends AbstractController
     CustomerFromUserFinder $customerFromUserFinder,
     PaymentPriceCalculator $paymentPriceCalculator): Response
     {
-        $eventDispatcher->dispatch(new PaymentEvent(), PaymentEventTypes::BEFORE_PAYMENT_PROCESS);
+        $event = new PaymentEvent();
+        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
+        $eventDispatcher->dispatch($event, PaymentEventTypes::BEFORE_PAYMENT_PROCESS);
 
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
         

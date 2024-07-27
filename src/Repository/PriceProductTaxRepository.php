@@ -40,4 +40,17 @@ class PriceProductTaxRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findProductByTaxSlabs(\App\Entity\Product $product, array $taxSlabs): mixed
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('ppt')
+            ->from(PriceProductTax::class,'ppt')
+            ->where('ppt.product =:product')
+            ->andWhere("ppt.taxSlab IN  (:taxSlabs)")
+            ->setParameter('product',$product)
+            ->setParameter('taxSlabs',$taxSlabs)
+            ->getQuery()
+            ->getResult();
+
+    }
 }

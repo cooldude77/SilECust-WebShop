@@ -29,14 +29,6 @@ use Zenstruck\Foundry\Persistence\ProxyRepositoryDecorator;
  */
 final class OrderItemFactory extends PersistentProxyObjectFactory
 {
-    /**
-     * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
-     *
-     * @todo inject services if required
-     */
-    public function __construct()
-    {
-    }
 
     public static function class(): string
     {
@@ -52,7 +44,6 @@ final class OrderItemFactory extends PersistentProxyObjectFactory
     {
         return [
             'orderHeader' => OrderHeaderFactory::new(),
-            'pricePerUnit' => self::faker()->randomFloat(),
             'product' => ProductFactory::new(),
             'quantity' => self::faker()->randomNumber(),
         ];

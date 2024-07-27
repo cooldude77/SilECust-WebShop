@@ -44,7 +44,9 @@ readonly class PriceCalculator
         $discount = $this->getDiscount($product);
 
 
-        return $basePrice->getPrice() - ($discount != null ? $discount->getValue() : 0);
+        $discountRate = $discount != null ? $discount->getValue() : 0;
+
+        return $basePrice->getPrice() * (1-$discountRate/100);
 
     }
 
@@ -64,9 +66,11 @@ readonly class PriceCalculator
 
         $tax = $this->getTaxRate($product, $country);
 
-        return ($basePrice->getPrice() - $discount->getValue()) * (1 + $tax->getTaxSlab()
-                ->getRateOfTax() /
-                100);
+        $discountRate = $discount != null ? $discount->getValue() : 0;
+
+        $priceAfterDiscount = $basePrice->getPrice() * (1-$discountRate/100);
+
+        return $priceAfterDiscount * (1 + $tax->getTaxSlab()->getRateOfTax() / 100);
 
     }
 
@@ -111,21 +115,21 @@ readonly class PriceCalculator
      */
     public function getTaxRate(Product $product,Country $country): \App\Entity\PriceProductTax
     {
-        $taxSlab = $this->taxSlabRepository->findOneBy(['country' => $country]);
-        $tax = $this->priceProductTaxRepository->findOneBy(
-            ['product' => $product, 'taxSlab' => $taxSlab]
+        $taxSlabs = $this->taxSlabRepository->findBy(['country' => $country]);
+        $tax = $this->priceProductTaxRepository->findProductByTaxSlabs(
+             $product,$taxSlabs
         );
         if ($tax == null) {
             throw new PriceProductTaxNotFound($product, $country);
         }
-        return $tax;
+        return $tax[0];
     }
 
     /**
      * @throws PriceProductBaseNotFound
      * @throws PriceProductTaxNotFound
      */
-    public function getPriceObject(Product $product, Currency $currency, Country $country): PriceObject
+    public function getPriceObject(Product $product,  Country $country,Currency $currency): PriceObject
     {
 
         $priceObject = new PriceObject($this->getBasePrice($product,$currency)->getPrice());
