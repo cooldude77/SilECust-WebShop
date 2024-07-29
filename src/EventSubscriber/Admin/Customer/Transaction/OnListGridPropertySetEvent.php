@@ -6,7 +6,7 @@ use App\Event\Transaction\Order\Admin\Header\ListGridPropertyForOrderListEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class OnListGridEvent implements EventSubscriberInterface
+class OnListGridPropertySetEvent implements EventSubscriberInterface
 {
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker

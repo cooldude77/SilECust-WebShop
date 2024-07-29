@@ -124,8 +124,10 @@ class OrderHeaderController extends AbstractController
     ): Response {
 
         /** @var ListGridPropertyForOrderListEvent $event */
-       $event =  $eventDispatcher->dispatch(new ListGridPropertyForOrderListEvent(),
-           ListGridPropertyForOrderListEvent::LIST_GRID_PROPERTY_FOR_ORDERS);
+        $event = $eventDispatcher->dispatch(
+            new ListGridPropertyForOrderListEvent(),
+            ListGridPropertyForOrderListEvent::LIST_GRID_PROPERTY_FOR_ORDERS
+        );
 
         $listGrid = $event->getListGridProperties();
 
@@ -134,12 +136,12 @@ class OrderHeaderController extends AbstractController
         // todo : to bring price ( calculated field on the list) 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */ $request->query->getInt('page', 1),
-            /*page number*/ 1 /*limit per page*/
+            /*page number*/ 10 /*limit per page*/
         );
 
         return $this->render(
             'admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid]
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

@@ -29,7 +29,7 @@
                 {# columns of the grid #}
                 {% for column in listGrid.columns %}
                     {% if column.action is defined and column.action == 'display' %}
-
+                        {% set event = dispatchEvent('panel.grid.before_column_display',{"request":request,'column':column}) %}
                         <div class="col">
                             {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
                                 'function':listGrid.function is defined ? listGrid.function: app.request.get('_function'),
