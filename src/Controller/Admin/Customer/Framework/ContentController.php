@@ -3,6 +3,9 @@
 namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\MasterData\Customer\CustomerController;
+use App\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\Action\PanelActionListMapBuilder;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +26,10 @@ class ContentController extends AbstractController
 
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     public function profile(Request $request, CustomerFromUserFinder $customerFromUserFinder,): Response
     {
 
@@ -31,6 +38,24 @@ class ContentController extends AbstractController
 
 
         return $this->forward(CustomerController::class . '::edit', [
+            'id' => $customer->getId(),
+            'request' => $request]);
+
+    }
+
+
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
+    Response
+    {
+
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+
+        return $this->forward(OrderHeaderController::class . '::list', [
             'id' => $customer->getId(),
             'request' => $request]);
 

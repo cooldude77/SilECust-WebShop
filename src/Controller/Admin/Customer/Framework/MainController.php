@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Controller is for showing panel to customers
  * The sidebar is created on basis of action list inside Sidebar panel
  */
-class CustomerInformationController extends AbstractController
+class MainController extends AbstractController
 {
 
     #[Route('/my/dashboard', name: 'my_dashboard')]

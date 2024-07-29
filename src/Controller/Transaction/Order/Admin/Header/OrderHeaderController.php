@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
+use App\Event\Transaction\Order\Admin\Header\ListGridPropertyForOrderListEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
@@ -10,10 +11,11 @@ use App\Repository\OrderHeaderRepository;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class OrderHeaderController extends AbstractController
 {
@@ -106,8 +108,7 @@ class OrderHeaderController extends AbstractController
                           'link_id' => 'id-price',
                           'editButtonLinkText' => 'Edit',
                           'fields' => [['label' => 'id',
-                                        'propertyName' => 'id',],
-                          ]];
+                                        'propertyName' => 'id',],]];
 
         return $this->render(
             'transaction/order/order_display.html.twig',
@@ -115,19 +116,18 @@ class OrderHeaderController extends AbstractController
         );
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/order/list', name: 'order_list')]
-    public function list(OrderHeaderRepository $orderRepository, PaginatorInterface $paginator,
+    #[Route('/order/list', name: 'order_list')]
+    public function list(OrderHeaderRepository $orderRepository,
+        PaginatorInterface $paginator,
+        EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
 
-        $listGrid = ['title' => 'Order',
-                     'link_id' => 'id-order',
-                     'columns' => [['label' => 'Id',
-                                    'propertyName' => 'id',
-                                    'action' => 'display',],],
-                     'createButtonConfig' => ['link_id' => ' id-create-order',
-                                              'function' => 'order',
-                                              'anchorText' => 'Create Order']];
+        /** @var ListGridPropertyForOrderListEvent $event */
+       $event =  $eventDispatcher->dispatch(new ListGridPropertyForOrderListEvent(),
+           ListGridPropertyForOrderListEvent::LIST_GRID_PROPERTY_FOR_ORDERS);
+
+        $listGrid = $event->getListGridProperties();
 
         $query = $orderRepository->getQueryForSelect();
 
