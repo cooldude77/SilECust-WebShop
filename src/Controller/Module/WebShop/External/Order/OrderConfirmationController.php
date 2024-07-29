@@ -34,7 +34,7 @@ class OrderConfirmationController extends AbstractController
         );
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
-            'order'
+            'thankYou'
         );
 
         $session->set(
@@ -48,12 +48,12 @@ class OrderConfirmationController extends AbstractController
     }
 
 
-    public function thankYou(int $id, OrderHeaderRepository $orderHeaderRepository): Response
+    public function thankYou(Request $request, OrderHeaderRepository $orderHeaderRepository): Response
     {
         // todo: check referring route
         // this page will be displayed only when referred from payment
 
-        $orderHeader = $orderHeaderRepository->find($id);
+        $orderHeader = $orderHeaderRepository->find($request->attributes->get('id'));
 
         return $this->render(
             'module/web_shop/external/order/thank_you_for_your_order.html.twig',
