@@ -16,7 +16,7 @@ class PinCodeAutoCompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => PinCode::class,
             'placeholder' => 'Choose a Pin Code',
-            'choice_label' => 'description',
+            'choice_label' => 'pinCode',
             'choice_value' => 'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);
