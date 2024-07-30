@@ -2,7 +2,7 @@
 
 namespace App\Twig\EventDispatcher;
 
-use App\Event\Component\UI\GridColumnEvent;
+use App\Event\Component\UI\TwigGridColumnEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -22,7 +22,7 @@ class TwigGridColumnEventDispatcher extends AbstractExtension
 
     public function dispatch(string $eventName, mixed $data): mixed
     {
-        $event = new GridColumnEvent();
+        $event = new TwigGridColumnEvent();
         $event->setData($data);
         return $this->eventDispatcher->dispatch($event, $eventName);
     }
