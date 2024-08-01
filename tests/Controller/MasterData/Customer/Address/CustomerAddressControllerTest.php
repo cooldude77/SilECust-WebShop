@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\MasterData\Customer\Address;
 
 use App\Factory\CustomerAddressFactory;
+use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Utility\SelectElement;
@@ -15,7 +16,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     use HasBrowser;
     use LocationFixture;
-    use EmployeeFixture;
+    use CustomerFixture;
     use SelectElement;
 
     public function testCreate()
@@ -23,7 +24,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
 
@@ -69,7 +70,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $customerAddress = CustomerAddressFactory::createOne(['customer' => $this->customer,
                                                               'addressType' => 'shipping']);
@@ -113,7 +114,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     public function testList()
     {
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         CustomerAddressFactory::createMany(10, ['customer' => $this->customer,
                                                 'addressType' => 'shipping']);

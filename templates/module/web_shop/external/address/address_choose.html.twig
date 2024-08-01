@@ -1,0 +1,16 @@
+{% block content %}
+
+    <div id="addresses">
+
+        <h2>{{ addressTypeCaption }}</h2>
+
+        {{ form_start(form) }}
+        <ul class="address">
+            {% for address in form.addresses %}
+                <li>{{ form_widget(address) }}</li>
+                {{ address.vars.value.id| singleLine }}
+            {% endfor %}
+        </ul>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

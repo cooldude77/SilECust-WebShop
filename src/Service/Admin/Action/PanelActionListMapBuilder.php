@@ -26,6 +26,38 @@ class PanelActionListMapBuilder
                             'list' => 'product_list'
                         ]
                     ],
+                    'price_product_base' => [
+                        'routes' => [
+                            'create' => 'price_product_base_create',
+                            'edit' => 'price_product_base_edit',
+                            'display' => 'price_product_base_display',
+                            'list' => 'price_product_base_list'
+                        ]
+                    ],
+                    'price_product_discount' => [
+                        'routes' => [
+                            'create' => 'price_product_discount_create',
+                            'edit' => 'price_product_discount_edit',
+                            'display' => 'price_product_discount_display',
+                            'list' => 'price_product_discount_list'
+                        ]
+                    ],
+                    'price_product_tax' => [
+                        'routes' => [
+                            'create' => 'price_product_tax_create',
+                            'edit' => 'price_product_tax_edit',
+                            'display' => 'price_product_tax_display',
+                            'list' => 'price_product_tax_list'
+                        ]
+                    ],
+                    'tax_slab' => [
+                        'routes' => [
+                            'create' => 'tax_slab_create',
+                            'edit' => 'tax_slab_edit',
+                            'display' => 'tax_slab_display',
+                            'list' => 'tax_slab_list'
+                        ]
+                    ],
                     'product_attribute' => [
                         'routes' => [
                             'create' => 'product_attribute_create',
@@ -98,6 +130,22 @@ class PanelActionListMapBuilder
                             'list' => 'category_list'
                         ]
                     ],
+                    'order' => [
+                        'routes' => [
+                            'create' => 'order_create',
+                            'edit' => 'order_edit',
+                            'display' => 'order_display',
+                            'list' => 'order_list'
+                        ]
+                    ],
+                    'order_item' => [
+                        'routes' => [
+                            'create' => 'order_item_create',
+                            'edit' => 'order_item_edit',
+                            'display' => 'order_item_display',
+                            'list' => 'order_item_list'
+                        ]
+                    ],
                     'file' => [
                         'routes' => [
                             'create' => 'file_create',
@@ -117,6 +165,14 @@ class PanelActionListMapBuilder
                             'edit' => 'category_file_image_edit',
                             'display' => 'category_file_image_display',
                             'list' => 'category_file_image_list'
+                        ]
+                    ],
+                    'product_file_image' => [
+                        'routes' => [
+                            'create' => 'product_file_image_create',
+                            'edit' => 'product_file_image_edit',
+                            'display' => 'product_file_image_display',
+                            'list' => 'product_file_image_list'
                         ]
                     ],
                     'web_shop' => [

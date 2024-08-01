@@ -3,10 +3,10 @@
 namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\Component\UI\PanelMainController;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -35,10 +35,7 @@ class SideBarController extends AbstractController
             return $this->render(
                 'admin/ui/panel/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
             );
-        } catch (UserNotLoggedInException $e) {
-            return new Response("Not Authorized", 403);
-        } catch (UserNotAssociatedWithACustomerException $e) {
-
+        } catch (UserNotLoggedInException|UserNotAssociatedWithACustomerException $e) {
             return new Response("Not Authorized", 403);
         }
     }

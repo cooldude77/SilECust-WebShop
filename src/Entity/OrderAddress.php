@@ -14,7 +14,7 @@ class OrderAddress
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete :'CASCADE')]
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

@@ -8,7 +8,7 @@ use App\Factory\OrderHeaderFactory;
 use App\Factory\OrderItemFactory;
 use App\Factory\OrderPaymentFactory;
 use App\Factory\OrderStatusTypeFactory;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use Zenstruck\Foundry\Proxy;
 
 trait OrderFixture
@@ -17,7 +17,7 @@ trait OrderFixture
 
     private Proxy|null|OrderHeader $orderHeader = null;
 
-    public function createOpenOrder(Proxy $customer): void
+    public function createOpenOrderFixtures(Proxy $customer): void
     {
         OrderAddressFactory::truncate();
         OrderItemFactory::truncate();

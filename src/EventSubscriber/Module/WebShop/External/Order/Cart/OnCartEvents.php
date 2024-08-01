@@ -10,8 +10,8 @@ use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use App\Exception\Module\WebShop\External\Order\NoOrderItemExistsWith;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\Order\OrderRead;
-use App\Service\Module\WebShop\External\Order\OrderSave;
+use App\Service\Transaction\Order\OrderRead;
+use App\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -100,17 +100,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
         if($orderHeader == null)
             throw new NoOpenOrderExists($event->getCustomer());
 
-        $orderItem = $this->orderRead->createOrderItem(
-            $orderHeader, $event->getProduct(),
-            $event->getQuantity()
-        );
-        if($orderItem == null)
-            throw new NoOrderItemExistsWith($event->getCustomer(),
-                $event->getProduct(),
-                $event->getQuantity());
-
-
-        $this->orderSave->updateOrderAddItem($orderItem);
+        $this->orderSave->addNewItem( $event->getProduct(),$event->getQuantity(),$orderHeader);
 
     }
 

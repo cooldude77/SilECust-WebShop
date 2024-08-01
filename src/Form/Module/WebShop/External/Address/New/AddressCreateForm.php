@@ -22,9 +22,11 @@ class AddressCreateForm extends AbstractType
     {
         // use address structure
         // default is in this structure
-        $builder->add('address', CustomerAddressCreateForm::class);
+        $builder->add(
+            'address', CustomerAddressCreateForm::class, ['addressType' => $options['addressType']]
+        );
         // check box if this is to be chosen
-        $builder->add('isChosen', CheckboxType::class);
+        $builder->add('isChosen', CheckboxType::class,['label'=>'Choose this address']);
         $builder->add('save', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -32,12 +34,16 @@ class AddressCreateForm extends AbstractType
 
         });
 
+
     }
 
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', AddressCreateAndChooseDTO::class);
+        $resolver->setDefaults(
+            ['data_class' => AddressCreateAndChooseDTO::class]
+        );
+        $resolver->setRequired(['addressType']);
 
     }
 

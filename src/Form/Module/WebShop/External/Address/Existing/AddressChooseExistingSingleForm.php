@@ -19,7 +19,7 @@ class AddressChooseExistingSingleForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('isChosen', CheckboxType::class);
+        $builder->add('isChosen', CheckboxType::class,['label'=>'Choose this']);
         $builder->add('id', HiddenType::class);
 
     }
@@ -31,7 +31,7 @@ class AddressChooseExistingSingleForm extends AbstractType
 
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'address_choose_existing_single_form';
     }

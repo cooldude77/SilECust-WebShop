@@ -21,13 +21,15 @@ trait CustomerFixture
 
     private Proxy|Customer $customer;
 
-    public function createCustomer(): void
+    public function createCustomerFixtures(): void
     {
 
         $this->userForCustomer = UserFactory::createOne
         (
             ['login' => $this->loginForCustomerInString,
-             'password' => $this->passwordForCustomerInString]
+             'password' => $this->passwordForCustomerInString,
+             'roles' => ['ROLE_CUSTOMER']
+            ]
         );
         $this->customer = CustomerFactory::createOne([
             'firstName' => $this->firstNameInString,

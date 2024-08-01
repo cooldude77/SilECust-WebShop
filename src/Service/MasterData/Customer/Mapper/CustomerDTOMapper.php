@@ -9,26 +9,21 @@ use App\Repository\CustomerRepository;
 use App\Repository\SalutationRepository;
 use App\Security\Mapper\UserDTOMapper;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CustomerDTOMapper
 {
 
-    public function __construct(private CustomerRepository $customerRepository,
-        private SalutationRepository $salutationRepository,
-        private UserDTOMapper $userMapper
+    public function __construct(private readonly CustomerRepository $customerRepository,
+        private readonly SalutationRepository $salutationRepository,
+        private readonly UserDTOMapper $userMapper
     ) {
-
     }
 
-    public function mapToEntityForCreate(FormInterface $form): Customer
+    public function mapToEntityForCreate(CustomerDTO $customerDTO): Customer
     {
-        /** @var Category $category */
-        $salutation = $this->salutationRepository->find($form->get('salutationId')->getData());
-        $customer = $this->customerRepository->create($salutation);
+        $user = $this->userMapper->mapUserForCustomerCreate($customerDTO);
 
-        /** @var CustomerDTO $customerDTO */
-        $customerDTO = $form->getData();
+        $customer = $this->customerRepository->create($user);
 
         $customer->setFirstName($customerDTO->firstName);
         $customer->setMiddleName($customerDTO->middleName);
@@ -36,8 +31,6 @@ class CustomerDTOMapper
         $customer->setGivenName($customerDTO->givenName);
         $customer->setEmail($customerDTO->email);
         $customer->setPhoneNumber($customerDTO->phoneNumber);
-
-        $customer->setUser($this->userMapper->map($customerDTO, $customer));
 
         return $customer;
     }
@@ -61,5 +54,21 @@ class CustomerDTOMapper
 
     }
 
-  
+
+    public function mapToDTOForEdit(Customer $customer): CustomerDTO
+    {
+        $customerDTO = new CustomerDTO();
+
+        $customerDTO->firstName = $customer->getFirstName();
+        $customerDTO->middleName = $customer->getMiddleName();
+        $customerDTO->lastName = $customer->getLastName();
+        $customerDTO->givenName = $customer->getGivenName();
+        $customerDTO->email = $customer->getEmail();
+        $customerDTO->phoneNumber = $customer->getPhoneNumber();
+
+        return $customerDTO;
+
+    }
+
+
 }

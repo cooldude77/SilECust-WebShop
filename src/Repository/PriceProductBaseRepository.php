@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PriceProductBase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -52,5 +53,12 @@ class PriceProductBaseRepository extends ServiceEntityRepository
         $price->setProduct($product);
         $price->setCurrency($currency);
         return $price;
+    }
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT ppb FROM App\Entity\PriceProductBase ppb";
+        return $this->getEntityManager()->createQuery($dql);
+
     }
 }

@@ -1,29 +1,29 @@
 {# templates/admin/ui/panel/panel_admin.html.twig #}
 {% extends app.session.get( constant('App\\Controller\\Component\\UI\\PanelMainController::BASE_TEMPLATE')) %}
+{% block head %}
+    {{ headResponse | raw }}
+{% endblock %}
 
-
+{#
+Note: These two will give different result
+// This will not work as request is not direct
+{{ dump(app.request.query) }}
+// this will be used while forwarding
+// so always pass request as a parameter
+{{ dump(request.query) }} #}
 {% block header %}
-
-    {#
-    Note: These two will give different result
-    // This will not work as request is not direct
-    {{ dump(app.request.query) }}
-    // this will be used while forwarding
-    // so always pass request as a parameter
-    {{ dump(request.query) }}
-    #}
-   {{ header | raw }}
+    {% if headerResponse is defined and headerResponse is not null%}
+        {{ headerResponse | raw }}
+    {% endif %}
 {% endblock %}
 
-
-{% block sidebar %}
-     {{ render(controller(
-         'App\\Controller\\Component\\UI\\Panel\\Components\\PanelSideBarController::sideBar',{'request':request}
-     )) }}
-{% endblock %}
-
+    {% block sidebar %}
+        {% if sideBarResponse is defined and sideBarResponse is not null %}
+            {{ sideBarResponse | raw }}
+        {% endif %}
+    {% endblock %}
 
 {% block content %}
-    {{ content | raw }}
+    {{ contentResponse | raw }}
 
 {% endblock %}

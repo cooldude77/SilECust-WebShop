@@ -24,8 +24,6 @@ class OrderItem
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\Column]
-    private ?float $pricePerUnit = null;
 
     public function getId(): ?int
     {
@@ -68,15 +66,4 @@ class OrderItem
         return $this;
     }
 
-    public function getPricePerUnit(): ?float
-    {
-        return $this->pricePerUnit;
-    }
-
-    public function setPricePerUnit(int $pricePerUnit): static
-    {
-        $this->pricePerUnit = $pricePerUnit;
-
-        return $this;
-    }
 }

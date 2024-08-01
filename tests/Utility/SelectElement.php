@@ -28,6 +28,7 @@ trait SelectElement
 
         $option = $domDocument->createElement('option');
         $option->setAttribute('value', $chosenValue);
+
         $selectElement = $browser->crawler()->filter($filter)->getNode(0);
         $selectElement->appendChild($option);
 

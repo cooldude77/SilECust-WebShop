@@ -3,7 +3,9 @@
 namespace App\Controller\Component\UI;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -37,10 +39,21 @@ class PanelMainController extends AbstractController
 
         $this->checkMandatoryParameters($request->getSession(), $environment);
 
+
+        // get head controller
+        $headResponse = $this->forward(
+            PanelHeadController::class . '::' . 'head', ['request' => $request]
+        );
+
+        // if redirect
+        if ($headResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($headResponse->getTargetUrl());
+        }
+
         // get header
         $headerResponse = $this->forward(
-            PanelHeaderController::class . '::' . 'header',
-            ['request' => $request]
+            PanelHeaderController::class . '::' . 'header', ['request' => $request]
         );
 
         // if redirect
@@ -51,22 +64,36 @@ class PanelMainController extends AbstractController
 
         // get content
         $contentResponse = $this->forward(
-            PanelContentController::class . '::' . 'content',
-            ['request' => $request]
+            PanelContentController::class . '::' . 'content', ['request' => $request]
         );
 
-        // if redicrect
+        // if redirect
         if ($contentResponse instanceof RedirectResponse) {
             $this->resetParameters($request->getSession());
             return $this->redirect($contentResponse->getTargetUrl());
         }
 
+        // get sideBar
+        $sideBarResponse = $this->forward(
+            PanelSideBarController::class . '::' . 'sideBar', ['request' => $request]
+        );
+
+        // if redirect
+        if ($sideBarResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($sideBarResponse->getTargetUrl());
+        }
+
 
         // no redirect, just print data
-        $response = $this->render('admin/ui/panel/panel_main.html.twig', [
-            'header' => $headerResponse->getContent(),
-            'content' => $contentResponse->getContent(),
-            'request' => $request]);
+        $response = $this->render(
+            'admin/ui/panel/panel_main.html.twig', [
+                'headResponse' => $headResponse->getContent(),
+                'headerResponse' => $headerResponse->getContent(),
+                'contentResponse' => $contentResponse->getContent(),
+                'sideBarResponse' => $sideBarResponse->getContent(),
+                'request' => $request]
+        );
 
 
         // reset parameter is only to be done after above resposne is complete

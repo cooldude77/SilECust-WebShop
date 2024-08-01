@@ -52,7 +52,7 @@ class LoginManagementController extends AbstractController
         } catch (UserNotLoggedInException $e) {
             return new Response("Not Authorized", 403);
         } catch (UserNotAssociatedWithACustomerException) {
-            return $this->redirectToRoute('admin_panel');
+            return $this->redirectToRoute('admin_panel',['_function'=>'dashboard']);
         }
     }
 }

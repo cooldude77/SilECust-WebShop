@@ -2,12 +2,11 @@
 
 namespace App\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use App\Entity\Customer;
 use App\Event\Module\WebShop\External\Payment\PaymentEvent;
 use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
-use App\Service\Module\WebShop\External\Order\OrderRead;
-use App\Service\Module\WebShop\External\Order\OrderSave;
-use App\Service\Module\WebShop\External\Order\Status\OrderStatusTypes;
+use App\Service\Transaction\Order\OrderRead;
+use App\Service\Transaction\Order\OrderSave;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentFailure implements EventSubscriberInterface

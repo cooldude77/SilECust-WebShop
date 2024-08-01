@@ -2,26 +2,32 @@
 
 namespace App\Tests\Controller\Admin\Employee\FrameWork;
 
+use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\SuperAdminFixture;
 use App\Tests\Utility\AuthenticateTestEmployee;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class MainControllerTest extends WebTestCase
 {
-    use HasBrowser, AuthenticateTestEmployee;
+    use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture, SuperAdminFixture;
 
-    public function testAdmin()
+    public function testAdminWithEmployee()
     {
         // Unauthenticated entry
-        $uri = '/admin';
+        $uri = '/admin?_function=dashboard';
         $this->browser()->visit($uri)->assertNotAuthenticated();
 
-        $browser = $this->browser();
-        $client = $browser->client();
+        $this->createEmployee();
 
-        $this->authenticateEmployee($client);
-
-        $browser->visit($uri)
+        // authenticate before visit
+        $this->browser()->use(function (KernelBrowser $browser) {
+            $browser->loginUser($this->userForEmployee->object());
+        })
+            ->visit($uri)
             ->click('a#sidebar-link-category-list')
             ->followRedirects()
             ->assertSuccessful()
@@ -53,20 +59,37 @@ class MainControllerTest extends WebTestCase
         //todo: intercept redirects
         // todo: check for country/city/state/postal code
 
-        /*
-                $crawler = $this->browser()->visit($uri)->crawler();
-                $link = $crawler->selectLink('Categories')->link();
+    }
 
-                $client = $this->browser()->client();
-                $client->click($link);
-                $client->followRedirects(true);
-                $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    public function testAdminWithCustomer()
+    {
+        // Unauthenticated entry
+        $uri = '/admin?_function=dashboard';
 
-                $this->browser()->fillField(
-                    'category_create_form[name]', 'Cat1'
-                )->fillField('category_create_form[description]', 'Category 1')->fillField(
-                        'category_create_form[parent]', ""
-                    )->click('Save')->assertSuccessful();
-          */
+        $this->createCustomerFixtures();
+
+        // authenticate before visit
+        $this->browser()->use(function (KernelBrowser $browser) {
+            $browser->loginUser($this->userForCustomer->object());
+        })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+
+    public function testSuperAdmin()
+    {
+        $uri = '/admin?_function=dashboard';
+
+        $this->createSuperAdmin();
+
+        // authenticate before visit
+        $this->browser()->use(function (KernelBrowser $browser) {
+            $browser->loginUser($this->userForSuperAdmin->object());
+        })
+            ->visit($uri)
+            ->assertAuthenticated()
+            ->assertSuccessful();
     }
 }

@@ -3,6 +3,10 @@
 namespace App\Controller\Module\WebShop\External\Address;
 
 use App\Controller\Component\Routing\RoutingConstants;
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\PanelMainController;
+use App\Controller\Module\WebShop\External\Shop\HeaderController;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
@@ -32,16 +36,61 @@ class AddressController extends AbstractController
 
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
+     * @param Request         $request
+     * @param RouterInterface $router
+     *
+     * @return Response
      */
     #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
-    public function main(
-        CustomerAddressRepository $customerAddressRepository,
+    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
+    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
+    public function main(Request $request, RouterInterface $router): Response
+    {
+        $session = $request->getSession();
+
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
+        );
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
+            'header'
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, self::class
+        );
+
+        $route = $request->get('_route');
+        switch ($route) {
+            case 'web_shop_checkout_addresses':
+                $method = "content";
+                break;
+            case 'web_shop_checkout_address_create':
+                $method = "create";
+                break;
+            case 'web_shop_checkout_choose_address_from_list':
+                $method = "choose";
+                break;
+        }
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+            $method
+        );
+
+        $session->set(
+            PanelMainController::BASE_TEMPLATE,
+            'module/web_shop/external/address/page/address_page.html.twig'
+        );
+
+
+        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
+    }
+
+
+    public function content(CustomerAddressRepository $customerAddressRepository,
         CheckOutAddressQuery $checkOutAddressQuery,
         CustomerFromUserFinder $customerFromUserFinder,
         Request $request
-    ): Response {
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
 
         $ownRoute = $this->generateUrl('web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
@@ -66,7 +115,6 @@ class AddressController extends AbstractController
             return $this->redirectToRoute(
                 'web_shop_checkout_address_create',
                 ['type' => 'billing',
-
                  RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
                      'web_shop_checkout_addresses'
                  )]
@@ -94,10 +142,17 @@ class AddressController extends AbstractController
         }
 
         // everything ok, go back to check out
-        return $this->redirect($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL));
+        if ($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL) != null) {
+            return $this->redirect(
+                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
+            );
+        } else {
+            return $this->redirectToRoute('web_shop_view_order');
+        }
+
+
     }
 
-    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
     public function create(RouterInterface $router, Request $request,
         CustomerFromUserFinder $customerFromUserFinder,
         CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
@@ -111,10 +166,15 @@ class AddressController extends AbstractController
         $dto->address->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
 
         if ($request->get('type') != null) {
-            $dto->address->addressType = $request->get('type');
+            $dto->address->addressType = $request->query->get('type');
         }
 
-        $form = $this->createForm(AddressCreateForm::class, $dto);
+        $x = $request->query->get('type');
+
+        $form = $this->createForm(
+            AddressCreateForm::class, $dto,
+            ['addressType' => $request->query->get('type')]
+        );
 
         $form->handleRequest($request);
 
@@ -158,8 +218,7 @@ class AddressController extends AbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException Choose from multiple addresses
      */
-    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
-    public function chooseAddressFromList(CustomerAddressRepository $customerAddressRepository,
+    public function choose(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,
         ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
         CheckoutAddressChooseParser $checkoutAddressChooseParser,
@@ -193,8 +252,8 @@ class AddressController extends AbstractController
                 );
             } catch (NoAddressChosenAtCheckout $e) {
 
-                $this->addFlash('error','Please choose at least one address');
-                return $this->redirectToRoute('web_shop_checkout_choose_address_from_list') ;
+                $this->addFlash('error', 'Please choose at least one address');
+                return $this->redirectToRoute('web_shop_checkout_choose_address_from_list');
 
             }
 
@@ -211,11 +270,15 @@ class AddressController extends AbstractController
 
         }
 
-
+        if ($request->query->get('type') == 'shipping') {
+            $caption = 'Choose Shipping Address';
+        } else {
+            $caption = 'Choose Billing Address';
+        }
         return $this->render(
-            'module/web_shop/external/checkout/address/page/checkout_address_chooser_page.html.twig',
+            'module/web_shop/external/address/address_choose.html.twig',
             ['form' => $form,
-             'addressTypeCaption' => 'Shipping Address']
+             'addressTypeCaption' => $caption]
         );
     }
 

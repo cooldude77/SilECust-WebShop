@@ -22,11 +22,13 @@ trait LocationFixture
     function createLocationFixtures(): void
     {
 
-        $this->country = CountryFactory::createOne();
+        $this->country = CountryFactory::createOne(['code'=>'IN','name'=>'India']);
 
-        $this->state = StateFactory::createOne(['country' => $this->country]);
-        $this->city = CityFactory::createOne(['state' => $this->state]);
-        $this->pinCode = PinCodeFactory::createOne(['city' => $this->city]);
+        $this->state = StateFactory::createOne(['country' => $this->country,
+            'code'=>'KA','name'=>'Karnataka']);
+        $this->city = CityFactory::createOne(['state' => $this->state,
+            'code'=>'BLR','name'=>'Bangalore']);
+        $this->pinCode = PinCodeFactory::createOne(['city' => $this->city,'pinCode'=>'560001']);
 
     }
 }

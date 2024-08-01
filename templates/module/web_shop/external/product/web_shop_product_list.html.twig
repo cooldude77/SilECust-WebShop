@@ -1,31 +1,26 @@
 {% if products|length == 0 %}
     No products found
 {% else %}
-    <div>
+    <div class="d-flex flex-row">
         {% for product in products %}
+            <div class="col-sm-3 card p-2 mx-auto">
+                <div id="product-image">
+                    <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
+                        <img width="100%" height="100%"
+                             src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+                             alt="{{ product.description }}"/>
+                    </a>
 
-            <div id="product-{{ product.name }}">
-                <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
-                    {{ product.name }}
-                </a>
+                </div>
+
+                <div id="product- {{ product.description }}" class="row my-2">
+                    <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
+                        {{ product.description }}
+                    </a>
+                </div>
+                {% include 'master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id} %}
+
             </div>
-            <div id="product-image">
-
-                <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
-                    <img width="100px" height="100px"
-                         src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
-                         alt="{{ product.description }}"/>
-                </a>
-
-            </div>
-
-            <div id="product-desc">
-                {{ product.description }}
-            </div>
-            <div id="product-desc">
-                {{ product.longDescription }}
-            </div>
-
         {% endfor %}
     </div>
 {% endif %}

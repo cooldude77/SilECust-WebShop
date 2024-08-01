@@ -40,7 +40,7 @@ class CustomerAddressCreateForm extends AbstractType
                 'expanded' => true,
             ]
         );
-        $builder->add('isDefault', CheckboxType::class);
+        $builder->add('isDefault', CheckboxType::class, ['label' => 'Use as default address']);
         $builder->add('pinCodeId', HiddenType::class);
 
         $builder->add('save', SubmitType::class);
@@ -56,12 +56,24 @@ class CustomerAddressCreateForm extends AbstractType
         }
         );
 
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) use ($options) {
+
+            /** @var CustomerAddressDTO $data */
+            $data = $formEvent->getData();
+            $data->addressType = $options['addressType'];
+        }
+        );
+
 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => CustomerAddressDTO::class]);
+
+        $resolver->setRequired(['addressType']);
+
     }
 
     public function getBlockPrefix(): string

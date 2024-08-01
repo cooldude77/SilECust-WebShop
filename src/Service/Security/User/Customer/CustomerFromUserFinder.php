@@ -33,9 +33,30 @@ class CustomerFromUserFinder
 
         $customer = $this->customerRepository->findOneBy(['user' => $user]);
 
-        if($customer == null)
+        if ($customer == null) {
             throw  new UserNotAssociatedWithACustomerException($user);
+        }
 
-        return  $customer;
+        return $customer;
     }
+
+    public function isLoggedInUserAlsoACustomer(): bool
+    {
+        if ($this->security->getUser() == null) {
+
+            return false;
+        }
+
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        $customer = $this->customerRepository->findOneBy(['user' => $user]);
+
+        if ($customer == null) {
+
+            return false;
+        }
+        return true;
+    }
+
 }

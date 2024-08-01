@@ -79,7 +79,9 @@ class ProductImageController extends AbstractController
             );
         }
 
-        return $this->render('master_data/product/image/create.html.twig', ['form' => $form]);
+        return $this->render('master_data/product/image/product_image_create.html.twig', ['form' =>
+                                                                                              $form]
+        );
     }
 
     /**
@@ -231,18 +233,17 @@ class ProductImageController extends AbstractController
             throw $this->createNotFoundException('No Product Image found for file id ' . $id);
         }
         $entity = ['id' => $productImage->getId(),
-                   'name' => $productImage->getProductFile()->getFile()->getName(),
-                   'yourFileName' => $productImage->getProductFile()->getFile()->getYourFileName(),
-                   'productImageType' => $productImage->getProductImageType()->getDescription()];
+                   'name' => $productImage->getFile()->getName(),
+                   'yourFileName' => $productImage->getFile()->getYourFileName()];
 
         $displayParams = ['title' => 'ProductImage',
                           'editButtonLinkText' => 'Edit',
+                          'link_id'=>'id-edit-file',
                           'fields' => [['label' => 'Your Name',
                                         'propertyName' => 'yourFileName',
                                         'link_id' => 'id-display-image-file'],
                                        ['label' => 'Name', 'propertyName' => 'name'],
-                                       ['label' => 'Image File Type',
-                                        'propertyName' => 'productImageType']]];
+                                      ]];
 
         return $this->render(
             'master_data/product/image/product_image_display.html.twig',
@@ -275,7 +276,7 @@ class ProductImageController extends AbstractController
                 $productImage->getProduct(), $productImage->getFile()->getName()
             );
         }
-         if (!isset($path) || !file_exists($path)) {
+        if (!isset($path) || !file_exists($path)) {
             $path = $systemImage->getNoImageForProductPath();
         }
 

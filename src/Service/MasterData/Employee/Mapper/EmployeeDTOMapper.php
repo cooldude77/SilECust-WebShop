@@ -21,7 +21,9 @@ class EmployeeDTOMapper
 
     public function mapToEntityForCreate(EmployeeDTO $employeeDTO): Employee
     {
-        $employee = $this->employeeRepository->create();
+        $user = $this->userMapper->mapUserForEmployeeCreate($employeeDTO);
+
+        $employee = $this->employeeRepository->create($user);
 
         $employee->setFirstName($employeeDTO->firstName);
         $employee->setMiddleName($employeeDTO->middleName);
@@ -29,8 +31,6 @@ class EmployeeDTOMapper
         $employee->setGivenName($employeeDTO->givenName);
         $employee->setEmail($employeeDTO->email);
         $employee->setPhoneNumber($employeeDTO->phoneNumber);
-
-        $employee->setUser($this->userMapper->mapUserForEmployeeCreate($employeeDTO, $employee));
 
         return $employee;
     }

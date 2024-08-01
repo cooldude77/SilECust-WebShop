@@ -2,10 +2,13 @@
 
 namespace App\Controller\Admin\Employee\FrameWork;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
+use App\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,8 +17,15 @@ class MainController extends AbstractController
 {
 
     #[Route('/admin', name: 'admin_panel')]
-    public function admin(Request $request): Response
-    {
+    public function admin(Request $request,
+        EventDispatcherInterface $eventDispatcher
+    ): Response {
+
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request, $request->getSession()),
+            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
+        );
+
 
         $session = $request->getSession();
 
@@ -36,6 +46,17 @@ class MainController extends AbstractController
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
         );
+
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+            'content'
+        );
+
+        $session->set(PanelMainController::BASE_TEMPLATE, 'base/admin_base_template.html.twig');
+
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 

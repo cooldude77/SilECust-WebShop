@@ -21,7 +21,11 @@ trait CurrencyFixture
     function createCurrencyFixtures(Proxy|Country $country): void
     {
 
-        $this->currency = CurrencyFactory::createOne(['country'=>$country]);
+        $this->currency = CurrencyFactory::createOne(['country'=>$country,
+                                                      'code' => 'INR',
+                                                      'description' => 'Indian Rupees',
+                                                      'symbol' => '₹',
+        ]);
 
 
     }
