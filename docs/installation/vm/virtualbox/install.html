@@ -5,39 +5,65 @@ Online HTML, CSS and JavaScript editor to run code online.
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Browser</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="style.css"/>
+    <title>Browser</title>
 </head>
 
 <body>
-  <h1>
-    Write, edit and run HTML, CSS and JavaScript code online.
-  </h1>
-  <ul>
+<h1>
+    Install silecust on a virtual machine.
+</h1>
+<p>
+    This is tested on Windows 11 and it creates an Unbuntu 22.04 machine
+</p>
+<ul>
     <li>
-  
-    Install <a href='https://www.virtualbox.org/wiki/Downloads'>Oracle VirtualBox </a>
-    </li>
-    <li>
-      Install <a href='https://www.vagrantup.com/'>Vagrant</a>
-    </li>
-    <li> 
-    Create a folder in a directory ( <code>c:\silecust</code> for example)
+
+        Install <a href='https://www.virtualbox.org/wiki/Downloads'>Oracle VirtualBox </a>
     </li>
     <li>
-    Extract the zip file into that directory
+        Install <a href='https://www.vagrantup.com/'>Vagrant</a>
     </li>
-  <li>
-    Open command prompt in the folder "vagrant" ( better, an admin command prompt ) and type 
-     vagrant up
-  </li>
-    </ol>    
-  
-  <p>
-    You can navigate the website at <a href='http://192.168.200.100/test/public/index.php'>Url</a>
-  </p>
+    <li>
+        Create a folder in a directory ( <code>c:\silecust</code> for example)
+    </li>
+    <li>
+        Extract the <a href="https://cooldude77.github.io/SilECust-WebShop/docs/installation/vm/virtualbox/vagrant.zip">
+        Vagrant Zip File</a> into that directory
+    </li>
+    <li>
+        Open command prompt in the folder "vagrant" ( better, an admin command prompt ) and type
+        > <code>vagrant up</code>
+        <p>
+            Wait for the process to complete
+        </p>
+    </li>
+    <li>
+        <p>
+            In the same command prompt type
+            > <code> vagrant ssh</code>
+            You will see the linux command prompt
+        </p>
+        <p>
+            Enter these codes
+        </p>
+        <p>
+            <code> cd /var/www/html/silecust </code>
+        </p>
+        <p>
+            <code> php bin/console silecust:user:super:create </code> creates an employee with superuser privilege
+        </p>
+        <p>
+            <code> php bin/console silecust:customer:sample:create </code> Optional: creates a customer
+        </p>
+    </li>
+</ul>
+
+<p>
+    You can navigate the website at <a href='http://192.168.200.100/silecust/public/index.php'>Url</a>
+</p>
 </body>
 
 </html>
