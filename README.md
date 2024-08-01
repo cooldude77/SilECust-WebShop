@@ -1,18 +1,33 @@
 **Silecust- Simple Webshop** 
-
--- Marketing talk --
+<p>
+Go Online quickly
+</p>
+**Marketing talk**
+<p>
 Silecust is a simple elegant webshop that you can setup in your own server or machine very quickly. Silecust consists of 
--  Webshop where products can be added easily
-- Based on world class Symfony 7 framework
-- Add prices, discount and taxation quickly
-- Cart and checkout process pre-built. Just need to integrate your preferred payment gateway.
-- Helpful event to integrate more functionality
-- Install on a server or VM on personal computer
-- Continuous feature additions
-
-- Disclaimer: For now Silecust is fit for development and testing , not for production.
-
-
+a Webshop
+ </p> 
+<ol>
+  <li>
+ Add products easily
+</li>
+<li>
+  Based on world class Symfony 7 framework
+</li>
+  <li>Add prices, discount and taxation quickly
+</li>
+  <li> Cart and checkout process pre-built. Just need to integrate your preferred payment gateway.
+</li>
+  <li> Helpful event to integrate more functionality
+  </li>
+  <li>Install on a server or VM on personal computer
+</li>
+  <li> Continuous feature additions
+</li>
+</ol>
+<p>
+  - Disclaimer: For now Silecust is fit for development and testing , not for production.
+</p>
 **How To Install Silecust webshop **
 <p>
 As of now Silecust should only be used in dev and test environment
