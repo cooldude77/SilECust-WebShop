@@ -8,7 +8,6 @@ use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
-use App\Exception\Module\WebShop\External\Order\NoOrderItemExistsWith;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Transaction\Order\OrderRead;
 use App\Service\Transaction\Order\OrderSave;
@@ -41,6 +40,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
             CartEventTypes::ITEM_DELETED_FROM_CART => 'itemDeleted',
             CartEventTypes::CART_CLEARED_BY_USER => 'cartCleared',
             CartEventTypes::POST_CART_QUANTITY_UPDATED => 'onCartQuantityUpdated',
+            CartEventTypes::BEFORE_ITEM_ADDED_TO_CART => 'beforeItemAddedToCart',
         ];
 
     }
@@ -52,9 +52,13 @@ readonly class OnCartEvents implements EventSubscriberInterface
      */
     public function postCartInitialized(CartEvent $event): void
     {
-        if ($this->cartSessionProductService->isCartEmpty()) {
-               if(!$this->orderRead->isOpenOrder($event->getCustomer()))
-                   $this->orderSave->createNewOrderFromCart($event->getCustomer());
+        // do not create an order if the cart is empty
+        if (!$this->cartSessionProductService->isCartEmpty()) {
+            // check if the open order does not exist
+            if (!$this->orderRead->isOpenOrder($event->getCustomer())) // only now create the order
+            {
+                $this->orderSave->createNewOrderFromCart($event->getCustomer());
+            }
 
         }
 
@@ -72,8 +76,9 @@ readonly class OnCartEvents implements EventSubscriberInterface
 
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
 
-        if($orderHeader == null)
+        if ($orderHeader == null) {
             throw new NoOpenOrderExists($event->getCustomer());
+        }
 
         $orderItems = $this->orderRead->getOrderItems($orderHeader);
 
@@ -97,10 +102,28 @@ readonly class OnCartEvents implements EventSubscriberInterface
         // assuming it exists
 
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
-        if($orderHeader == null)
-            throw new NoOpenOrderExists($event->getCustomer());
 
-        $this->orderSave->addNewItem( $event->getProduct(),$event->getQuantity(),$orderHeader);
+        if ($orderHeader == null) {
+            throw new NoOpenOrderExists($event->getCustomer());
+        }
+
+        $this->orderSave->addNewItem($event->getProduct(), $event->getQuantity(), $orderHeader);
+
+    }
+
+    /**
+     * @param CartItemAddedEvent $event
+     *
+     * @return void
+     */
+    public function beforeItemAddedToCart(CartItemAddedEvent $event): void
+    {
+        // is there an open order
+        if (!$this->orderRead->isOpenOrder($event->getCustomer())) {
+            // no: create new order
+            $this->orderSave->createNewOrderFromCart($event->getCustomer());
+        }
+
 
     }
 
@@ -115,8 +138,9 @@ readonly class OnCartEvents implements EventSubscriberInterface
 
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
 
-        if($orderHeader == null)
+        if ($orderHeader == null) {
             throw new NoOpenOrderExists($event->getCustomer());
+        }
 
         $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->updateOrderRemoveItem($event->getProduct(), $orderItems);
@@ -133,8 +157,9 @@ readonly class OnCartEvents implements EventSubscriberInterface
     {
         $orderHeader = $this->orderRead->getOpenOrder($event->getCustomer());
 
-        if($orderHeader == null)
+        if ($orderHeader == null) {
             throw new NoOpenOrderExists($event->getCustomer());
+        }
 
         $orderItems = $this->orderRead->getOrderItems($orderHeader);
         $this->orderSave->removeAllItems($orderItems);

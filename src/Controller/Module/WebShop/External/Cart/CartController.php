@@ -13,6 +13,7 @@ use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
@@ -32,6 +33,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ *
+ */
 class  CartController extends AbstractController
 {
     /**
@@ -75,6 +79,7 @@ class  CartController extends AbstractController
      * @param Request                   $request
      *
      * @return Response
+     * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
     public function list(CartSessionToDTOMapper $cartDTOMapper,
@@ -85,6 +90,7 @@ class  CartController extends AbstractController
         $this->initializeCartAndDispatchEvents(
             $cartService, $eventDispatcher, $customerFromUserFinder
         );
+
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -119,6 +125,10 @@ class  CartController extends AbstractController
         );
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     private function initializeCartAndDispatchEvents(CartSessionProductService $cartSessionProductService,
         EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder
     ): void {
@@ -133,6 +143,11 @@ class  CartController extends AbstractController
 
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     * @throws ProductNotFoundInCart
+     */
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
         CartSessionProductService $cartService, Request $request,
@@ -147,6 +162,7 @@ class  CartController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
         }
+
 
         $product = $productRepository->find($id);
 
@@ -163,9 +179,16 @@ class  CartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $this->initializeCartAndDispatchEvents(
                 $cartService, $eventDispatcher, $customerFromUserFinder
+            );
+
+            // Before Item was to be added to the cart
+            $eventDispatcher->dispatch(
+                new CartItemAddedEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(), $product,
+                    $cartProductDTO->quantity
+                ), CartEventTypes::BEFORE_ITEM_ADDED_TO_CART
             );
 
             $cartProductDTO = $form->getData();
@@ -194,6 +217,17 @@ class  CartController extends AbstractController
         );
     }
 
+    /**
+     * @param                           $id
+     * @param ProductRepository         $productRepository
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param CartSessionProductService $cartService
+     *
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
         EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
@@ -218,6 +252,15 @@ class  CartController extends AbstractController
         }
     }
 
+    /**
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param CartSessionProductService $cartService
+     *
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
     public function clear(EventDispatcherInterface $eventDispatcher,
         CustomerFromUserFinder $customerFromUserFinder, CartSessionProductService $cartService

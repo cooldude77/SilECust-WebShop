@@ -11,5 +11,6 @@ class CartEventTypes
 
     public const string CART_CLEARED_BY_USER = 'cart.post.cart_cleared_by_user';
     public const string POST_CART_QUANTITY_UPDATED = 'cart.post.cart_updated';
+    public const string BEFORE_ITEM_ADDED_TO_CART = 'cart.before.item_added';
 
 }

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection ALL */
 
 namespace App\Tests\Controller\Module\WebShop\External\Cart;
 
@@ -51,46 +52,57 @@ class CartControllerTest extends WebTestCase
         // Test : just visit cart
         $this->browser()
             // todo: don't allow cart when user is not logged in
+
+            ->interceptRedirects()
+            ->visit($cartUri)
+            ->assertRedirectedTo('/login')
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
+
+            // Test: Visit after login
             ->visit($cartUri)
             ->use(function (Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-
                 // Test : Cart got created
                 $this->assertNotNull($session->get(CartSessionProductService::CART_SESSION_KEY));
-                // Todo: More tests
-                // Test : An order got created
+
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
 
-                $this->assertNotNull($order);
+                // Test : An order should only be created when item is added to the cart
+                $this->assertNull($order);
 
             })
+
             //Test :  add products to cart
+            ->interceptRedirects()
             ->visit($uriAddProductA)
             ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
-            ->assertSuccessful()
+            ->assertRedirectedTo('/cart', 1)
             ->use(function (Browser $browser) {
 
                 // Test : An order got created
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
+                self::assertNotNull($order);
 
+                // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                                                             'product' => $this->productA->object()]
                 );
 
                 self::assertNotNull($item);
             })
+
+            // Test : add another product
             ->visit($uriAddProductB)
             ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
             ->fillField(
@@ -110,17 +122,17 @@ class CartControllerTest extends WebTestCase
 
                 $this->assertNotNull($item);
             })
-            ->assertSuccessful()
-            // visit cart after update
+            ->assertRedirectedTo('/cart', 1)
+
+            // Test : visit cart after update
             ->visit($cartUri)
-            // update quantities
+            // Test: update quantities
             ->fillField(
                 'cart_multiple_entry_form[items][0][quantity]', 4
             )
             ->fillField(
                 'cart_multiple_entry_form[items][1][quantity]', 6
             )
-            // // todo: check for valid product ids in cart
             ->click("Update Cart")
             ->use(function (\Zenstruck\Browser $browser) {
 
@@ -131,26 +143,29 @@ class CartControllerTest extends WebTestCase
                 $this->assertEquals(4, $cart[$this->productA->getId()]->quantity);
                 $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
 
-                // Test : An order got created
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
 
+                // Test : An order got created
                 self::assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                                                              'product' => $this->productA->object()]
                 );
 
+                // Test : Order has right quantities
                 $this->assertEquals(4, $itemA->getQuantity());
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                                                              'product' => $this->productB->object()]
                 );
-
+                // Test : Order has right quantities
                 $this->assertEquals(6, $itemB->getQuantity());
 
             })
-            // item delete from cart
+
+
+            // Test: item delete from cart
             ->visit($cartDeleteUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
@@ -161,30 +176,27 @@ class CartControllerTest extends WebTestCase
 
                 // Test : Other product still exists
                 $this->assertTrue(isset($cart[$this->productB->getId()]));
-                // Todo: More tests
 
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
 
                 $this->assertNotNull($order);
-
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                                                              'product' => $this->productA->object()]
                 );
-
                 // Test : Item A got removed
                 $this->assertNull($itemA);
-
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                                                              'product' => $this->productB->object()]
                 );
-
                 // Test: Item B is still there
                 $this->assertNotNull($itemB);
 
             })
-            // clear cart
+
+            // Test: clear cart
+            ->interceptRedirects()
             ->visit($clearCartUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
@@ -208,7 +220,7 @@ class CartControllerTest extends WebTestCase
 
 
             })
-            ->assertSuccessful();
+            ->assertRedirectedTo('/');
 
     }
 
