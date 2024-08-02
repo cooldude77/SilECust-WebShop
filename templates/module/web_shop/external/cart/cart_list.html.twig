@@ -3,12 +3,14 @@
 <div class="container">
     {{ form_start(form) }}
 
+    {% if form.items is defined and form.items| length >0 %}
+        <div class="row-flex mr-auto">
+            <a class="btn btn-link" href="{{ path('module_web_shop_cart_clear') }}">
+                <i class="bi bi-trash"></i>Clear Cart
+            </a>
+        </div>
+    {% endif %}
 
-    <div class="row-flex mr-auto">
-        <a class="btn btn-link" href="{{ path('module_web_shop_cart_clear') }}">
-            <i class="bi bi-trash"></i> Clear Cart
-        </a>
-    </div>
     <div class="bg-light py-2">
 
         {% for element in form.items %}
@@ -25,7 +27,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                        {{ price_by_country_code.currency }}
+                    {{ price_by_country_code.currency }}
                     {{ price_by_country_code.getPriceWithoutTax(element.productId.vars.value)
                     * element.quantity.vars.value }}
                 </div>

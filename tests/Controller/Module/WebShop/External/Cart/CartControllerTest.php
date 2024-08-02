@@ -76,6 +76,8 @@ class CartControllerTest extends WebTestCase
                 $this->assertNull($order);
 
             })
+            // Test: empty cart should not have clear cart button
+            ->assertNotSee("Clear Cart")
 
             //Test :  add products to cart
             ->interceptRedirects()
@@ -197,7 +199,8 @@ class CartControllerTest extends WebTestCase
 
             // Test: clear cart
             ->interceptRedirects()
-            ->visit($clearCartUri)
+            ->visit($cartUri)
+            ->click("Clear Cart")
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
 
