@@ -59,6 +59,52 @@ Online HTML, CSS and JavaScript editor to run code online.
 <p>
     You can navigate the website at <a href='http://192.168.200.100/silecust/public/index.php'>Url</a>
 </p>
+<h2>Troubleshooting</h2>
+<p> In case you cannot reach the site because of firewall or any other reason, install a GUI on your newly created
+    server</p>
+<ol>
+    <li>
+        On the same command prompt
+        <p>
+            > <code>vagrant ssh</code>
+        <p>
+        <p>
+            This will open a prompt terminal
+        </p>
+    </li>
+    <li>
+        <p>
+            Copy these lines and press enter
+            <br/>
+            <code>
+                sudo sudo apt install slim
+                <br>
+                sudo apt install ubuntu-desktop
+                <br> sudo service slim start
+            </code>
+    </li>
+    Now go for a coffee. It will be sometimes before GUI gets installed
+    <li>
+        <p>
+            Once gui gets installed you will see a user / password screen
+            <br/>
+            enter username as <code>vagrant</code>
+            <br/>
+            enter password as <code>vagrant</code>
+        </p>
+    </li>
+    <li>
+        Once inside , open the firefox browser and copy this address to the address bar
+        <p>
+            <code>http://localhost/silecust/public/index.php</code>
+            <br/>
+            You should see the site
+        </p>
+
+    </li>
+
+</ol>
+
 </body>
 
 </html>
