@@ -30,7 +30,8 @@ Online HTML, CSS and JavaScript editor to run code online.
         Create a folder in a directory ( <code>c:\silecust</code> for example)
     </li>
     <li>
-        Extract the zip file into that directory
+        Extract the <a href="https://cooldude77.github.io/SilECust-WebShop/docs/installation/vm/virtualbox/vagrant.zip">
+        Vagrant Zip File</a> into that directory
     </li>
     <li>
         Open command prompt in the folder "vagrant" ( better, an admin command prompt ) and type
@@ -48,10 +49,22 @@ Online HTML, CSS and JavaScript editor to run code online.
         <p>
             Enter these codes
         </p>
+        <b>Go to installation directory</b>
         <p>
             <code> cd /var/www/html/silecust </code>
-            <code> php bin/console silecust:user:super:create </code> creates an employee with superuser priviledge
-            <code> php bin/console silecust:user:super:create </code> creates an employee with superuser priviledge
+        </p>
+
+        <b>  To create an employee with superuser privilege</b>
+        <p>
+            <code> php bin/console silecust:user:super:create </code>
+            <br/>
+            <i> use this login email /password for logging in as employee</i>
+        </p>
+        <b> Optional: creates a customer </b>
+        <p>
+            <code> php bin/console silecust:customer:sample:create </code>
+            <br/>
+            <i> use this login email /password  for logging in as customer</i>
         </p>
     </li>
 </ul>
@@ -64,7 +77,8 @@ Online HTML, CSS and JavaScript editor to run code online.
     server</p>
 <ol>
     <li>
-        On the same command prompt
+        On the same command prompt ( if not already inside the server
+        in which case you will see a $ command prompt. Skip this step and proceed to next)
         <p>
             > <code>vagrant ssh</code>
         <p>
