@@ -7,11 +7,14 @@ This is tested on Windows 11 and it creates an Unbuntu 22.04 machine
 * Install [Vagrant](https://www.vagrantup.com/)
 * Create a folder in a directory ( `c:\silecust` for example)
 * Extract the [Vagrant Zip File](https://cooldude77.github.io/SilECust-WebShop/docs/installation/vm/virtualbox/vagrant.zip) into that directory
-* Open command prompt in the folder "vagrant" ( better, an admin command prompt ) and type > `vagrant up`
+* Open command prompt in the folder "vagrant" ( better, an admin command prompt ) and type  
+`vagrant up`
 
 Wait for the process to complete
 
-* In the same command prompt type > `vagrant ssh` You will see the linux command prompt
+* In the same command prompt type   
+`vagrant ssh`  
+You will see the linux command prompt
 
 Enter these codes
 
@@ -29,6 +32,11 @@ _use this login email /password for logging in as employee_
 `php bin/console silecust:customer:sample:create`
 _use this login email /password for logging in as customer_
 
+**Optional: To create sample product, price and test data**
+
+`php bin/console silecust:dev:data-fixture:create`
+
+
 You can navigate the website at [Url](http://192.168.200.100/silecust/public/index.php)
 
 Troubleshooting
@@ -38,9 +46,9 @@ In case you cannot reach the site because of firewall or any other reason, insta
 
 1. On the same command prompt ( if not already inside the server in which case you will see a $ command prompt. Skip this step and proceed to next)
 
-> `vagrant ssh`
+`vagrant ssh`
 
-This will open a prompt terminal
+This will open a linux prompt terminal($)
 
 2. Copy these lines and press enter
 
