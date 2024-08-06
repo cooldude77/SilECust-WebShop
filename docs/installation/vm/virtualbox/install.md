@@ -1,5 +1,3 @@
-Browser
-
 Install Silecust on a virtual machine.
 ======================================
 
@@ -46,19 +44,19 @@ This will open a prompt terminal
 
 2. Copy these lines and press enter
 
-`sudo sudo apt install slim`     
-`sudo apt install ubuntu-desktop`   
-`sudo service slim start `\
-Now go for a coffee. It will be sometimes before GUI gets installed\
+`sudo sudo apt install slim`  
+`sudo apt install ubuntu-desktop`  
+`sudo service slim start`  
 
-3. Once gui gets installed you will see a user / password screen\
 
-Enter username as `vagrant`  
-Enter password as `vagrant`
+Now go make a coffee for yourself . It will be sometimes before GUI gets installed  
+
+3. Once gui gets installed you will see a user / password screen  
+
+Enter username as `vagrant`Enter password as `vagrant`
 
 4. Once inside , open the firefox browser and copy this address to the address bar
 
 `http://localhost/silecust/public/index.php`
 
 You should be able to see the site
-
