@@ -31,7 +31,8 @@ The processes will be made extendable with time and events added so that a devel
 ### Current Status
 The project is in development phase and alpha should be planned soon. 
 
-
+### Documentation
+[Documentation](https://cooldude77.github.io/SilECust-WebShop/) is onging. Contribute/Fix Errors/Help.
 
 ## How To Install Silecust web shop
 
