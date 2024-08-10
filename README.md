@@ -26,9 +26,11 @@ Most of the processes ( except external like payment integration) are readily ma
 
 ### Roadmap
 The processes will be made extendable with time and events added so that a developer can enhance the functionality on their own.
+[Traceability Matrix/to do list](https://docs.google.com/spreadsheets/d/1VdEItM5627GQX1xD8RuF6sroZU90rYMgpzv3eR0kHc4/edit?usp=sharing)
 
 ### Current Status
 The project is in development phase and alpha should be planned soon. 
+
 
 
 ## How To Install Silecust web shop
