@@ -41,15 +41,6 @@ class PanelSideBarListMapBuilder
                                     'text' => 'Products',
                                     'css-id' => 'sidebar-link-product-list'
                                 ],
-                                [
-                                    'id' => 'price_product_base-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'price_product_base'
-                                    ),
-                                    'text' => 'Base price',
-                                    'css-id' => 'sidebar-link-base-price-list'
-                                ],
                                 // todo: implement
                                 /* [
                                      'id' => 'product-type-list',
@@ -78,16 +69,16 @@ class PanelSideBarListMapBuilder
                             'header_text' => 'Prices',
                             'items' => [
                                 [
-                                    'id' => 'price_product_base-list',
+                                    'id' => 'price-product-base-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'price_product_base'
                                     ),
                                     'text' => 'Base price',
-                                    'css-id' => 'sidebar-link-price-discount-list'
+                                    'css-id' => 'sidebar-link-price-product-base-list'
                                 ],
                                 [
-                                    'id' => 'price_product_discount-list',
+                                    'id' => 'price-product-discount-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'price_product_discount'
@@ -96,7 +87,7 @@ class PanelSideBarListMapBuilder
                                     'css-id' => 'sidebar-link-price-discount-list'
                                 ],
                                 [
-                                    'id' => 'price_product_tax-list',
+                                    'id' => 'price-product-tax-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
                                         'price_product_tax'
@@ -210,7 +201,7 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
-                        [
+                       /* [
                             'id' => 'web-shop',
                             'header_text' => 'WebShop',
                             'items' => [
@@ -225,6 +216,7 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
+                       */
                         [
                             'id' => 'employee',
                             'header_text' => 'Employees',
@@ -236,7 +228,7 @@ class PanelSideBarListMapBuilder
                                         'employee'
                                     ),
                                     'text' => 'Employees',
-                                    'css-id' => 'sidebar-link-user-list'
+                                    'css-id' => 'sidebar-link-employee-list'
                                 ],
                             ],
                             'roles' => ['ROLE_SUPER_ADMIN'],

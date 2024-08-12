@@ -24,40 +24,50 @@ class MainControllerTest extends WebTestCase
         $this->createEmployee();
 
         // authenticate before visit
-        $this->browser()->use(function (KernelBrowser $browser) {
+        $browser = $this->browser()->use(function (KernelBrowser $browser) {
             $browser->loginUser($this->userForEmployee->object());
-        })
+        });
+
+        $this->commonLinks($browser, $uri)
+            ->interceptRedirects()
+            ->visit($uri)
+            ->assertNotSee("a#sidebar-link-employees");
+
+
+    }
+
+    private function commonLinks(\Zenstruck\Browser|\Zenstruck\Browser\KernelBrowser $browser,
+        string $uri
+    ) {
+
+        return $browser->interceptRedirects()
             ->visit($uri)
             ->click('a#sidebar-link-category-list')
-            ->followRedirects()
-            ->assertSuccessful()
+            ->followRedirect(1)
+            ->interceptRedirects()
             ->visit($uri)
             ->click('a#sidebar-link-product-list')
-            ->followRedirects()
-            ->assertSuccessful()
+            ->followRedirect(1)
+            ->interceptRedirects()
             ->visit($uri)
-            ->click('a#sidebar-link-product-type-list')
-            ->followRedirects()
-            ->assertSuccessful()
+            ->click('a#sidebar-link-price-product-base-list')
+            ->followRedirect(1)
+            ->interceptRedirects()
             ->visit($uri)
-            ->click('a#sidebar-link-product-attribute-list')
-            ->followRedirects()
-            ->assertSuccessful()
+            ->click('a#sidebar-link-price-discount-list')
+            ->followRedirect(1)
+            ->interceptRedirects()
+            ->visit($uri)
+            ->click('a#sidebar-link-price-tax-list')
+            ->followRedirect(1)
+            ->interceptRedirects()
             ->visit($uri)
             ->click('a#sidebar-link-customer-list')
-            ->followRedirects()
-            ->assertSuccessful()
-            ->visit($uri)
-            ->click('a#sidebar-link-web-shop-list')
-            ->followRedirects()
-            ->assertSuccessful()
+            ->followRedirect(1)
+            ->interceptRedirects()
             ->visit($uri)
             ->click('a#sidebar-link-settings')
-            ->followRedirects()
-            ->assertSuccessful();
-
-        //todo: intercept redirects
-        // todo: check for country/city/state/postal code
+            ->followRedirect(1);
 
     }
 
@@ -77,7 +87,6 @@ class MainControllerTest extends WebTestCase
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-
     public function testSuperAdmin()
     {
         $uri = '/admin?_function=dashboard';
@@ -85,11 +94,15 @@ class MainControllerTest extends WebTestCase
         $this->createSuperAdmin();
 
         // authenticate before visit
-        $this->browser()->use(function (KernelBrowser $browser) {
+        $browser = $this->browser()->use(function (KernelBrowser $browser) {
             $browser->loginUser($this->userForSuperAdmin->object());
-        })
+        });
+
+        $this->commonLinks($browser, $uri)
+            ->interceptRedirects()
             ->visit($uri)
-            ->assertAuthenticated()
+            ->click('a#sidebar-link-employee-list')
+            ->followRedirect(1)
             ->assertSuccessful();
     }
 }
