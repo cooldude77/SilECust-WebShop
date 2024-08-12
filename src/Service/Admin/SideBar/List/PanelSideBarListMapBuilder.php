@@ -226,18 +226,18 @@ class PanelSideBarListMapBuilder
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
                         [
-                            'id' => 'users',
-                            'header_text' => 'Users',
+                            'id' => 'employee',
+                            'header_text' => 'Employees',
                             'items' => [
                                 [
-                                    'id' => 'user-list',
+                                    'id' => 'employee-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
-                                        'user'
+                                        'employee'
                                     ),
-                                    'text' => 'Users',
+                                    'text' => 'Employees',
                                     'css-id' => 'sidebar-link-user-list'
-                                ]
+                                ],
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
