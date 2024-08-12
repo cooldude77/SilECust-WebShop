@@ -2,7 +2,7 @@
 
 namespace App\Service\Admin\SideBar\Action;
 
-use App\Service\Admin\SideBar\Action\Exception\EmptyActionListMapException;
+use App\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 
 class PanelActionListMapBuilder
 {

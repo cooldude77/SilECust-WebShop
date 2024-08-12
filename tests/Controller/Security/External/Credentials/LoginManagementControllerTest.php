@@ -42,8 +42,9 @@ class LoginManagementControllerTest extends WebTestCase
             ->interceptRedirects()
             ->click('login')
             ->assertAuthenticated()
+            // test: redirected to home
             ->assertRedirectedTo('/')
-            // test: logoug
+            // test: logout
             ->visit('/logout')
             ->assertRedirectedTo('/')
             ->assertNotAuthenticated();
@@ -76,6 +77,7 @@ class LoginManagementControllerTest extends WebTestCase
             ->interceptRedirects()
             ->click('login')
             ->assertAuthenticated()
+            // test: redirected to admin
             ->assertRedirectedTo('/admin?_function=dashboard')
             // test: logoug
             ->visit('/logout')

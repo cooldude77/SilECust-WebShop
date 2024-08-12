@@ -27,6 +27,10 @@ class ContentController extends AbstractController
     }
 
     /**
+     * @param Request                $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     *
+     * @return Response
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
@@ -45,8 +49,12 @@ class ContentController extends AbstractController
 
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
+     * @param Request                $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     *
+     * @return Response
      * @throws UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
      */
     public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
     Response

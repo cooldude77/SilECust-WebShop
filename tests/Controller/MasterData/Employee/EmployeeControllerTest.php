@@ -5,13 +5,39 @@ namespace App\Tests\Controller\MasterData\Employee;
 use App\Factory\EmployeeFactory;
 use App\Factory\SalutationFactory;
 use App\Factory\UserFactory;
+use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\SuperAdminFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class EmployeeControllerTest extends WebTestCase
 {
 
-    use HasBrowser;
+    use HasBrowser, SuperAdminFixture, EmployeeFixture;
+
+
+    public function testOnlySuperAdminCanCallCreateOrEditOrDisplayUrls(): void
+    {
+
+        $this->createSuperAdmin();
+        $this->createEmployee();
+
+        $adminUrl = '/admin';
+
+        $this->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($adminUrl)
+            ->assertNotSee('aEmployees');
+
+        $createUrl = '/employee/create';
+
+
+
+
+    }
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -37,7 +63,8 @@ class EmployeeControllerTest extends WebTestCase
 
         $visit->fillField(
             'employee_create_form[firstName]', 'First Name'
-        )->fillField('employee_create_form[lastName]', 'Last Name'
+        )->fillField(
+            'employee_create_form[lastName]', 'Last Name'
         )->fillField('employee_create_form[salutationId]', $salutation->getId())
             ->fillField('employee_create_form[email]', 'x@y.com')
             ->fillField('employee_create_form[phoneNumber]', '+91999999999')
@@ -67,7 +94,7 @@ class EmployeeControllerTest extends WebTestCase
 
         $user = UserFactory::createOne();
 
-        $employee = EmployeeFactory::createOne(['firstName' => "First Name",'user'=>$user]);
+        $employee = EmployeeFactory::createOne(['firstName' => "First Name", 'user' => $user]);
 
         $id = $employee->getId();
 
@@ -92,7 +119,6 @@ class EmployeeControllerTest extends WebTestCase
             ->fillField(
                 'employee_edit_form[lastName]', 'New Last Name'
             )
-
             ->fillField('employee_edit_form[email]', 'f@g.com')
             ->fillField('employee_edit_form[phoneNumber]', '+9188888888')
             ->click('Save')->assertSuccessful();

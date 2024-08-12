@@ -9,18 +9,18 @@ use App\Exception\Security\User\UserNotLoggedInException;
 use App\Repository\CustomerRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class CustomerFromUserFinder
+readonly class CustomerFromUserFinder
 {
 
-    public function __construct(private readonly Security $security,
-        private readonly CustomerRepository $customerRepository
+    public function __construct(private Security $security,
+        private CustomerRepository $customerRepository
     ) {
     }
 
     /**
      * @return Customer
-     * @throws UserNotLoggedInException
      * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
      */
     public function getLoggedInCustomer(): Customer
     {

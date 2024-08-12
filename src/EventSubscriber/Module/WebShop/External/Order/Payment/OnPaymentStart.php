@@ -7,7 +7,6 @@ use App\Event\Module\WebShop\External\Payment\PaymentEvent;
 use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\MasterData\Pricing\PriceByCountryCalculator;
 use App\Service\Transaction\Order\OrderRead;
@@ -33,10 +32,9 @@ class OnPaymentStart implements EventSubscriberInterface
     }
 
     /**
+     *
      * @param PaymentEvent $paymentEvent
      *
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
      * @throws PriceProductBaseNotFound
      * @throws PriceProductTaxNotFound
      */

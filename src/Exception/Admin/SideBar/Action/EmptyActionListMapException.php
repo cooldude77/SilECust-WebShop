@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\SideBar\Action\Exception;
+namespace App\Exception\Admin\SideBar\Action;
 
 use Exception;
 

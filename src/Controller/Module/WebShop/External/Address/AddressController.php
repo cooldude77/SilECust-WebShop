@@ -209,14 +209,17 @@ class AddressController extends AbstractController
     }
 
     /**
+     *
      * @param CustomerAddressRepository          $customerAddressRepository
      * @param CustomerFromUserFinder             $customerFromUserFinder
      * @param ChooseFromMultipleAddressDTOMapper $addressChooseMapper
+     * @param CheckoutAddressChooseParser        $checkoutAddressChooseParser
+     * @param EventDispatcherInterface           $eventDispatcher
      * @param Request                            $request
      *
      * @return Response
-     * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException Choose from multiple addresses
+     * @throws UserNotAssociatedWithACustomerException
      */
     public function choose(CustomerAddressRepository $customerAddressRepository,
         CustomerFromUserFinder $customerFromUserFinder,

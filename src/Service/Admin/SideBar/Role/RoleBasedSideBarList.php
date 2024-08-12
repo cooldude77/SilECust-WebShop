@@ -3,22 +3,24 @@
 namespace App\Service\Admin\SideBar\Role;
 
 use App\Service\Admin\SideBar\List\PanelSideBarListMapBuilder;
+use Symfony\Bundle\SecurityBundle\Security;
 
-class RoleBasedSideBarList
+readonly class RoleBasedSideBarList
 {
 
-    public function __construct(private readonly PanelSideBarListMapBuilder $listMapBuilder)
-    {
+    public function __construct(private PanelSideBarListMapBuilder $listMapBuilder,
+        private readonly Security $security
+    ) {
     }
 
-    public function getListBasedOnRole(string $role, $contextUrl): array
+    public function getListBasedOnRole( $contextUrl): array
     {
 
         $list = $this->listMapBuilder->build($contextUrl)->getSideBarList();
 
         $finalList = ['sections' => []];
         foreach ($list['sections'] as $section) {
-            if (in_array($role, $section['roles'])) {
+            if ($this->security->isGranted($section['roles'][0])) {
                 $finalList['sections'][] = $section;
             }
 
@@ -27,7 +29,6 @@ class RoleBasedSideBarList
         return $finalList;
 
     }
-
 
 
 }

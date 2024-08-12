@@ -239,7 +239,7 @@ class PanelSideBarListMapBuilder
                                     'css-id' => 'sidebar-link-user-list'
                                 ],
                             ],
-                            'roles' => ['ROLE_EMPLOYEE'],
+                            'roles' => ['ROLE_SUPER_ADMIN'],
                         ],
                         [
                             'id' => 'files',
