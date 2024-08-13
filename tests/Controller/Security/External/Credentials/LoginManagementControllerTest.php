@@ -97,7 +97,7 @@ class LoginManagementControllerTest extends WebTestCase
         // Individually these tests may run fine
         // So users are logged out before testing
 
-        parent::setUp(); 
+        parent::setUp();
         $this->browser()->visit('/logout');
 
     }

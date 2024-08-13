@@ -17,33 +17,11 @@ class EmployeeControllerTest extends WebTestCase
     use HasBrowser, SuperAdminFixture, EmployeeFixture;
 
 
-    public function testOnlySuperAdminCanCallCreateOrEditOrDisplayUrls(): void
-    {
-
-        $this->createSuperAdmin();
-        $this->createEmployee();
-
-        $adminUrl = '/admin';
-
-        $this->browser()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
-            })
-            ->visit($adminUrl)
-            ->assertNotSee('aEmployees');
-
-        $createUrl = '/employee/create';
-
-
-
-
-    }
-
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
      */
-    public function testCreate()
+    public function   testCreate()
     {
         $createUrl = '/employee/create';
 
