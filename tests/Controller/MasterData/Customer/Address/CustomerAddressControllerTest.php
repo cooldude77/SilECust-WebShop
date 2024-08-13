@@ -19,7 +19,7 @@ class CustomerAddressControllerTest extends WebTestCase
     use CustomerFixture;
     use SelectElement;
 
-    public function testCreate()
+    public function testCreateBillingAddress()
     {
 
         $this->createLocationFixtures();
@@ -28,11 +28,11 @@ class CustomerAddressControllerTest extends WebTestCase
 
         $id = $this->customer->getId();
 
-        $uri = "/customer/{$id}/address/create";
+        $uri = "/customer/{$id}/address/create?type=billing";
         $this->browser()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select', $this->pinCode->getId());
+                $this->addOption($browser, 'select[name="customer_address_create_form[pinCode]"]', $this->pinCode->getId());
             })
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
@@ -61,6 +61,51 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->assertEquals('Line 2', $created->getLine2());
         $this->assertEquals('Line 3', $created->getLine3());
         $this->assertEquals('billing', $created->getAddressType());
+
+    }
+
+    public function testCreateShippingAddress()
+    {
+
+        $this->createLocationFixtures();
+
+        $this->createCustomerFixtures();
+
+        $id = $this->customer->getId();
+
+        $uri = "/customer/{$id}/address/create?type=shipping";
+        $this->browser()
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption($browser, 'select[name="customer_address_create_form[pinCode]"]', $this->pinCode->getId());
+            })
+            ->fillField(
+                'customer_address_create_form[line1]', 'Line 1'
+            )
+            ->fillField(
+                'customer_address_create_form[line2]', 'Line 2'
+            )
+            ->fillField(
+                'customer_address_create_form[line3]', 'Line 3'
+            )
+            ->fillField(
+                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+            )
+            ->fillField(
+                'customer_address_create_form[addressType]', 'shipping'
+            )
+            ->checkField(
+                'customer_address_create_form[isDefault]'
+            )
+            ->click('Save')
+            ->assertSuccessful();
+
+        $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
+
+        $this->assertEquals('Line 1', $created->getLine1());
+        $this->assertEquals('Line 2', $created->getLine2());
+        $this->assertEquals('Line 3', $created->getLine3());
+        $this->assertEquals('shipping', $created->getAddressType());
 
     }
 
