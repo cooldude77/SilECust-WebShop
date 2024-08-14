@@ -3,6 +3,7 @@
 namespace App\Command\Development;
 
 use App\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -30,11 +31,12 @@ class DevDataFixtureForQuickStart extends Command
     }
 
     /**
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      *
      * @return int
      * @throws CommandNotAvailableOutsideDev
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -42,8 +44,6 @@ class DevDataFixtureForQuickStart extends Command
             throw new CommandNotAvailableOutsideDev($this->getName());
 
         }
-
-        $dir = __DIR__;
 
         $filePath = $this->projectDir . '/tests/Utility/quick_sql_for_dev.sql';
 
