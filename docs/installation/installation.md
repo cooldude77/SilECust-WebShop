@@ -2,7 +2,9 @@
 ## For development
 ### Virtual Machine
 #### VirtualBox
-Install **Silecust** on [Oracle VirtualBox](development/vm/virtualbox/install.md)
+Install **Silecust** on
+- [Oracle VirtualBox](development/vm/virtualbox/install.md)
+- [WSL](development/vm/wsl/install.md)
 ## System requirements
 Silecust is tested on
 ### Ubuntu 
