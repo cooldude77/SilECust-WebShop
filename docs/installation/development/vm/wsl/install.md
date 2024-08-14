@@ -15,6 +15,11 @@ Open a prompt using WSL
 and copy or run this [script](script.sh)
 
 Your installation should be running at the WSL address and silecust/public directory
+
+## For Further testing help
+Follow these steps
+[Common configuration](../../../development/common.md)
+
 ## Install debugger quickly 
 
 ```

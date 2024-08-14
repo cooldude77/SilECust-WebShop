@@ -1,4 +1,4 @@
-Install Silecust on a virtual machine.
+# Install Silecust on vagrant vm.
 ======================================
 
 This is tested on Windows 11 and it creates an Unbuntu 22.04 machine
@@ -16,31 +16,13 @@ Wait for the process to complete
 `vagrant ssh`  
 You will see the linux command prompt
 
-Enter these codes
-
-**Go to installation directory**
-
-`cd /var/www/html/silecust`
-
-**To create an employee with superuser privilege**
-
-`php bin/console silecust:user:super:create`
-_use this login email /password for logging in as employee_
-
-**Optional: creates a customer**
-
-`php bin/console silecust:customer:sample:create`
-_use this login email /password for logging in as customer_
-
-**Optional: To create sample product, price and test data**
-
-`php bin/console silecust:dev:data-fixture:create`
-
-
 You can navigate the website at [Url](http://192.168.200.100/silecust/public/index.php)
 
-Troubleshooting
----------------
+## For Further testing help
+Follow these steps
+[Common configuration](../../../development/common.md)
+
+## Troubleshooting
 
 In case you cannot reach the site because of firewall or any other reason, install a GUI on your newly created server
 
