@@ -11,3 +11,4 @@ The product data has
 - longDescription: _The long description can be used to showcase all features of the product . TBD_
 
 ## Adding Image to the product
+Image can be added to the product. The dimensions are not being enforced and totally in the project control as per project's requirement. The image path are stored in database.
