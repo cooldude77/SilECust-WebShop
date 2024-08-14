@@ -20,7 +20,8 @@ class OrderViewBeforePaymentController extends AbstractController
 
 
     /**
-     * @param OrderRead $orderRead
+     *
+     * @param Request $request
      *
      * @return Response
      *
@@ -61,8 +62,12 @@ class OrderViewBeforePaymentController extends AbstractController
 
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
+     * @param OrderRead              $orderRead
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     *
+     * @return Response
      * @throws UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
      */
     public function order(OrderRead $orderRead, CustomerFromUserFinder $customerFromUserFinder
     ): Response {

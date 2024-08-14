@@ -11,11 +11,11 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
+readonly class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
 
 
-    public function __construct(private readonly UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
     }
 
@@ -61,8 +61,13 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         }
 
 // Return a User object after making sure its data is "fresh".
-// Or throw a UserNotFoundException if the user no longer exists.
-        throw new \Exception('TODO: fill in refreshUser() inside ' . __FILE__);
+// Or throw a UserNotFoundException if the user no longer exists
+//
+//
+        $userRefreshed = $this->userRepository->find($user->getId());
+        if ($userRefreshed == null)
+            throw new \Exception('TODO: fill in refreshUser() inside ' . __FILE__);
+        return $userRefreshed;
     }
 
     /**
@@ -77,8 +82,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      * Upgrades the hashed password of a user, typically for using a better hash algorithm.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user,
-        string $newHashedPassword
-    ): void {
+                                    string                             $newHashedPassword
+    ): void
+    {
 // TODO: when hashed passwords are in use, this method should:
 // 1. persist the new password in the user storage
 // 2. update the $user object with $user->setPassword($newHashedPassword);

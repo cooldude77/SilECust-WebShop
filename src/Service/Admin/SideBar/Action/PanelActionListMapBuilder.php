@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Admin\Action;
+namespace App\Service\Admin\SideBar\Action;
 
-use App\Service\Admin\Action\Exception\EmptyActionListMapException;
+use App\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 
 class PanelActionListMapBuilder
 {
@@ -88,6 +88,14 @@ class PanelActionListMapBuilder
                             'edit' => 'customer_address_edit',
                             'display' => 'customer_address_display',
                             'list' => 'customer_address_list'
+                        ]
+                    ],
+                    'employee' => [
+                        'routes' => [
+                            'create' => 'employee_create',
+                            'edit' => 'employee_edit',
+                            'display' => 'employee_display',
+                            'list' => 'employee_list'
                         ]
                     ],
                     'country' => [

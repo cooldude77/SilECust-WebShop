@@ -11,7 +11,7 @@ class EmployeeDTO
     public ?string $middleName = null;
     public ?string $lastName = null;
     public ?string $givenName = null;
-    public ?int $salutationId = -1;
+    public ?int $salutationId = null;
 
     public ?string $email = null;
 

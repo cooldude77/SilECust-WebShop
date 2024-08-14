@@ -20,8 +20,14 @@ class PaymentController extends AbstractController
 {
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param OrderRead                $orderRead
+     * @param CustomerFromUserFinder   $customerFromUserFinder
+     * @param PaymentPriceCalculator   $paymentPriceCalculator
+     *
+     * @return Response
      * @throws UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
      */
     #[Route('/checkout/payment/start', 'web_shop_payment_start')]
     public function startPayment(EventDispatcherInterface $eventDispatcher,

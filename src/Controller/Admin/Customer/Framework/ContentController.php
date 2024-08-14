@@ -6,7 +6,7 @@ use App\Controller\MasterData\Customer\CustomerController;
 use App\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Admin\Action\PanelActionListMapBuilder;
+use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +27,10 @@ class ContentController extends AbstractController
     }
 
     /**
+     * @param Request                $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     *
+     * @return Response
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
@@ -45,8 +49,12 @@ class ContentController extends AbstractController
 
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
+     * @param Request                $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     *
+     * @return Response
      * @throws UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
      */
     public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
     Response

@@ -9,6 +9,7 @@ use App\Repository\EmployeeRepository;
 use App\Repository\SalutationRepository;
 use App\Security\Mapper\UserDTOMapper;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\String\ByteString;
 
 class EmployeeDTOMapper
 {
@@ -21,6 +22,11 @@ class EmployeeDTOMapper
 
     public function mapToEntityForCreate(EmployeeDTO $employeeDTO): Employee
     {
+        // generate random password
+        // The employee will need to reset it
+        // The password should not be sent over in plain text in any email
+        $employeeDTO->plainPassword = ByteString::fromRandom(12);
+
         $user = $this->userMapper->mapUserForEmployeeCreate($employeeDTO);
 
         $employee = $this->employeeRepository->create($user);
@@ -36,12 +42,11 @@ class EmployeeDTOMapper
     }
 
 
-    public function mapToEntityForEdit(FormInterface $form, Employee $employee): Employee
+    public function mapToEntityForEdit(EmployeeDTO $employeeDTO): Employee
     {
-        /** @var Category $category */
-        $salutation = $this->salutationRepository->find($form->get('salutationId')->getData());
 
-        $employeeDTO = $form->getData();
+        $employee = $this->employeeRepository->find($employeeDTO->id);
+        $salutation = $this->salutationRepository->find($employeeDTO->salutationId);
 
         $employee->setSalutation($salutation);
 

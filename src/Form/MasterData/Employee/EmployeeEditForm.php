@@ -2,6 +2,7 @@
 
 namespace App\Form\MasterData\Employee;
 
+use App\Form\MasterData\Customer\DTO\SalutationAutoCompleteField;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
 use App\Repository\SalutationRepository;
 use Symfony\Component\Form\AbstractType;
@@ -14,16 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EmployeeEditForm extends AbstractType
 {
-    public function __construct(private SalutationRepository $salutationRepository)
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('id', HiddenType::class);
-        $builder->add('salutationId',ChoiceType::class, [// validation message if the data
-                                                         // transformer fails
-                                                         'choices' => $this->fill()]);
+        $builder->add('salutation', SalutationAutoCompleteField::class, ['mapped' => false]);
         $builder->add('firstName', TextType::class);
         $builder->add('middleName', TextType::class);
         $builder->add('lastName', TextType::class);
@@ -33,17 +28,6 @@ class EmployeeEditForm extends AbstractType
 
         $builder->add('save', SubmitType::class);
 
-    }
-
-    private function fill(): array
-    {
-        $selectArray = [];
-        $salutations = $this->salutationRepository->findAll();
-        foreach ($salutations as $bu) {
-
-            $selectArray[$bu->getDescription()] = $bu->getId();
-        }
-        return $selectArray;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

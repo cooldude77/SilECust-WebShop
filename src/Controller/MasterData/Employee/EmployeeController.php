@@ -3,7 +3,6 @@
 namespace App\Controller\MasterData\Employee;
 
 // ...
-use App\Entity\User;
 use App\Form\MasterData\Employee\EmployeeCreateForm;
 use App\Form\MasterData\Employee\EmployeeEditForm;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
@@ -11,30 +10,32 @@ use App\Repository\EmployeeRepository;
 use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class EmployeeController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/employee/create', 'employee_create')]
-    public function create(EmployeeDTOMapper $employeeDTOMapper,
-        EntityManagerInterface $entityManager, Request $request,
-    UserPasswordHasherInterface $userPasswordHasher
-    ): Response {
+    #[Route('/employee/create', 'employee_create')]
+    public function create(EmployeeDTOMapper      $employeeDTOMapper,
+                           EntityManagerInterface $entityManager,
+                           Request                $request
+    ): Response
+    {
         $employeeDTO = new EmployeeDTO();
-        $form = $this->createForm(
-            EmployeeCreateForm::class, $employeeDTO
-        );
+
+        $form = $this->createForm(EmployeeCreateForm::class, $employeeDTO);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var EmployeeDTO $data */
+            $data = $form->getData();
+            $data->salutationId = $form->get('salutation')->getData()->getId();
 
-
-            $employeeEntity = $employeeDTOMapper->mapToEntityForCreate($form->getData());
+            $employeeEntity = $employeeDTOMapper->mapToEntityForCreate($data);
 
             // perform some action...
             $entityManager->persist($employeeEntity);
@@ -54,16 +55,16 @@ class EmployeeController extends AbstractController
             );
         }
 
-        $formErrors = $form->getErrors(true);
         return $this->render('master_data/employee/employee_create.html.twig', ['form' => $form]);
     }
 
 
     #[Route('/employee/{id}/edit', name: 'employee_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        EmployeeRepository $employeeRepository, EmployeeDTOMapper $employeeDTOMapper,
-        Request $request, int $id
-    ): Response {
+                         EmployeeRepository     $employeeRepository, EmployeeDTOMapper $employeeDTOMapper,
+                         Request                $request, int $id
+    ): Response
+    {
         $employee = $employeeRepository->find($id);
 
 
@@ -81,7 +82,11 @@ class EmployeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $employee = $employeeDTOMapper->mapToEntityForEdit($form, $employee);
+            /** @var EmployeeDTO $data */
+            $data = $form->getData();
+            $data->salutationId = $form->get('salutation')->getData()->getId();
+
+            $employee = $employeeDTOMapper->mapToEntityForEdit($data);
             // perform some action...
             $entityManager->persist($employee);
             $entityManager->flush();
@@ -111,13 +116,13 @@ class EmployeeController extends AbstractController
         }
 
         $displayParams = ['title' => 'Employee',
-                          'link_id' => 'id-employee',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'First Name',
-                                        'propertyName' => 'firstName',
-                                        'link_id' => 'id-display-employee'],
-                                       ['label' => 'Last Name',
-                                        'propertyName' => 'lastName'],]];
+            'link_id' => 'id-employee',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'First Name',
+                'propertyName' => 'firstName',
+                'link_id' => 'id-display-employee'],
+                ['label' => 'Last Name',
+                    'propertyName' => 'lastName'],]];
 
         return $this->render(
             'master_data/employee/employee_display.html.twig',
@@ -126,19 +131,19 @@ class EmployeeController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/employee/list', name: 'employee_list')]
+    #[Route('/employee/list', name: 'employee_list')]
     public function list(EmployeeRepository $employeeRepository): Response
     {
 
         $listGrid = ['title' => 'Employee',
-                     'link_id' => 'id-employee',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'firstName',
-                                    'action' => 'display',],
-                         ],
-                     'createButtonConfig' => ['link_id' => ' id-create-Employee',
-                                              'function' => 'employee',
-                                              'anchorText' => 'create Employee']];
+            'link_id' => 'id-employee',
+            'columns' => [['label' => 'Name',
+                'propertyName' => 'firstName',
+                'action' => 'display',],
+            ],
+            'createButtonConfig' => ['link_id' => ' id-create-Employee',
+                'function' => 'employee',
+                'anchorText' => 'create Employee']];
 
         $employees = $employeeRepository->findAll();
         return $this->render(

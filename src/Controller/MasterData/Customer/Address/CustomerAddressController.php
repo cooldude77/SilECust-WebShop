@@ -3,6 +3,7 @@
 namespace App\Controller\MasterData\Customer\Address;
 
 // ...
+use App\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use App\Form\MasterData\Customer\Address\CustomerAddressEditForm;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
@@ -17,19 +18,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerAddressController extends AbstractController
 {
 
+    /**
+     * @throws AddressTypeNotProvided
+     */
     #[Route('/customer/{id}/address/create', name: 'customer_address_create')]
-    public function create(int $id, CustomerAddressDTOMapper $mapper,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
+    public function create(int                    $id, CustomerAddressDTOMapper $mapper,
+                           EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddressDTO->customerId = $id;
-        if ($request->get('type') != null) {
-            $customerAddressDTO->addressType = $request->get('type');
-        }
+        if ($request->query->get('type') == null)
+            throw new AddressTypeNotProvided();
+
+        $customerAddressDTO->addressType = $request->query->get('type');
+
 
         $form = $this->createForm(
-            CustomerAddressCreateForm::class, $customerAddressDTO
+            CustomerAddressCreateForm::class, $customerAddressDTO,
+            ['addressType' => $request->query->get('type')]
         );
 
         $form->handleRequest($request);
@@ -67,10 +75,11 @@ class CustomerAddressController extends AbstractController
 
 
     #[\Symfony\Component\Routing\Attribute\Route('/customer/address/{id}/edit', name: 'customer_address_edit')]
-    public function edit(int $id, CustomerAddressDTOMapper $mapper,
-        EntityManagerInterface $entityManager,
-        CustomerAddressRepository $customerAddressRepository, Request $request
-    ): Response {
+    public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
+                         EntityManagerInterface    $entityManager,
+                         CustomerAddressRepository $customerAddressRepository, Request $request
+    ): Response
+    {
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddress = $customerAddressRepository->find($id);
@@ -120,12 +129,12 @@ class CustomerAddressController extends AbstractController
         }
 
         $displayParams = ['title' => 'Customer Address',
-                          'link_id' => 'id-customer-address',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'line 1',
-                                        'propertyName' => 'line-1',
-                                        'link_id' => 'id-display-customer-address'],
-                          ]];
+            'link_id' => 'id-customer-address',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'line 1',
+                'propertyName' => 'line-1',
+                'link_id' => 'id-display-customer-address'],
+            ]];
 
         return $this->render(
             'master_data/customer/customer_display.html.twig',
@@ -137,17 +146,18 @@ class CustomerAddressController extends AbstractController
 
     #[Route('/customer/{id}/address/list', name: 'customer_address_list')]
     public function list(int $id, CustomerAddressRepository $customerAddressRepository
-    ): Response {
+    ): Response
+    {
 
         $listGrid = ['title' => 'Customer Address',
-                     'link_id' => 'id-customer-address',
-                     'columns' => [['label' => 'Address Line 1',
-                                    'propertyName' => 'line1',
-                                    'action' => 'display']
-                                   ,],
-                     'createButtonConfig' => ['link_id' => 'id-create-customer-address',
-                                              'function' => 'customer_address',
-                                              'anchorText' => 'Create Customer Address']];
+            'link_id' => 'id-customer-address',
+            'columns' => [['label' => 'Address Line 1',
+                'propertyName' => 'line1',
+                'action' => 'display']
+                ,],
+            'createButtonConfig' => ['link_id' => 'id-create-customer-address',
+                'function' => 'customer_address',
+                'anchorText' => 'Create Customer Address']];
 
         $customerAddresses = $customerAddressRepository->findBy(
             ['customer' => $id]

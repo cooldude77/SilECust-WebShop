@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Admin\Action;
+namespace App\Service\Admin\SideBar\Action;
 
-use App\Service\Admin\Action\Exception\FunctionNotFoundInMap;
-use App\Service\Admin\Action\Exception\TypeNotFoundInMap;
+use App\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
+use App\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 
 class PanelActionListMap
 {

@@ -72,6 +72,7 @@ class  CartController extends AbstractController
     }
 
     /**
+     *
      * @param CartSessionToDTOMapper    $cartDTOMapper
      * @param CartSessionProductService $cartService
      * @param EventDispatcherInterface  $eventDispatcher
@@ -79,8 +80,8 @@ class  CartController extends AbstractController
      * @param Request                   $request
      *
      * @return Response
-     * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
      */
     public function list(CartSessionToDTOMapper $cartDTOMapper,
         CartSessionProductService $cartService, EventDispatcherInterface $eventDispatcher,
@@ -126,6 +127,10 @@ class  CartController extends AbstractController
     }
 
     /**
+     * @param CartSessionProductService $cartSessionProductService
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     *
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
@@ -144,9 +149,18 @@ class  CartController extends AbstractController
     }
 
     /**
+     * @param                           $id
+     * @param ProductRepository         $productRepository
+     * @param CartSessionProductService $cartService
+     * @param Request                   $request
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param RouterInterface           $router
+     *
+     * @return Response
+     * @throws ProductNotFoundInCart
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
-     * @throws ProductNotFoundInCart
      */
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
@@ -218,6 +232,7 @@ class  CartController extends AbstractController
     }
 
     /**
+     *
      * @param                           $id
      * @param ProductRepository         $productRepository
      * @param EventDispatcherInterface  $eventDispatcher
@@ -253,6 +268,7 @@ class  CartController extends AbstractController
     }
 
     /**
+     *
      * @param EventDispatcherInterface  $eventDispatcher
      * @param CustomerFromUserFinder    $customerFromUserFinder
      * @param CartSessionProductService $cartService

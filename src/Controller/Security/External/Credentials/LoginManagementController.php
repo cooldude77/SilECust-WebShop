@@ -3,11 +3,13 @@
 namespace App\Controller\Security\External\Credentials;
 
 // ...
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotAuthorized;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use App\Service\Security\User\Employee\EmployeeFromUserFinder;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -41,18 +43,26 @@ class LoginManagementController extends AbstractController
     }
 
 
+    /**
+     * @throws UserNotAuthorized
+     * @throws UserNotLoggedInException
+     */
     #[Route(path: '/where/to', name: 'user_where_to_go_after_login')]
-    public function whereToAfterLogin(CustomerFromUserFinder $customerFromUserFinder
-    ): Response {
+    public function whereToAfterLogin(CustomerFromUserFinder $customerFromUserFinder,
+        EmployeeFromUserFinder $employeeFromUserFinder,
+    Security $security
+    ): Response
+    {
 
-        try {
-            $customerFromUserFinder->getLoggedInCustomer();
+        if($security->getUser() == null)
+            throw new UserNotLoggedInException();
+
+        if ($customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
             return $this->redirectToRoute('home');
-
-        } catch (UserNotLoggedInException $e) {
-            return new Response("Not Authorized", 403);
-        } catch (UserNotAssociatedWithACustomerException) {
-            return $this->redirectToRoute('admin_panel',['_function'=>'dashboard']);
+        } elseif ($employeeFromUserFinder->isLoggedInUserAlsoAEmployee()) {
+            return $this->redirectToRoute('admin_panel', ['_function' => 'dashboard']);
         }
+
+        throw new UserNotAuthorized($security->getUser());
     }
 }

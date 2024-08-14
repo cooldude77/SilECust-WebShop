@@ -2,15 +2,32 @@
 
 namespace App\Service\Module\WebShop\External\Address;
 
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Repository\CustomerAddressRepository;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ *
+ */
 class CheckOutAddressQuery
 {
+    /**
+     *
+     */
     public const BILLING_ADDRESS_ID = "BILLING_ADDRESS_SET_ID";
+    /**
+     *
+     */
     public const SHIPPING_ADDRESS_ID = "SHIPPING_ADDRESS_SET_ID";
 
+    /**
+     * @param CustomerAddressRepository $customerAddressRepository
+     * @param CheckOutAddressSession    $checkOutAddressSession
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param RequestStack              $requestStack
+     */
     public function __construct(
         private readonly CustomerAddressRepository $customerAddressRepository,
         private readonly CheckOutAddressSession $checkOutAddressSession,
@@ -21,9 +38,11 @@ class CheckOutAddressQuery
     }
 
     /**
+     * @param int $id
+     *
      * @return bool
-     * @throws \App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
-     * @throws \App\Exception\Security\User\UserNotLoggedInException
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
      */
     public function isAddressValid(int $id): bool
     {
@@ -38,6 +57,11 @@ class CheckOutAddressQuery
     }
 
 
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
     public function setShippingAddress(int $id): void
     {
 
@@ -45,6 +69,11 @@ class CheckOutAddressQuery
         $this->checkOutAddressSession->setShippingAddress($id);
     }
 
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
     public function setBillingAddress(int $id): void
     {
 
@@ -54,6 +83,9 @@ class CheckOutAddressQuery
     }
 
 
+    /**
+     * @return bool
+     */
     public function isShippingAddressChosen(): bool
     {
         // todo check address valid
@@ -61,6 +93,9 @@ class CheckOutAddressQuery
         return $this->checkOutAddressSession->isShippingAddressSet();
     }
 
+    /**
+     * @return bool
+     */
     public function isBillingAddressChosen(): bool
     {
 

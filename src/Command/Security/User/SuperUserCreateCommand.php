@@ -75,7 +75,7 @@ class SuperUserCreateCommand extends Command
         $user = $employee->getUser();
         $user->setRoles(['ROLE_SUPER_ADMIN']);
 
-        $this->databaseOperations->save($user);
+        $this->databaseOperations->save($employee);
 
         /** @noinspection PhpArithmeticTypeCheckInspection */
         $io = new SymfonyStyle($input, $output);

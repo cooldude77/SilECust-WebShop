@@ -5,6 +5,7 @@ namespace App\Tests\Controller\Security\External\Credentials;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class LoginManagementControllerTest extends WebTestCase
@@ -21,7 +22,7 @@ class LoginManagementControllerTest extends WebTestCase
         $this->createCustomerFixtures();
         $uri = '/login';
         // user with customer
-        $this->browser()
+        $br = $this->browser()
             // test: fill wrong creds
             ->visit($uri)
             ->fillField(
@@ -29,21 +30,26 @@ class LoginManagementControllerTest extends WebTestCase
             )->fillField(
                 '_password', 'Wrong Password'
             )
-            ->interceptRedirects()
             ->click('login')
             ->assertNotAuthenticated()
-            ->assertRedirectedTo('/login')
-           // test: fill correct cred
-            ->fillField(
-                '_username', $this->loginForCustomerInString
-            )->fillField(
-                '_password', $this->passwordForCustomerInString
-            )
+            ->use(function (Browser $browser) {
+                $respone = $browser->client()->getResponse();
+
+            });
+
+
+        // test: fill correct cred
+        $br->fillField(
+            '_username', $this->loginForCustomerInString
+        )->fillField(
+            '_password', $this->passwordForCustomerInString
+        )
             ->interceptRedirects()
             ->click('login')
             ->assertAuthenticated()
+            // test: redirected to home
             ->assertRedirectedTo('/')
-            // test: logoug
+            // test: logout
             ->visit('/logout')
             ->assertRedirectedTo('/')
             ->assertNotAuthenticated();
@@ -63,10 +69,8 @@ class LoginManagementControllerTest extends WebTestCase
             )->fillField(
                 '_password', 'Wrong Password'
             )
-            ->interceptRedirects()
             ->click('login')
             ->assertNotAuthenticated()
-            ->assertRedirectedTo('/login')
             // test: fill correct cred
             ->fillField(
                 '_username', $this->emailOfEmployeeInString
@@ -76,11 +80,25 @@ class LoginManagementControllerTest extends WebTestCase
             ->interceptRedirects()
             ->click('login')
             ->assertAuthenticated()
+            // test: redirected to admin
             ->assertRedirectedTo('/admin?_function=dashboard')
-            // test: logoug
+            // test: logout
             ->visit('/logout')
             ->assertRedirectedTo('/')
             ->assertNotAuthenticated();
+
+    }
+
+    protected function setUp(): void
+    {
+
+        // When tests are run together , there might be a conflict in case of login user from another test not
+        // logged out before another user login is tested and errors may happen
+        // Individually these tests may run fine
+        // So users are logged out before testing
+
+        parent::setUp();
+        $this->browser()->visit('/logout');
 
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Event\Module\WebShop\External\Payment;
 
 use App\Entity\Customer;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -23,8 +22,7 @@ class PaymentEvent extends Event
     }
 
     /**
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
+     * @return Customer
      */
     public function getCustomer(): \App\Entity\Customer
     {

@@ -5,13 +5,19 @@ namespace App\Tests\Controller\MasterData\Employee;
 use App\Factory\EmployeeFactory;
 use App\Factory\SalutationFactory;
 use App\Factory\UserFactory;
+use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Fixtures\SuperAdminFixture;
+use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use function Symfony\Component\String\b;
 
 class EmployeeControllerTest extends WebTestCase
 {
 
-    use HasBrowser;
+    use HasBrowser, SuperAdminFixture, EmployeeFixture, SelectElement;
+
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -22,26 +28,24 @@ class EmployeeControllerTest extends WebTestCase
         $createUrl = '/employee/create';
 
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
-                                                    'description' => 'Mister...']);
+            'description' => 'Mister...']);
 
-        $visit = $this->browser()->visit($createUrl);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $salutation->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField(
-            'employee_create_form[firstName]', 'First Name'
-        )->fillField('employee_create_form[lastName]', 'Last Name'
-        )->fillField('employee_create_form[salutationId]', $salutation->getId())
+        $this->browser()
+            ->visit($createUrl)
+            ->use(function (Browser $browser) use ($salutation) {
+                $response = $browser->client()->getResponse();
+                $this->addOption($browser, 'select[name="employee_create_form[salutation]"]', $salutation->getId());
+            })
+            ->fillField(
+                'employee_create_form[firstName]', 'First Name'
+            )->fillField(
+                'employee_create_form[lastName]', 'Last Name'
+            )
+            ->fillField('employee_create_form[salutation]', $salutation->getId())
             ->fillField('employee_create_form[email]', 'x@y.com')
             ->fillField('employee_create_form[phoneNumber]', '+91999999999')
-            ->fillField('employee_create_form[plainPassword]', '4534geget355$%^')
+            // leaving it here as password is now generated randomly and is also not sent over to the employee
+            //   ->fillField('employee_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
             ->assertSuccessful();
 
@@ -63,39 +67,33 @@ class EmployeeControllerTest extends WebTestCase
     {
 
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
-                                                    'description' => 'Mister...']);
+            'description' => 'Mister...']);
 
         $user = UserFactory::createOne();
 
-        $employee = EmployeeFactory::createOne(['firstName' => "First Name",'user'=>$user]);
+        $employee = EmployeeFactory::createOne(['firstName' => "First Name", 'user' => $user]);
 
         $id = $employee->getId();
 
         $url = "/employee/$id/edit";
 
-        $visit = $this->browser()->visit($url);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $salutation->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField(
-            'employee_edit_form[firstName]', 'New First Name'
-        )->fillField(
-            'employee_edit_form[middleName]', 'New Middle Name'
-        )
+        $this->browser()
+            ->visit($url)
+            ->use(function (Browser $browser) use ($salutation) {
+                $this->addOption($browser, 'select[name="employee_edit_form[salutation]"]', $salutation->getId());
+            })
+            ->fillField('employee_edit_form[salutation]', $salutation->getId())
+            ->fillField(
+                'employee_edit_form[firstName]', 'New First Name'
+            )->fillField(
+                'employee_edit_form[middleName]', 'New Middle Name')
             ->fillField(
                 'employee_edit_form[lastName]', 'New Last Name'
             )
-
             ->fillField('employee_edit_form[email]', 'f@g.com')
             ->fillField('employee_edit_form[phoneNumber]', '+9188888888')
-            ->click('Save')->assertSuccessful();
+            ->click('Save')
+            ->assertSuccessful();
 
         $created = EmployeeFactory::find(array('firstName' => "New First Name"));
 

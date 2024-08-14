@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\Action\Exception;
+namespace App\Exception\Admin\SideBar\Action;
 
 class FunctionNotFoundInMap extends
     \Exception
