@@ -24,8 +24,9 @@ class PriceProductDiscountController extends AbstractController
 
     #[Route('/price/product/discount/create', name: 'price_product_discount_create')]
     public function create(PriceProductDiscountDTOMapper $mapper, EntityManagerInterface $entityManager,
-        Request $request
-    ): Response {
+                           Request                       $request
+    ): Response
+    {
         $priceProductDiscountDTO = new PriceProductDiscountDTO();
 
         $form = $this->createForm(PriceProductDiscountCreateForm::class, $priceProductDiscountDTO);
@@ -65,10 +66,11 @@ class PriceProductDiscountController extends AbstractController
 
 
     #[\Symfony\Component\Routing\Attribute\Route('/price/product/discount/{id}/edit', name: 'price_product_discount_edit')]
-    public function edit(int $id, PriceProductDiscountDTOMapper $mapper,
-        EntityManagerInterface $entityManager,
-        PriceProductDiscountRepository $priceProductDiscountRepository, Request $request
-    ): Response {
+    public function edit(int                            $id, PriceProductDiscountDTOMapper $mapper,
+                         EntityManagerInterface         $entityManager,
+                         PriceProductDiscountRepository $priceProductDiscountRepository, Request $request
+    ): Response
+    {
         $priceProductDiscountDTO = new PriceProductDiscountDTO();
 
         $priceDiscount = $priceProductDiscountRepository->find($id);
@@ -107,22 +109,23 @@ class PriceProductDiscountController extends AbstractController
 
     #[Route('/price/product/discount/{id}/display', name: 'price_product_discount_display')]
     public function display(PriceProductDiscountRepository $priceProductDiscountRepository, int $id
-    ): Response {
+    ): Response
+    {
         $priceProductDiscount = $priceProductDiscountRepository->find($id);
         if (!$priceProductDiscount) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
         $displayParams = ['title' => 'Price',
-                          'link_id' => 'id-price',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [
-                              ['label' => 'Price',
-                               'propertyName' => 'price',]
-                              ,
-                              ['label' => 'Product',
-                               'propertyName' => 'product',
-                              ]]
+            'link_id' => 'id-price',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [
+                ['label' => 'Price',
+                    'propertyName' => 'price',]
+                ,
+                ['label' => 'Product',
+                    'propertyName' => 'product',
+                ]]
         ];
 
         return $this->render(
@@ -134,25 +137,27 @@ class PriceProductDiscountController extends AbstractController
 
     #[\Symfony\Component\Routing\Attribute\Route('/price/product/discount/list', name: 'price_product_discount_list')]
     public function list(PriceProductDiscountRepository $priceProductDiscountRepository,
-        PaginatorInterface $paginator,
-        Request $request
+                         PaginatorInterface             $paginator,
+                         Request                        $request
     ):
-    Response {
+    Response
+    {
 
         $listGrid = ['title' => 'Price',
-                     'link_id' => 'id-price',
-                     'columns' => [
-                         ['label' => 'Price',
-                          'propertyName' => 'price',
-                          'action' => 'display'],
-                         ['label' => 'Product',
-                          'propertyName' => 'product',
-                         ],
+            'link_id' => 'id-price',
+            'function' => 'price_product_discount',
+            'columns' => [
+                ['label' => 'Discount',
+                    'propertyName' => 'value',
+                    'action' => 'display'],
+                ['label' => 'Product',
+                    'propertyName' => 'product',
+                ],
 
-                     ],
-                     'createButtonConfig' => ['link_id' => ' id-create-price',
-                                              'function' => 'price_product_discount',
-                                              'anchorText' => 'Create Price']];
+            ],
+            'createButtonConfig' => ['link_id' => ' id-create-price',
+                'function' => 'price_product_discount',
+                'anchorText' => 'Create Price']];
 
         $query = $priceProductDiscountRepository->getQueryForSelect();
 
@@ -160,28 +165,29 @@ class PriceProductDiscountController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            1 /*limit per page*/
+            10 /*limit per page*/
         );
 
         return $this->render(
             'admin/ui/panel/section/content/list/list_paginated.html.twig',
-      ['pagination' => $pagination, 'listGrid' => $listGrid,'request'=>$request]
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 
     #[Route('/price/product/discount/{id}/fetch', name: 'price_product_discount_fetch')]
-    public function fetch(int $id, ProductRepository $productRepository,
-        PriceProductDiscountRepository $priceProductDiscountRepository
+    public function fetch(int                            $id, ProductRepository $productRepository,
+                          PriceProductDiscountRepository $priceProductDiscountRepository
     ):
-    Response {
+    Response
+    {
 
         $product = $productRepository->find($id);
         /** @var PriceProductDiscount $price */
         $price = $priceProductDiscountRepository->findOneBy(['product' => $product]);
 
         return new JsonResponse(['price' => $price->getValue(),
-                                 'currency' => $price->getCurrency()
-                                     ->getSymbol()]);
+            'currency' => $price->getCurrency()
+                ->getSymbol()]);
 
     }
 }
