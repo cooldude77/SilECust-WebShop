@@ -4,13 +4,14 @@ namespace App\Tests\Controller\MasterData\Product\Product;
 
 use App\Factory\CategoryFactory;
 use App\Factory\ProductFactory;
+use App\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class ProductControllerTest extends WebTestCase
 {
 
-    use HasBrowser;
+    use HasBrowser, ProductFixture;
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -19,7 +20,7 @@ class ProductControllerTest extends WebTestCase
     public function testCreate()
     {
         $category = CategoryFactory::createOne(['name' => 'Cat1',
-                                                'description' => 'Category 1']);
+            'description' => 'Category 1']);
 
         $id = $category->getId();
         $createUrl = '/product/create';
@@ -36,8 +37,8 @@ class ProductControllerTest extends WebTestCase
         $selectElement->appendChild($option);
 
         $visit->fillField('product_create_form[name]', 'Prod1')->fillField(
-                'product_create_form[description]', 'Product 1'
-            )->fillField('product_create_form[category]', $id)->click('Save')->assertSuccessful();
+            'product_create_form[description]', 'Product 1'
+        )->fillField('product_create_form[category]', $id)->click('Save')->assertSuccessful();
 
         $created = ProductFactory::find(array('name' => "Prod1"));
 
@@ -53,10 +54,10 @@ class ProductControllerTest extends WebTestCase
     public function testEdit()
     {
         $category1 = CategoryFactory::createOne(['name' => 'Cat1',
-                                                 'description' => 'Category 1']);
+            'description' => 'Category 1']);
 
         $category2 = CategoryFactory::createOne(['name' => 'Cat2',
-                                                 'description' => 'Category 2']);
+            'description' => 'Category 2']);
 
 
         $product = ProductFactory::createOne(['category' => $category1]);
@@ -103,7 +104,7 @@ class ProductControllerTest extends WebTestCase
     public function testDisplay()
     {
         $category = CategoryFactory::createOne(['name' => 'Cat1',
-                                                'description' => 'Category 1']);
+            'description' => 'Category 1']);
 
 
         $product = ProductFactory::createOne(['category' => $category]);
@@ -120,6 +121,7 @@ class ProductControllerTest extends WebTestCase
     public function testList()
     {
 
+        $this->createProductFixtures();
         $url = '/product/list';
         $this->browser()->visit($url)->assertSuccessful();
 
