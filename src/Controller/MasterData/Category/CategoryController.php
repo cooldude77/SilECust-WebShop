@@ -12,23 +12,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CategoryController extends AbstractController
 {
 
     #[Route('/category/create', 'category_create')]
     public function create(CategoryDTOMapper $categoryDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
+        EntityManagerInterface $entityManager,
+        Request $request,
+        ValidatorInterface $validator
     ): Response {
         $categoryDTO = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($form);
+
+            // todo:
+            $errors = $validator->validate($categoryEntity);
 
             // perform some action...
             $entityManager->persist($categoryEntity);
@@ -41,6 +46,7 @@ class CategoryController extends AbstractController
                 ), 200
             );
         }
+        $errors = $form->getErrors(true);
 
         return $this->render(
             'master_data/category/category_create.html.twig', ['form' => $form]

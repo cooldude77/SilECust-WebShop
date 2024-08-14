@@ -2,37 +2,38 @@
 
 namespace App\Form\MasterData\Category\DTO;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class CategoryDTO
 {
 
     /**
      * @var string|null
      */
-/*    #[Assert\Length(
+    #[Assert\Length(
         min: 1,
-        max: 200,
-        maxMessage: 'Length cannot exceed 200 '
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
     )]
     #[Assert\Regex(
-        pattern:'/^[a-zA-Z0-9]$/',
-        match:true,
-        message: 'Only characters and numbers are allowed'
+        pattern: '/[A-Za-z0-9\-\_\s]/',
+        message: 'Only characters and numbers are allowed',
+        match: true
     )]
- */
-    public ?string $name =null;
+    public ?string $name = null;
 
     /**
      * @var string|null
      */
 
-   /* #[Assert\Length(
+    #[Assert\Length(
         min: 1,
-        max: 200,
-        maxMessage: 'Length cannot exceed 200 '
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
     )]
-   */
-    public ?string $description =null;
+    public ?string $description = null;
 
     public ?string $parent = null;
+
     public ?int $id = -1;
 }

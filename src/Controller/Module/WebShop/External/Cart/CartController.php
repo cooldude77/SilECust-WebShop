@@ -2,33 +2,95 @@
 
 namespace App\Controller\Module\WebShop\External\Cart;
 
+use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Controller\Component\UI\PanelMainController;
+use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
+use App\Event\Module\WebShop\External\Cart\CartEvent;
+use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
+use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
+use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
+use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
+use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use App\Exception\Security\User\UserNotLoggedInException;
 use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\CartService;
-use App\Service\Module\WebShop\External\Cart\Mapper\CartDTOMapper;
-use App\Service\Module\WebShop\External\Cart\Object\CartObject;
+use App\Service\MasterData\Pricing\PriceByCountryCalculator;
+use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
+use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
-class CartController extends AbstractController
+/**
+ *
+ */
+class  CartController extends AbstractController
 {
     /**
      * @throws Exception
      */
     #[Route('/cart', name: 'module_web_shop_cart')]
-    public function cart(CartDTOMapper $cartDTOMapper, CartService $cartService,
-        Request $request
+    public function main(Request $request): Response
+    {
+
+
+        $session = $request->getSession();
+
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
+        );
+        $session->set(
+            PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME, 'header'
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, self::class
+        );
+        $session->set(
+            PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME, 'list'
+        );
+
+        $session->set(
+            PanelMainController::BASE_TEMPLATE,
+            'module/web_shop/external/cart/page/cart_page.html.twig'
+        );
+
+
+        return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
+
+    }
+
+    /**
+     * @param CartSessionToDTOMapper    $cartDTOMapper
+     * @param CartSessionProductService $cartService
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param Request                   $request
+     *
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function list(CartSessionToDTOMapper $cartDTOMapper,
+        CartSessionProductService $cartService, EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder, Request $request
     ): Response {
 
+        $this->initializeCartAndDispatchEvents(
+            $cartService, $eventDispatcher, $customerFromUserFinder
+        );
 
-        $cartService->initialize();
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -36,34 +98,77 @@ class CartController extends AbstractController
 
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            if ($form->get('checkout')->isClicked()) {
+                // todo : check cart empty
+                // todo: check cart not updated
+                return $this->redirectToRoute('web_shop_checkout');
+            }
 
             /** @var ArrayCollection $array */
             $array = $form->getData()['items'];
             $cartService->updateItemArray($array);
 
-            //     if($form->get('cart')->isClicked())
-            // $x = 10;
+            $eventDispatcher->dispatch(
+                new CartEvent(
+                    $customerFromUserFinder->getLoggedInCustomer()
+                ), CartEventTypes::POST_CART_QUANTITY_UPDATED
+            );
+
+
         }
 
-        return $this->render('module/web_shop/external/cart/page/cart_page.html.twig', ['form' =>
-                                                                                            $form]
+        return $this->render(
+            'module/web_shop/external/cart/cart_list.html.twig', ['form' => $form]
         );
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    private function initializeCartAndDispatchEvents(CartSessionProductService $cartSessionProductService,
+        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder
+    ): void {
+        $cartSessionProductService->initialize();
+        //todo handle exception`
+        $eventDispatcher->dispatch(
+            new CartEvent(
+                $customerFromUserFinder->getLoggedInCustomer()
+            ), CartEventTypes::POST_CART_INITIALIZED
+        );
+
+
+    }
+
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     * @throws ProductNotFoundInCart
+     */
     #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
-        CartService $cartService,
-        Request $request,
+        CartSessionProductService $cartService, Request $request,
+        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
         RouterInterface $router
-    ):
-    Response {
+    ): Response {
+
+
+        if ($request->isMethod(Request::METHOD_POST)) {
+            // When a non-logged-in user presses add to cart button
+            if (!$customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
+                return $this->redirectToRoute('app_login');
+            }
+        }
+
 
         $product = $productRepository->find($id);
 
         $cartProductDTO = new CartProductDTO();
         $cartProductDTO->productId = $product->getId();
+        $cartProductDTO->quantity = 1;
 
         $form = $this->createForm(
             CartSingleEntryForm::class, $cartProductDTO,
@@ -74,53 +179,131 @@ class CartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $this->initializeCartAndDispatchEvents(
+                $cartService, $eventDispatcher, $customerFromUserFinder
+            );
+
+            // Before Item was to be added to the cart
+            $eventDispatcher->dispatch(
+                new CartItemAddedEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(), $product,
+                    $cartProductDTO->quantity
+                ), CartEventTypes::BEFORE_ITEM_ADDED_TO_CART
+            );
+
             $cartProductDTO = $form->getData();
 
-            $cartObject = new CartObject(
+            $cartObject = new CartSessionObject(
                 $cartProductDTO->productId, $cartProductDTO->quantity
             );
 
-            $cartService->initialize();
             $cartService->addItemToCart($cartObject);
 
             // Todo : event after cart update
+            $eventDispatcher->dispatch(
+                new CartItemAddedEvent(
+                    $customerFromUserFinder->getLoggedInCustomer(), $product,
+                    $cartProductDTO->quantity
+                ), CartEventTypes::ITEM_ADDED_TO_CART
+            );
 
-            return new Response("Product Added Successfully");
+
+            return $this->redirectToRoute('module_web_shop_cart');
 
         }
 
-        $error = $form->getErrors(true);
         return $this->render(
-            'module/web_shop/external/cart/add_to_cart_form.html.twig',
-            ['form' => $form]
+            'module/web_shop/external/cart/add_to_cart_form.html.twig', ['form' => $form]
         );
     }
 
+    /**
+     * @param                           $id
+     * @param ProductRepository         $productRepository
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param CartSessionProductService $cartService
+     *
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
-        CartService $cartService,
-        Request $request,
-        RouterInterface $router
-    ):
-    Response {
+        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
+        CartSessionProductService $cartService
+    ): Response {
+
+        $product = $productRepository->find($id);
 
         $cartService->initialize();
         $cartService->deleteItem($id);
 
+        $eventDispatcher->dispatch(
+            new CartItemDeletedEvent(
+                $customerFromUserFinder->getLoggedInCustomer(), $product
+            ), CartEventTypes::ITEM_DELETED_FROM_CART
+        );
 
-        return new Response("Item Deleted");
+        if ($cartService->hasItems()) {
+            return $this->redirectToRoute('home');
+        } else {
+            return $this->redirectToRoute('module_web_shop_cart');
+        }
     }
 
+    /**
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param CartSessionProductService $cartService
+     *
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
-    public function clear(
-        CartService $cartService
-    ):
-    Response {
+    public function clear(EventDispatcherInterface $eventDispatcher,
+        CustomerFromUserFinder $customerFromUserFinder, CartSessionProductService $cartService
+    ): Response {
 
         $cartService->initialize();
         $cartService->clearCart();
-        return new Response("Cart Cleared");
+
+        $eventDispatcher->dispatch(
+            new CartClearedByUserEvent($customerFromUserFinder->getLoggedInCustomer()),
+            CartEventTypes::CART_CLEARED_BY_USER
+        );
+
+
+        return $this->redirectToRoute('home');
 
     }
+
+    /**
+     * @throws ProductNotFoundInCart
+     * @throws PriceProductBaseNotFound
+     */
+    public function single(string $id, ProductRepository $productRepository,
+        CartSessionProductService $cartSessionService,
+        PriceByCountryCalculator $priceByCountryCalculator,
+    ): Response {
+
+
+        $product = $productRepository->find($id);
+
+        $quantity = $cartSessionService->getQuantity($id);
+
+
+        $unitPrice = $priceByCountryCalculator->getPriceWithoutTax($id);
+
+        return $this->render(
+            'module/web_shop/external/cart/cart_single_product.html.twig', ['product' => $product,
+                                                                            'unitPrice' => $unitPrice,
+                                                                            'quantity' => $quantity,
+                                                                            'currency' => $priceByCountryCalculator->getCurrency(
+                                                                            )]
+        );
+    }
+
 
 }

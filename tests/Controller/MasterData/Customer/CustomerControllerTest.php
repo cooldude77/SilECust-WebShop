@@ -5,6 +5,7 @@ namespace App\Tests\Controller\MasterData\Customer;
 use App\Factory\CustomerFactory;
 use App\Factory\SalutationFactory;
 use App\Tests\Fixtures\CustomerFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
@@ -62,7 +63,7 @@ class CustomerControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
                                                     'description' => 'Mister...']);
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
 
@@ -106,7 +107,7 @@ class CustomerControllerTest extends WebTestCase
     public function testDisplay()
     {
 
-        $this->createCustomer();
+        $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
         $url = "/customer/$id/display";

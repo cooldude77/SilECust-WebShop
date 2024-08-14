@@ -2,12 +2,18 @@
 
 namespace App\Repository;
 
+use App\Entity\CustomerAddress;
 use App\Entity\OrderAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<OrderAddress>
+ *
+ * @method OrderAddress|null find($id, $lockMode = null, $lockVersion = null)
+ * @method OrderAddress|null findOneBy(array $criteria, array $orderBy = null)
+ * @method OrderAddress[]    findAll()
+ * @method OrderAddress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class OrderAddressRepository extends ServiceEntityRepository
 {
@@ -21,10 +27,10 @@ class OrderAddressRepository extends ServiceEntityRepository
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('o.id', 'ASC')
+    //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
@@ -33,11 +39,25 @@ class OrderAddressRepository extends ServiceEntityRepository
 
     //    public function findOneBySomeField($value): ?OrderAddress
     //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\OrderHeader $orderHeader,
+        CustomerAddress $address
+    ): OrderAddress {
+        $orderAddress = new OrderAddress();
+
+        $orderAddress->setOrderHeader($orderHeader);
+
+        if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
+            $orderAddress->setShippingAddress($address);
+        } else if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING)
+            $orderAddress->setBillingAddress($address);
+
+            return $orderAddress;
+    }
 }

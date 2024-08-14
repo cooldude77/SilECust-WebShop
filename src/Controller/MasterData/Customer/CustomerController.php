@@ -31,7 +31,7 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $customerEntity = $customerDTOMapper->mapToEntityForCreate($form);
+            $customerEntity = $customerDTOMapper->mapToEntityForCreate($form->getData());
 
 
             // perform some action...
@@ -69,11 +69,9 @@ class CustomerController extends AbstractController
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
-        $customerDTO = new CustomerDTO();
-        $customerDTO->id = $id;
+        $customerDTO = $customerDTOMapper->mapToDTOForEdit($customer);
 
         $form = $this->createForm(CustomerEditForm::class, $customerDTO);
-
 
         $form->handleRequest($request);
 
@@ -132,8 +130,7 @@ class CustomerController extends AbstractController
                      'link_id' => 'id-customer',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'firstName',
-                                    'action' => 'display',],
-                         ],
+                                    'action' => 'display',],],
                      'createButtonConfig' => ['link_id' => ' id-create-Customer',
                                               'function' => 'customer',
                                               'anchorText' => 'create Customer']];

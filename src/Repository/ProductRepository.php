@@ -62,4 +62,30 @@ class ProductRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery($dql);
 
     }
+
+    public function search(mixed $searchTerm)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $q = $qb->select('p')
+            ->from(Product::class, 'p')
+            ->where(
+                $qb->expr()->like('p.name', ':searchTerm')
+            )
+            ->orWhere(
+                $qb->expr()->like('p.description', ':searchTerm')
+            )
+            ->orWhere(
+
+                $qb->expr()->like('p.longDescription', ':searchTerm')
+            )
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery();
+
+        $e = $q->getDQL();
+
+        return $q->getResult();
+    }
 }

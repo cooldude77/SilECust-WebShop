@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
 class CustomerAddress
 {
+
+    public const ADDRESS_TYPE_SHIPPING = 'shipping';
+    public const ADDRESS_TYPE_BILLING = 'billing';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -29,6 +33,12 @@ class CustomerAddress
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?PinCode $pinCode = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $addressType = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDefault = null;
 
 
     public function getId(): ?int
@@ -58,6 +68,26 @@ class CustomerAddress
         $this->line1 = $line1;
     }
 
+    public function getLine2(): ?string
+    {
+        return $this->line2;
+    }
+
+    public function setLine2(?string $line2): void
+    {
+        $this->line2 = $line2;
+    }
+
+    public function getLine3(): ?string
+    {
+        return $this->line3;
+    }
+
+    public function setLine3(?string $line3): void
+    {
+        $this->line3 = $line3;
+    }
+
     public function getPinCode(): ?PinCode
     {
         return $this->pinCode;
@@ -66,5 +96,29 @@ class CustomerAddress
     public function setPinCode(?PinCode $pinCode): void
     {
         $this->pinCode = $pinCode;
+    }
+
+    public function getAddressType(): ?string
+    {
+        return $this->addressType;
+    }
+
+    public function setAddressType(string $addressType): static
+    {
+        $this->addressType = $addressType;
+
+        return $this;
+    }
+
+    public function isDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setDefault(?bool $isDefault): static
+    {
+        $this->isDefault = $isDefault;
+
+        return $this;
     }
 }

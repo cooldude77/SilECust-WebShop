@@ -1,0 +1,48 @@
+{#
+Common Header template , that adds profile and logout link
+Also has a block to insert your function
+#}
+ {#  https://github.com/twigphp/Twig/issues/1980 can't use - in block naam #}
+
+ {% block web_shop_header %}
+
+     <nav class="navbar navbar-default d-flex bg-primary bg-light d-flex">
+         <div class="container-fluid">
+             <nav class="navbar-brand">
+                 {% block brand %}
+                     {% include 'admin/ui/panel/header/header_logo.html.twig' %}
+                 {% endblock %}
+             </nav>
+             <div class="nav">
+                 {{ form_start(form,{'action': path('home'),'attr':{'class':"navbar-form navbar-left"}}) }}
+                 <div class="input-group">
+                     {{ form_widget(form.searchTerm,{'label':false,'attr':{'placeholder':"Search"}}) }}
+                     <div class="input-group-btn">
+                         <button class="btn btn-default" type="submit">
+                             <i class="bi bi-search"></i>
+                         </button>
+                     </div>
+                 </div>
+                 {{ form_end(form) }}
+             </div>
+
+             <div class="nav">
+                 {% if isLoggedInUserAlsoACustomer() == true %}
+                     {% block cart_link %}
+                         <a class="nav-link" href="{{ path('module_web_shop_cart') }}"><i class="bi bi-cart"></i>
+                         </a>
+                     {% endblock %}
+                 {% endif %}
+                 {% block profile %}
+                     <a class="nav-link" href="{% block profile_link %}{% endblock %}"><i
+                                 class="bi bi-person-circle"></i></a>
+                 {% endblock %}
+                 {% if app.user is not null %}
+                     {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                 {% else %}
+                     {% include 'admin/ui/panel/header/header_login_link.html.twig' %}
+                 {% endif %}
+             </div>
+         </div>
+     </nav>
+ {% endblock %}

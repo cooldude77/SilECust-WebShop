@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\OrderHeader;
+use App\Entity\OrderStatusType;
+use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +49,30 @@ class OrderHeaderRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(Customer $customer): \App\Entity\OrderHeader
+    {
+
+        $orderHeader = new OrderHeader();
+
+        $orderHeader->setCustomer($customer);
+
+        $orderHeader->setDateTimeOfOrder(new \DateTime());
+
+        $orderStatusType = $this->getEntityManager()->getRepository(OrderStatusType::class)
+            ->findOneBy(
+                ['type' => OrderStatusTypes::ORDER_CREATED]
+            );
+
+        $orderHeader->setOrderStatusType($orderStatusType);
+
+        return $orderHeader;
+
+    }
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT oh FROM App\Entity\OrderHeader oh";
+        return $this->getEntityManager()->createQuery($dql);
+
+    }
 }

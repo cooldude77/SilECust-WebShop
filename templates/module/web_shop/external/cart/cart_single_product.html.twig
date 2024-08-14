@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <img width="100%" height="100%"
+                 src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+                 alt="{{ product.description }}"/>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div id="product-name">
+                    {{ product.name }}
+                </div>
+            </div>
+            <div class="row">
+                <div id="product-description">
+                    {{ product.description }}
+                </div>
+            </div>
+            <div class="row">
+                <b>  {{ currency.symbol }} &nbsp; {{unitPrice }}</b>
+            </div>
+        </div>
+
+    </div>
+</div>

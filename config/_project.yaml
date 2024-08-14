@@ -1,5 +1,4 @@
 # This file is used for web shop project
-
 when@dev:
       parameters:
             # One level from %kernel.project_dir%

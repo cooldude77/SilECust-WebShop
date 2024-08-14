@@ -1,0 +1,12 @@
+{#  Show login link and advanced sign ups #}
+{% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
+{% block sidebar %}
+{% endblock %}
+{% block content %}
+    <div id="login-link">
+        <a class="link" id="id-link-login" href="{{ path('app_login') }}">Login</a>
+    </div>
+    <div>
+        {{ render(controller('App\\Controller\\Security\\External\\Customer\\CustomerSignUpController::signUpAdvanced')) }}
+    </div>
+{% endblock %}

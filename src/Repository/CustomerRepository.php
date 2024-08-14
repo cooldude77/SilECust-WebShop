@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,11 +46,13 @@ class CustomerRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(mixed $salutation): Customer
+    public function create(User $user): Customer
     {
 
         $customer = new Customer();
-        $customer->setSalutation($salutation);
+
+        $customer->setUser($user);
+
         return $customer;
     }
 }

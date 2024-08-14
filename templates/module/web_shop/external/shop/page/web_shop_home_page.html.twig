@@ -1,19 +1,4 @@
-{# templates/user/create.html.twig #}
+{# Web shop home page, derives from base template. Contents are served in main controller and there is no need to add anything #}
 {% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
-{% block sidebar %}
-    {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Category\\CategoryController::list')) }}
-{% endblock %}
-{% block content %}
-
-    {{ form_start(form) }}
-
-    {% for element in form.products %}
-        {#  form_row does not work well. Shows label as indexes #}
-        {{ form_widget(element) }}
-
-    {% endfor %}
-    {{ form_rest(form) }}
-    {{ form_end(form) }}
-{% endblock %}
 
 

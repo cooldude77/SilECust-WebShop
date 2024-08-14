@@ -4,30 +4,26 @@ namespace App\Service\MasterData\Employee\Mapper;
 
 use App\Entity\Category;
 use App\Entity\Employee;
-use App\Entity\User;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
 use App\Repository\EmployeeRepository;
 use App\Repository\SalutationRepository;
+use App\Security\Mapper\UserDTOMapper;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EmployeeDTOMapper
 {
 
-    public function __construct(private EmployeeRepository $employeeRepository,
-        private SalutationRepository $salutationRepository,
-        private UserPasswordHasherInterface $userPasswordHasher
+    public function __construct(private readonly EmployeeRepository $employeeRepository,
+        private readonly SalutationRepository $salutationRepository,
+        private readonly UserDTOMapper $userMapper
     ) {
     }
 
-    public function mapToEntityForCreate(FormInterface $form): Employee
+    public function mapToEntityForCreate(EmployeeDTO $employeeDTO): Employee
     {
-        /** @var Category $category */
-        $salutation = $this->salutationRepository->find($form->get('salutationId')->getData());
-        $employee = $this->employeeRepository->create($salutation);
+        $user = $this->userMapper->mapUserForEmployeeCreate($employeeDTO);
 
-        /** @var EmployeeDTO $employeeDTO */
-        $employeeDTO = $form->getData();
+        $employee = $this->employeeRepository->create($user);
 
         $employee->setFirstName($employeeDTO->firstName);
         $employee->setMiddleName($employeeDTO->middleName);
@@ -36,27 +32,9 @@ class EmployeeDTOMapper
         $employee->setEmail($employeeDTO->email);
         $employee->setPhoneNumber($employeeDTO->phoneNumber);
 
-        $employee->setUser($this->createUser($employeeDTO,$employee));
-
         return $employee;
     }
 
-    public function createUser(EmployeeDTO $employeeDTO, Employee $employee):User
-    {
-        $user = new User();
-        $user->setLogin($employee->getEmail());
-
-        // encode the plain password
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-               $employeeDTO->plainPassword
-            )
-        );
-
-        $user->setRoles(['ROLE_ADMIN']);
-        return $user;
-    }
 
     public function mapToEntityForEdit(FormInterface $form, Employee $employee): Employee
     {

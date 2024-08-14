@@ -1,0 +1,33 @@
+{#
+Common Header template , that adds profile and logout link
+Also has a block to insert your function
+#}
+ {#  https://github.com/twigphp/Twig/issues/1980 can't use - in block naam #}
+
+ {% block admin_header %}
+
+     <div id="header" class="bg-primary bg-light">
+         <nav class="navbar navbar-expand-sm d-flex">
+             <div class="container-fluid">
+                 {% block brand %}
+                     <nav class="navbar-brand">
+                         {% include 'admin/ui/panel/header/header_logo.html.twig' %}
+                     </nav>
+                 {% endblock %}
+
+                 <nav class="justify-content-end">
+                     <ul class="navbar-nav ">
+                         {% block profile %}
+                             <li class="nav-item">
+                                 <a class="nav-link" href="{% block profile_link %}{% endblock %}">Profile</a>
+                             </li>
+                         {% endblock %}
+                         <li class="nav-item">
+                             {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                         </li>
+                     </ul>
+                 </nav>
+             </div>
+         </nav>
+     </div>
+ {% endblock %}

@@ -17,12 +17,13 @@ class OrderItem
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderHeader $orderHeader = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
+
 
     public function getId(): ?int
     {
@@ -64,4 +65,5 @@ class OrderItem
 
         return $this;
     }
+
 }

@@ -1,4 +1,6 @@
 {{ form_start(form) }}
-{{ form_widget(form) }}
-<button type="submit">Add To Cart</button>
+<div style="display: none;">
+    {{ form_widget(form) }}
+</div>
+<button type="submit" name="addToCart"> <i class="bi bi-plus-circle-fill"></i>Add to Cart</button>
 {{ form_end(form) }}

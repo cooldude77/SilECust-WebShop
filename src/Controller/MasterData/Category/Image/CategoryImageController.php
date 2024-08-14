@@ -57,7 +57,9 @@ class CategoryImageController extends AbstractController
             $categoryImageDTO = $form->getData();
 
             $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
-            $categoryImageOperation->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
+            $categoryImageOperation->createOrReplace(
+                $categoryImage, $categoryImageDTO->getUploadedFile()
+            );
 
 
             $entityManager->persist($categoryImage);
@@ -76,7 +78,9 @@ class CategoryImageController extends AbstractController
             );
         }
 
-        return $this->render('master_data/category/image/create.html.twig', ['form' => $form]);
+        return $this->render(
+            'master_data/category/image/category_image_create.html.twig', ['form' => $form]
+        );
     }
 
     /**
@@ -115,7 +119,9 @@ class CategoryImageController extends AbstractController
                 $form->getData(), $categoryImage
             );
 
-            $categoryImageService->createOrReplace($categoryImage,$categoryImageDTO->getUploadedFile());
+            $categoryImageService->createOrReplace(
+                $categoryImage, $categoryImageDTO->getUploadedFile()
+            );
 
             $entityManager->persist($categoryImage);
             $entityManager->flush();
@@ -226,19 +232,20 @@ class CategoryImageController extends AbstractController
             throw $this->createNotFoundException('No Category Image found for file id ' . $id);
         }
         $entity = ['id' => $categoryImage->getId(),
-                   'name' => $categoryImage->getCategoryFile()->getFile()->getName(),
-                   'yourFileName' => $categoryImage->getCategoryFile()->getFile()->getYourFileName(
-                   ),
-                   'categoryImageType' => $categoryImage->getCategoryImageType()->getDescription()];
+                   'name' => $categoryImage->getFile()->getName(),
+                   'yourFileName' => $categoryImage->getFile()->getYourFileName()];
 
         $displayParams = ['title' => 'CategoryImage',
                           'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Your Name',
-                                        'propertyName' => 'yourFileName',
-                                        'link_id' => 'id-display-image-file'],
-                                       ['label' => 'Name', 'propertyName' => 'name'],
-                                       ['label' => 'Image File Type',
-                                        'propertyName' => 'categoryImageType']]];
+                          'link_id' => 'id-edit-link',
+                          'fields' => [
+                              ['label' => 'Your Name',
+                               'propertyName' => 'yourFileName',
+                               'link_id' => 'id-display-image-file'],
+                              ['label' => 'Name',
+                               'propertyName' => 'name',
+                               'link_id' => 'id-name'],
+                          ]];
 
         return $this->render(
             'master_data/category/image/category_image_display.html.twig',

@@ -34,7 +34,7 @@ class EmployeeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $employeeEntity = $employeeDTOMapper->mapToEntityForCreate($form);
+            $employeeEntity = $employeeDTOMapper->mapToEntityForCreate($form->getData());
 
             // perform some action...
             $entityManager->persist($employeeEntity);

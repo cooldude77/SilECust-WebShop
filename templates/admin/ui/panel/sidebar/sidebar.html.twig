@@ -1,0 +1,8 @@
+<div class="border-right-1 border-primary">
+    <ul class="nav nav-pills flex-column">
+        {% for section in sideBar.sections %}
+            {% include  'base/_li_section_with_header.html.twig' with section %}
+        {% endfor %}
+
+    </ul>
+</div>

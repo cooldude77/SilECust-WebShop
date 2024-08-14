@@ -11,7 +11,7 @@ class CustomerDTO
     public ?string $middleName = null;
     public ?string $lastName = null;
     public ?string $givenName = null;
-    public ?int $salutationId = -1;
+    public ?int $salutationId = 0;
 
     public ?string $email = null;
 

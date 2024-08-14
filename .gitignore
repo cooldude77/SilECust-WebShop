@@ -1,6 +1,5 @@
 
 ###> symfony/framework-bundle ###
-/.env
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -8,6 +7,7 @@
 /public
 /vendor
 /assets/core
+/var
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -16,11 +16,7 @@
 ###< symfony/phpunit-bridge ###
 
 ### Project Files ###
-.env
-.env.test.local
-.env.test
 /.idea
-/tmp
 ### Project Files ###
 # App specific file
 # default location of file uploads

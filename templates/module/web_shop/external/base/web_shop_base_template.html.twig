@@ -3,26 +3,41 @@
     {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
 {% endblock %}
 {% block body %}
-    <div id="wrapper" class="container ">
-        <div class="row">
-            <div id="header" class="col">
-                {% block header %}
-                {% endblock %}
-            </div>
-        </div>
-        <div class="row">
-            <div id="sidebar-wrapper" class="col-sm-3">
-                {% block sidebar %}
-                {% endblock %}
-            </div>
-            <div id="content-wrapper" class="col-sm mt-2">
+    <div id="wrapper" class="h-100 container">
+
+        {% block header_wrapper %}
+            {% block header %}
+                <div id="header" class="row">
+                </div>
+            {% endblock %}
+        {% endblock %}
+
+        <div id="content-wrapper" class="row h-100 my-4 ">
+
+            {% block sidebar_wrapper %}
+                <div id="sidebar" class="col-sm-3 sidenav card p-3">
+                    {% block sidebar %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            <div id="content" class="col-sm card p-3">
+                {% block flash %}
+                <div id="flash-messages">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% endblock %}
+                </div>
                 {% block content %}{% endblock %}
             </div>
         </div>
-        <div class="row">
-            <div id="footer-wrapper">
-                {% block footer %}{% endblock %}
-            </div>
+
+        <div id="footer" class="row">
+            {% block footer %}{% endblock %}
         </div>
+
     </div>
 {% endblock %}

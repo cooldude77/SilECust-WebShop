@@ -1,0 +1,7 @@
+{% extends 'base/credentials_base_template.html.twig' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+    {% include 'security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
+{% endblock %}

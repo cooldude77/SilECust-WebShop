@@ -29,14 +29,20 @@ readonly class CustomerAddressDTOMapper
         $customerAddress = $this->customerAddressRepository->create($customer);
 
         $customerAddress->setLine1($customerAddressDTO->line1);
+        $customerAddress->setLine2($customerAddressDTO->line2);
+        $customerAddress->setLine3($customerAddressDTO->line3);
 
         $customerAddress->setCustomer($customer);
+
+        $customerAddress->setAddressType($customerAddressDTO->addressType);
 
         $customerAddress->setPinCode(
             $this->pinCodeRepository->find(
                 $customerAddressDTO->pinCodeId
             )
         );
+
+        $customerAddress->setDefault($customerAddressDTO->isDefault);
 
         return $customerAddress;
 
@@ -48,12 +54,19 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setLine1($customerAddressDTO->line1);
 
+        $customerAddress->setLine2($customerAddressDTO->line2);
+
+        $customerAddress->setLine3($customerAddressDTO->line3);
+
+        $customerAddress->setAddressType($customerAddressDTO->addressType);
 
         $customerAddress->setPinCode(
             $this->pinCodeRepository->find(
                 $customerAddressDTO->pinCodeId
             )
         );
+
+        $customerAddress->setDefault($customerAddressDTO->isDefault);
 
         return $customerAddress;
     }

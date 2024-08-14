@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\OrderItem;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +47,25 @@ class OrderItemRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(\App\Entity\OrderHeader $orderHeader,
+        Product $product,
+        int $quantity
+    ): OrderItem {
+        $orderItem = new OrderItem();
+        $orderItem->setOrderHeader($orderHeader);
+
+        $orderItem->setProduct($product);
+
+        $orderItem->setQuantity($quantity);
+
+        return $orderItem;
+
+    }
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT oi FROM App\Entity\OrderItem oi";
+        return $this->getEntityManager()->createQuery($dql);
+
+    }
 }

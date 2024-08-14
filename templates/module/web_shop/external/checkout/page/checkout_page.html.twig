@@ -1,0 +1,11 @@
+{# templates/user/create.html.twig #}
+{% extends 'module/web_shop/external/base/web_shop_base_template.html.twig' %}
+{% block sidebar %}
+{% endblock %}
+{% block content %}
+    {% if  is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include 'module/web_shop/external/checkout/checkout_logged_in_user.html.twig' %}
+    {% else %}
+        {% include 'module/web_shop/external/checkout/checkout_user_login_sign_up_options_page.html.twig' %}
+    {% endif %}
+{% endblock %}
