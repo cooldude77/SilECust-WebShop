@@ -10,6 +10,7 @@ use App\Repository\EmployeeRepository;
 use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,7 +20,8 @@ class EmployeeController extends AbstractController
 
     #[Route('/employee/create', 'employee_create')]
     public function create(EmployeeDTOMapper      $employeeDTOMapper,
-                           EntityManagerInterface $entityManager, Request $request
+                           EntityManagerInterface $entityManager,
+                           Request                $request
     ): Response
     {
         $employeeDTO = new EmployeeDTO();
@@ -53,7 +55,6 @@ class EmployeeController extends AbstractController
             );
         }
 
-        $formErrors = $form->getErrors(true);
         return $this->render('master_data/employee/employee_create.html.twig', ['form' => $form]);
     }
 
@@ -85,7 +86,7 @@ class EmployeeController extends AbstractController
             $data = $form->getData();
             $data->salutationId = $form->get('salutation')->getData()->getId();
 
-            $employee = $employeeDTOMapper->mapToEntityForEdit($form, $employee);
+            $employee = $employeeDTOMapper->mapToEntityForEdit($data);
             // perform some action...
             $entityManager->persist($employee);
             $entityManager->flush();

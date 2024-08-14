@@ -40,10 +40,12 @@ class EmployeeControllerTest extends WebTestCase
                 'employee_create_form[firstName]', 'First Name'
             )->fillField(
                 'employee_create_form[lastName]', 'Last Name'
-            )->fillField('employee_create_form[salutation]', $salutation->getId())
+            )
+            ->fillField('employee_create_form[salutation]', $salutation->getId())
             ->fillField('employee_create_form[email]', 'x@y.com')
             ->fillField('employee_create_form[phoneNumber]', '+91999999999')
-            ->fillField('employee_create_form[plainPassword]', '4534geget355$%^')
+            // leaving it here as password is now generated randomly and is also not sent over to the employee
+            //   ->fillField('employee_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
             ->assertSuccessful();
 
@@ -78,19 +80,20 @@ class EmployeeControllerTest extends WebTestCase
         $this->browser()
             ->visit($url)
             ->use(function (Browser $browser) use ($salutation) {
-                $this->addOption($browser, 'select[name="employee_create_form[salutationId]"]', $salutation->getId());
+                $this->addOption($browser, 'select[name="employee_edit_form[salutation]"]', $salutation->getId());
             })
+            ->fillField('employee_edit_form[salutation]', $salutation->getId())
             ->fillField(
                 'employee_edit_form[firstName]', 'New First Name'
             )->fillField(
-                'employee_edit_form[middleName]', 'New Middle Name'
-            )
+                'employee_edit_form[middleName]', 'New Middle Name')
             ->fillField(
                 'employee_edit_form[lastName]', 'New Last Name'
             )
             ->fillField('employee_edit_form[email]', 'f@g.com')
             ->fillField('employee_edit_form[phoneNumber]', '+9188888888')
-            ->click('Save')->assertSuccessful();
+            ->click('Save')
+            ->assertSuccessful();
 
         $created = EmployeeFactory::find(array('firstName' => "New First Name"));
 
