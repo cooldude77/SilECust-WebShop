@@ -22,14 +22,9 @@ class SideBarController extends AbstractController
         try {
             $customerFromUserFinder->getLoggedInCustomer();
 
-            $role = 'ROLE_CUSTOMER';
-
             $sideBar = $roleBasedSideBarList->getListBasedOnRole(
-                $role,
                 $this->generateUrl(
-                    $session
-                        ->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY)
-                )
+                    $session->get(PanelMainController::CONTEXT_ROUTE_SESSION_KEY))
             );
 
             return $this->render(
