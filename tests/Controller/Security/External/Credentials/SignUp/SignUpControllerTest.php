@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Security\External\Credentials;
+namespace App\Tests\Controller\Security\External\Credentials\SignUp;
 
 use App\Entity\Customer;
 use App\Entity\User;

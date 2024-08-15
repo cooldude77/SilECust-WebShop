@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security\External\Credentials;
 
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
@@ -34,6 +34,7 @@ class ResetPasswordController extends AbstractController
 
     /**
      * Display & process form to request a password reset.
+     * @throws TransportExceptionInterface
      */
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
