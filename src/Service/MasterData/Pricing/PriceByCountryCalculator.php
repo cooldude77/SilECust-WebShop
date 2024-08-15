@@ -5,6 +5,7 @@ namespace App\Service\MasterData\Pricing;
 use App\Entity\Country;
 use App\Entity\Currency;
 use App\Entity\OrderItem;
+use App\Exception\MasterData\Pricing\DefaultCountryNotSet;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use App\Repository\CountryRepository;
@@ -19,12 +20,14 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 readonly class PriceByCountryCalculator
 {
     public function __construct(private PriceCalculator $priceCalculator,
-        private CountryRepository $countryRepository, private ProductRepository $productRepository,
-        private CurrencyRepository $currencyRepository,
+        private readonly CountryRepository $countryRepository, private ProductRepository $productRepository,
+        private readonly CurrencyRepository $currencyRepository,
         #[Autowire(param: 'silecust.default_country')]
-        private string $countryCode
+        private readonly string $countryCode
     ) {
 
+        if($this->countryCode == null)
+             throw new DefaultCountryNotSet();
 
     }
 

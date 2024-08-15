@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Security\External\Credentials;
+namespace App\Tests\Controller\Security\External\Credentials\Login;
 
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;

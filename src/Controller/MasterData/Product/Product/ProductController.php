@@ -13,15 +13,16 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/product/create', 'product_create')]
-    public function create(ProductDTOMapper $productDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
+    #[Route('/product/create', 'product_create')]
+    public function create(ProductDTOMapper       $productDTOMapper,
+                           EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
         $productDTO = new ProductDTO();
         $form = $this->createForm(
             ProductCreateForm::class, $productDTO
@@ -60,9 +61,10 @@ class ProductController extends AbstractController
 
     #[Route('/product/{id}/edit', name: 'product_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        ProductRepository $productRepository, ProductDTOMapper $productDTOMapper, Request $request,
-        int $id
-    ): Response {
+                         ProductRepository      $productRepository, ProductDTOMapper $productDTOMapper, Request $request,
+                         int                    $id
+    ): Response
+    {
         $product = $productRepository->find($id);
 
 
@@ -110,13 +112,13 @@ class ProductController extends AbstractController
         }
 
         $displayParams = ['title' => 'Product',
-                          'link_id' => 'id-product',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'Name',
-                                        'propertyName' => 'name',
-                                        'link_id' => 'id-display-product'],
-                                       ['label' => 'Description',
-                                        'propertyName' => 'description'],]];
+            'link_id' => 'id-product',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'link_id' => 'id-display-product'],
+                ['label' => 'Description',
+                    'propertyName' => 'description'],]];
 
         return $this->render(
             'master_data/product/product_display.html.twig',
@@ -125,33 +127,38 @@ class ProductController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository,PaginatorInterface $paginator,
-    Request $request):
+    #[Route('/product/list', name: 'product_list')]
+    public function list(ProductRepository  $productRepository,
+                         PaginatorInterface $paginator,
+                         Request            $request):
     Response
     {
 
-        $listGrid = ['title' => 'Product',
-                     'link_id' => 'id-product',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display',],
-                                   ['label' => 'Description', 'propertyName' => 'description'],],
-                     'createButtonConfig' => ['link_id' => ' id-create-product',
-                                              'function' => 'product',
-                                              'anchorText' => 'Create Product']];
+        $listGrid = [
+            'title' => 'Product',
+            'link_id' => 'id-product',
+            'function' => 'product',
+            'columns' => [
+                ['label' => 'Name',
+                    'propertyName' => 'name',
+                    'action' => 'display',],
+                ['label' => 'Description', 'propertyName' => 'description'],
+            ],
+            'createButtonConfig' => ['link_id' => ' id-create-product',
+                'anchorText' => 'Create Product']
+        ];
 
         $query = $productRepository->getQueryForSelect();
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            1 /*limit per page*/
+            10 /*limit per page*/
         );
 
         return $this->render(
             'admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid]
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

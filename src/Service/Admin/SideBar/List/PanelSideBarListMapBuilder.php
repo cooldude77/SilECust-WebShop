@@ -161,8 +161,8 @@ class PanelSideBarListMapBuilder
                         ],
                         // todo: implement
                         [
-                            'id' => 'financial-data',
-                            'header_text' => 'Financial Data',
+                            'id' => 'finance-data',
+                            'header_text' => 'Finance Data',
                             'items' => [
                                 [
                                     'id' => 'currency-list',

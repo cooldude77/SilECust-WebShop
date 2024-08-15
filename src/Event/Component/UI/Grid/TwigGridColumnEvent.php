@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\UI;
+namespace App\Event\Component\UI\Grid;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

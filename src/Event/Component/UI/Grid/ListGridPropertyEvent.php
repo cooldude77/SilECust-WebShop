@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Transaction\Order\Admin\Header;
+namespace App\Event\Component\UI\Grid;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -8,7 +8,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  * Set when order list event is called, here you can set list properties dynamically
  *
  */
-class ListGridPropertyForOrderListEvent extends Event
+class ListGridPropertyEvent extends Event
 {
     public const string LIST_GRID_PROPERTY_FOR_ORDERS = 'transaction.list_grid.property';
 

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'silecust:user:super:create',
@@ -21,7 +22,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SuperUserCreateCommand extends Command
 {
     public function __construct(private readonly EmployeeDTOMapper $employeeDTOMapper,
-        private readonly DatabaseOperations $databaseOperations
+        private readonly DatabaseOperations $databaseOperations,
+   private readonly UserPasswordHasherInterface $userPasswordHasher
     ) {
         parent::__construct();
     }
@@ -68,11 +70,20 @@ class SuperUserCreateCommand extends Command
         $employeeDTO->firstName = $firstName;
         $employeeDTO->email = $email;
         $employeeDTO->lastName = $lastName;
-        $employeeDTO->plainPassword = $password;
 
         $employee = $this->employeeDTOMapper->mapToEntityForCreate($employeeDTO);
 
+
+        // the password for mapping user creates a random password
+        // To use the password entered by user, set the password again
         $user = $employee->getUser();
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                $password
+            )
+        );
+       // change the role
         $user->setRoles(['ROLE_SUPER_ADMIN']);
 
         $this->databaseOperations->save($employee);
