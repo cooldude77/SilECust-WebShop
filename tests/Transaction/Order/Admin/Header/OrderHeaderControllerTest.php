@@ -85,6 +85,8 @@ class OrderHeaderControllerTest extends WebTestCase
         $url = "order/list";
         $this->browser()->visit($url)->assertSuccessful();
 
+        // todo: write tests for orders created by customer and viewed by customer and employee
+
     }
 
 }

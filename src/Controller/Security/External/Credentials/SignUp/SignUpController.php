@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security\External\Credentials;
+namespace App\Controller\Security\External\Credentials\SignUp;
 
 use App\Event\Security\External\SignUp\SignUpEvent;
 use App\Event\Security\SecurityEventTypes;
@@ -13,7 +13,6 @@ use App\Service\Security\User\Customer\CustomerService;
 use App\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

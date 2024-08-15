@@ -75,4 +75,10 @@ class OrderHeaderRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery($dql);
 
     }
+    function getQueryForSelectByCustomer(Customer $customer): Query
+    {
+        $dql = "SELECT oh FROM App\Entity\OrderHeader oh where oh.customer=:customer";
+        return $this->getEntityManager()->createQuery($dql)->setParameter('customer',$customer);
+
+    }
 }

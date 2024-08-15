@@ -1,6 +1,6 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Security\External\Credentials;
+namespace App\Controller\Security\External\Credentials\Login;
 
 // ...
 use App\Exception\Security\User\UserNotAuthorized;

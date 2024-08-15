@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PriceProductTax;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -51,6 +52,13 @@ class PriceProductTaxRepository extends ServiceEntityRepository
             ->setParameter('taxSlabs',$taxSlabs)
             ->getQuery()
             ->getResult();
+
+    }
+
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT ppt FROM App\Entity\PriceProductTax ppt";
+        return $this->getEntityManager()->createQuery($dql);
 
     }
 }

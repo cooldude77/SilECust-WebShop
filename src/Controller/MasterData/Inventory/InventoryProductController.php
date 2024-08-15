@@ -173,7 +173,7 @@ class InventoryProductController extends AbstractController
 
         return $this->render(
             'admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid]
+      ['pagination' => $pagination, 'listGrid' => $listGrid,'request'=>$request]
         );
     }
 }

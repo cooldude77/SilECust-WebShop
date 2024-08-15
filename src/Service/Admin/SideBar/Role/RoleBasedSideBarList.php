@@ -13,7 +13,7 @@ readonly class RoleBasedSideBarList
     ) {
     }
 
-    public function getListBasedOnRole( $contextUrl): array
+    public function getListBasedOnRole($contextUrl): array
     {
 
         $list = $this->listMapBuilder->build($contextUrl)->getSideBarList();
