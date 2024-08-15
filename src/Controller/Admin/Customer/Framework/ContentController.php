@@ -49,23 +49,16 @@ class ContentController extends AbstractController
 
 
     /**
-     * @param Request                $request
+     * @param Request $request
      * @param CustomerFromUserFinder $customerFromUserFinder
      *
      * @return Response
-     * @throws UserNotLoggedInException
-     * @throws UserNotAssociatedWithACustomerException
      */
     public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
     Response
     {
 
-
-        $customer = $customerFromUserFinder->getLoggedInCustomer();
-
-        return $this->forward(OrderHeaderController::class . '::list', [
-            'id' => $customer->getId(),
-            'request' => $request]);
+        return $this->forward(OrderHeaderController::class . '::list', ['request' => $request]);
 
     }
 

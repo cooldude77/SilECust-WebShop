@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventSubscriber\Admin\Customer\Transaction\Twig;
+namespace App\EventSubscriber\Transaction\Admin\Order\Header\Twig;
 
 use App\Entity\OrderHeader;
-use App\Event\Component\UI\TwigGridColumnEvent;
+use App\Event\Component\UI\Grid\TwigGridColumnEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnTwigGridColumnEvent implements EventSubscriberInterface
