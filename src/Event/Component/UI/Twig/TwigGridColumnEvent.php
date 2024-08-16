@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\UI\Grid;
+namespace App\Event\Component\UI\Twig;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

@@ -4,7 +4,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use App\Event\Component\Database\ListQueryEvent;
-use App\Event\Component\UI\Grid\ListGridPropertyEvent;
+use App\Event\Component\UI\Twig\ListGridPropertyEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
@@ -98,6 +98,7 @@ class OrderHeaderController extends AbstractController
     }
 
     #[Route('/order/{id}/display', name: 'order_display')]
+    #[Route('/my/order/{id}/display', name: 'my_order_display')]
     public function display(OrderHeaderRepository $OrderHeaderRepository, int $id): Response
     {
         $OrderHeader = $OrderHeaderRepository->find($id);
