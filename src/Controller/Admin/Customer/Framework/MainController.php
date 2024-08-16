@@ -9,6 +9,7 @@ use App\Controller\Component\UI\PanelMainController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -19,11 +20,18 @@ use Symfony\Component\Routing\RouterInterface;
 class MainController extends AbstractController
 {
 
+    /**
+     * @param RouterInterface $router
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/my/dashboard', name: 'my_dashboard')]
     #[Route('/my', name: 'my')]
     #[Route('/my/profile', name: 'my_profile')]
     #[Route('/my/orders', name: 'my_orders')]
     #[Route('/my/addresses', name: 'my_addresses')]
+    #[Route('/my/orders/{id}/display', name: 'my_order_display')]
+
     public function dashboard(RouterInterface $router, Request $request): Response
     {
         $session = $request->getSession();
@@ -59,6 +67,12 @@ class MainController extends AbstractController
                     'orders'
                 );
                 break;
+            case 'my_order_display':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'orderDisplay'
+                );
+                break;
         }
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
@@ -66,12 +80,13 @@ class MainController extends AbstractController
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     * @param SessionInterface $session
      *
      * @return void
      */
-    public function setSessionVariables(\Symfony\Component\HttpFoundation\Session\SessionInterface $session
-    ): void {
+    public function setSessionVariables(SessionInterface $session
+    ): void
+    {
 
         $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my');
 

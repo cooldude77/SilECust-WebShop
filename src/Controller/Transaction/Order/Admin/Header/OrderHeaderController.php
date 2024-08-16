@@ -98,8 +98,7 @@ class OrderHeaderController extends AbstractController
     }
 
     #[Route('/order/{id}/display', name: 'order_display')]
-    #[Route('/my/order/{id}/display', name: 'my_order_display')]
-    public function display(OrderHeaderRepository $OrderHeaderRepository, int $id): Response
+    public function display(OrderHeaderRepository $OrderHeaderRepository, int $id,Request $request): Response
     {
         $OrderHeader = $OrderHeaderRepository->find($id);
         if (!$OrderHeader) {
@@ -114,7 +113,7 @@ class OrderHeaderController extends AbstractController
 
         return $this->render(
             'transaction/order/order_display.html.twig',
-            ['entity' => $OrderHeader, 'params' => $displayParams]
+            ['entity' => $OrderHeader, 'params' => $displayParams, 'request' => $request]
         );
     }
 

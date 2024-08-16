@@ -50,15 +50,23 @@ class ContentController extends AbstractController
 
     /**
      * @param Request $request
-     * @param CustomerFromUserFinder $customerFromUserFinder
-     *
      * @return Response
      */
-    public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
+    public function orders(Request $request):
     Response
     {
 
         return $this->forward(OrderHeaderController::class . '::list', ['request' => $request]);
+
+    }
+
+    public function orderDisplay(Request $request): Response
+    {
+
+        $routeParams = $request->attributes->get('_route_params');
+        $id = $routeParams['id'];
+
+        return $this->forward(OrderHeaderController::class . '::display', ['request' => $request,'id'=>$id]);
 
     }
 
