@@ -1,13 +1,13 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Order\Header\Twig;
+namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
 use App\Entity\OrderHeader;
-use App\Event\Component\UI\Twig\TwigGridColumnEvent;
+use App\Event\Component\UI\Twig\GridColumnEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class OnTwigGridColumnEvent implements EventSubscriberInterface
+class OnGridColumnEvent implements EventSubscriberInterface
 {
     public function __construct(private readonly RouterInterface $router)
     {
@@ -16,12 +16,12 @@ class OnTwigGridColumnEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            TwigGridColumnEvent::BEFORE_GRID_COLUMN_DISPLAY => 'beforeDisplay'
+            GridColumnEvent::BEFORE_GRID_COLUMN_DISPLAY => 'beforeDisplay'
         ];
 
     }
 
-    public function beforeDisplay(TwigGridColumnEvent $event): void
+    public function beforeDisplay(GridColumnEvent $event): void
     {
 
         $data = $event->getData();
@@ -32,7 +32,7 @@ class OnTwigGridColumnEvent implements EventSubscriberInterface
         $entity = $event->getData()['entity'];
 
 
-        if ($listGrid['function'] == 'order') {
+        if ($listGrid['function'] == 'my_order') {
             switch ($column['propertyName']) {
                 case 'id':
                     $column['value'] = $this->router->generate('my_order_display', ['id'=>$entity->getId()]);

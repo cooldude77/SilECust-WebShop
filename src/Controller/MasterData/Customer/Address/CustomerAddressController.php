@@ -29,10 +29,9 @@ class CustomerAddressController extends AbstractController
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddressDTO->customerId = $id;
-        if ($request->query->get('type') == null)
-            throw new AddressTypeNotProvided();
 
-        $customerAddressDTO->addressType = $request->query->get('type');
+        if ($request->query->get('type') != null)
+            $customerAddressDTO->addressType = $request->query->get('type');
 
 
         $form = $this->createForm(
@@ -145,26 +144,33 @@ class CustomerAddressController extends AbstractController
 
 
     #[Route('/customer/{id}/address/list', name: 'customer_address_list')]
-    public function list(int $id, CustomerAddressRepository $customerAddressRepository
+    public function list(int                       $id,
+                         CustomerAddressRepository $customerAddressRepository,
+                         Request                   $request
     ): Response
     {
 
         $listGrid = ['title' => 'Customer Address',
             'link_id' => 'id-customer-address',
-            'columns' => [['label' => 'Address Line 1',
-                'propertyName' => 'line1',
-                'action' => 'display']
+            'columns' => [
+                ['label' => 'Address Line 1',
+                    'propertyName' => 'line1',
+                    'action' => 'display'
+                ]
                 ,],
-            'createButtonConfig' => ['link_id' => 'id-create-customer-address',
+            'createButtonConfig' => [
+                'link_id' => 'id-create-customer-address',
                 'function' => 'customer_address',
-                'anchorText' => 'Create Customer Address']];
+                'anchorText' => 'Create Customer Address'
+            ]
+        ];
 
         $customerAddresses = $customerAddressRepository->findBy(
             ['customer' => $id]
         );
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $customerAddresses, 'listGrid' => $listGrid]
+            ['entities' => $customerAddresses, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

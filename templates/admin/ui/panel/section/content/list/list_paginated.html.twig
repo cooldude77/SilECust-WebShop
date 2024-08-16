@@ -31,7 +31,7 @@
                     {% if column.action is defined and column.action == 'display' %}
 
                         <div class="col">
-                            {% set event = dispatchEvent('panel.grid.before_column_display',
+                            {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',
                                 {"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
 
                             {% set column = attribute(event.getData(),'column') %}

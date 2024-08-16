@@ -8,7 +8,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  * Set when order list event is called, here you can set list properties dynamically
  *
  */
-class ListGridPropertyEvent extends Event
+class GridPropertyEvent extends Event
 {
     public const string LIST_GRID_PROPERTY_FOR_ORDERS = 'transaction.list_grid.property';
 

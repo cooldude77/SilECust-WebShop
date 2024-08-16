@@ -30,6 +30,7 @@ class MainController extends AbstractController
     #[Route('/my/profile', name: 'my_profile')]
     #[Route('/my/orders', name: 'my_orders')]
     #[Route('/my/addresses', name: 'my_addresses')]
+    #[Route('/my/address/create', name: 'my_address_create')]
     #[Route('/my/orders/{id}/display', name: 'my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'my_order_item_display')]
 
@@ -60,6 +61,12 @@ class MainController extends AbstractController
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addresses'
+                );
+                break;
+                case 'my_address_create':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressCreate'
                 );
                 break;
             case 'my_orders':

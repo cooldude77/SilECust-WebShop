@@ -4,7 +4,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use App\Event\Component\Database\ListQueryEvent;
-use App\Event\Component\UI\Twig\ListGridPropertyEvent;
+use App\Event\Component\UI\Twig\GridPropertyEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
@@ -124,9 +124,9 @@ class OrderHeaderController extends AbstractController
         Request $request
     ): Response {
 
-        /** @var ListGridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new ListGridPropertyEvent(),
-            ListGridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
+        /** @var GridPropertyEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent(),
+            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
         );
 
         $listGrid = $listEvent->getListGridProperties();

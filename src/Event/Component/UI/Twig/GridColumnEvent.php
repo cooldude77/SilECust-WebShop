@@ -4,7 +4,7 @@ namespace App\Event\Component\UI\Twig;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class TwigGridColumnEvent extends Event
+class GridColumnEvent extends Event
 {
 
     private  bool $dataChanged = false;

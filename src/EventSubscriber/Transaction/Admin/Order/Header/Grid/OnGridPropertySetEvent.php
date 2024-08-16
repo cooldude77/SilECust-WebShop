@@ -2,11 +2,11 @@
 
 namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
-use App\Event\Component\UI\Twig\ListGridPropertyEvent;
+use App\Event\Component\UI\Twig\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-readonly class OnListGridPropertySetEvent implements EventSubscriberInterface
+readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 {
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
@@ -18,12 +18,12 @@ readonly class OnListGridPropertySetEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ListGridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS => 'setProperty'
+            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS => 'setProperty'
         ];
 
     }
 
-    public function setProperty(ListGridPropertyEvent $event): void
+    public function setProperty(GridPropertyEvent $event): void
     {
 
         if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
