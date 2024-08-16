@@ -31,6 +31,7 @@ class MainController extends AbstractController
     #[Route('/my/orders', name: 'my_orders')]
     #[Route('/my/addresses', name: 'my_addresses')]
     #[Route('/my/orders/{id}/display', name: 'my_order_display')]
+    #[Route('/my/orders/items/{id}/display', name: 'my_order_item_display')]
 
     public function dashboard(RouterInterface $router, Request $request): Response
     {
@@ -71,6 +72,12 @@ class MainController extends AbstractController
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'orderDisplay'
+                );
+                break;
+                case 'my_order_item_display':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'orderItemDisplay'
                 );
                 break;
         }

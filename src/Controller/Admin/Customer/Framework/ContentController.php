@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Customer\Framework;
 
 use App\Controller\MasterData\Customer\CustomerController;
 use App\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
+use App\Controller\Transaction\Order\Admin\Item\OrderItemController;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
@@ -67,6 +68,15 @@ class ContentController extends AbstractController
         $id = $routeParams['id'];
 
         return $this->forward(OrderHeaderController::class . '::display', ['request' => $request,'id'=>$id]);
+
+    }
+   public function orderItemDisplay(Request $request): Response
+    {
+
+        $routeParams = $request->attributes->get('_route_params');
+        $id = $routeParams['id'];
+
+        return $this->forward(OrderItemController::class . '::display', ['request' => $request,'id'=>$id]);
 
     }
 
