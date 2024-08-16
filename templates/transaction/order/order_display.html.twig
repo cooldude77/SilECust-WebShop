@@ -1,6 +1,4 @@
 {% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 
-{#
-render(controller( 'App\\Controller\\Transaction\\Order\\Admin\\Item\\OrderItemController::list',
-    {'id':attribute(entity,"id"),'request':app.request}))
-#}
+{{ render(controller( 'App\\Controller\\Transaction\\Order\\Admin\\Item\\OrderItemController::list',
+    {'id':attribute(entity,"id"),'request':app.request})) }}
