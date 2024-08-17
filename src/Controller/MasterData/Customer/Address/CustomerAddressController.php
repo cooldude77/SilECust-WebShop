@@ -158,6 +158,7 @@ class CustomerAddressController extends AbstractController
     {
 
         $listGrid = ['title' => 'Customer Address',
+            'function'=>'customer_address',
             'link_id' => 'id-customer-address',
             'columns' => [
                 ['label' => 'Address Line 1',
