@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction\Order\Admin\Item;
 
 // ...
+use App\Event\Component\UI\Twig\GridPropertyEvent;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
@@ -12,6 +13,7 @@ use App\Service\Transaction\Order\Item\Mapper\OrderItemPriceBreakupMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -128,25 +130,28 @@ class OrderItemController extends AbstractController
     }
 
     #[Route('/order/{id}/item/list', name: 'order_item_list')]
-    public function list(int                $id, OrderItemRepository $orderItemRepository,
-                         PaginatorInterface $paginator,
-                         Request            $request
+    public function list(int                      $id,
+                         EventDispatcherInterface $eventDispatcher,
+                         PaginatorInterface       $paginator,
+                         Request                  $request,
+                         OrderItemRepository      $orderItemRepository
     ): Response
     {
 
-        $listGrid = ['title' => 'Order Items',
-            'link_id' => 'id-order-items',
-            'function'=>'order_item',
-            'columns' => [['label' => 'Id',
-                'propertyName' => 'id',
-                'action' => 'display',],],
-            'createButtonConfig' => ['link_id' => ' id-create-order-item',
-                'id' => $id,
-                'function' => 'order_item',
-                'anchorText' => 'Create Order Item']];
+
+        /** @var GridPropertyEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent(['id' => $id]),
+            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
+        );
+
+        $listGrid = $listEvent->getListGridProperties();
+
 
         $query = $orderItemRepository->getQueryForSelect();
 
+        // $query = $orderRepository->getQueryForSelect();
+
+        // todo : to bring price ( calculated field on the list)
         $pagination = $paginator->paginate(
             $query, /* query NOT result */ $request->query->getInt('page', 1),
             /*page number*/ 10 /*limit per page*/

@@ -1,7 +1,8 @@
 <div class="container">
 
     {# Create new button if defined in config #}
-    {% if listGrid.createButtonConfig is defined %}
+    {% if listGrid.createButtonConfig is defined or
+        (listGrid.create_button_allowed is defined and listGrid.create_button_allowed== true) %}
         <div class="row py-2">
             <div class="col m-0">
                 {% include 'admin/ui/panel/section/content/action/top_level/_create_link.html.twig'
@@ -76,7 +77,6 @@
                         </div>
                     {% endif %}
                 {% endfor %}
-
 
 
             </div>

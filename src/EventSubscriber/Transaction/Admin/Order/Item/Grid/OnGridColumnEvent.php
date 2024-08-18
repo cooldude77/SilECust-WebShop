@@ -23,6 +23,9 @@ class OnGridColumnEvent implements EventSubscriberInterface
 
     public function beforeDisplay(GridColumnEvent $event): void
     {
+        $route = $this->router->match($event->getData()['request']->getPathInfo());
+        if (!in_array($route['_route'], ['my_order_display', 'order_display']))
+            return;
 
         $data = $event->getData();
         $column = $event->getData()['column'];
@@ -32,16 +35,19 @@ class OnGridColumnEvent implements EventSubscriberInterface
         $entity = $event->getData()['entity'];
 
 
-        if ($listGrid['function'] == 'my_order_item') {
-            switch ($column['propertyName']) {
-                case 'id':
-                    $column['value'] = $this->router->generate('my_order_item_display', ['id'=>$entity->getId()]);
-                    $data['column'] = $column;
-                    break;
-            }
+        switch ($column['propertyName']) {
+            case 'id':
+                if ($route['_route'] == 'my_order_display')
+                    $column['value'] = $this->router->generate('my_order_item_display', ['id' => $entity->getId()]);
+                else
+                    $column['value'] = $this->router->generate('order__item_display', ['id' => $entity->getId()]);
 
-            $event->setData($data);
-
+                $data['column'] = $column;
+                break;
         }
+
+        $event->setData($data);
+
     }
+
 }
