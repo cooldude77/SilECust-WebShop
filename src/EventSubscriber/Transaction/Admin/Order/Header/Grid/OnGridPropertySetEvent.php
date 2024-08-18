@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
 use App\Event\Component\UI\Twig\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 readonly class OnGridPropertySetEvent implements EventSubscriberInterface
@@ -11,7 +12,8 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker
+    public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
+    private readonly  RouterInterface $router
     ) {
     }
 
@@ -25,6 +27,11 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 
     public function setProperty(GridPropertyEvent $event): void
     {
+
+        $route = $this->router->match($event->getRequest()->getPathInfo());
+
+        if (!in_array($route['_route'], ['my_orders', 'order_list']))
+            return;
 
         if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
             $event->setListGridProperties([

@@ -125,7 +125,7 @@ class OrderHeaderController extends AbstractController
     ): Response {
 
         /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent(),
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
             GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
         );
 

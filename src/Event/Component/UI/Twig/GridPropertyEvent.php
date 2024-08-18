@@ -2,6 +2,7 @@
 
 namespace App\Event\Component\UI\Twig;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -12,11 +13,13 @@ class GridPropertyEvent extends Event
 {
     public const string LIST_GRID_PROPERTY_FOR_ORDERS = 'transaction.list_grid.property';
     private ?array $data;
+    private Request $request;
 
 
-    public function __construct(array $data =null)
+    public function __construct(Request $request,array $data =null)
     {
         $this->data = $data;
+        $this->request = $request;
     }
 
     /** @var array  */
@@ -35,6 +38,11 @@ class GridPropertyEvent extends Event
     public function getData(): ?array
     {
         return $this->data;
+    }
+
+    public function getRequest(): Request
+    {
+        return $this->request;
     }
 
 

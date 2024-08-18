@@ -140,7 +140,7 @@ class OrderItemController extends AbstractController
 
 
         /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent(['id' => $id]),
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request,['id' => $id]),
             GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
         );
 
