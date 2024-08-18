@@ -27,14 +27,20 @@ class OnGridCreateLinkEvent implements EventSubscriberInterface
     public function beforeCreate(GridCreateLinkEvent $event): void
     {
 
+        $route = $this->router->match($event->getData()['request']->getPathInfo());
+
+        if (!in_array($route['_route'], ['my_addresses', 'customer_addresses']))
+            return;
 
         $data = $event->getData();
         $listGrid = $event->getData()['config'];
 
         $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
-        if ($this->router->match($this->requestStack->getCurrentRequest()->getPathInfo(), 'my_addresses'))
+        if ($route['_route'] ==  'my_addresses')
             $data['linkValue'] = ($this->router->generate('my_address_create'));
+
+        // to do : what employee should see
 
         $event->setData($data);
 

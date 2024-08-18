@@ -6,10 +6,11 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
     https://github.com/liip/LiipFunctionalTestBundle/issues/414 --> no solution
     Thus this check and setting of context_route for unit testing when url is not called from admin_panel
 #}
-   {% set event = dispatchGridCreateLinkEvent('panel.grid.before_create_link',{"request":request,'config':config}) %}
- {% set link_value = attribute(event.getData(),'linkValue') %}
 
-{% if link_value is defined %}
+{% set event = dispatchGridCreateLinkEvent('panel.grid.before_create_link',{"request":request,'config':config}) %}
+{% set link_value = attribute(event.getData(),'linkValue') is defined?attribute(event.getData(),'linkValue'):null %}
+
+{% if link_value is not null %}
     <div class="d-flex flex mb-1 ml-0">
         <a class="link-primary" id="{{ config.link_id }}" href="{{ link_value }}">
             {{ config.anchorText }}
