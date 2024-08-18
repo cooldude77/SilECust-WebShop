@@ -22,15 +22,7 @@ class GridColumnEvent extends Event
         $this->data = $data;
     }
 
-    public function isDataChanged(): bool
-    {
-        return $this->dataChanged;
-    }
 
-    public function setDataChanged(bool $dataChanged): void
-    {
-        $this->dataChanged = $dataChanged;
-    }
 
 
 }
