@@ -11,8 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 class OnGridCreateLinkEvent implements EventSubscriberInterface
 {
     public function __construct(private readonly RouterInterface        $router,
-                                private readonly CustomerFromUserFinder $customerFromUserFinder,
-                                private readonly RequestStack           $requestStack)
+                                private readonly CustomerFromUserFinder $customerFromUserFinder)
     {
     }
 
