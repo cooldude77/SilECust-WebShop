@@ -115,4 +115,16 @@ class ContentController extends AbstractController
 
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function personalInfo(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+        return $this->forward(CustomerController::class . '::edit', ['request' => $request, 'id' => $customer->getId()]);
+
+    }
+
 }
