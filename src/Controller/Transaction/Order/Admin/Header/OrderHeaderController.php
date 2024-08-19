@@ -4,7 +4,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use App\Event\Component\Database\ListQueryEvent;
-use App\Event\Component\UI\Grid\ListGridPropertyEvent;
+use App\Event\Component\UI\Twig\GridPropertyEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
@@ -98,7 +98,7 @@ class OrderHeaderController extends AbstractController
     }
 
     #[Route('/order/{id}/display', name: 'order_display')]
-    public function display(OrderHeaderRepository $OrderHeaderRepository, int $id): Response
+    public function display(OrderHeaderRepository $OrderHeaderRepository, int $id,Request $request): Response
     {
         $OrderHeader = $OrderHeaderRepository->find($id);
         if (!$OrderHeader) {
@@ -113,7 +113,7 @@ class OrderHeaderController extends AbstractController
 
         return $this->render(
             'transaction/order/order_display.html.twig',
-            ['entity' => $OrderHeader, 'params' => $displayParams]
+            ['entity' => $OrderHeader, 'params' => $displayParams, 'request' => $request]
         );
     }
 
@@ -124,9 +124,9 @@ class OrderHeaderController extends AbstractController
         Request $request
     ): Response {
 
-        /** @var ListGridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new ListGridPropertyEvent(),
-            ListGridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
+        /** @var GridPropertyEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
+            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
         );
 
         $listGrid = $listEvent->getListGridProperties();

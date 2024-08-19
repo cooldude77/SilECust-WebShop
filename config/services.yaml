@@ -37,7 +37,10 @@ services:
     tags:
       -{ name: twig.extension }
 
-  App\Twig\EventDispatcher\TwigGridColumnEventDispatcher:
+  App\Twig\EventDispatcher\GridColumnEventDispatcher:
+    tags:
+      -{ name: twig.extension }
+  App\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
     tags:
       -{ name: twig.extension }
   # add more service definitions when explicit configuration is needed

@@ -3,6 +3,7 @@
 namespace App\Controller\MasterData\Customer\Address;
 
 // ...
+use App\Event\Component\Database\ListQueryEvent;
 use App\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use App\Form\MasterData\Customer\Address\CustomerAddressEditForm;
@@ -10,7 +11,9 @@ use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,10 +32,9 @@ class CustomerAddressController extends AbstractController
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddressDTO->customerId = $id;
-        if ($request->query->get('type') == null)
-            throw new AddressTypeNotProvided();
 
-        $customerAddressDTO->addressType = $request->query->get('type');
+        if ($request->query->get('type') != null)
+            $customerAddressDTO->addressType = $request->query->get('type');
 
 
         $form = $this->createForm(
@@ -131,9 +133,10 @@ class CustomerAddressController extends AbstractController
         $displayParams = ['title' => 'Customer Address',
             'link_id' => 'id-customer-address',
             'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'line 1',
-                'propertyName' => 'line-1',
-                'link_id' => 'id-display-customer-address'],
+            'fields' => [
+                ['label' => 'line 1',
+                    'propertyName' => 'line-1',
+                    'link_id' => 'id-display-customer-address'],
             ]];
 
         return $this->render(
@@ -145,26 +148,44 @@ class CustomerAddressController extends AbstractController
 
 
     #[Route('/customer/{id}/address/list', name: 'customer_address_list')]
-    public function list(int $id, CustomerAddressRepository $customerAddressRepository
+    public function list(int                       $id,
+                         CustomerAddressRepository $customerAddressRepository,
+                         Request                   $request,
+                         PaginatorInterface        $paginator,
+                         EventDispatcherInterface  $eventDispatcher,
+
     ): Response
     {
 
         $listGrid = ['title' => 'Customer Address',
+            'function'=>'customer_address',
             'link_id' => 'id-customer-address',
-            'columns' => [['label' => 'Address Line 1',
-                'propertyName' => 'line1',
-                'action' => 'display']
+            'columns' => [
+                ['label' => 'Address Line 1',
+                    'propertyName' => 'line1',
+                    'action' => 'display'
+                ]
                 ,],
-            'createButtonConfig' => ['link_id' => 'id-create-customer-address',
+            'createButtonConfig' => [
+                'link_id' => 'id-create-customer-address',
                 'function' => 'customer_address',
-                'anchorText' => 'Create Customer Address']];
+                'anchorText' => 'Create Customer Address'
+            ]
+        ];
 
-        $customerAddresses = $customerAddressRepository->findBy(
-            ['customer' => $id]
+
+        $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);
+
+        $query = $listQueryEvent->getQuery();
+
+        // todo : to bring price ( calculated field on the list)
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */ $request->query->getInt('page', 1),
+            /*page number*/ 10 /*limit per page*/
         );
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $customerAddresses, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

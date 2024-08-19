@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Event\Component\UI\Grid;
+namespace App\Event\Component\UI\Twig;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class TwigGridColumnEvent extends Event
+class GridColumnEvent extends Event
 {
 
     private  bool $dataChanged = false;
@@ -22,15 +22,7 @@ class TwigGridColumnEvent extends Event
         $this->data = $data;
     }
 
-    public function isDataChanged(): bool
-    {
-        return $this->dataChanged;
-    }
 
-    public function setDataChanged(bool $dataChanged): void
-    {
-        $this->dataChanged = $dataChanged;
-    }
 
 
 }

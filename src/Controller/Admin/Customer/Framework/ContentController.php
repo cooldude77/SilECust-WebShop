@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin\Customer\Framework;
 
+use App\Controller\MasterData\Customer\Address\CustomerAddressController;
 use App\Controller\MasterData\Customer\CustomerController;
 use App\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
+use App\Controller\Transaction\Order\Admin\Item\OrderItemController;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
@@ -16,9 +18,10 @@ use Symfony\Component\Routing\RouterInterface;
 class ContentController extends AbstractController
 {
 
-    public function dashboard(Request $request, RouterInterface $router,
-        PanelActionListMapBuilder $builder,
-    ): Response {
+    public function dashboard(Request                   $request, RouterInterface $router,
+                              PanelActionListMapBuilder $builder,
+    ): Response
+    {
         return $this->render(
             'admin/customer/dashboard/dashboard.html.twig',
             ['request' => $request]
@@ -27,14 +30,14 @@ class ContentController extends AbstractController
     }
 
     /**
-     * @param Request                $request
+     * @param Request $request
      * @param CustomerFromUserFinder $customerFromUserFinder
      *
      * @return Response
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    public function profile(Request $request, CustomerFromUserFinder $customerFromUserFinder,): Response
+    public function profile(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
     {
 
 
@@ -50,15 +53,77 @@ class ContentController extends AbstractController
 
     /**
      * @param Request $request
-     * @param CustomerFromUserFinder $customerFromUserFinder
-     *
      * @return Response
      */
-    public function orders(Request $request, CustomerFromUserFinder $customerFromUserFinder,):
+    public function orders(Request $request):
     Response
     {
 
         return $this->forward(OrderHeaderController::class . '::list', ['request' => $request]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function addresses(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+        return $this->forward(CustomerAddressController::class . '::list',
+            ['request' => $request, 'id' => $customer->getId()]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function addressCreate(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+        return $this->forward(CustomerAddressController::class . '::create',
+            ['request' => $request, 'id' => $customer->getId()]);
+
+    }
+
+    public function orderDisplay(Request $request): Response
+    {
+
+        $routeParams = $request->attributes->get('_route_params');
+        $id = $routeParams['id'];
+
+        return $this->forward(OrderHeaderController::class . '::display', ['request' => $request, 'id' => $id]);
+
+    }
+
+    public function orderItemDisplay(Request $request): Response
+    {
+
+        $routeParams = $request->attributes->get('_route_params');
+        $id = $routeParams['id'];
+
+        return $this->forward(OrderItemController::class . '::display', ['request' => $request, 'id' => $id]);
+
+    }
+
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function personalInfo(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+        return $this->forward(CustomerController::class . '::edit', ['request' => $request, 'id' => $customer->getId()]);
 
     }
 

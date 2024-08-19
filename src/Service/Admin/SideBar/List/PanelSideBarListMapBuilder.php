@@ -296,6 +296,22 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_CUSTOMER'],
                         ],
+                        [
+                            'id' => 'my-personal-info',
+                            'header_text' => 'My Personal Information',
+                            'items' => [
+                                [
+                                    'id' => 'my-personal-info',
+                                    'url' => $this->appendForCustomer(
+                                        $adminUrl,
+                                        'personal-info'
+                                    ),
+                                    'text' => 'My Personal Info',
+                                    'css-id' => 'sidebar-link-my-personal-info'
+                                ]
+                            ],
+                            'roles' => ['ROLE_CUSTOMER'],
+                        ],
                     ]
             ]
 

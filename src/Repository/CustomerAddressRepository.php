@@ -51,4 +51,11 @@ class CustomerAddressRepository extends ServiceEntityRepository
         $address->setCustomer($customer);
         return $address;
     }
+
+    public function getQueryForSelectByCustomer(\App\Entity\Customer $customer): \Doctrine\ORM\Query
+    {
+        $dql = "SELECT ca FROM App\Entity\CustomerAddress ca where ca.customer=:customer";
+        return $this->getEntityManager()->createQuery($dql)->setParameter('customer',$customer);
+
+    }
 }

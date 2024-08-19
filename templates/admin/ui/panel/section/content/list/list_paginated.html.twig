@@ -1,7 +1,8 @@
 <div class="container">
 
     {# Create new button if defined in config #}
-    {% if listGrid.createButtonConfig is defined %}
+    {% if listGrid.createButtonConfig is defined or
+        (listGrid.create_button_allowed is defined and listGrid.create_button_allowed== true) %}
         <div class="row py-2">
             <div class="col m-0">
                 {% include 'admin/ui/panel/section/content/action/top_level/_create_link.html.twig'
@@ -28,40 +29,56 @@
             <div class="row py-2 fs-6">
                 {# columns of the grid #}
                 {% for column in listGrid.columns %}
+                    {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',
+                        {"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
+
                     {% if column.action is defined and column.action == 'display' %}
+
                         <div class="col">
-                            {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
-                                'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                                'name':attribute(entity, column.propertyName),
-                                'id':attribute(entity, 'id'),
-                                'link_id':listGrid.link_id} %}
+
+                            {% set column = attribute(event.getData(),'column') %}
+
+                            {% if column.value is defined %}
+                                <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
+                            {% else %}
+                                {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
+                                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                                    'name':attribute(entity, column.propertyName),
+                                    'id':attribute(entity, 'id'),
+                                    'link_id':listGrid.link_id} %}
+                            {% endif %}
                         </div>
 
                     {% else %}
 
                         <div class="col">
-                            {% set event = dispatchEvent('panel.grid.before_column_display',
-                                {"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
 
                             {% set column = attribute(event.getData(),'column') %}
+
                             {% if column.value is defined %}
                                 {{ column.value }}
                             {% else %}
                                 {{ attribute(entity, column.propertyName) }}
                             {% endif %}
+
                         </div>
 
-                    {% endif %}
+                        <div class="col">
 
-                {% endfor %}
-                <div class="col">
-                    {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
-                        {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
-                            'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                            'id':attribute(entity, 'id'),
-                            'link_id':listGrid.link_id} %}
+                            {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
+
+                                {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
+                                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                                    'id':attribute(entity, 'id'),
+                                    'link_id':listGrid.link_id} %}
+
+                            {% endif %}
+
+                        </div>
                     {% endif %}
-                </div>
+                {% endfor %}
+
+
             </div>
         {% endfor %}
         <div class="navigation">

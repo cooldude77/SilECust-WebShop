@@ -6,28 +6,44 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
     https://github.com/liip/LiipFunctionalTestBundle/issues/414 --> no solution
     Thus this check and setting of context_route for unit testing when url is not called from admin_panel
 #}
-{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'admin_panel' %}
-{# /Issue: A #}
-{% set after =  path(context_route,
-    {
+
+{% set event = dispatchGridCreateLinkEvent('panel.grid.before_create_link',{"request":request,'config':config}) %}
+{% set link_value = attribute(event.getData(),'linkValue') is defined?attribute(event.getData(),'linkValue'):null %}
+
+{% if link_value is not null %}
+    <div class="d-flex flex mb-1 ml-0">
+        <a class="link-primary" id="{{ config.link_id }}" href="{{ link_value }}">
+            {{ config.anchorText }}
+            <i class="bi bi-plus-circle-fill"></i>
+        </a>
+    </div>
+
+{% else %}
+
+    {% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'admin_panel' %}
+    {# /Issue: A #}
+    {% set after =  path(context_route,
+        {
+            '_function':config.function is defined ? config.function: app.request.get('_function'),
+            '_type':'display'
+        }) %}
+
+    {% set parameterList = {
         '_function':config.function is defined ? config.function: app.request.get('_function'),
-        '_type':'display'
-    }) %}
+        '_type':'create'
+    } %}
+    {% if config.id is defined %}
+        {% set parameterList = parameterList|merge({'id':config.id}) %}
+    {% endif %}
+    {% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
 
-{% set parameterList = {
-    '_function':config.function is defined ? config.function: app.request.get('_function'),
-    '_type':'create'
-} %}
-{% if config.id is defined %}
-    {% set parameterList = parameterList|merge({'id':config.id}) %}
+    {% set href = path(context_route,parameterList) %}
+
+    <div class="d-flex flex mb-1 ml-0">
+        <a class="link-primary" id="{{ config.link_id }}" href="{{ href }}">
+            {{ config.anchorText }}
+            <i class="bi bi-plus-circle-fill"></i>
+        </a>
+    </div>
+
 {% endif %}
-{% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
-
-{% set href = path(context_route,parameterList) %}
-
-<div class="d-flex flex mb-1 ml-0" >
-    <a class="link-primary" id="{{ config.link_id}}" href="{{ href }}">
-        {{ config.anchorText }}
-        <i class="bi bi-plus-circle-fill"></i>
-    </a>
-</div>

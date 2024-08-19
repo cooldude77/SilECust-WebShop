@@ -1,17 +1,26 @@
 <?php
 
-namespace App\Event\Component\UI\Grid;
+namespace App\Event\Component\UI\Twig;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Set when order list event is called, here you can set list properties dynamically
  *
  */
-class ListGridPropertyEvent extends Event
+class GridPropertyEvent extends Event
 {
     public const string LIST_GRID_PROPERTY_FOR_ORDERS = 'transaction.list_grid.property';
+    private ?array $data;
+    private Request $request;
 
+
+    public function __construct(Request $request,array $data =null)
+    {
+        $this->data = $data;
+        $this->request = $request;
+    }
 
     /** @var array  */
     private array $listGridProperties = array();
@@ -24,6 +33,16 @@ class ListGridPropertyEvent extends Event
     public function setListGridProperties(array $listGridProperties): void
     {
         $this->listGridProperties = $listGridProperties;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
+    }
+
+    public function getRequest(): Request
+    {
+        return $this->request;
     }
 
 

@@ -34,8 +34,11 @@ Also has a block to insert your function
                      {% endblock %}
                  {% endif %}
                  {% block profile %}
-                     <a class="nav-link" href="{% block profile_link %}{% endblock %}"><i
-                                 class="bi bi-person-circle"></i></a>
+                     {% if app.user is not null %}
+                         <a class="nav-link" href="{% block profile_link %}{{ path('my') }}{% endblock %}">
+                             <i class="bi bi-person-circle"></i>
+                         </a>
+                     {% endif %}
                  {% endblock %}
                  {% if app.user is not null %}
                      {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
