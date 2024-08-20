@@ -1,4 +1,8 @@
 {% extends 'admin/ui/panel/header/header.html.twig' %}
 
-{% block profile_link %}{{ path('admin_panel',{ '_function':'profile'})  }}{% endblock %}
-{% block logo_link %}{{ path('admin_panel',{ '_function':'dashboard'}) }}{% endblock %}
+{% block start_navigation %}
+    <li class="nav-item">
+        <a class="nav-link" id="link-dashboard" href="{{ path('admin_panel',{ '_function':'dashboard'}) }}" title="dashboard"><i class="bi bi-grid-3x3"></i></a>
+    </li>
+{% endblock %}
+{% block profile_link %}{{ path('admin_panel',{ '_function':'profile','type':'edit'}) }}{% endblock %}

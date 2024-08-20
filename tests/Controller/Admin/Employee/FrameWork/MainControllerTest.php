@@ -6,15 +6,22 @@ use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\SuperAdminFixture;
 use App\Tests\Utility\AuthenticateTestEmployee;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser as SymfonyBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
+/**
+ *
+ */
 class MainControllerTest extends WebTestCase
 {
     use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture, SuperAdminFixture;
 
+    /**
+     * @return void
+     */
     public function testAdminWithEmployee()
     {
         // Unauthenticated entry
@@ -23,54 +30,43 @@ class MainControllerTest extends WebTestCase
 
         $this->createEmployee();
 
-        // authenticate before visit
-        $browser = $this->browser()->use(function (KernelBrowser $browser) {
-            $browser->loginUser($this->userForEmployee->object());
-        });
-
-        $this->commonLinks($browser, $uri)
-            ->interceptRedirects()
+        $this->browser()
+            ->use(function (SymfonyBrowser $kernelBrowser) {
+                $kernelBrowser->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->click('a#sidebar-link-category-list')
+            ->assertOn('/admin', ['_function=category&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-product-list')
+            ->assertOn('/admin', ['_function=product&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-product-base-list')
+            ->assertOn('/admin', ['_function=price_product_base&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-discount-list')
+            ->assertOn('/admin', ['_function=price_product_discount&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-tax-list')
+            ->assertOn('/admin', ['_function=price_product_tax&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-customer-list')
+            ->assertOn('/admin', ['_function=customer&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-settings')
+            ->assertOn('/admin', ['_function=settings&_type=list'])
+            ->visit($uri)
+            ->click('a#link-dashboard')
+            ->assertOn('/admin', ['_function=dashboard'])
             ->visit($uri)
             ->assertNotSee("a#sidebar-link-employees");
 
 
     }
 
-    private function commonLinks(\Zenstruck\Browser|\Zenstruck\Browser\KernelBrowser $browser,
-        string $uri
-    ) {
-
-        return $browser->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-category-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-product-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-price-product-base-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-price-discount-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-price-tax-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-customer-list')
-            ->followRedirect(1)
-            ->interceptRedirects()
-            ->visit($uri)
-            ->click('a#sidebar-link-settings')
-            ->followRedirect(1);
-
-    }
-
+    /**
+     * @return void
+     */
     public function testAdminWithCustomer()
     {
         // Unauthenticated entry
@@ -79,14 +75,17 @@ class MainControllerTest extends WebTestCase
         $this->createCustomerFixtures();
 
         // authenticate before visit
-        $this->browser()->use(function (KernelBrowser $browser) {
-            $browser->loginUser($this->userForCustomer->object());
+        $this->browser()->use(function (Browser $browser) {
+            $browser->client()->loginUser($this->userForCustomer->object());
         })
             ->interceptRedirects()
             ->visit($uri)
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
+    /**
+     * @return void
+     */
     public function testSuperAdmin()
     {
         $uri = '/admin?_function=dashboard';
@@ -94,15 +93,35 @@ class MainControllerTest extends WebTestCase
         $this->createSuperAdmin();
 
         // authenticate before visit
-        $browser = $this->browser()->use(function (KernelBrowser $browser) {
-            $browser->loginUser($this->userForSuperAdmin->object());
-        });
-
-        $this->commonLinks($browser, $uri)
-            ->interceptRedirects()
+        $browser = $this->browser()->use(function (Browser $browser) {
+            $browser->client()->loginUser($this->userForSuperAdmin->object());
+        })
+            ->visit($uri)
+            ->click('a#sidebar-link-category-list')
+            ->assertOn('/admin', ['_function=category&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-product-list')
+            ->assertOn('/admin', ['_function=product&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-product-base-list')
+            ->assertOn('/admin', ['_function=price_product_base&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-discount-list')
+            ->assertOn('/admin', ['_function=price_product_discount&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-price-tax-list')
+            ->assertOn('/admin', ['_function=price_product_tax&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-customer-list')
+            ->assertOn('/admin', ['_function=customer&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-settings')
+            ->assertOn('/admin', ['_function=settings&_type=list'])
+            ->visit($uri)
+            ->click('a#link-dashboard')
+            ->assertOn('/admin', ['_function=dashboard'])
             ->visit($uri)
             ->click('a#sidebar-link-employee-list')
-            ->followRedirect(1)
-            ->assertSuccessful();
+            ->assertOn('/admin', ['_function = employee & type=>list']);
     }
 }
