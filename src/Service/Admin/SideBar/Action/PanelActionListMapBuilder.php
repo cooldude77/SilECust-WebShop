@@ -44,10 +44,10 @@ class PanelActionListMapBuilder
                     ],
                     'price_product_tax' => [
                         'routes' => [
-                            'create' => 'price_product_tax_create',
-                            'edit' => 'price_product_tax_edit',
-                            'display' => 'price_product_tax_display',
-                            'list' => 'price_product_tax_list'
+                            'create' => 'sc_route_admin_price_product_tax_create',
+                            'edit' => 'sc_route_admin_price_product_tax_edit',
+                            'display' => 'sc_route_admin_price_product_tax_display',
+                            'list' => 'sc_route_admin_price_product_tax_list'
                         ]
                     ],
                     'tax_slab' => [

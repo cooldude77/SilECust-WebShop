@@ -4,11 +4,7 @@ namespace App\Form\Finance\TaxSlab;
 
 use App\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
 use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
-use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
-use App\Form\MasterData\Product\ProductAutoCompleteField;
 use App\Repository\CountryRepository;
-use App\Repository\CurrencyRepository;
-use App\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

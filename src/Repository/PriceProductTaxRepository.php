@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\PriceProductTax;
+use App\Entity\Product;
+use App\Entity\TaxSlab;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,15 +43,15 @@ class PriceProductTaxRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findProductByTaxSlabs(\App\Entity\Product $product, array $taxSlabs): mixed
+    public function findProductByTaxSlabs(Product $product, array $taxSlabs): mixed
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('ppt')
-            ->from(PriceProductTax::class,'ppt')
+            ->from(PriceProductTax::class, 'ppt')
             ->where('ppt.product =:product')
             ->andWhere("ppt.taxSlab IN  (:taxSlabs)")
-            ->setParameter('product',$product)
-            ->setParameter('taxSlabs',$taxSlabs)
+            ->setParameter('product', $product)
+            ->setParameter('taxSlabs', $taxSlabs)
             ->getQuery()
             ->getResult();
 
@@ -59,6 +61,16 @@ class PriceProductTaxRepository extends ServiceEntityRepository
     {
         $dql = "SELECT ppt FROM App\Entity\PriceProductTax ppt";
         return $this->getEntityManager()->createQuery($dql);
+
+    }
+
+    public function create(Product $product, TaxSlab $taxSlab): PriceProductTax
+    {
+        $tax = new PriceProductTax();
+        $tax->setProduct($product);
+        $tax->setTaxSlab($taxSlab);
+
+        return $tax;
 
     }
 }
