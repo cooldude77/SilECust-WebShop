@@ -63,6 +63,7 @@ class CategoryControllerTest extends WebTestCase
 
     }
 
+    private  string $token ;
     public function testCreateWithAParent()
     {
 
@@ -78,6 +79,7 @@ class CategoryControllerTest extends WebTestCase
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
+                $session = $browser->client();
             })
             ->post($uri,
                 [
