@@ -52,10 +52,10 @@ class PanelActionListMapBuilder
                     ],
                     'tax_slab' => [
                         'routes' => [
-                            'create' => 'tax_slab_create',
-                            'edit' => 'tax_slab_edit',
-                            'display' => 'tax_slab_display',
-                            'list' => 'tax_slab_list'
+                            'create' => 'sc_route_admin_tax_slab_create',
+                            'edit' => 'sc_route_admin_tax_slab_edit',
+                            'display' => 'sc_route_admin_tax_slab_display',
+                            'list' => 'sc_route_admin_tax_slab_list'
                         ]
                     ],
                     'product_attribute' => [
