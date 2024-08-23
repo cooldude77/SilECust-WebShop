@@ -71,11 +71,10 @@ class PriceProductBaseController extends AbstractController
                          PriceProductBaseRepository $priceProductBaseRepository, Request $request
     ): Response
     {
-        $priceProductBaseDTO = new PriceProductBaseDTO();
 
         $priceBase = $priceProductBaseRepository->find($id);
 
-        $form = $this->createForm(PriceProductBaseEditForm::class, $priceProductBaseDTO);
+        $form = $this->createForm(PriceProductBaseEditForm::class, $mapper->maptoDtoFromEntityForEdit($priceBase));
 
         $form->handleRequest($request);
 

@@ -41,12 +41,11 @@ class ProductDTOMapper
 
     }
 
-    public function mapToDtoFromEntityForEdit(int $id): ProductDTO
+    public function mapToDtoFromEntityForEdit(Product $product): ProductDTO
     {
 
         $productDTO = new ProductDTO();
 
-        $product = $this->productRepository->find($id);
 
         $productDTO->id = $product->getId();
         $productDTO->name = $product->getName();

@@ -44,5 +44,17 @@ class PriceProductBaseDTOMapper
         return $priceBase;
     }
 
+    public function maptoDtoFromEntityForEdit(PriceProductBase $priceBase): PriceProductBaseDTO
+    {
+
+        $priceBaseProductDTO = new PriceProductBaseDTO();
+        $priceBaseProductDTO->id = $priceBase->getId();
+        $priceBaseProductDTO->productId = $priceBase->getProduct()->getId();
+        $priceBaseProductDTO->currencyId = $priceBase->getCurrency()->getId();
+        $priceBaseProductDTO->price = $priceBase->getPrice();
+
+        return $priceBaseProductDTO;
+    }
+
 
 }

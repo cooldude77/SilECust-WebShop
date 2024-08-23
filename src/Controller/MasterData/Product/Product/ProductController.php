@@ -79,7 +79,7 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        $productDTO = $productDTOMapper->mapToDtoFromEntityForEdit($id);
+        $productDTO = $productDTOMapper->mapToDtoFromEntityForEdit($product);
 
         $form = $this->createForm(ProductEditForm::class, $productDTO, ['validation_groups' => ['edit']]);
 
