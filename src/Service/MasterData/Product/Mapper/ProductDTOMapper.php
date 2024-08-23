@@ -48,6 +48,7 @@ class ProductDTOMapper
 
         $product = $this->productRepository->find($id);
 
+        $productDTO->id = $product->getId();
         $productDTO->name = $product->getName();
         $productDTO->description = $product->getDescription();
         $productDTO->categoryId = $product->getCategory()->getId();

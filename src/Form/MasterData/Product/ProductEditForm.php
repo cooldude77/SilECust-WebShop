@@ -8,6 +8,7 @@ use App\Form\MasterData\Product\DTO\ProductDTO;
 use App\Repository\ProductRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,7 +28,7 @@ class ProductEditForm extends CustomFormType
 
     function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('id', NumberType::class,['required' => true]);
+        $builder->add('id', HiddenType::class,['required' => true]);
         $builder->add('name', TextType::class,['required' => true]);
         $builder->add('description', TextType::class,['required' => true]);
         $builder->add('category', CategoryAutoCompleteField::class, ['required' => true, 'mapped' => false]);
