@@ -132,10 +132,10 @@ class PanelActionListMapBuilder
                     ],
                     'category' => [
                         'routes' => [
-                            'create' => 'category_create',
-                            'edit' => 'category_edit',
-                            'display' => 'category_display',
-                            'list' => 'category_list'
+                            'create' => 'sc_route_admin_category_create',
+                            'edit' => 'sc_route_admin_category_edit',
+                            'display' => 'sc_route_admin_category_display',
+                            'list' => 'sc_route_admin_category_list'
                         ]
                     ],
                     'order' => [
@@ -169,10 +169,10 @@ class PanelActionListMapBuilder
                     ],
                     'category_file_image' => [
                         'routes' => [
-                            'create' => 'category_file_image_create',
-                            'edit' => 'category_file_image_edit',
-                            'display' => 'category_file_image_display',
-                            'list' => 'category_file_image_list'
+                            'create' => 'sc_route_admin_category_file_image_create',
+                            'edit' => 'sc_route_admin_category_file_image_edit',
+                            'display' => 'sc_route_admin_category_file_image_display',
+                            'list' => 'sc_route_admin_category_file_image_list'
                         ]
                     ],
                     'product_file_image' => [

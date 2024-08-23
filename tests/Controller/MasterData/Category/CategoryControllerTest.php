@@ -3,8 +3,12 @@
 namespace App\Tests\Controller\MasterData\Category;
 
 use App\Factory\CategoryFactory;
+use App\Tests\Fixtures\EmployeeFixture;
+use App\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use function PHPUnit\Framework\assertEquals;
 
 /**
  *  Read boostrap.php comments for additional info
@@ -12,7 +16,18 @@ use Zenstruck\Browser\Test\HasBrowser;
 class CategoryControllerTest extends WebTestCase
 {
 
-    use HasBrowser;
+    use HasBrowser, selectElement, EmployeeFixture;
+
+    protected function setUp(): void
+    {
+        $this->createEmployee();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
+
+    }
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -21,54 +36,66 @@ class CategoryControllerTest extends WebTestCase
     public function testCreateSingleWithoutAParent()
     {
 
-        $uri = '/category/create';
+        $uri = '/admin/category/create';
         $this->browser()
             ->visit($uri)
-            ->fillField(
-                'category_create_form[name]', 'Cat1'
-            )
-            ->fillField('category_create_form[description]', 'Category 1')
-            ->fillField('category_create_form[parent]', "")
-            ->click('Save')
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_create_form' => [
+                            'name' => 'Cat1',
+                            'description' => 'Category 1',
+                            'parentId' => null
+                        ],
+                    ],
+                ])
             ->assertSuccessful();
 
-        $created = CategoryFactory::find(array('name'=>"Cat1"));
+        $created = CategoryFactory::find(array('name' => "Cat1"));
 
-        $this->assertEquals("Cat1", $created->getName());
+        assertEquals('Cat1', $created->getName());
+        assertEquals('Category 1', $created->getDescription());
+
     }
 
     public function testCreateWithAParent()
     {
 
-        $uri = '/category/create';
+        $uri = '/admin/category/create';
 
-       $category =  CategoryFactory::createOne(['name'=>'CatParent','description'=>'Category Parent']);
+        $category = CategoryFactory::createOne(['name' => 'CatParent', 'description' => 'Category Parent']);
 
         // The value of category->getId() will be  1
 
-        $visit = $this->browser()->visit($uri);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        // don't use static value like 1,2
-        $option->setAttribute('value',  $category->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('category_create_form[name]', 'CatChildWithParent')
-            ->fillField(
-                'category_create_form[description]', 'Category Child With Parent'
-            )
-            // don't use static value like 1,2
-            ->fillField('category_create_form[parent]', $category->getId())
-            ->click('Save')
+        $this->browser()
+            ->visit($uri)
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_create_form' => [
+                            'name' => 'CatChildWithParent',
+                            'description' => 'Category Child With Parent',
+                            'parentId' => $category->getId()
+                        ],
+                    ],
+                ])
             ->assertSuccessful();
 
-        $created = CategoryFactory::find(array('name'=>"CatChildWithParent"));
-        $this->assertEquals("CatChildWithParent", $created->getName());
+
+        $created = CategoryFactory::find(array('name' => "CatChildWithParent"));
+
+        assertEquals('Category Child With Parent', $created->getDescription());
+        assertEquals($category->getId(), $created->getParent()->getId());
 
 
     }
@@ -81,37 +108,66 @@ class CategoryControllerTest extends WebTestCase
     public function testEdit()
     {
 
-        $category = CategoryFactory::createOne(['name'=>'Cat1','description'=>'Category 1']);
+        $categoryParent1 = CategoryFactory::createOne(['name' => 'CatParent1', 'description' => 'Category Parent1']);
+        $categoryParent2 = CategoryFactory::createOne(['name' => 'CatParent2', 'description' => 'Category Parent2']);
+
+        $category = CategoryFactory::createOne(['name' => 'Cat1', 'description' => 'Category 1', 'parent' => $categoryParent1]);
+
         $id = $category->getId();
 
-        $uri = "/category/$id/edit";
+        $uri = "/admin/category/$id/edit";
+
         $this->browser()
             ->visit($uri)
-            ->fillField('category_edit_form[name]', 'Cat2')
-            ->fillField(
-                'category_edit_form[description]', 'Category 2'
-            )
-            ->click('Save')
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $response = $browser->client()->getResponse();
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_edit_form' => [
+                            'id' => $category->getId(),
+                            'name' => 'CatChanged',
+                            'description' => 'Category Changed',
+                            'parentId' => $categoryParent2->getId()
+                        ],
+                    ],
+                ])
             ->assertSuccessful();
 
 
+        $edited = CategoryFactory::find($category->getId());
 
-        $edited = CategoryFactory::find(array('name'=>"Cat2"));
-        $this->assertNotNull($edited);
+        assertEquals('CatChanged', $edited->getName());
+        assertEquals('Category Changed', $edited->getDescription());
+        assertEquals($categoryParent2->getId(), $edited->getParent()->getId());
+
     }
 
-   /**
+    /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
      */
     public function testDisplay()
     {
 
-        $category = CategoryFactory::createOne(['name'=>'Cat1','description'=>'Category 1']);
+        $category = CategoryFactory::createOne(['name' => 'Cat1', 'description' => 'Category 1']);
         $id = $category->getId();
 
-        $uri = "/category/$id/display";
+        $uri = "/admin/category/$id/display";
         $this->browser()
+            ->visit($uri)
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
             ->visit($uri)
             ->assertSuccessful();
 
@@ -121,8 +177,14 @@ class CategoryControllerTest extends WebTestCase
     public function testList()
     {
 
-        $url = '/category/list';
-        $this->browser()->visit($url)->assertSuccessful();
+        $uri = '/admin/category/list';
+        $this->browser()->visit($uri)
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)->assertSuccessful();
 
     }
 

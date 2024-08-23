@@ -33,7 +33,11 @@ class CategoryDTO
     )]
     public ?string $description = null;
 
-    public ?string $parent = null;
+    public ?int $parent = 0;
 
-    public ?int $id = -1;
+    #[Assert\GreaterThan(
+        value: 0,
+        groups: ['edit']
+    )]
+    public ?int $id = 0;
 }

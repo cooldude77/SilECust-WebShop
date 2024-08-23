@@ -5,7 +5,6 @@ namespace App\Service\MasterData\Category\Mapper;
 use App\Entity\Category;
 use App\Form\MasterData\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
-use Symfony\Component\Form\FormInterface;
 
 class CategoryDTOMapper
 {
@@ -17,41 +16,44 @@ class CategoryDTOMapper
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function mapToEntityForCreate(FormInterface $form): Category
+    public function mapToEntityForCreate(CategoryDTO $categoryDTO): Category
     {
-        $parentCategory = $form->get('parent')->getData();
 
-        $categoryDTO = $form->getData();
 
         $category = $this->categoryRepository->create();
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
 
-        $category->setParent($parentCategory);
+        $category->setParent($this->categoryRepository->findOneBy(['id' => $categoryDTO->parent]));
+
         return $category;
     }
 
-    public function mapToEntityForEdit(FormInterface $form, Category $category = null): Category
+    public function mapToEntityForEdit(CategoryDTO $categoryDTO): Category
     {
 
-        $parent = $this->categoryRepository->findOneBy(['id'=>$form->get('parent')->getData()]);
-        $categoryDTO = $form->getData();
+        $category = $this->categoryRepository->findOneBy(['id'=>$categoryDTO->id]);
 
         $category->setName($categoryDTO->name);
         $category->setDescription($categoryDTO->description);
 
+        $category->setParent($this->categoryRepository->findOneBy(['id' => $categoryDTO->parent]));
+
 
         return $category;
     }
 
-    public function mapFromEntity(?Category $category): CategoryDTO
+    public function mapToDtoFromEntity(?Category $category): CategoryDTO
     {
         $categoryDTO = new CategoryDTO();
         $categoryDTO->id = $category->getId();
         $categoryDTO->name = $category->getName();
         $categoryDTO->description = $category->getDescription();
+        $categoryDTO->parent = $category->getParent()->getId();
         return $categoryDTO;
 
     }
+
+
 }
