@@ -4,7 +4,10 @@ namespace App\Form\MasterData\Price\Discount;
 
 use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
 use App\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
+use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use App\Form\MasterData\Product\ProductAutoCompleteField;
+use App\Repository\CurrencyRepository;
+use App\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -17,6 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PriceProductDiscountEditForm extends AbstractType
 {
 
+    public function __construct(private readonly ProductRepository $productRepository, private readonly CurrencyRepository $currencyRepository)
+    {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -39,6 +45,15 @@ class PriceProductDiscountEditForm extends AbstractType
 
             $formEvent->setData($data);
 
+
+        });
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
+            /** @var PriceProductBaseDTO $data */
+            $data = $formEvent->getData();
+            $form = $formEvent->getForm();
+
+            $form->get('product')->setData($this->productRepository->findOneBy(['id' => $data->productId]));
+            $form->get('currency')->setData($this->productRepository->findOneBy(['id' => $data->currencyId]));
         });
 
         $builder->add('save', SubmitType::class);

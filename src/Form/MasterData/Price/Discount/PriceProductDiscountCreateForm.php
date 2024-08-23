@@ -5,6 +5,7 @@ namespace App\Form\MasterData\Price\Discount;
 use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
 use App\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
 use App\Form\MasterData\Product\ProductAutoCompleteField;
+use App\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

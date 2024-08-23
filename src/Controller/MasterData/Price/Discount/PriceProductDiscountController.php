@@ -71,11 +71,10 @@ class PriceProductDiscountController extends AbstractController
                          PriceProductDiscountRepository $priceProductDiscountRepository, Request $request
     ): Response
     {
-        $priceProductDiscountDTO = new PriceProductDiscountDTO();
 
         $priceDiscount = $priceProductDiscountRepository->find($id);
 
-        $form = $this->createForm(PriceProductDiscountEditForm::class, $priceProductDiscountDTO);
+        $form = $this->createForm(PriceProductDiscountEditForm::class, $mapper->mapToDtoFromEntityForEdit($priceProductDiscountRepository->find($id)));
 
         $form->handleRequest($request);
 
@@ -120,8 +119,8 @@ class PriceProductDiscountController extends AbstractController
             'link_id' => 'id-price',
             'editButtonLinkText' => 'Edit',
             'fields' => [
-                ['label' => 'Price',
-                    'propertyName' => 'price',]
+                ['label' => 'Discount',
+                    'propertyName' => 'value',]
                 ,
                 ['label' => 'Product',
                     'propertyName' => 'product',
