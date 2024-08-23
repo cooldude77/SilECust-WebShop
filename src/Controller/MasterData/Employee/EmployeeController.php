@@ -132,7 +132,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee/list', name: 'employee_list')]
-    public function list(EmployeeRepository $employeeRepository): Response
+    public function list(EmployeeRepository $employeeRepository,Request $request): Response
     {
 
         $listGrid = ['title' => 'Employee',
@@ -148,7 +148,7 @@ class EmployeeController extends AbstractController
         $employees = $employeeRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $employees, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $employees, 'listGrid' => $listGrid]
         );
     }
 }

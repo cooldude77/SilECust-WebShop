@@ -97,7 +97,7 @@ class ProductAttributeController extends AbstractController
 
 
     #[Route('/product/attribute/list', name: 'product_attribute_list')]
-    public function list(ProductAttributeRepository $productAttributeRepository): Response
+    public function list(ProductAttributeRepository $productAttributeRepository,Request $request): Response
     {
 
         $listGrid = ['title' => 'Product Attribute',
@@ -114,7 +114,7 @@ class ProductAttributeController extends AbstractController
         $productAttributes = $productAttributeRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $productAttributes, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $productAttributes, 'listGrid' => $listGrid]
         );
     }
 

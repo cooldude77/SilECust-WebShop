@@ -135,7 +135,7 @@ class CityController extends AbstractController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/city/list', name: 'city_list')]
-    public function list(CityRepository $cityRepository): Response
+    public function list(CityRepository $cityRepository,Request $request): Response
     {
 
         $listGrid = ['title' => 'City',
@@ -151,7 +151,7 @@ class CityController extends AbstractController
         $citys = $cityRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $citys, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $citys, 'listGrid' => $listGrid]
         );
     }
 }

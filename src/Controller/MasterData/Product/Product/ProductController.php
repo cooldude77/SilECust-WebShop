@@ -104,7 +104,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}/display', name: 'product_display')]
-    public function display(ProductRepository $productRepository, int $id): Response
+    public function display(ProductRepository $productRepository, int $id,Request $request): Response
     {
         $product = $productRepository->find($id);
         if (!$product) {
@@ -122,7 +122,7 @@ class ProductController extends AbstractController
 
         return $this->render(
             'master_data/product/product_display.html.twig',
-            ['entity' => $product, 'params' => $displayParams]
+            ['request' => $request,'entity' => $product, 'params' => $displayParams]
         );
 
     }
