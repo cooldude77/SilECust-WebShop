@@ -2,15 +2,42 @@
 
 namespace App\Form\MasterData\Product\DTO;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class ProductDTO
 {
 
-    public ?string $name =null;
+    /**
+     * @var string|null
+     */
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
+    #[Assert\Regex(
+        pattern: '/[A-Za-z0-9\-\_\s]/',
+        message: 'Only characters and numbers are allowed',
+        match: true
+    )]
+    public ?string $name = null;
 
-    public ?string $description =null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
+    public ?string $description = null;
 
-     public ?int $id = -1;
-     public bool $isActive = false;
+    #[Assert\GreaterThan(
+        value: 0,
+        groups: ['edit']
+    )]
+    public ?int $id = 0;
+    public bool $isActive = false;
 
-     public ?string $category = null;
+    #[Assert\GreaterThan(
+        value: 0
+    )]
+    public ?int $categoryId = 0;
 }

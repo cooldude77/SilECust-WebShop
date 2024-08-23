@@ -20,9 +20,9 @@ class PanelActionListMapBuilder
                 'functions' => [
                     'product' => [
                         'routes' => [
-                            'create' => 'product_create',
-                            'edit' => 'product_edit',
-                            'display' => 'product_display',
+                            'create' => 'sc_admin_product_create',
+                            'edit' => 'sc_admin_product_edit',
+                            'display' => 'sc_admin_product_display',
                             'list' => 'product_list'
                         ]
                     ],

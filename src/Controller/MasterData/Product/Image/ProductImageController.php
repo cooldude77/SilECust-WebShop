@@ -150,7 +150,8 @@ class ProductImageController extends AbstractController
 
     #[Route('/product/{id}/image/list', name: 'product_create_file_image_list')]
     public function list(int                    $id, ProductRepository $productRepository,
-                         ProductImageRepository $productImageRepository
+                         ProductImageRepository $productImageRepository,
+                         Request                $request
     ):
     Response
     {
@@ -187,7 +188,7 @@ class ProductImageController extends AbstractController
 
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $entities, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
         );
 
     }

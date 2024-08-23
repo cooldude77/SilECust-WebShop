@@ -53,7 +53,7 @@ class CategoryEditForm extends CustomFormType
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
-        $resolver->setDefaults(['data_class' => CategoryDTO::class]);
+        $resolver->setDefaults(['data_class' => CategoryDTO::class,'validation_groups'=>['edit']]);
     }
 
 
