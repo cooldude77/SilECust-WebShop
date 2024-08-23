@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Country;
 use App\Entity\TaxSlab;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,4 +41,12 @@ class TaxSlabRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?Country $country): TaxSlab
+    {
+        $slab = new TaxSlab();
+        $slab->setCountry($country);
+
+        return $slab;
+
+    }
 }
