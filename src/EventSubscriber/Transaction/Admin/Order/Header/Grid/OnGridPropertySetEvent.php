@@ -13,8 +13,9 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-    private readonly  RouterInterface $router
-    ) {
+                                private readonly RouterInterface      $router
+    )
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -33,7 +34,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
         if (!in_array($route['_route'], ['my_orders', 'order_list']))
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'list')
-            )   return;
+            ) return;
 
         if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
             $event->setListGridProperties([
@@ -49,6 +50,14 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     [
                         'label' => 'Date Of Order',
                         'propertyName' => 'dateTimeOfOrder'
+                    ],
+                    [
+                        'label' => 'Status',
+                        'propertyName' => 'orderStatusType'
+                    ],
+                    [
+                        'label' => 'Order Value',
+                        'propertyName' => 'orderValue'
                     ],
                 ],
                 'createButtonConfig' => [
@@ -68,12 +77,21 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     'columns' => [
                         [
                             'label' => 'Id',
-                         'propertyName' => 'id',
-                         'action' => 'display',
-                            ],
+                            'propertyName' => 'id',
+                            'action' => 'display',
+                        ],
                         [
                             'label' => 'Date Of Order',
-                         'propertyName' => 'dateTimeOfOrder'
+                            'propertyName' => 'dateTimeOfOrder'
+                        ],
+                        [
+                            'label' => 'Status',
+                            'propertyName' => 'orderStatusType'
+                        ],
+
+                        [
+                            'label' => 'Order Value',
+                            'propertyName' => 'orderValue'
                         ],
                     ]
                 ]);

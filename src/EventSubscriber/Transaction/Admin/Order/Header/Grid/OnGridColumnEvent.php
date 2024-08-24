@@ -69,6 +69,18 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                     $data['column'] = $column;
                 }
                 break;
+            case 'orderStatusType':
+                $column['value'] = $entity->getOrderStatusType()->getDescription();
+                $data['column'] = $column;
+                break;
+            case 'orderValue':
+                $column['value'] = $entity->getOrderStatusType()->getDescription();
+                $data['column'] = $column;
+                break;
+            default:
+                $column['value'] = "";
+                $data['column'] = $column;
+
         }
 
         $event->setData($data);
