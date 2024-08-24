@@ -9,8 +9,6 @@ use App\Repository\OrderHeaderRepository;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 readonly class OnOrderListQuery implements EventSubscriberInterface
@@ -39,8 +37,11 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
     {
 
         $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
-        if (!in_array( $route['_route'] ,['order_list','my_orders']))
-            return;
+        if (!in_array($route['_route'], ['order_list', 'my_orders']))
+            if (!($listQueryEvent->getRequest()->query->get('_function') == 'order'
+                && $listQueryEvent->getRequest()->query->get('_type') == 'list')
+            )
+                return;
 
         if ($this->customerFromUserFinder->isLoggedInUserAlsoACustomer())
             try {

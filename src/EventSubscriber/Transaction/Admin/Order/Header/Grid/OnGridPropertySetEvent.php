@@ -31,7 +31,9 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
         if (!in_array($route['_route'], ['my_orders', 'order_list']))
-            return;
+            if (!($event->getRequest()->query->get('_function') == 'order'
+                && $event->getRequest()->query->get('_type') == 'list')
+            )   return;
 
         if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
             $event->setListGridProperties([
