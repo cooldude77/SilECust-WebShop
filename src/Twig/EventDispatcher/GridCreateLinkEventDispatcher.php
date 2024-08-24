@@ -2,8 +2,7 @@
 
 namespace App\Twig\EventDispatcher;
 
-use App\Event\Component\UI\Twig\GridColumnEvent;
-use App\Event\Component\UI\Twig\GridCreateLinkEvent;
+use App\Event\Component\UI\Panel\List\GridCreateLinkEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

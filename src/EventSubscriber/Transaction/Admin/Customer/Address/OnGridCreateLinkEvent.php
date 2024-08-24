@@ -2,10 +2,9 @@
 
 namespace App\EventSubscriber\Transaction\Admin\Customer\Address;
 
-use App\Event\Component\UI\Twig\GridCreateLinkEvent;
+use App\Event\Component\UI\Panel\List\GridCreateLinkEvent;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 class OnGridCreateLinkEvent implements EventSubscriberInterface

@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
-use App\Event\Component\UI\Twig\GridPropertyEvent;
+use App\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

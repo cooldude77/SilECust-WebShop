@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
 use App\Entity\OrderHeader;
-use App\Event\Component\UI\Twig\GridColumnEvent;
+use App\Event\Component\UI\Panel\List\GridColumnEvent;
 use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;

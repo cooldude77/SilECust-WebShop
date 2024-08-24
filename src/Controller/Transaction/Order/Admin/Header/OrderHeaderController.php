@@ -4,7 +4,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use App\Event\Component\Database\ListQueryEvent;
-use App\Event\Component\UI\Twig\GridPropertyEvent;
+use App\Event\Component\UI\Panel\List\GridPropertyEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;

@@ -3,7 +3,8 @@
 namespace App\Controller\Transaction\Order\Admin\Item;
 
 // ...
-use App\Event\Component\UI\Twig\GridPropertyEvent;
+use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
+use App\Event\Component\UI\Panel\List\GridPropertyEvent;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
@@ -109,19 +110,18 @@ class OrderItemController extends AbstractController
     }
 
     #[Route('/order/item/{id}/display', name: 'order_item_display')]
-    public function display(OrderItemRepository $OrderItemRepository, int $id): Response
+    public function display(OrderItemRepository $OrderItemRepository, int $id,EventDispatcherInterface $eventDispatcher,Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
         if (!$OrderItem) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
+        /** @var DisplayParametersEvent $event */
+        $event = $eventDispatcher->dispatch(new DisplayParametersEvent($request, ['id' => $id]),
+            DisplayParametersEvent::GET_DISPLAY_PROPERTY_EVENT
+        );
 
-        $displayParams = ['title' => 'Price',
-            'link_id' => 'id-price',
-            'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'id',
-                'propertyName' => 'id',],
-            ]];
+        $displayParams = $event->getParameterList();
 
         return $this->render(
             'transaction/order/item/order_item_display.html.twig',
@@ -140,7 +140,7 @@ class OrderItemController extends AbstractController
 
 
         /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request,['id' => $id]),
+        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, ['id' => $id]),
             GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
         );
 

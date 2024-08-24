@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\UI\Twig;
+namespace App\Event\Component\UI\Panel\List;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
