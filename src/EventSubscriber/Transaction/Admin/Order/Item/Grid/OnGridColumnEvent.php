@@ -61,7 +61,7 @@ class OnGridColumnEvent implements EventSubscriberInterface
                 $column['value'] = $this->itemPriceCalculator->getPriceObject($entity)->getTaxRate();
                 break;
             case 'finalAmount':
-                $column['value'] = $this->itemPriceCalculator->getPriceWithTax($entity);
+                $column['value'] = $this->itemPriceCalculator->getPriceWithTax($entity) * $entity->getQuantity();
                 break;
         }
 

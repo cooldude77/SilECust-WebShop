@@ -6,16 +6,14 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemPriceBreakup;
 use App\Entity\Product;
 use App\Repository\OrderItemPriceBreakupRepository;
-use App\Service\MasterData\Pricing\Item\PriceBreakUpEntityFinder;
+use App\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
 
 class OrderItemPriceBreakupMapper
 {
-    /**
-     * @param PriceBreakUpEntityFinder $priceCalculator
-     */
-    public function __construct(private readonly PriceBreakUpEntityFinder $priceCalculator,
-        private readonly OrderItemPriceBreakupRepository $orderItemPriceBreakupRepository
-    ) {
+    public function __construct(private readonly ItemPriceCalculator             $priceCalculator,
+                                private readonly OrderItemPriceBreakupRepository $orderItemPriceBreakupRepository
+    )
+    {
     }
 
     /**
@@ -26,12 +24,22 @@ class OrderItemPriceBreakupMapper
     public function mapToEntityForCreate(OrderItem $orderItem): OrderItemPriceBreakup
     {
 
-        $priceObject = $this->priceCalculator->getPriceObject($orderItem->getProduct());
+        $priceObject = $this->priceCalculator->getPriceObject($orderItem);
 
-        return $this->orderItemPriceBreakupRepository->create(
-            $orderItem,
-            []
-        );
+        return $this->orderItemPriceBreakupRepository->create($orderItem, $priceObject);
 
+    }
+
+    public function mapToEntityForEdit(OrderItem $orderItem): OrderItemPriceBreakup
+    {
+        $priceObjectEntity = $this->orderItemPriceBreakupRepository->find($orderItem->getId());
+
+        $priceObject = $this->priceCalculator->getPriceObject($orderItem);
+
+        $priceObjectEntity->setBasePrice($priceObject->getBasePrice());
+        $priceObjectEntity->setDiscount($priceObject->getDiscount());
+        $priceObjectEntity->setRateOfTax($priceObject->getTaxRate());
+
+        return $priceObjectEntity;
     }
 }

@@ -30,7 +30,7 @@ class HeaderPriceCalculator
         $totalPrice = 0;
         /** @var OrderItem $item */
         foreach ($items as $item) {
-            $totalPrice += $this->priceByCountryCalculator->getPriceWithTax($item->getProduct()->getId());
+            $totalPrice += $this->priceByCountryCalculator->getPriceWithTax($item->getProduct()->getId()) * $item->getQuantity();
 
         }
         return $totalPrice;

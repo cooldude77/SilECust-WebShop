@@ -67,8 +67,10 @@ class OrderItemController extends AbstractController
     }
 
     #[Route('/order/item/{id}/edit', name: 'order_item_edit')]
-    public function edit(int                         $id, OrderItemDTOMapper $mapper,
-                         EntityManagerInterface      $entityManager, OrderItemRepository $orderItemRepository,
+    public function edit(int                         $id,
+                         OrderItemDTOMapper          $mapper,
+                         EntityManagerInterface      $entityManager,
+                         OrderItemRepository         $orderItemRepository,
                          OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
                          Request                     $request
     ): Response
@@ -86,7 +88,7 @@ class OrderItemController extends AbstractController
 
             $orderItem = $mapper->mapDtoToEntityForEdit($form->getData());
 
-            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForCreate($orderItem);
+            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForEdit($orderItem);
 
             $entityManager->persist($orderItem);
             $entityManager->persist($priceBreakUp);
@@ -110,7 +112,7 @@ class OrderItemController extends AbstractController
     }
 
     #[Route('/order/item/{id}/display', name: 'order_item_display')]
-    public function display(OrderItemRepository $OrderItemRepository, int $id,EventDispatcherInterface $eventDispatcher,Request $request): Response
+    public function display(OrderItemRepository $OrderItemRepository, int $id, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
         if (!$OrderItem) {
