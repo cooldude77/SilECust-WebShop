@@ -14,13 +14,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
 
-    #[Route('/product/create', 'product_create')]
+
+    #[Route('/admin/product/create', 'sc_admin_product_create')]
     public function create(ProductDTOMapper       $productDTOMapper,
-                           EntityManagerInterface $entityManager, Request $request
+                           EntityManagerInterface $entityManager,
+                           Request                $request,
+                           ValidatorInterface     $validator
     ): Response
     {
         $productDTO = new ProductDTO();
@@ -32,37 +36,40 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $data = $form->getData();
+            $productEntity = $productDTOMapper->mapToEntityForCreate($data);
 
-            $productEntity = $productDTOMapper->mapToEntityForCreate($form);
+            $errors = $validator->validate($productEntity);
+
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($productEntity);
+                $entityManager->flush();
 
 
-            // perform some action...
-            $entityManager->persist($productEntity);
-            $entityManager->flush();
+                $id = $productEntity->getId();
 
+                $this->addFlash(
+                    'success', "Product created successfully"
+                );
 
-            $id = $productEntity->getId();
-
-            $this->addFlash(
-                'success', "Product created successfully"
-            );
-
-            return new Response(
-                serialize(
-                    ['id' => $id, 'message' => "Product created successfully"]
-                ), 200
-            );
+                return new Response(
+                    serialize(
+                        ['id' => $id, 'message' => "Product created successfully"]
+                    ), 200
+                );
+            }
         }
-
-        $formErrors = $form->getErrors(true);
         return $this->render('master_data/product/product_create.html.twig', ['form' => $form]);
     }
 
 
-    #[Route('/product/{id}/edit', name: 'product_edit')]
+    #[Route('/admin/product/{id}/edit', name: 'sc_admin_product_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          ProductRepository      $productRepository, ProductDTOMapper $productDTOMapper, Request $request,
-                         int                    $id
+                         int                    $id,
+
+                         ValidatorInterface     $validator
     ): Response
     {
         $product = $productRepository->find($id);
@@ -72,39 +79,45 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        $productDTO = new ProductDTO();
-        $productDTO->id = $id;
+        $productDTO = $productDTOMapper->mapToDtoFromEntityForEdit($product);
 
-        $form = $this->createForm(ProductEditForm::class, $productDTO);
+        $form = $this->createForm(ProductEditForm::class, $productDTO, ['validation_groups' => ['edit']]);
 
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $product = $productDTOMapper->mapToEntityForEdit($form, $product);
-            // perform some action...
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $data = $form->getData();
+            $product = $productDTOMapper->mapToEntityForEdit($data);
 
-            $id = $product->getId();
 
-            $this->addFlash(
-                'success', "Product updated successfully"
-            );
+            $errors = $validator->validate($product);
 
-            return new Response(
-                serialize(
-                    ['id' => $id, 'message' => "Product updated successfully"]
-                ), 200
-            );
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($product);
+                $entityManager->flush();
+
+                $id = $product->getId();
+
+                $this->addFlash(
+                    'success', "Product updated successfully"
+                );
+
+                return new Response(
+                    serialize(
+                        ['id' => $id, 'message' => "Product updated successfully"]
+                    ), 200
+                );
+            }
         }
 
         return $this->render('master_data/product/product_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/product/{id}/display', name: 'product_display')]
-    public function display(ProductRepository $productRepository, int $id): Response
+    #[Route('/admin/product/{id}/display', name: 'sc_admin_product_display')]
+    public function display(ProductRepository $productRepository, int $id, Request $request): Response
     {
         $product = $productRepository->find($id);
         if (!$product) {
@@ -122,12 +135,12 @@ class ProductController extends AbstractController
 
         return $this->render(
             'master_data/product/product_display.html.twig',
-            ['entity' => $product, 'params' => $displayParams]
+            ['request' => $request, 'entity' => $product, 'params' => $displayParams]
         );
 
     }
 
-    #[Route('/product/list', name: 'product_list')]
+    #[Route('/admin/product/list', name: 'product_list')]
     public function list(ProductRepository  $productRepository,
                          PaginatorInterface $paginator,
                          Request            $request):

@@ -4,45 +4,57 @@ namespace App\Tests\Controller\MasterData\Product\Product;
 
 use App\Factory\CategoryFactory;
 use App\Factory\ProductFactory;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class ProductControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture;
+    use HasBrowser, ProductFixture, EmployeeFixture;
 
+    protected function setUp(): void
+    {
+        $this->createEmployee();
+    }
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
+
+    }
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
      */
     public function testCreate()
     {
-        $category = CategoryFactory::createOne(['name' => 'Cat1',
-            'description' => 'Category 1']);
 
-        $id = $category->getId();
-        $createUrl = '/product/create';
+        $this->createProductFixtures();
+        $uri = '/admin/product/create';
 
-        $visit = $this->browser()->visit($createUrl);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('product_create_form[name]', 'Prod1')->fillField(
-            'product_create_form[description]', 'Product 1'
-        )->fillField('product_create_form[category]', $id)->click('Save')->assertSuccessful();
+        $this->browser()->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'product_create_form' => [
+                            'name' => 'Prod1',
+                            'description' => 'Product 1',
+                            'category' => $this->categoryA->getId()
+                        ],
+                    ],
+                ])
+            ->assertSuccessful();
 
         $created = ProductFactory::find(array('name' => "Prod1"));
 
         $this->assertEquals("Prod1", $created->getName());
+        $this->assertEquals("Product 1", $created->getDescription());
 
 
     }
@@ -53,46 +65,33 @@ class ProductControllerTest extends WebTestCase
      */
     public function testEdit()
     {
-        $category1 = CategoryFactory::createOne(['name' => 'Cat1',
-            'description' => 'Category 1']);
 
-        $category2 = CategoryFactory::createOne(['name' => 'Cat2',
-            'description' => 'Category 2']);
+        $this->createProductFixtures();
+        $uri = "/admin/product/{$this->productA->getId()}/edit";
 
-
-        $product = ProductFactory::createOne(['category' => $category1]);
-
-        $id = $product->getId();
-
-        $url = "/product/$id/edit";
-
-        $visit = $this->browser()->visit($url);
-
-        $crawler = $visit->client()->getCrawler();
-
-        $domDocument = $crawler->getNode(0)?->parentNode;
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category1->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $option = $domDocument->createElement('option');
-        $option->setAttribute('value', $category2->getId());
-        $selectElement = $crawler->filter('select')->getNode(0);
-        $selectElement->appendChild($option);
-
-        $visit->fillField('product_edit_form[name]', 'Prod1')
-            ->fillField(
-                'product_edit_form[description]', 'Product 1'
-            )
-            ->fillField('product_edit_form[category]', $category2->getId())
-            ->click('Save')
+        $visit = $this->browser()
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'product_edit_form' => [
+                            'id' => $this->productA->getId(),
+                            'name' => 'Prod11',
+                            'description' => 'Product 11',
+                            'category' => $this->categoryB->getId()
+                        ],
+                    ],
+                ])
             ->assertSuccessful();
 
-        $created = ProductFactory::find(array('name' => "Prod1"));
+        $edited = ProductFactory::find($this->productA->getId());
 
-        $this->assertEquals("Prod1", $created->getName());
+        $this->assertEquals("Prod11", $edited->getName());
+        $this->assertEquals("Product 11", $edited->getDescription());
+        $this->assertEquals($this->categoryB->getId(), $edited->getCategory()->getId());
 
 
     }
@@ -110,9 +109,13 @@ class ProductControllerTest extends WebTestCase
         $product = ProductFactory::createOne(['category' => $category]);
 
         $id = $product->getId();
-        $createUrl = "/product/$id/display";
+        $uri = "/admin/product/$id/display";
 
-        $this->browser()->visit($createUrl)->assertSuccessful();
+        $this->browser()->visit($uri)->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })->visit($uri)
+            ->assertSuccessful();
 
 
     }
@@ -122,8 +125,11 @@ class ProductControllerTest extends WebTestCase
     {
 
         $this->createProductFixtures();
-        $url = '/product/list';
-        $this->browser()->visit($url)->assertSuccessful();
+        $uri = '/admin/product/list';
+        $this->browser()->visit($uri)->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })->visit($uri)->assertSuccessful();
 
     }
 

@@ -15,9 +15,6 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    /**
-     * @var string|null
-     */
     #[Assert\Length(
         min: 1,
         max: 255,
@@ -39,7 +36,7 @@ class Category
 
     #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn]
-    // Note: removed inversedBy: 'category', from above notation
+    // Note: removed inversed By: 'category', from above notation
     private ?self $parent = null;
 
 

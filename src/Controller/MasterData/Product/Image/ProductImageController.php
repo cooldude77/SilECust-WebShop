@@ -27,21 +27,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductImageController extends AbstractController
 {
     /**
-     * @param int                    $id
+     * @param int $id
      * @param EntityManagerInterface $entityManager
-     * @param ProductImageDTOMapper  $productImageDTOMapper
-     * @param CommonUtility          $commonUtility
-     * @param Request                $request
+     * @param ProductImageDTOMapper $productImageDTOMapper
+     * @param CommonUtility $commonUtility
+     * @param Request $request
      *
      * @return Response
      */
     #[Route('/product/{id}/image/create', name: 'product_file_image_create')]
-    public function create(int $id, EntityManagerInterface $entityManager,
-        ProductImageOperation $productImageOperation,
-        ProductRepository $productRepository,
-        ProductImageDTOMapper $productImageDTOMapper, CommonUtility $commonUtility,
-        Request $request
-    ): Response {
+    public function create(int                   $id, EntityManagerInterface $entityManager,
+                           ProductImageOperation $productImageOperation,
+                           ProductRepository     $productRepository,
+                           ProductImageDTOMapper $productImageDTOMapper, CommonUtility $commonUtility,
+                           Request               $request
+    ): Response
+    {
         $product = $productRepository->find(['id' => $id]);
 
         // Todo : validate if product exists
@@ -80,28 +81,29 @@ class ProductImageController extends AbstractController
         }
 
         return $this->render('master_data/product/image/product_image_create.html.twig', ['form' =>
-                                                                                              $form]
+                $form]
         );
     }
 
     /**
-     * @param int                    $id
+     * @param int $id
      * @param EntityManagerInterface $entityManager
      * @param ProductImageRepository $productImageRepository
-     * @param ProductImageDTOMapper  $productImageDTOMapper
-     * @param ProductImageOperation  $productImageService
-     * @param Request                $request
+     * @param ProductImageDTOMapper $productImageDTOMapper
+     * @param ProductImageOperation $productImageService
+     * @param Request $request
      *
      * @return Response
      *
      * id is ProductImage Id
      */
     #[\Symfony\Component\Routing\Attribute\Route('/product/image/{id}/edit', name: 'product_file_image_edit')]
-    public function edit(int $id, EntityManagerInterface $entityManager,
-        ProductImageRepository $productImageRepository,
-        ProductImageDTOMapper $productImageDTOMapper,
-        ProductImageOperation $productImageService, Request $request
-    ): Response {
+    public function edit(int                    $id, EntityManagerInterface $entityManager,
+                         ProductImageRepository $productImageRepository,
+                         ProductImageDTOMapper  $productImageDTOMapper,
+                         ProductImageOperation  $productImageService, Request $request
+    ): Response
+    {
         $productImage = $productImageRepository->find($id);
 
         $productImageDTO = $productImageDTOMapper->mapEntityToDto(
@@ -147,10 +149,12 @@ class ProductImageController extends AbstractController
     }
 
     #[Route('/product/{id}/image/list', name: 'product_create_file_image_list')]
-    public function list(int $id, ProductRepository $productRepository,
-        ProductImageRepository $productImageRepository
+    public function list(int                    $id, ProductRepository $productRepository,
+                         ProductImageRepository $productImageRepository,
+                         Request                $request
     ):
-    Response {
+    Response
+    {
 
 
         $productImages = $productImageRepository->findBy(['product' => $productRepository->find
@@ -171,20 +175,20 @@ class ProductImageController extends AbstractController
         }
 
         $listGrid = ['title' => "Product Files",
-                     'function' => 'product_file_image',
-                     'link_id' => 'id-product-image-file',
-                     'columns' => [['label' => 'Your fileName',
-                                    'propertyName' => 'yourFileName',
-                                    'action' => 'display',],
-                                   ['label' => 'FileName', 'propertyName' => 'name'],],
-                     'createButtonConfig' => ['link_id' => ' id-create-file-image',
-                                              'function' => 'product_file_image',
-                                              'id' => $id,
-                                              'anchorText' => 'Product File']];
+            'function' => 'product_file_image',
+            'link_id' => 'id-product-image-file',
+            'columns' => [['label' => 'Your fileName',
+                'propertyName' => 'yourFileName',
+                'action' => 'display',],
+                ['label' => 'FileName', 'propertyName' => 'name'],],
+            'createButtonConfig' => ['link_id' => ' id-create-file-image',
+                'function' => 'product_file_image',
+                'id' => $id,
+                'anchorText' => 'Product File']];
 
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $entities, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
         );
 
     }
@@ -193,16 +197,17 @@ class ProductImageController extends AbstractController
      *
      * Fetch is to display image standalone ( call by URL at the top )
      *
-     * @param int                               $id
-     * @param ProductImageRepository            $productImageRepository
+     * @param int $id
+     * @param ProductImageRepository $productImageRepository
      * @param ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
      *
      * @return Response
      */
     #[\Symfony\Component\Routing\Attribute\Route('/product/image/{id}/fetch', name: 'product_file_image_fetch')]
-    public function fetch(int $id, ProductImageRepository $productImageRepository,
-        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
-    ): Response {
+    public function fetch(int                               $id, ProductImageRepository $productImageRepository,
+                          ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
+    ): Response
+    {
 
         /** @var ProductImage $productImage */
         $productImage = $productImageRepository->findOneBy(['id' => $id]);
@@ -213,49 +218,49 @@ class ProductImageController extends AbstractController
         $file = file_get_contents($path);
 
         $headers = array('Content-Type' => mime_content_type($productImage->getFile()),
-                         'Content-Disposition' => 'inline; filename="' . $productImage->getFile()
-                                 ->getName() . '"');
+            'Content-Disposition' => 'inline; filename="' . $productImage->getFile()
+                    ->getName() . '"');
         return new Response($file, 200, $headers);
 
     }
 
     /**
      * @param ProductImageRepository $productImageRepository
-     * @param int                    $id
+     * @param int $id
      *
      * @return Response
      */
     #[\Symfony\Component\Routing\Attribute\Route('/product/image/{$id}/display/', name: 'product_file_image_display')]
-    public function display(ProductImageRepository $productImageRepository, int $id): Response
+    public function display(ProductImageRepository $productImageRepository, int $id, Request $request): Response
     {
         $productImage = $productImageRepository->findOneBy(['id' => $id]);
         if (!$productImage) {
             throw $this->createNotFoundException('No Product Image found for file id ' . $id);
         }
         $entity = ['id' => $productImage->getId(),
-                   'name' => $productImage->getFile()->getName(),
-                   'yourFileName' => $productImage->getFile()->getYourFileName()];
+            'name' => $productImage->getFile()->getName(),
+            'yourFileName' => $productImage->getFile()->getYourFileName()];
 
         $displayParams = ['title' => 'ProductImage',
-                          'editButtonLinkText' => 'Edit',
-                          'link_id'=>'id-edit-file',
-                          'fields' => [['label' => 'Your Name',
-                                        'propertyName' => 'yourFileName',
-                                        'link_id' => 'id-display-image-file'],
-                                       ['label' => 'Name', 'propertyName' => 'name'],
-                                      ]];
+            'editButtonLinkText' => 'Edit',
+            'link_id' => 'id-edit-file',
+            'fields' => [['label' => 'Your Name',
+                'propertyName' => 'yourFileName',
+                'link_id' => 'id-display-image-file'],
+                ['label' => 'Name', 'propertyName' => 'name'],
+            ]];
 
         return $this->render(
             'master_data/product/image/product_image_display.html.twig',
-            ['entity' => $entity, 'params' => $displayParams]
+            ['request' => $request, 'entity' => $entity, 'params' => $displayParams]
         );
 
     }
 
 
     /**
-     * @param int                               $id from ProductImage->getId()
-     * @param ProductImageRepository            $productImageRepository
+     * @param int $id from ProductImage->getId()
+     * @param ProductImageRepository $productImageRepository
      * @param ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
      *
      * @return Response
@@ -263,10 +268,11 @@ class ProductImageController extends AbstractController
      * To be displayed in img tag
      */
     #[\Symfony\Component\Routing\Attribute\Route('product/image/img-tag/{id}', name: 'product_image_file_for_img_tag')]
-    public function getFileContentsById(int $id, ProductImageRepository $productImageRepository,
-        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider,
-        SystemImage $systemImage
-    ): Response {
+    public function getFileContentsById(int                               $id, ProductImageRepository $productImageRepository,
+                                        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider,
+                                        SystemImage                       $systemImage
+    ): Response
+    {
 
         /** @var ProductImage $productImage */
         $productImage = $productImageRepository->findOneBy(['id' => $id]);

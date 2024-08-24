@@ -4,33 +4,46 @@ namespace App\Form\MasterData\Category;
 
 use App\Form\CategoryAutoCompleteField;
 use App\Form\MasterData\Category\DTO\CategoryDTO;
-use Symfony\Component\Form\AbstractType;
+use App\Form\MasterData\CustomFormType;
+use App\Repository\CategoryRepository;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CategoryCreateForm extends AbstractType
+class CategoryCreateForm extends CustomFormType
 {
-
+    public function __construct(
+        #[Autowire('%env(APP_ENV)%')] private readonly string $environment)
+    {
+        parent::__construct($this->environment);
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class,
-        );
+        $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
-
-        $builder->add('parent', CategoryAutoCompleteField::class,['required'=>false]);
-
+        $builder->add('parentId', CategoryAutoCompleteField::class, ['required' => false, 'mapped' => false]);
         $builder->add('save', SubmitType::class);
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
+            $data = $formEvent->getData();
+            $formEvent->getForm()->add('parent', NumberType::class);
+            $data['parent'] = $data['parentId'];
+            $formEvent->setData($data);
+        });
 
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class',CategoryDTO::class);
+        parent::configureOptions($resolver);
+        $resolver->setDefault('data_class', CategoryDTO::class);
     }
-
 
 
     public function getBlockPrefix(): string

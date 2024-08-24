@@ -21,4 +21,4 @@
 # App specific file
 # default location of file uploads
 /data
-
+.htaccess

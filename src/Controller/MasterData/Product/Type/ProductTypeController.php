@@ -95,7 +95,7 @@ class ProductTypeController extends AbstractController
 
 
     #[Route('/product/type/list', name: 'product_type_list')]
-    public function list(ProductTypeRepository $productTypeRepository): Response
+    public function list(ProductTypeRepository $productTypeRepository,Request $request): Response
     {
 
         $listGrid = ['title' => 'ProductType',
@@ -113,7 +113,7 @@ class ProductTypeController extends AbstractController
         $productTypes = $productTypeRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $productTypes, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $productTypes, 'listGrid' => $listGrid]
         );
     }
 

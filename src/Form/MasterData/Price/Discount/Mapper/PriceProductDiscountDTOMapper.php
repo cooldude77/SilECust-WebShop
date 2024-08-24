@@ -8,19 +8,15 @@ use App\Repository\CurrencyRepository;
 use App\Repository\PriceProductDiscountRepository;
 use App\Repository\ProductRepository;
 
-class PriceProductDiscountDTOMapper
+readonly class PriceProductDiscountDTOMapper
 {
 
-    private ProductRepository $productRepository;
-    private CurrencyRepository $currencyRepository;
-    private PriceProductDiscountRepository $priceBaseProductRepository;
 
-    public function __construct(ProductRepository $productRepository,
-        CurrencyRepository $currencyRepository, PriceProductDiscountRepository $priceBaseProductRepository
-    ) {
-        $this->productRepository = $productRepository;
-        $this->currencyRepository = $currencyRepository;
-        $this->priceBaseProductRepository = $priceBaseProductRepository;
+    public function __construct(private ProductRepository              $productRepository,
+                                private CurrencyRepository             $currencyRepository,
+                                private PriceProductDiscountRepository $priceBaseProductRepository
+    )
+    {
     }
 
     public function mapDtoToEntity(PriceProductDiscountDTO $priceBaseProductDTO): PriceProductDiscount
@@ -35,8 +31,7 @@ class PriceProductDiscountDTOMapper
 
     }
 
-    public function mapDtoToEntityForEdit(PriceProductDiscountDTO $priceBaseProductDTO, ?PriceProductDiscount
-    $priceBase):PriceProductDiscount
+    public function mapDtoToEntityForEdit(PriceProductDiscountDTO $priceBaseProductDTO, ?PriceProductDiscount $priceBase): PriceProductDiscount
     {
 
         $priceBase->setValue($priceBaseProductDTO->value);
@@ -44,5 +39,15 @@ class PriceProductDiscountDTOMapper
         return $priceBase;
     }
 
+    public function mapToDtoFromEntityForEdit(PriceProductDiscount $priceBase): PriceProductDiscountDTO
+    {
 
+        $priceProductDiscountDTO = new PriceProductDiscountDTO();
+        $priceProductDiscountDTO->id = $priceBase->getId();
+        $priceProductDiscountDTO->productId = $priceBase->getProduct()->getId();
+        $priceProductDiscountDTO->currencyId = $priceBase->getCurrency()->getId();
+        $priceProductDiscountDTO->value = $priceBase->getValue();
+
+        return $priceProductDiscountDTO;
+    }
 }

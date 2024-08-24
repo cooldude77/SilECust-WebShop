@@ -177,7 +177,7 @@ class PanelSideBarListMapBuilder
                                     'id' => 'tax-slabs-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
-                                        'tax-slab'
+                                        'tax_slab'
                                     ),
                                     'text' => 'Tax Slabs',
                                     'css-id' => 'sidebar-link-tax-slabs-list'

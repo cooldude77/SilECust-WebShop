@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPriceBreakup;
 use App\Service\MasterData\Pricing\Item\PriceBreakUpObject;
+use App\Service\Transaction\Order\PriceObject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -50,15 +51,15 @@ class OrderItemPriceBreakupRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderItemPriceBreakup::class);
     }
 
-    public function create(OrderItem $orderItem, array $prices): OrderItemPriceBreakup
+    public function create(OrderItem $orderItem, PriceObject $priceObject): OrderItemPriceBreakup
     {
 
         $breakup = new OrderItemPriceBreakup();
 
         $breakup->setOrderItem($orderItem);
-        $breakup->setBasePrice($prices[OrderItemPriceBreakup::BASE_PRICE]);
-        $breakup->setDiscount($prices[OrderItemPriceBreakup::DISCOUNT] ?? 0);
-        $breakup->setRateOfTax(isset($prices[OrderItemPriceBreakup::RATE_OF_TAX]));
+        $breakup->setBasePrice($priceObject->getBasePrice());
+        $breakup->setDiscount($priceObject->getDiscount());
+        $breakup->setRateOfTax($priceObject->getTaxRate());
 
         return $breakup;
     }
@@ -68,7 +69,7 @@ class OrderItemPriceBreakupRepository extends ServiceEntityRepository
 
         return $this->getEntityManager()->createQueryBuilder('pb')
             ->select('pb')
-            ->from('App\Entity\OrderItemPriceBreakup','pb')
+            ->from('App\Entity\OrderItemPriceBreakup', 'pb')
             ->join('pb.orderItem', 'item')
             ->join('item.orderHeader', 'oh')
             ->where('oh=:oh')

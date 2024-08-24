@@ -16,7 +16,7 @@ class SalutationAutoCompleteField extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Salutation::class,
-            'placeholder' => 'Choose a Pin Code',
+            'placeholder' => 'Choose a Salutation',
             'choice_label' => 'salutation',
             'choice_value' => 'id',
             // 'security' => 'ROLE_SOMETHING',

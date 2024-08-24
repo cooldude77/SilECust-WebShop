@@ -6,32 +6,38 @@ Also has a block to insert your function
 
  {% block admin_header %}
 
-     <div id="header" class="bg-primary bg-light">
-         <nav class="navbar navbar-expand-sm d-flex">
-             <div class="container-fluid">
-                 {% block brand %}
-                     <nav class="navbar-brand">
-                         {% include 'admin/ui/panel/header/header_logo.html.twig' %}
-                     </nav>
-                 {% endblock %}
+<div id="header" class="bg-primary bg-light">
+    <nav class="navbar navbar-expand-sm d-flex">
+        <div class="container-fluid">
+            {% block brand %}
+                <nav class="navbar-brand">
+                    {% include 'admin/ui/panel/header/header_logo.html.twig' %}
+                </nav>
+            {% endblock %}
 
-                 <nav class="justify-content-end">
-                     <ul class="navbar-nav ">
-                         {% block profile %}
-                             <li class="nav-item">
-                                 <a class="nav-link" href="{% block profile_link %}{% endblock %}"> <i class="bi bi-person-circle"></i></a>
-                             </li>
-                         {% endblock %}
-                         <li class="nav-item">
-                             {% if app.user is null %}
-                                 {% include 'admin/ui/panel/header/header_login_link.html.twig' %}
-                             {% else %}
-                                 {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
-                             {% endif %}
-                         </li>
-                     </ul>
-                 </nav>
-             </div>
-         </nav>
-     </div>
- {% endblock %}
+            <nav class="justify-content-end">
+                <ul class="navbar-nav ">
+                    {% block start_navigation %}{% endblock start_navigation %}
+                    {% block navigation %}
+                        {% block profile %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% block profile_link %}{% endblock %}"  title="profile"> <i
+                                            class="bi bi-person-circle"></i></a>
+                            </li>
+                        {% endblock %}
+                        <li class="nav-item">
+                            {% if app.user is null %}
+                                {% include 'admin/ui/panel/header/header_login_link.html.twig' %}
+                            {% else %}
+                                {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                            {% endif %}
+                        </li>
+                    {% endblock %}
+                    {% block end_navigation %}{% endblock end_navigation %}
+
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</div>
+{% endblock %}

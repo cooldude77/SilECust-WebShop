@@ -37,7 +37,6 @@
                         <div class="col">
 
                             {% set column = attribute(event.getData(),'column') %}
-
                             {% if column.value is defined %}
                                 <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
                             {% else %}
@@ -47,6 +46,7 @@
                                     'id':attribute(entity, 'id'),
                                     'link_id':listGrid.link_id} %}
                             {% endif %}
+
                         </div>
 
                     {% else %}
@@ -62,23 +62,21 @@
                             {% endif %}
 
                         </div>
-
-                        <div class="col">
-
-                            {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
-
-                                {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
-                                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                                    'id':attribute(entity, 'id'),
-                                    'link_id':listGrid.link_id} %}
-
-                            {% endif %}
-
-                        </div>
                     {% endif %}
                 {% endfor %}
 
+                <div class="col">
 
+                    {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
+
+                        {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
+                            'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                            'id':attribute(entity, 'id'),
+                            'link_id':listGrid.link_id} %}
+
+                    {% endif %}
+
+                </div>
             </div>
         {% endfor %}
         <div class="navigation">
@@ -91,6 +89,10 @@
                 }
             ) }}
         </div>
+    {% else %}
+        <h2>No records found</h2>
+
     {% endif %}
+
 </div>
 

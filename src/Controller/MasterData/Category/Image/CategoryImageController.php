@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  *
@@ -26,21 +26,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryImageController extends AbstractController
 {
     /**
-     * @param int                    $id
+     * @param int $id
      * @param EntityManagerInterface $entityManager
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
-     * @param CommonUtility          $commonUtility
-     * @param Request                $request
+     * @param CommonUtility $commonUtility
+     * @param Request $request
      *
      * @return Response
      */
-    #[Route('/category/{id}/image/create', name: 'category_file_image_create')]
-    public function create(int $id, EntityManagerInterface $entityManager,
-        CategoryImageOperation $categoryImageOperation,
-        CategoryRepository $categoryRepository,
-        CategoryImageDTOMapper $categoryImageDTOMapper, CommonUtility $commonUtility,
-        Request $request
-    ): Response {
+    #[Route('/admin/category/{id}/image/create', name: 'sc_route_admin_category_file_image_create')]
+    public function create(int                    $id, EntityManagerInterface $entityManager,
+                           CategoryImageOperation $categoryImageOperation,
+                           CategoryRepository     $categoryRepository,
+                           CategoryImageDTOMapper $categoryImageDTOMapper, CommonUtility $commonUtility,
+                           Request                $request
+    ): Response
+    {
         $category = $categoryRepository->find(['id' => $id]);
 
         // Todo : validate if category exists
@@ -84,23 +85,24 @@ class CategoryImageController extends AbstractController
     }
 
     /**
-     * @param int                     $id
-     * @param EntityManagerInterface  $entityManager
+     * @param int $id
+     * @param EntityManagerInterface $entityManager
      * @param CategoryImageRepository $categoryImageRepository
-     * @param CategoryImageDTOMapper  $categoryImageDTOMapper
-     * @param CategoryImageOperation  $categoryImageService
-     * @param Request                 $request
+     * @param CategoryImageDTOMapper $categoryImageDTOMapper
+     * @param CategoryImageOperation $categoryImageService
+     * @param Request $request
      *
      * @return Response
      *
      * id is CategoryImage Id
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/category/image/{id}/edit', name: 'category_file_image_edit')]
-    public function edit(int $id, EntityManagerInterface $entityManager,
-        CategoryImageRepository $categoryImageRepository,
-        CategoryImageDTOMapper $categoryImageDTOMapper,
-        CategoryImageOperation $categoryImageService, Request $request
-    ): Response {
+    #[Route('/admin/category/image/{id}/edit', name: 'sc_route_admin_category_file_image_edit')]
+    public function edit(int                     $id, EntityManagerInterface $entityManager,
+                         CategoryImageRepository $categoryImageRepository,
+                         CategoryImageDTOMapper  $categoryImageDTOMapper,
+                         CategoryImageOperation  $categoryImageService, Request $request
+    ): Response
+    {
         $categoryImage = $categoryImageRepository->find($id);
 
         $categoryImageDTO = $categoryImageDTOMapper->mapEntityToDto(
@@ -145,11 +147,13 @@ class CategoryImageController extends AbstractController
 
     }
 
-    #[Route('/category/{id}/image/list', name: 'category_create_file_image_list')]
-    public function list(int $id, CategoryRepository $categoryRepository,
-        CategoryImageRepository $categoryImageRepository
+    #[Route('/admin/category/{id}/image/list', name: 'category_file_image_list')]
+    public function list(int                     $id, CategoryRepository $categoryRepository,
+                         CategoryImageRepository $categoryImageRepository,
+                         Request                 $request
     ):
-    Response {
+    Response
+    {
 
 
         $categoryImages = $categoryImageRepository->findBy(['category' => $categoryRepository->find
@@ -170,20 +174,20 @@ class CategoryImageController extends AbstractController
         }
 
         $listGrid = ['title' => "Category Files",
-                     'function' => 'category_file_image',
-                     'link_id' => 'id-category-image-file',
-                     'columns' => [['label' => 'Your fileName',
-                                    'propertyName' => 'yourFileName',
-                                    'action' => 'display',],
-                                   ['label' => 'FileName', 'propertyName' => 'name'],],
-                     'createButtonConfig' => ['link_id' => ' id-create-file-image',
-                                              'function' => 'category_file_image',
-                                              'id' => $id,
-                                              'anchorText' => 'Category File']];
+            'function' => 'category_file_image',
+            'link_id' => 'id-category-image-file',
+            'columns' => [['label' => 'Your fileName',
+                'propertyName' => 'yourFileName',
+                'action' => 'display',],
+                ['label' => 'FileName', 'propertyName' => 'name'],],
+            'createButtonConfig' => ['link_id' => ' id-create-file-image',
+                'function' => 'category_file_image',
+                'id' => $id,
+                'anchorText' => 'Category File']];
 
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $entities, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
         );
 
     }
@@ -192,16 +196,17 @@ class CategoryImageController extends AbstractController
      *
      * Fetch is to display image standalone ( call by URL at the top )
      *
-     * @param int                                $id
-     * @param CategoryImageRepository            $categoryImageRepository
+     * @param int $id
+     * @param CategoryImageRepository $categoryImageRepository
      * @param CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
      *
      * @return Response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/category/image/{id}/fetch', name: 'category_file_image_fetch')]
-    public function fetch(int $id, CategoryImageRepository $categoryImageRepository,
-        CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
-    ): Response {
+    #[Route('/admin/category/image/{id}/fetch', name: 'sc_route_admin_category_file_image_fetch')]
+    public function fetch(int                                $id, CategoryImageRepository $categoryImageRepository,
+                          CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
+    ): Response
+    {
 
         /** @var CategoryImage $categoryImage */
         $categoryImage = $categoryImageRepository->findOneBy(['id' => $id]);
@@ -212,62 +217,63 @@ class CategoryImageController extends AbstractController
         $file = file_get_contents($path);
 
         $headers = array('Content-Type' => mime_content_type($categoryImage->getFile()),
-                         'Content-Disposition' => 'inline; filename="' . $categoryImage->getFile()
-                                 ->getName() . '"');
+            'Content-Disposition' => 'inline; filename="' . $categoryImage->getFile()
+                    ->getName() . '"');
         return new Response($file, 200, $headers);
 
     }
 
     /**
      * @param CategoryImageRepository $categoryImageRepository
-     * @param int                     $id
+     * @param int $id
      *
      * @return Response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/category/image/{$id}/display/', name: 'category_file_image_display')]
-    public function display(CategoryImageRepository $categoryImageRepository, int $id): Response
+    #[Route('/admin/category/image/{$id}/display/', name: 'sc_route_admin_category_file_image_display')]
+    public function display(CategoryImageRepository $categoryImageRepository, int $id, Request $request): Response
     {
         $categoryImage = $categoryImageRepository->findOneBy(['id' => $id]);
         if (!$categoryImage) {
             throw $this->createNotFoundException('No Category Image found for file id ' . $id);
         }
         $entity = ['id' => $categoryImage->getId(),
-                   'name' => $categoryImage->getFile()->getName(),
-                   'yourFileName' => $categoryImage->getFile()->getYourFileName()];
+            'name' => $categoryImage->getFile()->getName(),
+            'yourFileName' => $categoryImage->getFile()->getYourFileName()];
 
         $displayParams = ['title' => 'CategoryImage',
-                          'editButtonLinkText' => 'Edit',
-                          'link_id' => 'id-edit-link',
-                          'fields' => [
-                              ['label' => 'Your Name',
-                               'propertyName' => 'yourFileName',
-                               'link_id' => 'id-display-image-file'],
-                              ['label' => 'Name',
-                               'propertyName' => 'name',
-                               'link_id' => 'id-name'],
-                          ]];
+            'editButtonLinkText' => 'Edit',
+            'link_id' => 'id-edit-link',
+            'fields' => [
+                ['label' => 'Your Name',
+                    'propertyName' => 'yourFileName',
+                    'link_id' => 'id-display-image-file'],
+                ['label' => 'Name',
+                    'propertyName' => 'name',
+                    'link_id' => 'id-name'],
+            ]];
 
         return $this->render(
             'master_data/category/image/category_image_display.html.twig',
-            ['entity' => $entity, 'params' => $displayParams]
+            ['request' => $request, 'entity' => $entity, 'params' => $displayParams]
         );
 
     }
 
 
     /**
-     * @param int                                $id from CategoryImage->getId()
-     * @param CategoryImageRepository            $categoryImageRepository
+     * @param int $id from CategoryImage->getId()
+     * @param CategoryImageRepository $categoryImageRepository
      * @param CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
      *
      * @return Response
      *
      * To be displayed in img tag
      */
-    #[\Symfony\Component\Routing\Attribute\Route('category/image/img-tag/{id}', name: 'category_image_file_for_img_tag')]
-    public function getFileContentsById(int $id, CategoryImageRepository $categoryImageRepository,
-        CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
-    ): Response {
+    #[Route('category/image/img-tag/{id}', name: 'category_image_file_for_img_tag')]
+    public function getFileContentsById(int                                $id, CategoryImageRepository $categoryImageRepository,
+                                        CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
+    ): Response
+    {
 
         /** @var CategoryImage $categoryImage */
         $categoryImage = $categoryImageRepository->findOneBy(['id' => $id]);

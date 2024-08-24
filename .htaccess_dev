@@ -1,0 +1,19 @@
+## asset mapper may not work on apache dev and php without this
+## -- start---
+## enable mod rewrite
+## sudo a2enmod rewrite
+## sudo systemctl restart apache2
+## add this below in .conf
+##<Directory /var/www/project/silecust> Your project path
+  ##  AllowOverride All
+##</Directory>
+
+## copy content below to .htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Send would-be 404 requests to Craft
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule (.+) public/index.php?p=$1 [QSA,L]
+</IfModule>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -15,13 +16,29 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
+    #[Assert\Regex(
+        pattern: '/[A-Za-z0-9\-\_\s]/',
+        message: 'Only characters and numbers are allowed',
+        match: true
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 5000)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $description = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull()]
     private ?Category $category = null;
 
     #[ORM\ManyToOne]
@@ -32,7 +49,6 @@ class Product
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $longDescription = null;
-
 
 
     public function getId(): ?int

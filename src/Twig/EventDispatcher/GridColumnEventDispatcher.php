@@ -2,7 +2,7 @@
 
 namespace App\Twig\EventDispatcher;
 
-use App\Event\Component\UI\Twig\GridColumnEvent;
+use App\Event\Component\UI\Panel\List\GridColumnEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

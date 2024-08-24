@@ -123,7 +123,7 @@ class CustomerController extends AbstractController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/customer/list', name: 'customer_list')]
-    public function list(CustomerRepository $customerRepository): Response
+    public function list(CustomerRepository $customerRepository,Request $request): Response
     {
 
         $listGrid = ['title' => 'Customer',
@@ -138,7 +138,7 @@ class CustomerController extends AbstractController
         $customers = $customerRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $customers, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $customers, 'listGrid' => $listGrid]
         );
     }
 }

@@ -7,7 +7,6 @@ use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 /**
@@ -17,14 +16,15 @@ readonly class OrderItemDTOMapper
 {
     /**
      * @param CartSessionProductService $cartSessionService
-     * @param OrderItemRepository       $orderItemRepository
-     * @param OrderHeaderRepository     $orderHeaderRepository
-     * @param ProductRepository         $productRepository
+     * @param OrderItemRepository $orderItemRepository
+     * @param OrderHeaderRepository $orderHeaderRepository
+     * @param ProductRepository $productRepository
      */
     public function __construct(
-        private OrderItemRepository $orderItemRepository,
+        private OrderItemRepository   $orderItemRepository,
         private OrderHeaderRepository $orderHeaderRepository,
-        private ProductRepository $productRepository) {
+        private ProductRepository     $productRepository)
+    {
     }
 
 
@@ -37,11 +37,6 @@ readonly class OrderItemDTOMapper
     {
         $product = $this->productRepository->find($orderItemDTO->productId);
         $orderHeader = $this->orderHeaderRepository->find($orderItemDTO->orderHeaderId);
-
-//        $priceObject = $this->priceBreakUp->getPriceObject($product);
-        // todo : what to do with the price object
-
-  //      $pricePerUnit = $this->priceCalculator->calculatePrice($priceObject);
 
         return $this->orderItemRepository->create($orderHeader, $product, $orderItemDTO->quantity);
 
@@ -57,8 +52,12 @@ readonly class OrderItemDTOMapper
     {
 
         $orderItemDTO = new OrderItemDTO();
+
         $orderItemDTO->id = $orderItem->getId();
+
         $orderItemDTO->quantity = $orderItem->getQuantity();
+        $orderItemDTO->productId = $orderItem->getProduct()->getId();
+
         return $orderItemDTO;
     }
 
@@ -67,7 +66,7 @@ readonly class OrderItemDTOMapper
      *
      * @return OrderItem
      */
-    public function mapDtoToEntityForEdit(OrderItemDTO  $orderItemDTO): OrderItem
+    public function mapDtoToEntityForEdit(OrderItemDTO $orderItemDTO): OrderItem
     {
         $orderItem = $this->orderItemRepository->find($orderItemDTO->id);
 

@@ -2,14 +2,15 @@
 
 namespace App\EventSubscriber\Transaction\Admin\Order\Item\Grid;
 
-use App\Entity\OrderHeader;
-use App\Event\Component\UI\Twig\GridColumnEvent;
+use App\Entity\OrderItem;
+use App\Event\Component\UI\Panel\List\GridColumnEvent;
+use App\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class OnGridColumnEvent implements EventSubscriberInterface
 {
-    public function __construct(private readonly RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router, private readonly ItemPriceCalculator $itemPriceCalculator)
     {
     }
 
@@ -25,13 +26,16 @@ class OnGridColumnEvent implements EventSubscriberInterface
     {
         $route = $this->router->match($event->getData()['request']->getPathInfo());
         if (!in_array($route['_route'], ['my_order_display', 'order_display']))
-            return;
+            if (!($event->getData()['request']->query->get('_function') == 'order' // order item list is never shown standalone
+                && $event->getData()['request']->query->get('_type') == 'display')
+            )
+                return;
 
         $data = $event->getData();
         $column = $event->getData()['column'];
         $listGrid = $event->getData()['listGrid'];
 
-        /** @var OrderHeader $entity */
+        /** @var OrderItem $entity */
         $entity = $event->getData()['entity'];
 
 
@@ -40,11 +44,28 @@ class OnGridColumnEvent implements EventSubscriberInterface
                 if ($route['_route'] == 'my_order_display')
                     $column['value'] = $this->router->generate('my_order_item_display', ['id' => $entity->getId()]);
                 else
-                    $column['value'] = $this->router->generate('order__item_display', ['id' => $entity->getId()]);
+                    $column['value'] = $this->router->generate('admin_panel', [
+                        '_function' => 'order_item',
+                        '_type' => 'display',
+                        'id' => $entity->getId()]);
 
-                $data['column'] = $column;
+                break;
+            case 'price':
+                $column['value'] = $this->itemPriceCalculator->getPriceObject($entity)->getBasePrice();
+                break;
+
+            case 'discount':
+                $column['value'] = $this->itemPriceCalculator->getPriceObject($entity)->getDiscount();
+                break;
+            case 'tax':
+                $column['value'] = $this->itemPriceCalculator->getPriceObject($entity)->getTaxRate();
+                break;
+            case 'finalAmount':
+                $column['value'] = $this->itemPriceCalculator->getPriceWithTax($entity) * $entity->getQuantity();
                 break;
         }
+
+        $data['column'] = $column;
 
         $event->setData($data);
 

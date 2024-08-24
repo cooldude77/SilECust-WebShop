@@ -8,31 +8,147 @@ use App\Form\MasterData\Price\Tax\Mapper\PriceProductTaxDTOMapper;
 use App\Form\MasterData\Price\Tax\PriceProductTaxCreateForm;
 use App\Form\MasterData\Price\Tax\PriceProductTaxEditForm;
 use App\Repository\PriceProductTaxRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class PriceProductTaxController extends AbstractController
 {
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/price/product/tax/list', name: 'price_product_tax_list')]
+    #[Route('/admin/tax-slab/create', 'sc_route_admin_price_product_tax_create')]
+    public function create(PriceProductTaxDTOMapper $priceProductTaxDTOMapper,
+                           EntityManagerInterface   $entityManager,
+                           Request                  $request,
+                           ValidatorInterface       $validator
+    ): Response
+    {
+        $priceProductTaxDTO = new PriceProductTaxDTO();
+        $form = $this->createForm(PriceProductTaxCreateForm::class, $priceProductTaxDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $priceProductTaxEntity = $priceProductTaxDTOMapper->mapDtoToEntityForCreate($form->getData());
+
+            $errors = $validator->validate($priceProductTaxEntity);
+
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($priceProductTaxEntity);
+                $entityManager->flush();
+
+                $this->addFlash('success', "PriceProductTax created successfully");
+                return new Response(
+                    serialize(
+                        ['id' => $priceProductTaxEntity->getId(), 'message' => "PriceProductTax created successfully"]
+                    ), 200
+                );
+            }
+        }
+
+        return $this->render(
+            'master_data/price/tax/price_product_tax_create.html.twig', ['form' => $form]
+        );
+    }
+
+
+    #[Route('/admin/tax-slab/{id}/edit', name: 'sc_route_admin_price_product_tax_edit')]
+    public function edit(EntityManagerInterface    $entityManager,
+                         PriceProductTaxRepository $priceProductTaxRepository,
+                         PriceProductTaxDTOMapper  $priceProductTaxDTOMapper,
+                         Request                   $request, int $id,
+                         ValidatorInterface        $validator
+    ): Response
+    {
+        $priceProductTax = $priceProductTaxRepository->find($id);
+
+
+        if (!$priceProductTax) {
+            throw $this->createNotFoundException(
+                'No priceProductTax found for id ' . $id
+            );
+        }
+        $priceProductTaxDTO = $priceProductTaxDTOMapper->mapToDtoFromEntityForEdit($priceProductTax);
+
+        $form = $this->createForm(PriceProductTaxEditForm::class, $priceProductTaxDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+            $priceProductTax = $priceProductTaxDTOMapper->mapDtoToEntityForEdit($data);
+
+            $errors = $validator->validate($priceProductTax);
+
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($priceProductTax);
+                $entityManager->flush();
+
+                $this->addFlash('success', "PriceProductTax created successfully");
+                return new Response(
+                    serialize(
+                        ['id' => $priceProductTax->getId(), 'message' => "PriceProductTax created successfully"]
+                    ), 200
+                );
+            }
+        }
+        return $this->render(
+            'master_data/price/tax/price_product_tax_edit.html.twig', ['form' => $form]
+        );
+    }
+
+
+    #[Route('/admin/tax-slab/{id}/display', name: 'sc_route_admin_price_product_tax_display')]
+    public function display(PriceProductTaxRepository $priceProductTaxRepository, int $id, Request $request): Response
+    {
+        $priceProductTax = $priceProductTaxRepository->find($id);
+        if (!$priceProductTax) {
+            throw $this->createNotFoundException(
+                'No priceProductTax found for id ' . $id
+            );
+        }
+
+        $displayParams = ['title' => 'PriceProductTax',
+            'editButtonLinkText' => 'Edit',
+            'link_id' => 'id-priceProductTax',
+            'fields' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'link_id' => 'id-display-priceProductTax',],
+                ['label' => 'Description',
+                    'propertyName' => 'description'],]];
+
+        return $this->render(
+            'master_data/price/tax/price_product_tax_display.html.twig',
+            ['request' => $request, 'entity' => $priceProductTax, 'params' => $displayParams]
+        );
+
+    }
+
+    #[Route('/price/product/tax/list', name: 'sc_route_admin_price_product_tax_list')]
     public function list(PriceProductTaxRepository $priceProductTaxRepository,
                          PaginatorInterface        $paginator,
                          Request                   $request
     ):
     Response
     {
-
         $listGrid = ['title' => 'Tax',
             'link_id' => 'id-price-tax',
             'function' => 'price_product_tax',
             'columns' => [
-                ['label' => 'Tax Slab',
-                    'propertyName' => 'taxSlab',
-                    'action' => 'display'],
+                /*   ['label' => 'Tax Slab',
+                       'propertyName' => 'taxRate',
+                       'action' => 'display'],
+                  */
                 ['label' => 'Product',
                     'propertyName' => 'product',
                 ],

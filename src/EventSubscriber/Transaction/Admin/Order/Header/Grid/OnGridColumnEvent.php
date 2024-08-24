@@ -3,7 +3,8 @@
 namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
 use App\Entity\OrderHeader;
-use App\Event\Component\UI\Twig\GridColumnEvent;
+use App\Event\Component\UI\Panel\List\GridColumnEvent;
+use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -15,7 +16,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     /**
      * @param RouterInterface $router
      */
-    public function __construct(private RouterInterface $router)
+    public function __construct(private RouterInterface                $router,
+                                private readonly HeaderPriceCalculator $orderPriceValueCalculator)
     {
     }
 
@@ -40,7 +42,10 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
         if (!in_array($route['_route'], ['my_orders', 'order_list']))
-            return;
+            if (!($event->getData()['request']->query->get('_function') == 'order'
+                && $event->getData()['request']->query->get('_type') == 'list')
+            )
+                return;
 
         $data = $event->getData();
         $column = $event->getData()['column'];
@@ -53,7 +58,11 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 if ($route['_route'] == 'my_orders')
                     $column['value'] = $this->router->generate('my_order_display', ['id' => $entity->getId()]);
                 else
-                    $column['value'] = $this->router->generate('order_display', ['id' => $entity->getId()]);
+                    $column['value'] = $this->router->generate('admin_panel', [
+                        '_function' => 'order',
+                        '_type' => 'display',
+                        'id' => $entity->getId()
+                    ]);
                 $data['column'] = $column;
                 break;
             case 'dateTimeOfOrder':
@@ -62,6 +71,18 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                     $data['column'] = $column;
                 }
                 break;
+            case 'orderStatusType':
+                $column['value'] = $entity->getOrderStatusType()->getDescription();
+                $data['column'] = $column;
+                break;
+            case 'orderValue':
+                $column['value'] = $this->orderPriceValueCalculator->calculateOrderValue($entity);
+                $data['column'] = $column;
+                break;
+            default:
+                $column['value'] = "";
+                $data['column'] = $column;
+
         }
 
         $event->setData($data);

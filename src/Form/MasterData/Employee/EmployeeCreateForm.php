@@ -20,13 +20,13 @@ class EmployeeCreateForm extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('salutation', SalutationAutoCompleteField::class, ['mapped' => false]);
+      //  $builder->add('salutation', SalutationAutoCompleteField::class, ['mapped' => false]);
         $builder->add('firstName', TextType::class);
-        $builder->add('middleName', TextType::class);
+        $builder->add('middleName', TextType::class,['required'=>false]);
         $builder->add('lastName', TextType::class);
-        $builder->add('givenName', TextType::class);
+        $builder->add('givenName', TextType::class,['required'=>false]);
         $builder->add('email',TextType::class);
-        $builder->add('phoneNumber',TextType::class);
+        $builder->add('phoneNumber',TextType::class,['required'=>false]);
 
         $builder->add('save', SubmitType::class);
 

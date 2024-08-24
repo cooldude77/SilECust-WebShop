@@ -17,12 +17,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoryController extends AbstractController
 {
 
-    #[Route('/category/create', 'category_create')]
-    public function create(CategoryDTOMapper $categoryDTOMapper,
-        EntityManagerInterface $entityManager,
-        Request $request,
-        ValidatorInterface $validator
-    ): Response {
+    #[Route('/admin/category/create', 'sc_route_admin_category_create')]
+    public function create(CategoryDTOMapper      $categoryDTOMapper,
+                           EntityManagerInterface $entityManager,
+                           Request                $request,
+                           ValidatorInterface              $validator
+    ): Response
+    {
         $categoryDTO = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
@@ -30,23 +31,25 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($form);
+
+            $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($form->getData());
 
             // todo:
-            $errors = $validator->validate($categoryEntity);
+            $errors = $validator->validate( $categoryEntity);
 
-            // perform some action...
-            $entityManager->persist($categoryEntity);
-            $entityManager->flush();
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($categoryEntity);
+                $entityManager->flush();
 
-            $this->addFlash('success', "Category created successfully");
-            return new Response(
-                serialize(
-                    ['id' => $categoryEntity->getId(), 'message' => "Category created successfully"]
-                ), 200
-            );
+                $this->addFlash('success', "Category created successfully");
+                return new Response(
+                    serialize(
+                        ['id' => $categoryEntity->getId(), 'message' => "Category created successfully"]
+                    ), 200
+                );
+            }
         }
-        $errors = $form->getErrors(true);
 
         return $this->render(
             'master_data/category/category_create.html.twig', ['form' => $form]
@@ -54,11 +57,14 @@ class CategoryController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Annotation\Route('/category/{id}/edit', name: 'category_edit')]
+    #[Route('/admin/category/{id}/edit', name: 'sc_route_admin_category_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        CategoryRepository $categoryRepository, CategoryDTOMapper $categoryDTOMapper,
-        Request $request, int $id
-    ): Response {
+                         CategoryRepository     $categoryRepository,
+                         CategoryDTOMapper      $categoryDTOMapper,
+                         Request                $request, int $id,
+                         ValidatorInterface     $validator
+    ): Response
+    {
         $category = $categoryRepository->find($id);
 
 
@@ -67,8 +73,7 @@ class CategoryController extends AbstractController
                 'No category found for id ' . $id
             );
         }
-        $categoryDTO = new CategoryDTO();
-        $categoryDTO->id = $id;
+        $categoryDTO = $categoryDTOMapper->mapToDtoFromEntity($category);
 
         $form = $this->createForm(CategoryEditForm::class, $categoryDTO);
 
@@ -77,28 +82,31 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $category = $categoryDTOMapper->mapToEntityForEdit($form, $category);
+            $category = $categoryDTOMapper->mapToEntityForEdit($data);
 
+            $errors = $validator->validate($category);
 
-            // perform some action...
-            $entityManager->persist($category);
-            $entityManager->flush();
+            if (count($errors) == 0) {
+                // perform some action...
+                $entityManager->persist($category);
+                $entityManager->flush();
 
-            $this->addFlash('success', "Category created successfully");
-            return new Response(
-                serialize(
-                    ['id' => $category->getId(), 'message' => "Category created successfully"]
-                ), 200
-            );
+                $this->addFlash('success', "Category created successfully");
+                return new Response(
+                    serialize(
+                        ['id' => $category->getId(), 'message' => "Category created successfully"]
+                    ), 200
+                );
+            }
         }
-
         return $this->render(
             'master_data/category/category_edit.html.twig', ['form' => $form]
         );
     }
 
-    #[Route('/category/{id}/display', name: 'category_display')]
-    public function display(CategoryRepository $categoryRepository, int $id): Response
+
+    #[Route('/admin/category/{id}/display', name: 'sc_route_admin_category_display')]
+    public function display(CategoryRepository $categoryRepository, int $id, Request $request): Response
     {
         $category = $categoryRepository->find($id);
         if (!$category) {
@@ -108,40 +116,40 @@ class CategoryController extends AbstractController
         }
 
         $displayParams = ['title' => 'Category',
-                          'editButtonLinkText' => 'Edit',
-                          'link_id' => 'id-category',
-                          'fields' => [['label' => 'Name',
-                                        'propertyName' => 'name',
-                                        'link_id' => 'id-display-category',],
-                                       ['label' => 'Description',
-                                        'propertyName' => 'description'],]];
+            'editButtonLinkText' => 'Edit',
+            'link_id' => 'id-category',
+            'fields' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'link_id' => 'id-display-category',],
+                ['label' => 'Description',
+                    'propertyName' => 'description'],]];
 
         return $this->render(
             'master_data/category/category_display.html.twig',
-            ['entity' => $category, 'params' => $displayParams]
+            ['request' => $request, 'entity' => $category, 'params' => $displayParams]
         );
 
     }
 
-    #[Route('/category/list', name: 'category_list')]
-    public function list(CategoryRepository $categoryRepository): Response
+    #[Route('/admin/category/list', name: 'sc_route_admin_category_list')]
+    public function list(CategoryRepository $categoryRepository, Request $request): Response
     {
 
         $listGrid = ['title' => 'Category',
-                     'link_id' => 'id-category',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display',],
-                                   ['label' => 'Description',
-                                    'propertyName' => 'description'],],
-                     'createButtonConfig' => ['link_id' => 'id-create-category',
-                                              'function' => 'category',
-                                              'anchorText' => 'Create Category']];
+            'link_id' => 'id-category',
+            'columns' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'action' => 'display',],
+                ['label' => 'Description',
+                    'propertyName' => 'description'],],
+            'createButtonConfig' => ['link_id' => 'id-create-category',
+                'function' => 'category',
+                'anchorText' => 'Create Category']];
 
         $categories = $categoryRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $categories, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
         );
     }
 }

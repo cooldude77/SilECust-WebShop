@@ -2,22 +2,21 @@
 
 namespace App\Service\MasterData\Employee\Mapper;
 
-use App\Entity\Category;
 use App\Entity\Employee;
 use App\Form\MasterData\Employee\DTO\EmployeeDTO;
 use App\Repository\EmployeeRepository;
 use App\Repository\SalutationRepository;
 use App\Security\Mapper\UserDTOMapper;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\String\ByteString;
 
-class EmployeeDTOMapper
+readonly class EmployeeDTOMapper
 {
 
-    public function __construct(private readonly EmployeeRepository $employeeRepository,
-        private readonly SalutationRepository $salutationRepository,
-        private readonly UserDTOMapper $userMapper
-    ) {
+    public function __construct(private EmployeeRepository   $employeeRepository,
+                                private SalutationRepository $salutationRepository,
+                                private UserDTOMapper        $userMapper
+    )
+    {
     }
 
     public function mapToEntityForCreate(EmployeeDTO $employeeDTO): Employee
@@ -46,16 +45,31 @@ class EmployeeDTOMapper
     {
 
         $employee = $this->employeeRepository->find($employeeDTO->id);
-        $salutation = $this->salutationRepository->find($employeeDTO->salutationId);
-
-        $employee->setSalutation($salutation);
 
         $employee->setFirstName($employeeDTO->firstName);
         $employee->setMiddleName($employeeDTO->middleName);
         $employee->setLastName($employeeDTO->lastName);
         $employee->setGivenName($employeeDTO->givenName);
+        $employee->setEmail($employeeDTO->email);
+        $employee->setPhoneNumber($employeeDTO->phoneNumber);
 
         return $employee;
+
+    }
+
+    public function mapToDTOFromEntity(Employee $employee): EmployeeDTO
+    {
+        $employeeDTO = new EmployeeDTO();
+
+        $employeeDTO->id = $employee->getId();
+        $employeeDTO->firstName = $employee->getFirstName();
+        $employeeDTO->middleName = $employee->getMiddleName();
+        $employeeDTO->lastName = $employee->getLastName();
+        $employeeDTO->givenName = $employee->getGivenName();
+        $employeeDTO->email = $employee->getEmail();
+        $employeeDTO->phoneNumber = $employee->getPhoneNumber();
+
+        return $employeeDTO;
 
     }
 }

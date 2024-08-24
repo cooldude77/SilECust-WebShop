@@ -20,9 +20,9 @@ class PanelActionListMapBuilder
                 'functions' => [
                     'product' => [
                         'routes' => [
-                            'create' => 'product_create',
-                            'edit' => 'product_edit',
-                            'display' => 'product_display',
+                            'create' => 'sc_admin_product_create',
+                            'edit' => 'sc_admin_product_edit',
+                            'display' => 'sc_admin_product_display',
                             'list' => 'product_list'
                         ]
                     ],
@@ -44,18 +44,18 @@ class PanelActionListMapBuilder
                     ],
                     'price_product_tax' => [
                         'routes' => [
-                            'create' => 'price_product_tax_create',
-                            'edit' => 'price_product_tax_edit',
-                            'display' => 'price_product_tax_display',
-                            'list' => 'price_product_tax_list'
+                            'create' => 'sc_route_admin_price_product_tax_create',
+                            'edit' => 'sc_route_admin_price_product_tax_edit',
+                            'display' => 'sc_route_admin_price_product_tax_display',
+                            'list' => 'sc_route_admin_price_product_tax_list'
                         ]
                     ],
                     'tax_slab' => [
                         'routes' => [
-                            'create' => 'tax_slab_create',
-                            'edit' => 'tax_slab_edit',
-                            'display' => 'tax_slab_display',
-                            'list' => 'tax_slab_list'
+                            'create' => 'sc_route_admin_tax_slab_create',
+                            'edit' => 'sc_route_admin_tax_slab_edit',
+                            'display' => 'sc_route_admin_tax_slab_display',
+                            'list' => 'sc_route_admin_tax_slab_list'
                         ]
                     ],
                     'product_attribute' => [
@@ -132,10 +132,10 @@ class PanelActionListMapBuilder
                     ],
                     'category' => [
                         'routes' => [
-                            'create' => 'category_create',
-                            'edit' => 'category_edit',
-                            'display' => 'category_display',
-                            'list' => 'category_list'
+                            'create' => 'sc_route_admin_category_create',
+                            'edit' => 'sc_route_admin_category_edit',
+                            'display' => 'sc_route_admin_category_display',
+                            'list' => 'sc_route_admin_category_list'
                         ]
                     ],
                     'order' => [
@@ -169,10 +169,10 @@ class PanelActionListMapBuilder
                     ],
                     'category_file_image' => [
                         'routes' => [
-                            'create' => 'category_file_image_create',
-                            'edit' => 'category_file_image_edit',
-                            'display' => 'category_file_image_display',
-                            'list' => 'category_file_image_list'
+                            'create' => 'sc_route_admin_category_file_image_create',
+                            'edit' => 'sc_route_admin_category_file_image_edit',
+                            'display' => 'sc_route_admin_category_file_image_display',
+                            'list' => 'sc_route_admin_category_file_image_list'
                         ]
                     ],
                     'product_file_image' => [
