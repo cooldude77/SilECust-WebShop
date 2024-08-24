@@ -25,7 +25,10 @@ class OnGridColumnEvent implements EventSubscriberInterface
     {
         $route = $this->router->match($event->getData()['request']->getPathInfo());
         if (!in_array($route['_route'], ['my_order_display', 'order_display']))
-            return;
+            if (!($event->getData()['request']->query->get('_function') == 'order_item' // order item list is never shown standalone
+                && $event->getData()['request']->query->get('_type') == 'list')
+            )
+                return;
 
         $data = $event->getData();
         $column = $event->getData()['column'];
@@ -40,7 +43,10 @@ class OnGridColumnEvent implements EventSubscriberInterface
                 if ($route['_route'] == 'my_order_display')
                     $column['value'] = $this->router->generate('my_order_item_display', ['id' => $entity->getId()]);
                 else
-                    $column['value'] = $this->router->generate('order__item_display', ['id' => $entity->getId()]);
+                    $column['value'] = $this->router->generate('admin_panel',[
+                        '_function'=>'order_item',
+                        '_type'=>'display',
+                        'id' => $entity->getId()]);
 
                 $data['column'] = $column;
                 break;
