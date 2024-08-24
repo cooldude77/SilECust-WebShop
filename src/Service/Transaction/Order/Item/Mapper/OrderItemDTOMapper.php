@@ -7,7 +7,6 @@ use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\ProductRepository;
-use App\Service\MasterData\Pricing\PriceCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 /**

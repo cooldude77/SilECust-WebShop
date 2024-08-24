@@ -47,10 +47,10 @@ services:
   # please note that last definitions always *replace* previous ones
 
   item_price_calculator:
-    class: App\Service\Transaction\Order\Item\ItemPriceCalculator
+    class: App\Service\Transaction\Order\Price\Item\ItemPriceCalculator
 
   price_by_country_code:
-    class: App\Service\MasterData\Pricing\PriceByCountryCalculator
+    class: App\Service\MasterData\Price\PriceByCountryCalculator
 
 when@test:
   services:

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\MasterData\Pricing;
+namespace App\Service\MasterData\Price;
 
 use App\Entity\Country;
 use App\Entity\Currency;

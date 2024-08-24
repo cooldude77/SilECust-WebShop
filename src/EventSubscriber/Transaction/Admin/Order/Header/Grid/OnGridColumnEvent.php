@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
 use App\Entity\OrderHeader;
 use App\Event\Component\UI\Twig\GridColumnEvent;
+use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -15,7 +16,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     /**
      * @param RouterInterface $router
      */
-    public function __construct(private RouterInterface $router)
+    public function __construct(private RouterInterface                $router,
+                                private readonly HeaderPriceCalculator $orderPriceValueCalculator)
     {
     }
 
@@ -74,7 +76,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 $data['column'] = $column;
                 break;
             case 'orderValue':
-                $column['value'] = $entity->getOrderStatusType()->getDescription();
+                $column['value'] = $this->orderPriceValueCalculator->calculateOrderValue($entity);
                 $data['column'] = $column;
                 break;
             default:

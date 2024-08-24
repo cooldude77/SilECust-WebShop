@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Transaction\Order\Item;
+namespace App\Service\Transaction\Order\Price\Item;
 
 use App\Entity\Currency;
 use App\Entity\OrderItem;
 use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Service\MasterData\Pricing\PriceByCountryCalculator;
+use App\Service\MasterData\Price\PriceByCountryCalculator;
 
 readonly class ItemPriceCalculator
 {

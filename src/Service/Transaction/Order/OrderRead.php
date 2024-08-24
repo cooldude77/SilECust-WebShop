@@ -118,7 +118,7 @@ readonly class OrderRead
     }
 
 
-    public function getShippingAddress($orderHeader)
+    public function getShippingAddress($orderHeader): \App\Entity\OrderAddress
     {
 
         $address = $this->orderAddressRepository->findOneBy([
