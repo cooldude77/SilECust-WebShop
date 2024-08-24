@@ -37,3 +37,6 @@ SILECUST_SIGN_UP_EMAIL_FROM_ADDRESS="replace with your value"
 SILECUST_SIGN_UP_EMAIL_HEADLINE="replace with your value"
 SILECUST_DEFAULT_COUNTRY=IN or "IN" ( any one of it for now)
 ````
+## htaccess file 
+In dev environment to load css and js files,
+copy included .htaccess_dev to .htaccess in your project and follow the instructions in the file (TBD in the script)
