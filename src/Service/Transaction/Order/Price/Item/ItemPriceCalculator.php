@@ -41,4 +41,13 @@ readonly class ItemPriceCalculator
     {
         return $this->priceByCountryCalculator->getCurrency();
     }
+
+    /**
+     * @throws PriceProductTaxNotFound
+     * @throws PriceProductBaseNotFound
+     */
+    public function getPriceObject(OrderItem $orderItem): \App\Service\Transaction\Order\PriceObject
+    {
+        return $this->priceByCountryCalculator->getPriceObject($orderItem);
+    }
 }

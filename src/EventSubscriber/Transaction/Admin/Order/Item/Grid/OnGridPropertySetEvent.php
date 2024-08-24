@@ -39,9 +39,43 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
             $listGrid = ['title' => 'Order Items',
                 'link_id' => 'id-order-items',
                 'function' => 'order_item',
-                'columns' => [['label' => 'Id',
-                    'propertyName' => 'id',
-                    'action' => 'display',],],
+                'edit_link_allowed'=>true,
+                'columns' => [
+                    [
+                        'label' => 'Id',
+                        'propertyName' => 'id',
+                        'action' => 'display',
+                    ], [
+                        'label' => 'Quantity',
+                        'propertyName' => 'quantity'
+                    ],
+                    [
+                        'label' => 'Product',
+                        'propertyName' => 'product'
+                    ],
+                    [
+                        'label' => 'Quantity',
+                        'propertyName' => 'quantity'
+                    ],
+                    [
+                        'label' => 'Base Price',
+                        'propertyName' => 'price'
+                    ],
+                    [
+                        'label' => 'Discount',
+                        'propertyName' => 'discount'
+                    ],
+                    [
+                        'label' => 'Taxes',
+                        'propertyName' => 'tax'
+                    ],
+                    [
+                        'label' => 'Final Amount',
+                        'propertyName' => 'finalAmount'
+                    ],
+
+
+                ],
                 'createButtonConfig' => ['link_id' => ' id-create-order-item',
                     'id' => $event->getData()['id'],
                     'function' => 'order_item',
@@ -53,9 +87,37 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                 $listGrid = ['title' => 'Order Items',
                     'link_id' => 'id-order-items',
                     'function' => 'order_item',
-                    'columns' => [['label' => 'Id',
-                        'propertyName' => 'id',
-                        'action' => 'display',],],
+                    'columns' => [
+                        [
+                            'label' => 'Id',
+                            'propertyName' => 'id',
+                            'action' => 'display',],
+                        [
+                            'label' => 'Product',
+                            'propertyName' => 'product'
+                        ],
+                        [
+                            'label' => 'Quantity',
+                            'propertyName' => 'quantity'
+                        ],
+                        [
+                            'label' => 'Base Price',
+                            'propertyName' => 'price'
+                        ],
+                        [
+                            'label' => 'Discount',
+                            'propertyName' => 'discount'
+                        ],
+                        [
+                            'label' => 'Taxes',
+                            'propertyName' => 'tax'
+                        ],
+                        [
+                            'label' => 'Final Amount',
+                            'propertyName' => 'finalAmount'
+                        ],
+
+                    ],
                     'create_button_allowed' => false,];
             }
         }

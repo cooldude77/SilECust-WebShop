@@ -37,7 +37,6 @@
                         <div class="col">
 
                             {% set column = attribute(event.getData(),'column') %}
-
                             {% if column.value is defined %}
                                 <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
                             {% else %}
@@ -47,6 +46,7 @@
                                     'id':attribute(entity, 'id'),
                                     'link_id':listGrid.link_id} %}
                             {% endif %}
+
                         </div>
 
                     {% else %}
