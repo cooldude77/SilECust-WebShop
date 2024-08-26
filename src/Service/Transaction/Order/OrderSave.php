@@ -15,6 +15,7 @@ use App\Repository\OrderItemRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 
 /**
  *
@@ -30,12 +31,13 @@ readonly class OrderSave
      * @param DatabaseOperations        $databaseOperations
      */
     public function __construct(
-        private OrderHeaderRepository $orderHeaderRepository,
-        private OrderItemRepository $orderItemRepository,
-        private OrderAddressRepository $orderAddressRepository,
-        private OrderStatusTypeRepository $orderStatusTypeRepository,
+        private OrderHeaderRepository           $orderHeaderRepository,
+        private OrderItemRepository             $orderItemRepository,
+        private OrderAddressRepository          $orderAddressRepository,
+        private OrderStatusTypeRepository       $orderStatusTypeRepository,
         private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private DatabaseOperations $databaseOperations,
+        private OrderIdStrategyInterface        $orderIdStrategy,
+        private DatabaseOperations              $databaseOperations,
     ) {
     }
 
@@ -48,6 +50,7 @@ readonly class OrderSave
 
 
         $orderHeader = $this->orderHeaderRepository->create($customer);
+        $orderHeader->setGeneratedId($this->orderIdStrategy->generateOrderId());
 
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();

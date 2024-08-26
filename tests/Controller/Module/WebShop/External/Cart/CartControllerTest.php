@@ -68,6 +68,7 @@ class CartControllerTest extends WebTestCase
                 // Test : Cart got created
                 $this->assertNotNull($session->get(CartSessionProductService::CART_SESSION_KEY));
 
+                /** @var OrderHeader $order */
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
@@ -75,7 +76,7 @@ class CartControllerTest extends WebTestCase
                 // Test : An order should only be created when item is added to the cart
                 $this->assertNull($order);
 
-            })
+              })
             // Test: empty cart should not have clear cart button
             ->assertNotSee("Clear Cart")
 
@@ -95,6 +96,8 @@ class CartControllerTest extends WebTestCase
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
                 self::assertNotNull($order);
+
+                $this->assertNotNull($order->getGeneratedId());
 
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
