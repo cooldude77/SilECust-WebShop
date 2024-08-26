@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Your order details</h2>
 
-    Your order number is {{ orderObject.getOrderHeader().getId }}
+    Your order number is {{ orderObject.getOrderHeader().getGeneratedId }}
     {% set orderTotal = 0 %}
     {% for item in orderObject.getOrderItems %}
         <div class="row">
@@ -22,6 +22,6 @@
     <div class="row">
         Order Total = {{ orderTotal }}
     </div>
-    <a class="btn btn-dark" href="{{ path('web_shop_payment_start') }}">To Payment > </a>
+    <a class="btn btn-dark" href="{{ path('web_shop_payment_start',['generatedId': orderObject.getOrderHeader().getGeneratedId  ]) }}">To Payment > </a>
 
 </div>

@@ -2,8 +2,10 @@
 
 namespace App\Controller\Module\WebShop\External\Payment;
 
-use App\Event\Module\WebShop\External\Payment\PaymentEvent;
-use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
+use App\Entity\OrderPayment;
+use App\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
+use App\Event\Module\WebShop\External\Payment\PaymentStartEvent;
+use App\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
@@ -20,73 +22,77 @@ class PaymentController extends AbstractController
 {
 
     /**
+     * @param string $generatedId
      * @param EventDispatcherInterface $eventDispatcher
-     * @param OrderRead                $orderRead
-     * @param CustomerFromUserFinder   $customerFromUserFinder
-     * @param PaymentPriceCalculator   $paymentPriceCalculator
+     * @param OrderRead $orderRead
+     * @param PaymentPriceCalculator $paymentPriceCalculator
      *
      * @return Response
-     * @throws UserNotLoggedInException
-     * @throws UserNotAssociatedWithACustomerException
      */
-    #[Route('/checkout/payment/start', 'web_shop_payment_start')]
-    public function startPayment(EventDispatcherInterface $eventDispatcher,
-        OrderRead $orderRead,
-    CustomerFromUserFinder $customerFromUserFinder,
-    PaymentPriceCalculator $paymentPriceCalculator): Response
+    #[Route('/payment/order/{generatedId}/start', 'web_shop_payment_start')]
+    public function startPayment(
+        string                   $generatedId,
+        EventDispatcherInterface $eventDispatcher,
+        OrderRead                $orderRead,
+        PaymentPriceCalculator   $paymentPriceCalculator): Response
     {
-        $event = new PaymentEvent();
-        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
-        $eventDispatcher->dispatch($event, PaymentEventTypes::BEFORE_PAYMENT_PROCESS);
 
-        $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
-        
+        $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
+
+        $event = new PaymentStartEvent($orderHeader);
+
+        $eventDispatcher->dispatch($event, PaymentStartEvent::BEFORE_PAYMENT_PROCESS);
+
         $orderItemPaymentPrices = $orderRead->getOrderItemPaymentPrices($orderHeader);
-
         $finalPrice = $paymentPriceCalculator->calculateOrderPaymentPrice($orderItemPaymentPrices);
-        
+
         return $this->render(
             'module/web_shop/external/payment/start.html.twig',
-            ['finalPrice'=>$finalPrice]
+            ['finalPrice' => $finalPrice, 'orderHeader' => $orderHeader]
         );
     }
 
 
-    #[Route('/checkout/payment/success', 'web_shop_payment_success')]
+    #[Route('/payment/order/{generatedId}/success', 'web_shop_payment_success')]
     public function onPaymentSuccess(EventDispatcherInterface $eventDispatcher,
-        OrderRead $orderRead,
-        CustomerFromUserFinder $customerFromUserFinder,
-        Request $request
-    ): RedirectResponse {
+                                     string                   $generatedId,
+                                     OrderRead                $orderRead,
+                                     Request                  $request,
+    ): RedirectResponse
+    {
+        $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
-        $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
+        $paymentInfo = $request->request->all()[OrderPayment::PAYMENT_GATEWAY_RESPONSE];
 
-        $event = new PaymentEvent();
-        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
-        $eventDispatcher->dispatch($event, PaymentEventTypes::AFTER_PAYMENT_SUCCESS);
+        $event = new PaymentSuccessEvent($orderHeader,$paymentInfo);
 
-        $this->addFlash('success','Your payment was successful');
+        $eventDispatcher->dispatch($event, PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS);
 
-        $this->addFlash('success','Your order was created and is in under process');
+        $this->addFlash('success', 'Your payment was successful');
 
-        return  $this->redirectToRoute('module_web_shop_order_complete_details',
-            ['id'=>$orderHeader->getId()]);
+        $this->addFlash('success', 'Your order was created and is in under process');
+
+        return $this->redirectToRoute('module_web_shop_order_complete_details',
+            ['generatedId' => $orderHeader->getGeneratedId()]);
 
     }
 
-    #[Route('/checkout/payment/failure', 'web_shop_payment_failure')]
-    public function onPaymentFailure(EventDispatcherInterface $eventDispatcher,
-        OrderRead $orderRead,
-        CustomerFromUserFinder $customerFromUserFinder,
-        Request $request
-    ): Response {
-        $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
+    #[Route('/payment/order/{generatedId}/failure', 'web_shop_payment_failure')]
+    public function onPaymentFailure(
+        string                   $generatedId,
+        OrderRead                $orderRead,
+        EventDispatcherInterface $eventDispatcher,
+        Request                  $request,
+    ): Response
+    {
 
-        $event = new PaymentEvent();
+        $paymentInfo = $request->request->all()[OrderPayment::PAYMENT_GATEWAY_RESPONSE];
+        $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
-        $event->setCustomer($customerFromUserFinder->getLoggedInCustomer());
 
-        $eventDispatcher->dispatch($event, PaymentEventTypes::AFTER_PAYMENT_FAILURE);
+        $event = new PaymentFailureEvent($orderHeader,$paymentInfo);
+
+        $eventDispatcher->dispatch($event, PaymentFailureEvent::AFTER_PAYMENT_FAILURE);
 
         return $this->render(
             'module/web_shop/external/payment/failure.html.twig',

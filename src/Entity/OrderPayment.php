@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: OrderPaymentRepository::class)]
 class OrderPayment
 {
+    const string PAYMENT_GATEWAY_RESPONSE = 'PAYMENT_GATEWAY_RESPONSE';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -18,10 +19,7 @@ class OrderPayment
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\Column]
-    private array $paymentDetails = [];
-
-    #[ORM\Column]
-    private ?bool $status = null;
+    private array $paymentResponse = [];
 
     public function getId(): ?int
     {
@@ -40,26 +38,9 @@ class OrderPayment
         return $this;
     }
 
-    public function getPaymentDetails(): array
+    public function setPaymentResponse(array $paymentResponse): static
     {
-        return $this->paymentDetails;
-    }
-
-    public function setPaymentDetails(array $paymentDetails): static
-    {
-        $this->paymentDetails = $paymentDetails;
-
-        return $this;
-    }
-
-    public function isStatus(): ?bool
-    {
-        return $this->status;
-    }
-
-    public function setStatus(bool $status): static
-    {
-        $this->status = $status;
+        $this->paymentResponse = $paymentResponse;
 
         return $this;
     }

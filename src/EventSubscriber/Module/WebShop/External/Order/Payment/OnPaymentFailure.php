@@ -2,8 +2,9 @@
 
 namespace App\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use App\Event\Module\WebShop\External\Payment\PaymentEvent;
-use App\Event\Module\WebShop\External\Payment\Types\PaymentEventTypes;
+use App\Entity\OrderHeader;
+use App\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
+use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Transaction\Order\OrderRead;
 use App\Service\Transaction\Order\OrderSave;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
@@ -11,27 +12,30 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentFailure implements EventSubscriberInterface
 {
-    public function __construct(private OrderRead $orderRead,
-        private OrderSave $orderSave
-    ) {
+    private OrderHeader $orderHeader;
+
+    public function __construct(private readonly OrderRead              $orderRead,
+                                private readonly CustomerFromUserFinder $customerFromUserFinder,
+                                private readonly OrderSave              $orderSave)
+    {
         //todo: add snapshot
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            PaymentEventTypes::AFTER_PAYMENT_FAILURE => 'afterPaymentFailure'
+            PaymentFailureEvent::AFTER_PAYMENT_FAILURE => ['afterPaymentFailure', 100]
         ];
 
     }
 
-    public function afterPaymentFailure(PaymentEvent $paymentEvent): void
+    public function afterPaymentFailure(PaymentFailureEvent $paymentEvent): void
     {
 
-      $orderHeader =   $this->orderRead->getOpenOrder($paymentEvent->getCustomer());
+        $orderHeader = $paymentEvent->getOrderHeader();
+        $this->orderSave->setOrderStatus($orderHeader, OrderStatusTypes::ORDER_PAYMENT_FAILED);
 
-      $this->orderSave->setOrderStatus($orderHeader,OrderStatusTypes::ORDER_PAYMENT_FAILED);
-
+        $this->orderSave->savePayment($orderHeader, $paymentEvent->getPaymentFailureArray());
 
     }
 }

@@ -15,10 +15,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderConfirmationController extends AbstractController
 {
-    #[Route('/order/{id}/success', 'module_web_shop_order_complete_details')]
+    #[Route('/order/{generatedId}/success', 'module_web_shop_order_complete_details')]
     public function view(Request $request,SessionInterface $session): Response
     {
-
 
         $session = $request->getSession();
 
@@ -53,7 +52,7 @@ class OrderConfirmationController extends AbstractController
         // todo: check referring route
         // this page will be displayed only when referred from payment
 
-        $orderHeader = $orderHeaderRepository->find($request->attributes->get('id'));
+        $orderHeader = $orderHeaderRepository->findOneBy(['genereatedId'=>$request->query->get('generatedId')]);
 
         return $this->render(
             'module/web_shop/external/order/thank_you_for_your_order.html.twig',
