@@ -12,9 +12,11 @@ use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
+use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 
 /**
  *
@@ -23,20 +25,23 @@ readonly class OrderSave
 {
 
     /**
-     * @param OrderHeaderRepository     $orderHeaderRepository
-     * @param OrderItemRepository       $orderItemRepository
-     * @param OrderAddressRepository    $orderAddressRepository
+     * @param OrderHeaderRepository $orderHeaderRepository
+     * @param OrderItemRepository $orderItemRepository
+     * @param OrderAddressRepository $orderAddressRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
-     * @param DatabaseOperations        $databaseOperations
+     * @param DatabaseOperations $databaseOperations
      */
     public function __construct(
-        private OrderHeaderRepository $orderHeaderRepository,
-        private OrderItemRepository $orderItemRepository,
-        private OrderAddressRepository $orderAddressRepository,
-        private OrderStatusTypeRepository $orderStatusTypeRepository,
+        private OrderHeaderRepository           $orderHeaderRepository,
+        private OrderItemRepository             $orderItemRepository,
+        private OrderAddressRepository          $orderAddressRepository,
+        private OrderStatusTypeRepository       $orderStatusTypeRepository,
         private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private DatabaseOperations $databaseOperations,
-    ) {
+        private OrderIdStrategyInterface        $orderIdStrategy,
+        private OrderPaymentRepository          $orderPaymentRepository,
+        private DatabaseOperations              $databaseOperations,
+    )
+    {
     }
 
 
@@ -48,6 +53,7 @@ readonly class OrderSave
 
 
         $orderHeader = $this->orderHeaderRepository->create($customer);
+        $orderHeader->setGeneratedId($this->orderIdStrategy->generateOrderId());
 
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();
@@ -73,7 +79,7 @@ readonly class OrderSave
         // todo: check count same
 
         /**
-         * @var   int              $key
+         * @var   int $key
          * @var  CartSessionObject $cartObject
          */
         foreach ($cartArray as $key => $cartObject) /** @var OrderItem $orderItem */ {
@@ -118,8 +124,9 @@ readonly class OrderSave
     }
 
     public function createOrUpdate(?OrderHeader $orderHeader, CustomerAddress $address,
-        array $currentAddressesForOrder
-    ): void {
+                                   array        $currentAddressesForOrder
+    ): void
+    {
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
             $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
@@ -169,6 +176,13 @@ readonly class OrderSave
 
         $price = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
         $this->databaseOperations->save($price);
+    }
+
+    public function savePayment(OrderHeader $orderHeader, array $paymentInformation): void
+    {
+        $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
+        $this->databaseOperations->save($orderPayment);
+
     }
 
 }

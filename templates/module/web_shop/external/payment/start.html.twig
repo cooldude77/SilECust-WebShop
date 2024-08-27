@@ -1,2 +1,2 @@
 Your total amount is {{ finalPrice }}
-<a href="{{ path('web_shop_payment_success') }}">Pay Now </a>
+<a href="{{ path('web_shop_payment_success',{'generatedId': orderHeader.getGeneratedId  }) }}">Pay Now </a>

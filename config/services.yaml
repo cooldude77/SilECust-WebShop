@@ -52,6 +52,8 @@ services:
   price_by_country_code:
     class: App\Service\MasterData\Price\PriceByCountryCalculator
 
+  App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface: '@App\Service\Transaction\Order\IdGeneration\OrderIdStrategy'
+
 when@test:
   services:
     session.storage.factory.mock_file:

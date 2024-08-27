@@ -14,7 +14,6 @@ use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Transaction\Order\Object\OrderObject;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  *
@@ -22,19 +21,20 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 readonly class OrderRead
 {
     /**
-     * @param OrderHeaderRepository     $orderHeaderRepository
-     * @param OrderItemRepository       $orderItemRepository
+     * @param OrderHeaderRepository $orderHeaderRepository
+     * @param OrderItemRepository $orderItemRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
-     * @param OrderAddressRepository    $orderAddressRepository
-     * @param OrderPaymentRepository    $orderPaymentRepository
+     * @param OrderAddressRepository $orderAddressRepository
+     * @param OrderPaymentRepository $orderPaymentRepository
      */
-    public function __construct(private OrderHeaderRepository $orderHeaderRepository,
-        private OrderItemRepository $orderItemRepository,
-        private OrderStatusTypeRepository $orderStatusTypeRepository,
-        private OrderAddressRepository $orderAddressRepository,
-        private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private OrderPaymentRepository $orderPaymentRepository
-    ) {
+    public function __construct(private OrderHeaderRepository           $orderHeaderRepository,
+                                private OrderItemRepository             $orderItemRepository,
+                                private OrderStatusTypeRepository       $orderStatusTypeRepository,
+                                private OrderAddressRepository          $orderAddressRepository,
+                                private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
+                                private OrderPaymentRepository          $orderPaymentRepository
+    )
+    {
     }
 
 
@@ -50,7 +50,7 @@ readonly class OrderRead
         );
 
         return $this->orderHeaderRepository->findOneBy(['customer' => $customer,
-                                                        'orderStatusType' => $orderStatusType])
+                'orderStatusType' => $orderStatusType])
             != null;
     }
 
@@ -66,7 +66,7 @@ readonly class OrderRead
         );
 
         return $this->orderHeaderRepository->findOneBy(['customer' => $customer,
-                                                        'orderStatusType' => $orderStatusType]);
+            'orderStatusType' => $orderStatusType]);
     }
 
     /**
@@ -111,7 +111,8 @@ readonly class OrderRead
     }
 
     public function getOrderItem(OrderHeader $orderHeader, ?\App\Entity\Product $product
-    ): ?\App\Entity\OrderItem {
+    ): ?\App\Entity\OrderItem
+    {
         return $this->orderItemRepository->findOneBy([
             'orderHeader' => $orderHeader,
             'product' => $product]);
@@ -136,11 +137,22 @@ readonly class OrderRead
 
     public function getOrderItems(OrderHeader $orderHeader): array
     {
-        return $this->orderItemRepository->findBy(['orderHeader'=>$orderHeader]);
+        return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
     }
-   public function getOrderItemPaymentPrices(OrderHeader $orderHeader): array
+
+    public function getOrderItemPaymentPrices(OrderHeader $orderHeader): array
     {
         return $this->orderItemPaymentPriceRepository->findByOrderHeader($orderHeader);
+    }
+
+    public function getOrder(int $id): OrderHeader
+    {
+        return $this->orderHeaderRepository->find($id);
+    }
+
+    public function getOrderByGeneratedId(string $generatedId): OrderHeader
+    {
+        return $this->orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
     }
 
 }

@@ -2,23 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderPayment;
+use App\Entity\OrderJournal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<OrderPayment>
+ * @extends ServiceEntityRepository<OrderJournal>
  */
-class OrderPaymentRepository extends ServiceEntityRepository
+class OrderJournalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, OrderPayment::class);
+        parent::__construct($registry, OrderJournal::class);
     }
 
     //    /**
-    //     * @return OrderPayment[] Returns an array of OrderPayment objects
+    //     * @return OrderJournalSnapShot[] Returns an array of OrderJournalSnapShot objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -32,7 +31,7 @@ class OrderPaymentRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?OrderPayment
+    //    public function findOneBySomeField($value): ?OrderJournalSnapShot
     //    {
     //        return $this->createQueryBuilder('o')
     //            ->andWhere('o.exampleField = :val')
@@ -41,12 +40,11 @@ class OrderPaymentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(OrderHeader $orderHeader, array $paymentGatewayResponse): OrderPayment
+    public function create(\App\Entity\OrderHeader $orderHeader): OrderJournal
     {
-        $payment = new OrderPayment();
-        $payment->setOrderHeader($orderHeader);
-        $payment->setPaymentResponse($paymentGatewayResponse);
+        $orderJournal = new OrderJournal();
+        $orderJournal->setOrderHeader($orderHeader);
 
-        return $payment;
+        return $orderJournal;
     }
 }

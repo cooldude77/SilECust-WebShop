@@ -25,6 +25,9 @@ class OrderHeader
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatusType $orderStatusType = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $generatedId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +65,18 @@ class OrderHeader
     public function setOrderStatusType(?OrderStatusType $orderStatusType): static
     {
         $this->orderStatusType = $orderStatusType;
+
+        return $this;
+    }
+
+    public function getGeneratedId(): ?string
+    {
+        return $this->generatedId;
+    }
+
+    public function setGeneratedId(string $generatedId): static
+    {
+        $this->generatedId = $generatedId;
 
         return $this;
     }
