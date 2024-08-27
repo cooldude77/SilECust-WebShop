@@ -21,9 +21,9 @@ class CustomerEditForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('id', HiddenType::class);
-        $builder->add('salutationId',ChoiceType::class, [// validation message if the data
+       // $builder->add('salutationId',ChoiceType::class, [// validation message if the data
                                                          // transformer fails
-                                                         'choices' => $this->fill()]);
+         //                                                'choices' => $this->fill()]);
         $builder->add('firstName', TextType::class);
         $builder->add('middleName', TextType::class);
         $builder->add('lastName', TextType::class);
