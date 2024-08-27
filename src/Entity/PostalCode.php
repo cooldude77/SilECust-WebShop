@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PinCodeRepository;
+use App\Repository\PostalCodeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PinCodeRepository::class)]
-class PinCode
+#[ORM\Entity(repositoryClass: PostalCodeRepository::class)]
+class PostalCode
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,7 +14,7 @@ class PinCode
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $pinCode = null;
+    private ?string $postalCode = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -25,14 +25,14 @@ class PinCode
         return $this->id;
     }
 
-    public function getPinCode(): ?string
+    public function getPostalCode(): ?string
     {
-        return $this->pinCode;
+        return $this->postalCode;
     }
 
-    public function setPinCode(string $pinCode): static
+    public function setPostalCode(string $postalCode): static
     {
-        $this->pinCode = $pinCode;
+        $this->postalCode = $postalCode;
 
         return $this;
     }

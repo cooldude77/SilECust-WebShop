@@ -49,7 +49,7 @@ final class CustomerAddressFactory extends ModelFactory
         return [
             'customer' => CustomerFactory::new(),
             'line1' => self::faker()->text(255),
-            'pinCode' => PinCodeFactory::new(),
+            'postalCode' => PostalCodeFactory::new(),
         ];
     }
 

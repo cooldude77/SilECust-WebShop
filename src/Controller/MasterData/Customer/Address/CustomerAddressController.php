@@ -48,7 +48,7 @@ class CustomerAddressController extends AbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
 
             $customerAddress = $mapper->mapDtoToEntityForCreate($data);
 
@@ -94,7 +94,7 @@ class CustomerAddressController extends AbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
 
             $customerEntity = $mapper->mapDtoToEntityForUpdate(
                 $data, $customerAddress

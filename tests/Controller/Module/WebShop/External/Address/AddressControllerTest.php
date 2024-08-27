@@ -104,7 +104,7 @@ class AddressControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select', $this->pinCode->getId());
+                $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField(
                 'address_create_and_choose_form[address][line1]', 'Line 1'
@@ -116,7 +116,7 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
+                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
             )
             ->fillField(
                 'address_create_and_choose_form[address][addressType]', 'shipping'
@@ -164,7 +164,7 @@ class AddressControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select', $this->pinCode->getId());
+                $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField(
                 'address_create_and_choose_form[address][line1]', 'Line 1'
@@ -176,7 +176,7 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][pinCode]', $this->pinCode->getId()
+                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
             )
             ->fillField(
                 'address_create_and_choose_form[address][addressType]', 'billing'

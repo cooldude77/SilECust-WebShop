@@ -32,7 +32,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->browser()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select[name="customer_address_create_form[pinCode]"]', $this->pinCode->getId());
+                $this->addOption($browser, 'select[name="customer_address_create_form[postalCode]"]', $this->postalCode->getId());
             })
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
@@ -44,7 +44,7 @@ class CustomerAddressControllerTest extends WebTestCase
                 'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
-                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+                'customer_address_create_form[postalCode]', $this->postalCode->getId()
             )
             ->fillField(
                 'customer_address_create_form[addressType]', 'billing'
@@ -77,7 +77,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->browser()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select[name="customer_address_create_form[pinCode]"]', $this->pinCode->getId());
+                $this->addOption($browser, 'select[name="customer_address_create_form[postalCode]"]', $this->postalCode->getId());
             })
             ->fillField(
                 'customer_address_create_form[line1]', 'Line 1'
@@ -89,7 +89,7 @@ class CustomerAddressControllerTest extends WebTestCase
                 'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
-                'customer_address_create_form[pinCode]', $this->pinCode->getId()
+                'customer_address_create_form[postalCode]', $this->postalCode->getId()
             )
             ->fillField(
                 'customer_address_create_form[addressType]', 'shipping'
@@ -126,7 +126,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->browser()
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $this->addOption($browser, 'select', $this->pinCode->getId());
+                $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField(
                 'customer_address_edit_form[line1]', 'Line 1'
@@ -141,7 +141,7 @@ class CustomerAddressControllerTest extends WebTestCase
                 'customer_address_edit_form[addressType]', 'billing'
             )
             ->fillField(
-                'customer_address_edit_form[pinCode]', $this->pinCode->getId()
+                'customer_address_edit_form[postalCode]', $this->postalCode->getId()
             )
             ->checkField(
                 'customer_address_edit_form[isDefault]'

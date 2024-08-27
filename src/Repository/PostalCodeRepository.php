@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\PinCode;
+use App\Entity\PostalCode;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PinCode>
+ * @extends ServiceEntityRepository<PostalCode>
  *
- * @method PinCode|null find($id, $lockMode = null, $lockVersion = null)
- * @method PinCode|null findOneBy(array $criteria, array $orderBy = null)
- * @method PinCode[]    findAll()
- * @method PinCode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostalCode|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostalCode|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostalCode[]    findAll()
+ * @method PostalCode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PinCodeRepository extends ServiceEntityRepository
+class PostalCodeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PinCode::class);
+        parent::__construct($registry, PostalCode::class);
     }
 
     //    /**
-    //     * @return PinCode[] Returns an array of PinCode objects
+    //     * @return PostalCode[] Returns an array of PostalCode objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class PinCodeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?PinCode
+    //    public function findOneBySomeField($value): ?PostalCode
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

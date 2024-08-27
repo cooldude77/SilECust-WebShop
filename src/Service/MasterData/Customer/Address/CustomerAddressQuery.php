@@ -19,10 +19,10 @@ class CustomerAddressQuery
         return $customerAddress->getLine1() . "\n"
             . ($customerAddress->getLine2() != null ? $customerAddress->getLine2() . "\n" : "")
             . ($customerAddress->getLine3() != null ? $customerAddress->getLine3() . "\n" : "")
-            . $customerAddress->getPinCode()->getCity()->getName() . "\n"
-            . $customerAddress->getPinCode()->getCity()->getState()->getName() . "\n"
-            . $customerAddress->getPinCode()->getCity()->getState()->getCountry()->getName() . "\n"
-            . $customerAddress->getPinCode()->getPinCode() . "\n";
+            . $customerAddress->getPostalCode()->getCity()->getName() . "\n"
+            . $customerAddress->getPostalCode()->getCity()->getState()->getName() . "\n"
+            . $customerAddress->getPostalCode()->getCity()->getState()->getCountry()->getName() . "\n"
+            . $customerAddress->getPostalCode()->getPostalCode() . "\n";
 
 
     }

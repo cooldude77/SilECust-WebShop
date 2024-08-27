@@ -2,9 +2,9 @@
 
 namespace App\Form\MasterData\Customer\Address;
 
-use App\Form\MasterData\Customer\Address\Attribute\PinCode\PinCodeAutoCompleteField;
+use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeAutoCompleteField;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Repository\PinCodeRepository;
+use App\Repository\PostalCodeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,7 +27,7 @@ class CustomerAddressEditForm extends AbstractType
         $builder->add('line1',TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('pinCode', PinCodeAutoCompleteField::class,['mapped' => false]);
+        $builder->add('postalCode', PostalCodeAutoCompleteField::class,['mapped' => false]);
         $builder->add(
             'addressType', ChoiceType::class,
             [
