@@ -52,7 +52,7 @@ class OrderConfirmationController extends AbstractController
         // todo: check referring route
         // this page will be displayed only when referred from payment
 
-        $orderHeader = $orderHeaderRepository->findOneBy(['genereatedId'=>$request->query->get('generatedId')]);
+        $orderHeader = $orderHeaderRepository->findOneBy(['generatedId'=>$request->query->get('generatedId')]);
 
         return $this->render(
             'module/web_shop/external/order/thank_you_for_your_order.html.twig',
