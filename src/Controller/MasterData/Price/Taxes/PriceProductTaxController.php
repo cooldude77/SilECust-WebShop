@@ -134,7 +134,7 @@ class PriceProductTaxController extends AbstractController
 
     }
 
-    #[Route('/price/product/tax/list', name: 'sc_route_admin_price_product_tax_list')]
+    #[Route('/admin/price/product/tax/list', name: 'sc_route_admin_price_product_tax_list')]
     public function list(PriceProductTaxRepository $priceProductTaxRepository,
                          PaginatorInterface        $paginator,
                          Request                   $request

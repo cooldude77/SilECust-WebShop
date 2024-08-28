@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/customer/create', 'customer_create')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/create', 'customer_create')]
     public function create(CustomerDTOMapper $customerDTOMapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
@@ -57,7 +57,7 @@ class CustomerController extends AbstractController
     }
 
 
-    #[Route('/customer/{id}/edit', name: 'customer_edit')]
+    #[Route('/admin/customer/{id}/edit', name: 'customer_edit')]
     public function edit(EntityManagerInterface $entityManager,
         CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper,
         Request $request, int $id
@@ -98,7 +98,7 @@ class CustomerController extends AbstractController
         return $this->render('master_data/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/customer/{id}/display', name: 'customer_display')]
+    #[Route('/admin/customer/{id}/display', name: 'customer_display')]
     public function display(CustomerRepository $customerRepository, int $id): Response
     {
         $customer = $customerRepository->find($id);
@@ -122,7 +122,7 @@ class CustomerController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/customer/list', name: 'customer_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/list', name: 'customer_list')]
     public function list(CustomerRepository $customerRepository,Request $request): Response
     {
 

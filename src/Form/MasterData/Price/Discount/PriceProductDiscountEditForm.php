@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Price\Discount;
 
-use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
+use App\Form\Finance\Currency\CurrencyAutoCompleteField;
 use App\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
 use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use App\Form\MasterData\Product\ProductAutoCompleteField;

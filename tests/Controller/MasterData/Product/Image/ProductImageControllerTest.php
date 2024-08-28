@@ -4,15 +4,29 @@ namespace App\Tests\Controller\MasterData\Product\Image;
 
 use App\Factory\ProductFactory;
 use App\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
+use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class ProductImageControllerTest extends WebTestCase
 {
-    use HasBrowser;
+    use HasBrowser,EmployeeFixture;
+    protected function setUp(): void
+    {
+        $this->createEmployee();
+    }
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
 
-    public function testCreate()
+        $root = self::getContainer()->getParameter('kernel.project_dir');
+        $path =  $root.self::getContainer()->getParameter('file_storage_path');
+
+        shell_exec("rm -rf ".$path);
+    }
+  public function testCreate()
     {
 
         self::bootKernel();
@@ -23,14 +37,19 @@ class ProductImageControllerTest extends WebTestCase
 
         $id = $product->getId();
 
-        $createUrl = "/product/$id/image/create";
+        $uri = "/admin/product/$id/image/create";
 
         $fileName = 'grocery_1920.jpg';
         $uploadedFile = new UploadedFile(
             __DIR__ . '/' . $fileName, $fileName
         );
         $visit = $this->browser()
-            ->visit($createUrl);
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri);
 
         $form = $visit->crawler()->selectButton('Save')->form();
 
@@ -54,11 +73,4 @@ class ProductImageControllerTest extends WebTestCase
 
     // Todo: Create List test case
     // todo: create edit test case
-    protected function tearDown(): void
-    {
-        $root = self::getContainer()->getParameter('kernel.project_dir');
-        $path =  $root.self::getContainer()->getParameter('file_storage_path');
-
-        shell_exec("rm -rf ".$path);
-    }
 }
