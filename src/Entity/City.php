@@ -18,7 +18,7 @@ class City
 
     #[ORM\ManyToOne(inversedBy: 'cities')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?State $State = null;
+    private ?State $state = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -42,12 +42,12 @@ class City
 
     public function getState(): ?State
     {
-        return $this->State;
+        return $this->state;
     }
 
-    public function setState(?State $State): static
+    public function setState(?State $state): static
     {
-        $this->State = $State;
+        $this->state = $state;
 
         return $this;
     }

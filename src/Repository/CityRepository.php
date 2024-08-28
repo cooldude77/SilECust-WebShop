@@ -52,4 +52,11 @@ class CityRepository extends ServiceEntityRepository
 
         return $city;
     }
+
+    public function getQueryForSelect(\App\Entity\State $state): \Doctrine\ORM\Query
+    {
+        $dql = "SELECT s FROM App\Entity\City s where s.state=:state";
+        return $this->getEntityManager()->createQuery($dql)->setParameter("state", $state);
+
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Country;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -49,5 +50,11 @@ class CountryRepository extends ServiceEntityRepository
     {
 
         return new Country();
+    }
+    function getQueryForSelect(): Query
+    {
+        $dql = "SELECT c FROM App\Entity\Country c";
+        return $this->getEntityManager()->createQuery($dql);
+
     }
 }

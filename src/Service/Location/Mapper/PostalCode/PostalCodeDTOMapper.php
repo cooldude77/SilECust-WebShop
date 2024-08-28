@@ -19,6 +19,7 @@ class PostalCodeDTOMapper
         $postalCode = $this->postalCodeRepository->create($this->cityRepository->find($postalCodeDTO->cityId));
 
         $postalCode->setCity($this->cityRepository->find($postalCodeDTO->cityId));
+        $postalCode->setName($postalCodeDTO->name);
         $postalCode->setPostalCode($postalCodeDTO->postalCode);
 
         return $postalCode;
@@ -28,6 +29,8 @@ class PostalCodeDTOMapper
     {
         $postalCode = $this->postalCodeRepository->find($postalCodeDTO->id);
         $postalCode->setCity($this->cityRepository->find($postalCodeDTO->cityId));
+        $postalCode->setName($this->cityRepository->find($postalCodeDTO->name));
+
         $postalCode->setPostalCode($postalCodeDTO->postalCode);
 
         return $postalCode;
@@ -37,6 +40,7 @@ class PostalCodeDTOMapper
     {
         $postalCodeDTO = new PostalCodeDTO();
         $postalCodeDTO->id = $postalCode->getId();
+        $postalCodeDTO->name = $postalCode->getName();
         $postalCodeDTO->postalCode = $postalCode->getPostalCode();
         $postalCodeDTO->cityId = $postalCode->getCity()->getId();
 
