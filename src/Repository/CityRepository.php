@@ -45,4 +45,11 @@ class CityRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\State $find)
+    {
+        $city = new City();
+        $city->setState($find);
+
+        return $city;
+    }
 }

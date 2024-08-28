@@ -45,4 +45,10 @@ class StateRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\Country $country)
+    {
+        $state = new State();
+        $state->setCountry($country);
+        return $state;
+    }
 }

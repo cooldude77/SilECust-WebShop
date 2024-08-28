@@ -45,4 +45,9 @@ class CountryRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(): Country
+    {
+
+        return new Country();
+    }
 }

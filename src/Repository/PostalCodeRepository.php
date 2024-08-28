@@ -45,4 +45,11 @@ class PostalCodeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\City $find)
+    {
+
+        $postalCode = new PostalCode();
+        $postalCode->setCity($find);
+        return $postalCode;
+    }
 }

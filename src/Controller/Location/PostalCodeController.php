@@ -1,24 +1,27 @@
 <?php
 
-namespace App\Controller\MasterData\Customer\Address\Attribute;
+namespace App\Controller\Location;
 
+use App\Entity\City;
+use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeCreateForm;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeEditForm;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
 use App\Repository\PostalCodeRepository;
-use App\Service\MasterData\Customer\Address\Attribute\Mapper\PostalCode\PostalCodeDTOMapper;
+use App\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+
 
 class PostalCodeController extends AbstractController
 {
-    #[\Symfony\Component\Routing\Attribute\Route('/postal_code/create', 'postalCode_create')]
-    public function create(PostalCodeDTOMapper $postalCodeDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
+    #[Route('/admin/postal_code/create', 'sc_route_admin_postal_code_create')]
+    public function create(PostalCodeDTOMapper    $postalCodeDTOMapper,
+                           EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
         $postalCodeDTO = new PostalCodeDTO();
         $form = $this->createForm(
             PostalCodeCreateForm::class, $postalCodeDTO
@@ -52,16 +55,17 @@ class PostalCodeController extends AbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            'location_data/admin/postal_code/postal_code_create.html.twig', ['form' => $form]
         );
     }
 
 
-    #[Route('/postal_code/{id}/edit', name: 'postalCode_edit')]
+    #[Route('/admin/postal_code/{id}/edit', name: 'sc_route_admin_postal_code_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        PostalCodeRepository $postalCodeRepository, PostalCodeDTOMapper $postalCodeDTOMapper,
-        Request $request, int $id
-    ): Response {
+                         PostalCodeRepository   $postalCodeRepository, PostalCodeDTOMapper $postalCodeDTOMapper,
+                         Request                $request, int $id
+    ): Response
+    {
         $postalCode = $postalCodeRepository->find($id);
 
 
@@ -69,8 +73,7 @@ class PostalCodeController extends AbstractController
             throw $this->createNotFoundException('No PostalCode found for id ' . $id);
         }
 
-        $postalCodeDTO = new PostalCodeDTO();
-        $postalCodeDTO->id = $id;
+        $postalCodeDTO = $postalCodeDTOMapper->mapToDTOForEdit($postalCode);
 
         $form = $this->createForm(PostalCodeEditForm::class, $postalCodeDTO);
 
@@ -97,13 +100,13 @@ class PostalCodeController extends AbstractController
             );
         }
 
-        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' =>
-                                                                                        $form]
+        return $this->render('location_data/admin/postal_code/postal_code_edit.html.twig', ['form' =>
+                $form]
         );
     }
 
-    #[Route('/postal_code/{id}/display', name: 'postalCode_display')]
-    public function display(PostalCodeRepository $postalCodeRepository, int $id): Response
+    #[Route('/admin/postal_code/{id}/display', name: 'sc_route_admin_postal_code_display')]
+    public function display(PostalCodeRepository $postalCodeRepository, int $id, Request $request): Response
     {
         $postalCode = $postalCodeRepository->find($id);
         if (!$postalCode) {
@@ -111,39 +114,44 @@ class PostalCodeController extends AbstractController
         }
 
         $displayParams = ['title' => 'PostalCode',
-                          'link_id' => 'id-postalCode',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'First Name',
-                                        'propertyName' => 'firstName',
-                                        'link_id' => 'id-display-postalCode'],
-                                       ['label' => 'Last Name',
-                                        'propertyName' => 'lastName'],]];
+            'link_id' => 'id-postalCode',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'Postal Code',
+                'propertyName' => 'postalCode',
+                'link_id' => 'id-display-postalCode'],  ['label' => 'Name',
+                'propertyName' => 'name'
+                ,],]];
 
         return $this->render(
-            'master_data/postal_code/postal_code_display.html.twig',
-            ['entity' => $postalCode, 'params' => $displayParams]
+            'location_data/admin/postal_code/postal_code_display.html.twig',
+            ['request' => $request, 'entity' => $postalCode, 'params' => $displayParams]
         );
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/postal_code/list', name: 'postal_code_list')]
-    public function list(PostalCodeRepository $postalCodeRepository): Response
+    #[Route('/admin/postal_code/city/{id}/list', name: 'postal_code_list')]
+    public function list(City $city, PostalCodeRepository $postalCodeRepository, Request $request): Response
     {
 
         $listGrid = ['title' => 'PostalCode',
-                     'link_id' => 'id-postalCode',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'firstName',
-                                    'action' => 'display',],
-                     ],
-                     'createButtonConfig' => ['link_id' => ' id-create-postalCode',
-                                              'function' => 'postalCode',
-                                              'anchorText' => 'create PostalCode']];
+            'link_id' => 'id-postalCode',
+            'function' => 'postal_code',
+            'columns' => [
+                ['label' => 'Postal Code',
+                    'propertyName' => 'postalCode',
+                    'action' => 'display',],
+                ['label' => 'Name',
+                    'propertyName' => 'name'
+                    ,],
+            ],
+            'createButtonConfig' => ['link_id' => ' id-create-postalCode',
+                'function' => 'postalCode',
+                'anchorText' => 'create PostalCode']];
 
         $postalCodes = $postalCodeRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $postalCodes, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $postalCodes, 'listGrid' => $listGrid]
         );
     }
 }

@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Controller\MasterData\Customer\Address\Attribute;
+namespace App\Controller\Location;
 
 use App\Form\MasterData\Customer\Address\Attribute\Country\CountryCreateForm;
 use App\Form\MasterData\Customer\Address\Attribute\Country\CountryEditForm;
 use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
 use App\Repository\CountryRepository;
-use App\Service\MasterData\Customer\Address\Attribute\Mapper\Country\CountryDTOMapper;
+use App\Service\Location\Mapper\Country\CountryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CountryController extends AbstractController
 {
-    #[\Symfony\Component\Routing\Attribute\Route('/country/create', 'country_create')]
-    public function create(CountryDTOMapper $countryDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
+    #[Route('/admin/country/create', 'sc_route_admin_country_create')]
+    public function create(CountryDTOMapper       $countryDTOMapper,
+                           EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
         $countryDTO = new CountryDTO();
         $form = $this->createForm(
             CountryCreateForm::class, $countryDTO
@@ -51,15 +52,16 @@ class CountryController extends AbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]);
+        return $this->render('location_data/admin/country/country_create.html.twig', ['form' => $form]);
     }
 
 
-    #[Route('/country/{id}/edit', name: 'country_edit')]
+    #[Route('/admin/country/{id}/edit', name: 'sc_route_admin_country_edit')]
     public function edit(EntityManagerInterface $entityManager,
-        CountryRepository $countryRepository, CountryDTOMapper $countryDTOMapper,
-        Request $request, int $id
-    ): Response {
+                         CountryRepository      $countryRepository, CountryDTOMapper $countryDTOMapper,
+                         Request                $request, int $id
+    ): Response
+    {
         $country = $countryRepository->find($id);
 
 
@@ -67,8 +69,7 @@ class CountryController extends AbstractController
             throw $this->createNotFoundException('No Country found for id ' . $id);
         }
 
-        $countryDTO = new CountryDTO();
-        $countryDTO->id = $id;
+        $countryDTO = $countryDTOMapper->mapToDTOForEdit($country);
 
         $form = $this->createForm(CountryEditForm::class, $countryDTO);
 
@@ -95,11 +96,11 @@ class CountryController extends AbstractController
             );
         }
 
-        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]);
+        return $this->render('location_data/admin/country/country_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/country/{id}/display', name: 'country_display')]
-    public function display(CountryRepository $countryRepository, int $id): Response
+    #[Route('/admin/country/{id}/display', name: 'sc_route_admin_country_display')]
+    public function display(CountryRepository $countryRepository, int $id, Request $request): Response
     {
         $country = $countryRepository->find($id);
         if (!$country) {
@@ -107,39 +108,39 @@ class CountryController extends AbstractController
         }
 
         $displayParams = ['title' => 'Country',
-                          'link_id' => 'id-country',
-                          'editButtonLinkText' => 'Edit',
-                          'fields' => [['label' => 'First Name',
-                                        'propertyName' => 'firstName',
-                                        'link_id' => 'id-display-country'],
-                                       ['label' => 'Last Name',
-                                        'propertyName' => 'lastName'],]];
+            'link_id' => 'id-country',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'Country Code',
+                'propertyName' => 'code',
+                'link_id' => 'id-display-country'],
+                ['label' => 'Country Name',
+                    'propertyName' => 'name'],]];
 
         return $this->render(
-            'master_data/country/country_display.html.twig',
-            ['entity' => $country, 'params' => $displayParams]
+            'location_data/admin/country/country_display.html.twig',
+            ['request' => $request, 'entity' => $country, 'params' => $displayParams]
         );
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/country/list', name: 'country_list')]
-    public function list(CountryRepository $countryRepository): Response
+    #[Route('/admin/country/list', name: 'sc_route_admin_country_list')]
+    public function list(CountryRepository $countryRepository, Request $request): Response
     {
 
         $listGrid = ['title' => 'Country',
-                     'link_id' => 'id-country',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'firstName',
-                                    'action' => 'display',],
-                     ],
-                     'createButtonConfig' => ['link_id' => ' id-create-country',
-                                              'function' => 'country',
-                                              'anchorText' => 'create Country']];
+            'link_id' => 'id-country',
+            'columns' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'action' => 'display',],
+            ],
+            'createButtonConfig' => ['link_id' => ' id-create-country',
+                'function' => 'country',
+                'anchorText' => 'create Country']];
 
         $countries = $countryRepository->findAll();
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $countries, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $countries, 'listGrid' => $listGrid]
         );
     }
 }

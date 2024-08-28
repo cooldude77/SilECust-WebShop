@@ -3,6 +3,7 @@
 namespace App\Form\MasterData\Customer\Address\Attribute\Country;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -14,6 +15,7 @@ class CountryCreateForm extends AbstractType
 
         $builder->add('code', TextType::class);
         $builder->add('name', TextType::class);
+        $builder->add('save', SubmitType::class);
 
     }
 

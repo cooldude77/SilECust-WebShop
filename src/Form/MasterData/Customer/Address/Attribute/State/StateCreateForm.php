@@ -4,6 +4,7 @@ namespace App\Form\MasterData\Customer\Address\Attribute\State;
 
 use App\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -16,6 +17,7 @@ class StateCreateForm extends AbstractType
         $builder->add('code',TextType::class);
         $builder->add('name',TextType::class);
         $builder->add('countryId', CountryAutoCompleteField::class);
+        $builder->add('save', SubmitType::class);
 
     }
 
