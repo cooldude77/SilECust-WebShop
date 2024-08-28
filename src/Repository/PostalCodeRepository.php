@@ -45,11 +45,18 @@ class PostalCodeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\City $find)
+    public function create(?\App\Entity\City $find): PostalCode
     {
 
         $postalCode = new PostalCode();
         $postalCode->setCity($find);
         return $postalCode;
+    }
+
+    public function getQueryForSelect(\App\Entity\City $city): \Doctrine\ORM\Query
+    {
+        $dql = "SELECT pc FROM App\Entity\PostalCode pc where pc.city=:city";
+        return $this->getEntityManager()->createQuery($dql)->setParameter("city", $city);
+
     }
 }

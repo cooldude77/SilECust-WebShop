@@ -2,14 +2,15 @@
 
 namespace App\Controller\Location;
 
+use App\Entity\City;
 use App\Entity\State;
 use App\Form\MasterData\Customer\Address\Attribute\City\CityCreateForm;
 use App\Form\MasterData\Customer\Address\Attribute\City\CityEditForm;
 use App\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
 use App\Repository\CityRepository;
-use App\Repository\StateRepository;
 use App\Service\Location\Mapper\City\CityDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +18,15 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CityController extends AbstractController
 {
-    #[Route('/admin/city/create', 'sc_route_admin_city_create')]
-    public function create(CityDTOMapper          $cityDTOMapper,
+    #[Route('/admin/city/state/{id}/create', 'sc_route_admin_city_create')]
+    public function create(State                  $state,
+                           CityDTOMapper          $cityDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
         $cityDTO = new CityDTO();
+        $cityDTO->stateId = $state->getId();
+
         $form = $this->createForm(
             CityCreateForm::class, $cityDTO
         );
@@ -64,18 +68,12 @@ class CityController extends AbstractController
 
 
     #[Route('/admin/city/{id}/edit', name: 'sc_route_admin_city_edit')]
-    public function edit(EntityManagerInterface $entityManager,
+    public function edit(City                   $city,
+                         EntityManagerInterface $entityManager,
                          CityRepository         $cityRepository, CityDTOMapper $cityDTOMapper,
                          Request                $request, int $id
     ): Response
     {
-
-        $city = $cityRepository->find($id);
-
-
-        if (!$city) {
-            throw $this->createNotFoundException('No City found for id ' . $id);
-        }
 
         $cityDTO = $cityDTOMapper->mapToDTOForEdit($city);
 
@@ -89,9 +87,8 @@ class CityController extends AbstractController
 
             /** @var CityDTO $data */
             $data = $form->getData();
-            $data->stateId = $form->get('state')->getData()->getId();
 
-            $city = $cityDTOMapper->mapToEntityForEdit($form->getData());
+            $city = $cityDTOMapper->mapToEntityForEdit($data);
             // perform some action...
             $entityManager->persist($city);
             $entityManager->flush();
@@ -113,13 +110,16 @@ class CityController extends AbstractController
             $form]);
     }
 
+    /**
+     * @param City $city
+     * @param CityRepository $cityRepository
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/city/{id}/display', name: 'sc_route_admin_city_display')]
-    public function display(CityRepository $cityRepository, int $id,Request $request): Response
+    public function display(City $city, Request $request): Response
     {
-        $city = $cityRepository->find($id);
-        if (!$city) {
-            throw $this->createNotFoundException('No city found for id ' . $id);
-        }
 
         $displayParams = ['title' => 'City',
             'link_id' => 'id-city',
@@ -132,30 +132,40 @@ class CityController extends AbstractController
 
         return $this->render(
             'location_data/admin/city/city_display.html.twig',
-            ['request'=>$request,'entity' => $city, 'params' => $displayParams]
+            ['request' => $request, 'entity' => $city, 'params' => $displayParams]
         );
 
     }
 
     #[Route('/admin/city/state/{id}/list', name: 'sc_route_admin_city_list')]
-    public function list(State $state, CityRepository $cityRepository, Request $request): Response
+    public function list(State $state, CityRepository $cityRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
         $listGrid = ['title' => 'City',
             'link_id' => 'id-city',
-            'function'=>'city',
+            'function' => 'city',
+            'edit_link_allowed'=>true,
             'columns' => [['label' => 'Code',
                 'propertyName' => 'code',
                 'action' => 'display',],
             ],
-            'createButtonConfig' => ['link_id' => ' id-create-city',
+            'createButtonConfig' => [
+                'link_id' => ' id-create-city',
+                'id' => $state->getId(),
                 'function' => 'city',
                 'anchorText' => 'create City']];
 
-        $citys = $cityRepository->findAll(['state'=>$state]);
+        $query = $cityRepository->getQueryForSelect($state);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $citys, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

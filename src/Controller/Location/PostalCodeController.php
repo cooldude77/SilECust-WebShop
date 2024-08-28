@@ -3,12 +3,14 @@
 namespace App\Controller\Location;
 
 use App\Entity\City;
+use App\Entity\PostalCode;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeCreateForm;
 use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeEditForm;
 use App\Repository\PostalCodeRepository;
 use App\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +19,15 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PostalCodeController extends AbstractController
 {
-    #[Route('/admin/postal_code/create', 'sc_route_admin_postal_code_create')]
-    public function create(PostalCodeDTOMapper    $postalCodeDTOMapper,
+    #[Route('/admin/postal_code/city/{id}/create', 'sc_route_admin_postal_code_create')]
+    public function create(City $city,
+                           PostalCodeDTOMapper    $postalCodeDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
         $postalCodeDTO = new PostalCodeDTO();
+        $postalCodeDTO->cityId = $city->getId();
+
         $form = $this->createForm(
             PostalCodeCreateForm::class, $postalCodeDTO
         );
@@ -61,17 +66,13 @@ class PostalCodeController extends AbstractController
 
 
     #[Route('/admin/postal_code/{id}/edit', name: 'sc_route_admin_postal_code_edit')]
-    public function edit(EntityManagerInterface $entityManager,
-                         PostalCodeRepository   $postalCodeRepository, PostalCodeDTOMapper $postalCodeDTOMapper,
-                         Request                $request, int $id
+    public function edit(
+        PostalCode             $postalCode,
+        EntityManagerInterface $entityManager,
+        PostalCodeDTOMapper    $postalCodeDTOMapper,
+        Request                $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->find($id);
-
-
-        if (!$postalCode) {
-            throw $this->createNotFoundException('No PostalCode found for id ' . $id);
-        }
 
         $postalCodeDTO = $postalCodeDTOMapper->mapToDTOForEdit($postalCode);
 
@@ -106,19 +107,15 @@ class PostalCodeController extends AbstractController
     }
 
     #[Route('/admin/postal_code/{id}/display', name: 'sc_route_admin_postal_code_display')]
-    public function display(PostalCodeRepository $postalCodeRepository, int $id, Request $request): Response
+    public function display(PostalCode $postalCode, Request $request): Response
     {
-        $postalCode = $postalCodeRepository->find($id);
-        if (!$postalCode) {
-            throw $this->createNotFoundException('No postalCode found for id ' . $id);
-        }
 
         $displayParams = ['title' => 'PostalCode',
             'link_id' => 'id-postalCode',
             'editButtonLinkText' => 'Edit',
             'fields' => [['label' => 'Postal Code',
                 'propertyName' => 'postalCode',
-                'link_id' => 'id-display-postalCode'],  ['label' => 'Name',
+                'link_id' => 'id-display-postalCode'], ['label' => 'Name',
                 'propertyName' => 'name'
                 ,],]];
 
@@ -130,12 +127,14 @@ class PostalCodeController extends AbstractController
     }
 
     #[Route('/admin/postal_code/city/{id}/list', name: 'postal_code_list')]
-    public function list(City $city, PostalCodeRepository $postalCodeRepository, Request $request): Response
+    public function list(City $city, PostalCodeRepository $postalCodeRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
         $listGrid = ['title' => 'PostalCode',
             'link_id' => 'id-postalCode',
             'function' => 'postal_code',
+            'edit_link_allowed' => true,
+            'id' => $city->getId(),
             'columns' => [
                 ['label' => 'Postal Code',
                     'propertyName' => 'postalCode',
@@ -145,13 +144,23 @@ class PostalCodeController extends AbstractController
                     ,],
             ],
             'createButtonConfig' => ['link_id' => ' id-create-postalCode',
-                'function' => 'postalCode',
+                'id' => $city->getId(),
+
+                'function' => 'postal_code',
                 'anchorText' => 'create PostalCode']];
 
-        $postalCodes = $postalCodeRepository->findAll();
+
+        $query = $postalCodeRepository->getQueryForSelect($city);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $postalCodes, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

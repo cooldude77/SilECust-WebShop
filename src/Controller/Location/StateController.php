@@ -9,6 +9,7 @@ use App\Form\MasterData\Customer\Address\Attribute\State\StateEditForm;
 use App\Repository\StateRepository;
 use App\Service\Location\Mapper\State\StateDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +17,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class StateController extends AbstractController
 {
-    #[Route('/admin/state/create', 'sc_route_admin_state_create')]
-    public function create(StateDTOMapper         $stateDTOMapper,
+    #[Route('/admin/state/country/{id}/create', 'sc_route_admin_state_create')]
+    public function create(Country                $country, StateDTOMapper $stateDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
         $stateDTO = new StateDTO();
+        $stateDTO->countryId = $country->getId();
         $form = $this->createForm(
             StateCreateForm::class, $stateDTO
         );
@@ -53,7 +55,7 @@ class StateController extends AbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('location_data/admin/country/country_create.html.twig', ['form' => $form]);
+        return $this->render('location_data/admin/state/state_create.html.twig', ['form' => $form]);
     }
 
 
@@ -98,7 +100,7 @@ class StateController extends AbstractController
             );
         }
 
-        return $this->render('location_data/admin/country/country_edit.html.twig', ['form' =>
+        return $this->render('location_data/admin/state/state_edit.html.twig', ['form' =>
             $form]);
     }
 
@@ -127,49 +129,40 @@ class StateController extends AbstractController
     }
 
     #[Route('/admin/state/country/{id}/list', name: 'sc_route_admin_state_list')]
-    public function list(Country         $country,
-                         StateRepository $stateRepository, Request $request): Response
+    public function list(Country            $country,
+                         StateRepository    $stateRepository,
+                         Request            $request,
+                         PaginatorInterface $paginator): Response
     {
 
         $listGrid = ['title' => 'State',
             'link_id' => 'id-state',
-            'function'=>'state',
+            'edit_link_allowed'=>true,
+            'function' => 'state',
             'columns' => [['label' => 'State',
                 'propertyName' => 'code',
                 'action' => 'display',],
             ],
-            'createButtonConfig' => ['link_id' => ' id-create-state',
+            'createButtonConfig' => [
+                'link_id' => ' id-create-state',
+                'id'=>$country->getId(),
                 'function' => 'state',
                 'anchorText' => 'create State']];
 
 
-        $states = $stateRepository->findBy(['country' => $country]);
+        $query = $stateRepository->getQueryForSelect($country);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $states, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 
-    #[Route('/admin/state/list/all', name: 'sc_route_admin_state_list_all')]
-    public function listAll(StateRepository $stateRepository, Request $request): Response
-    {
 
-        $listGrid = ['title' => 'State',
-            'link_id' => 'id-state',
-            'function'=>'state',
-            'columns' => [['label' => 'State',
-                'propertyName' => 'code',
-                'action' => 'display',],
-            ],
-            'createButtonConfig' => ['link_id' => ' id-create-state',
-                'function' => 'state',
-                'anchorText' => 'create State']];
-
-
-        $states = $stateRepository->findAll();
-        return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $states, 'listGrid' => $listGrid]
-        );
-    }
 }

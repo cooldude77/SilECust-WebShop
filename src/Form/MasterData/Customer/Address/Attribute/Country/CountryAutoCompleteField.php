@@ -17,7 +17,7 @@ class CountryAutoCompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => Country::class,
             'placeholder' => 'Choose a Country',
-            'choice_label' => 'description',
+            'choice_label' => 'name',
             'choice_value'=>'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);

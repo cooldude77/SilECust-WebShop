@@ -17,7 +17,7 @@ class StateAutoCompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => State::class,
             'placeholder' => 'Choose a State',
-            'choice_label' => 'description',
+            'choice_label' => 'name',
             'choice_value'=>'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);

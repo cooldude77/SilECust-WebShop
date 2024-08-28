@@ -8,6 +8,7 @@ use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
 use App\Repository\CountryRepository;
 use App\Service\Location\Mapper\Country\CountryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -124,11 +125,12 @@ class CountryController extends AbstractController
     }
 
     #[Route('/admin/country/list', name: 'sc_route_admin_country_list')]
-    public function list(CountryRepository $countryRepository, Request $request): Response
+    public function list(CountryRepository $countryRepository, Request $request,PaginatorInterface $paginator): Response
     {
 
         $listGrid = ['title' => 'Country',
             'link_id' => 'id-country',
+            'edit_link_allowed'=>true,
             'columns' => [['label' => 'Name',
                 'propertyName' => 'name',
                 'action' => 'display',],
@@ -137,10 +139,16 @@ class CountryController extends AbstractController
                 'function' => 'country',
                 'anchorText' => 'create Country']];
 
-        $countries = $countryRepository->findAll();
+        $query = $countryRepository->getQueryForSelect();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $countries, 'listGrid' => $listGrid]
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }
