@@ -58,6 +58,14 @@ class PanelActionListMapBuilder
                             'list' => 'sc_route_admin_tax_slab_list'
                         ]
                     ],
+                    'currency' => [
+                        'routes' => [
+                            'create' => 'sc_route_admin_currency_create',
+                            'edit' => 'sc_route_admin_currency_edit',
+                            'display' => 'sc_route_admin_currency_display',
+                            'list' => 'sc_route_admin_currency_list'
+                        ]
+                    ],
                     'product_attribute' => [
                         'routes' => [
                             'create' => 'product_attribute_create',

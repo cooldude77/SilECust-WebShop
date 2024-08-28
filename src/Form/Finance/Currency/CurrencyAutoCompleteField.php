@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Currency;
+namespace App\Form\Finance\Currency;
 
 use App\Entity\Currency;
 use Symfony\Component\Form\AbstractType;
