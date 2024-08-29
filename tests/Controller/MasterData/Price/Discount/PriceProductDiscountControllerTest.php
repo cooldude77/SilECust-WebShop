@@ -22,7 +22,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
     }
     protected function tearDown(): void
     {

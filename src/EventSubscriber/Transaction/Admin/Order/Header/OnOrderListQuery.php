@@ -37,7 +37,7 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
     {
 
         $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['order_list', 'my_orders']))
+        if (!in_array($route['_route'], ['sc_admin_route_order_list', 'my_orders']))
             if (!($listQueryEvent->getRequest()->query->get('_function') == 'order'
                 && $listQueryEvent->getRequest()->query->get('_type') == 'list')
             )
@@ -51,7 +51,7 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
             }
 
         if ($this->employeeFromUserFinder->isLoggedInUserAlsoAEmployee())
-            $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelect());
+            $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelectAllButOpenOrders());
 
     }
 }

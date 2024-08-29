@@ -30,7 +30,7 @@ class CustomerControllerTest extends WebTestCase
 
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
             'description' => 'Mister...']);
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
 
         $this
             ->browser()
@@ -66,7 +66,7 @@ class CustomerControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
             'description' => 'Mister...']);
 
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
         $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
@@ -105,7 +105,7 @@ class CustomerControllerTest extends WebTestCase
     public function testDisplay()
     {
 
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
         $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
@@ -126,7 +126,7 @@ class CustomerControllerTest extends WebTestCase
 
     public function testList()
     {
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
         $uri = '/admin/customer/list';
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {

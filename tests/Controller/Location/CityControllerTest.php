@@ -17,7 +17,7 @@ class CityControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
         $this->createLocationFixtures();
     }
 

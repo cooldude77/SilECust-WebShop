@@ -75,10 +75,25 @@ class OrderHeaderRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery($dql);
 
     }
+
     function getQueryForSelectByCustomer(Customer $customer): Query
     {
         $dql = "SELECT oh FROM App\Entity\OrderHeader oh where oh.customer=:customer";
-        return $this->getEntityManager()->createQuery($dql)->setParameter('customer',$customer);
+        return $this->getEntityManager()->createQuery($dql)->setParameter('customer', $customer);
+
+    }
+
+    public function getQueryForSelectAllButOpenOrders(): Query
+    {
+
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('oh')
+            ->from(OrderHeader::class,'oh')
+            ->join('oh.orderStatusType', 'ost')
+            ->where('ost.type != :type')
+            ->setParameter('type', OrderStatusTypes::ORDER_CREATED)
+            ->getQuery();
+
 
     }
 }

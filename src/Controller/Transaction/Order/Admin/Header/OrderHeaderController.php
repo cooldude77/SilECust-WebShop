@@ -3,13 +3,16 @@
 namespace App\Controller\Transaction\Order\Admin\Header;
 
 // ...
+use App\Entity\OrderHeader;
 use App\Event\Component\Database\ListQueryEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
 use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
+use App\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
 use App\Repository\OrderHeaderRepository;
+use App\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
 use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -62,70 +65,80 @@ class OrderHeaderController extends AbstractController
         return $this->render('transaction/admin/order/order_create.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/order/{id}/edit', name: 'sc_admin_route_order_edit')]
-    public function edit(int                    $id,
-                         OrderHeaderDTOMapper   $mapper,
-                         EntityManagerInterface $entityManager,
-                         OrderHeaderRepository  $orderHeaderRepository,
+    /**
+     * @throws \HttpException
+     */
+    #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_route_order_edit')]
+    public function edit(OrderHeader              $orderHeader,
+                         OrderHeaderDTOMapper     $mapper,
+                         OrderStatusValidator     $orderStatusValidator,
+                         EntityManagerInterface   $entityManager,
+                         OrderHeaderRepository    $orderHeaderRepository,
                          EventDispatcherInterface $eventDispatcher,
-                         Request                $request
+                         Request                  $request
     ): Response
     {
 
-        $orderHeader = $orderHeaderRepository->find($id);
 
-        $orderHeaderDTO = new OrderHeaderDTO();
-        $orderHeaderDTO->id = $orderHeader->getId();
+        try {
+            $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-        $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
+            $orderHeaderDTO = new OrderHeaderDTO();
+            $orderHeaderDTO->id = $orderHeader->getId();
 
-        $form->handleRequest($request);
+            $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form->handleRequest($request);
 
-            $orderHeader = $mapper->mapDtoToEntityForEdit(
-                $form->getData()
-            );
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->persist($orderHeader);
-            $entityManager->flush();
+                $orderHeader = $mapper->mapDtoToEntityForEdit(
+                    $form->getData()
+                );
 
-            $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader),OrderHeaderChangedEvent::ORDER_HEADER_CHANGED);
+                $entityManager->persist($orderHeader);
+                $entityManager->flush();
 
-            $this->addFlash(
-                'success', "Order updated successfully"
-            );
+                $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader), OrderHeaderChangedEvent::ORDER_HEADER_CHANGED);
 
-            return new Response(
-                serialize(
-                    ['id' => $id, 'message' => "Order updated successfully"]
-                ), 200
-            );
+                $this->addFlash(
+                    'success', "Order updated successfully"
+                );
+
+                return new Response(
+                    serialize(
+                        ['id' => $orderHeader->getId(), 'message' => "Order updated successfully"]
+                    ), 200
+                );
+            }
+
+            return $this->render('transaction/admin/order/order_edit.html.twig', ['form' => $form]);
+        } catch (OpenOrderEditedInAdminPanel $e) {
+            return new Response($e->getMessage(), 409);
         }
-
-        return $this->render('transaction/admin/order/order_edit.html.twig', ['form' => $form]);
-
 
     }
 
-    #[Route('/admin/order/{id}/display', name: 'sc_admin_route_order_display')]
-    public function display(OrderHeaderRepository $OrderHeaderRepository, int $id, Request $request): Response
+    #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_route_order_display')]
+    public function display(OrderHeader $orderHeader, OrderStatusValidator $orderStatusValidator, Request $request): Response
     {
-        $OrderHeader = $OrderHeaderRepository->find($id);
-        if (!$OrderHeader) {
-            throw $this->createNotFoundException('No product found for id ' . $id);
+        try {
+            $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
+
+            $displayParams = ['title' => 'Price',
+                'link_id' => 'id-price',
+                'editButtonLinkText' => 'Edit',
+                'fields' => [['label' => 'id',
+                    'propertyName' => 'id',],]];
+
+            return $this->render(
+                'transaction/admin/order/order_display.html.twig',
+                ['entity' => $orderHeader, 'params' => $displayParams, 'request' => $request]
+            );
+        } catch (OpenOrderEditedInAdminPanel $e) {
+            return new Response($e->getMessage(), 409);
         }
 
-        $displayParams = ['title' => 'Price',
-            'link_id' => 'id-price',
-            'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'id',
-                'propertyName' => 'id',],]];
-
-        return $this->render(
-            'transaction/admin/order/order_display.html.twig',
-            ['entity' => $OrderHeader, 'params' => $displayParams, 'request' => $request]
-        );
     }
 
     #[Route('/admin/order/list', name: 'sc_admin_route_order_list')]

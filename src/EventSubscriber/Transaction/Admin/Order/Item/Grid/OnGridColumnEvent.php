@@ -25,7 +25,7 @@ class OnGridColumnEvent implements EventSubscriberInterface
     public function beforeDisplay(GridColumnEvent $event): void
     {
         $route = $this->router->match($event->getData()['request']->getPathInfo());
-        if (!in_array($route['_route'], ['my_order_display', 'order_display']))
+        if (!in_array($route['_route'], ['my_order_display', 'sc_admin_route_order_display']))
             if (!($event->getData()['request']->query->get('_function') == 'order' // order item list is never shown standalone
                 && $event->getData()['request']->query->get('_type') == 'display')
             )
