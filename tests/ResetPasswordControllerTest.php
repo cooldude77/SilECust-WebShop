@@ -17,6 +17,7 @@ class ResetPasswordControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
+        self::bootKernel();
         $this->client = static::createClient();
 
         // Ensure we have a clean database
