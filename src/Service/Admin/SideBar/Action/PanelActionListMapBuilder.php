@@ -148,18 +148,18 @@ class PanelActionListMapBuilder
                     ],
                     'order' => [
                         'routes' => [
-                            'create' => 'order_create',
-                            'edit' => 'order_edit',
-                            'display' => 'order_display',
-                            'list' => 'order_list'
+                            'create' => 'sc_admin_route_order_create',
+                            'edit' => 'sc_admin_route_order_edit',
+                            'display' => 'sc_admin_route_order_display',
+                            'list' => 'sc_admin_route_order_list'
                         ]
                     ],
                     'order_item' => [
                         'routes' => [
-                            'create' => 'order_item_create',
-                            'edit' => 'order_item_edit',
-                            'display' => 'order_item_display',
-                            'list' => 'order_item_list'
+                            'create' => 'sc_admin_route_order_item_create',
+                            'edit' => 'sc_admin_route_order_item_edit',
+                            'display' => 'sc_admin_route_order_item_display',
+                            'list' => 'sc_admin_route_order_item_list'
                         ]
                     ],
                     'file' => [
