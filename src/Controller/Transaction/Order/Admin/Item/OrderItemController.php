@@ -5,6 +5,9 @@ namespace App\Controller\Transaction\Order\Admin\Item;
 // ...
 use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
+use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
+use App\Event\Transaction\Order\Admin\Item\OrderItemAddEvent;
+use App\Event\Transaction\Order\Admin\Item\OrderItemEditEvent;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
@@ -25,6 +28,7 @@ class OrderItemController extends AbstractController
     public function create(int                         $id, EntityManagerInterface $entityManager,
                            OrderItemDTOMapper          $orderItemMapper,
                            OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
+                           EventDispatcherInterface $eventDispatcher,
                            Request                     $request
     ): Response
     {
@@ -42,6 +46,8 @@ class OrderItemController extends AbstractController
 
             $entityManager->persist($orderItem);
             $entityManager->persist($priceBreakUp);
+
+            $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem),OrderItemAddEvent::ORDER_ITEM_ADDED);
 
             $entityManager->flush();
 
@@ -72,6 +78,7 @@ class OrderItemController extends AbstractController
                          EntityManagerInterface      $entityManager,
                          OrderItemRepository         $orderItemRepository,
                          OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
+                         EventDispatcherInterface $eventDispatcher,
                          Request                     $request
     ): Response
     {
@@ -94,6 +101,7 @@ class OrderItemController extends AbstractController
             $entityManager->persist($priceBreakUp);
 
             $entityManager->flush();
+            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem),OrderItemEditEvent::ORDER_ITEM_EDITED);
 
             $this->addFlash(
                 'success', "Order Item updated successfully"

@@ -5,6 +5,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 // ...
 use App\Event\Component\Database\ListQueryEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
+use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
@@ -66,6 +67,7 @@ class OrderHeaderController extends AbstractController
                          OrderHeaderDTOMapper   $mapper,
                          EntityManagerInterface $entityManager,
                          OrderHeaderRepository  $orderHeaderRepository,
+                         EventDispatcherInterface $eventDispatcher,
                          Request                $request
     ): Response
     {
@@ -87,6 +89,8 @@ class OrderHeaderController extends AbstractController
 
             $entityManager->persist($orderHeader);
             $entityManager->flush();
+
+            $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader),OrderHeaderChangedEvent::ORDER_HEADER_CHANGED);
 
             $this->addFlash(
                 'success', "Order updated successfully"
