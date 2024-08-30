@@ -22,6 +22,7 @@
     <div class="row">
         Order Total = {{ orderTotal }}
     </div>
-    <a class="btn btn-dark" href="{{ path('web_shop_payment_start',['generatedId': orderObject.getOrderHeader().getGeneratedId  ]) }}">To Payment > </a>
+    <a class="btn btn-dark" href="{{ path('web_shop_payment_start',
+        {'generatedId': orderObject.getOrderHeader().getGeneratedId()}) }}">To Payment > </a>
 
 </div>
