@@ -62,7 +62,7 @@ class OrderHeaderController extends AbstractController
 
         }
 
-        return $this->render('transaction/admin/order/order_create.html.twig', ['form' => $form]);
+        return $this->render('transaction/admin/order/header/order_create.html.twig', ['form' => $form]);
     }
 
     /**
@@ -112,7 +112,7 @@ class OrderHeaderController extends AbstractController
                 );
             }
 
-            return $this->render('transaction/admin/order/order_edit.html.twig', ['form' => $form]);
+            return $this->render('transaction/admin/order/header/order_edit.html.twig', ['form' => $form]);
         } catch (OpenOrderEditedInAdminPanel $e) {
             return new Response($e->getMessage(), 409);
         }
@@ -132,7 +132,7 @@ class OrderHeaderController extends AbstractController
                     'propertyName' => 'id',],]];
 
             return $this->render(
-                'transaction/admin/order/order_display.html.twig',
+                'transaction/admin/order/header/order_display.html.twig',
                 ['entity' => $orderHeader, 'params' => $displayParams, 'request' => $request]
             );
         } catch (OpenOrderEditedInAdminPanel $e) {

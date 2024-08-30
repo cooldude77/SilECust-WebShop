@@ -118,4 +118,20 @@ class OrderHeaderControllerTest extends WebTestCase
             ->assertStatus(409);
 
     }
+
+    public function testEditForNonOpenOrder()
+    {
+        $uri = "/admin/order/{$this->afterPaymentSuccessOrderHeader->getGeneratedId()}/edit";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSuccessful();
+
+    }
 }
