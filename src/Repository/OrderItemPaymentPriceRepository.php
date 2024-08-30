@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\OrderHeader;
+use App\Entity\OrderItem;
 use App\Entity\OrderItemPaymentPrice;
+use App\Service\Transaction\Order\PriceObject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,20 +45,21 @@ class OrderItemPaymentPriceRepository extends ServiceEntityRepository
     //    }
     public function findByOrderHeader(OrderHeader $orderHeader): mixed
     {
-       return $this->getEntityManager()->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('ipp')
-            ->from(OrderItemPaymentPrice::class,'ipp')
-            ->join('ipp.orderItem','oi')
-            ->join('oi.orderHeader','oh')
+            ->from(OrderItemPaymentPrice::class, 'ipp')
+            ->join('ipp.orderItem', 'oi')
+            ->join('oi.orderHeader', 'oh')
             ->where('oh=:oh')
-            ->setParameter('oh',$orderHeader)
+            ->setParameter('oh', $orderHeader)
             ->getQuery()
             ->getResult();
     }
 
-    public function create(\App\Entity\OrderItem $orderItem,
-        \App\Service\Transaction\Order\PriceObject $priceObject
-    ): OrderItemPaymentPrice {
+    public function create(OrderItem   $orderItem,
+                           PriceObject $priceObject
+    ): OrderItemPaymentPrice
+    {
 
         $orderItemPaymentPrice = new OrderItemPaymentPrice();
         $orderItemPaymentPrice->setOrderItem($orderItem);

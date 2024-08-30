@@ -13,7 +13,7 @@ use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
 use App\Repository\OrderItemRepository;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
-use App\Service\Transaction\Order\Item\Mapper\OrderItemPriceBreakupMapper;
+use App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,8 +27,8 @@ class OrderItemController extends AbstractController
     #[Route('/order/{id}/item/create', name: 'order_item_create')]
     public function create(int                         $id, EntityManagerInterface $entityManager,
                            OrderItemDTOMapper          $orderItemMapper,
-                           OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
-                           EventDispatcherInterface $eventDispatcher,
+                           OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
+                           EventDispatcherInterface    $eventDispatcher,
                            Request                     $request
     ): Response
     {
@@ -42,10 +42,10 @@ class OrderItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $orderItem = $orderItemMapper->mapToEntityForCreate($form->getData());
-            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForCreate($orderItem);
+            $orderItemPaymentPrice = $orderItemPaymentPriceMapper->mapToEntityForCreate($orderItem);
 
             $entityManager->persist($orderItem);
-            $entityManager->persist($priceBreakUp);
+            $entityManager->persist($orderItemPaymentPrice);
 
             $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem),OrderItemAddEvent::ORDER_ITEM_ADDED);
 
@@ -77,8 +77,8 @@ class OrderItemController extends AbstractController
                          OrderItemDTOMapper          $mapper,
                          EntityManagerInterface      $entityManager,
                          OrderItemRepository         $orderItemRepository,
-                         OrderItemPriceBreakupMapper $orderItemPriceBreakupMapper,
-                         EventDispatcherInterface $eventDispatcher,
+                         OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
+                         EventDispatcherInterface    $eventDispatcher,
                          Request                     $request
     ): Response
     {
@@ -95,10 +95,10 @@ class OrderItemController extends AbstractController
 
             $orderItem = $mapper->mapDtoToEntityForEdit($form->getData());
 
-            $priceBreakUp = $orderItemPriceBreakupMapper->mapToEntityForEdit($orderItem);
+            $orderItemPaymentPrice = $orderItemPaymentPriceMapper->mapToEntityForEdit($orderItem);
 
             $entityManager->persist($orderItem);
-            $entityManager->persist($priceBreakUp);
+            $entityManager->persist($orderItemPaymentPrice);
 
             $entityManager->flush();
             $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem),OrderItemEditEvent::ORDER_ITEM_EDITED);
