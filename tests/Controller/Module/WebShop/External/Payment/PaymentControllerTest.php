@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Module\WebShop\External\Payment;
 
 use App\Entity\OrderHeader;
+use App\Entity\OrderJournal;
 use App\Entity\OrderPayment;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use App\Tests\Fixtures\CartFixture;
@@ -77,17 +78,20 @@ class PaymentControllerTest extends WebTestCase
                             ]
                     ]
                 ])
-            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success",1);
+            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1);
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
-            OrderHeader::class, ['id' => $this->openOrderHeader->object()]
+            OrderHeader::class, ['id' => $this->openOrderHeader->getId()]
         );
         self::assertEquals(
             OrderStatusTypes::ORDER_PAYMENT_COMPLETE,
             $header->getOrderStatusType()->getType()
         );
 
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+
+        $this->assertNotNull($journal);
     }
 
     public function testOnPaymentFailure()
@@ -114,14 +118,17 @@ class PaymentControllerTest extends WebTestCase
                 ]);
 
 
-                /** @var OrderHeader $header */
-                $header = $this->findOneBy(
-                    OrderHeader::class, ['id' => $this->openOrderHeader->object()]
-                );
-                self::assertEquals(
-                    OrderStatusTypes::ORDER_PAYMENT_FAILED,
-                    $header->getOrderStatusType()->getType()
-                );
+        /** @var OrderHeader $header */
+        $header = $this->findOneBy(
+            OrderHeader::class, ['id' => $this->openOrderHeader->object()]
+        );
+        self::assertEquals(
+            OrderStatusTypes::ORDER_PAYMENT_FAILED,
+            $header->getOrderStatusType()->getType()
+        );
 
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+
+        $this->assertNotNull($journal);
     }
 }
