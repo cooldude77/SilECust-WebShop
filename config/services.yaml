@@ -54,6 +54,9 @@ services:
 
   App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface: '@App\Service\Transaction\Order\IdGeneration\OrderIdStrategy'
 
+  # search services
+  product.search : '@App\Service\MasterData\Product\ProductSearch'
+
 when@test:
   services:
     session.storage.factory.mock_file:
