@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PriceProductDiscountController extends AbstractController
 {
 
-    #[Route('/price/product/discount/create', name: 'price_product_discount_create')]
+    #[Route('/admin/price/product/discount/create', name: 'price_product_discount_create')]
     public function create(PriceProductDiscountDTOMapper $mapper, EntityManagerInterface $entityManager,
                            Request                       $request
     ): Response
@@ -65,8 +65,9 @@ class PriceProductDiscountController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/price/product/discount/{id}/edit', name: 'price_product_discount_edit')]
-    public function edit(int                            $id, PriceProductDiscountDTOMapper $mapper,
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/price/product/discount/{id}/edit', name: 'price_product_discount_edit')]
+    public function edit(int                            $id,
+                         PriceProductDiscountDTOMapper  $mapper,
                          EntityManagerInterface         $entityManager,
                          PriceProductDiscountRepository $priceProductDiscountRepository, Request $request
     ): Response
@@ -106,7 +107,7 @@ class PriceProductDiscountController extends AbstractController
 
     }
 
-    #[Route('/price/product/discount/{id}/display', name: 'price_product_discount_display')]
+    #[Route('/admin/price/product/discount/{id}/display', name: 'price_product_discount_display')]
     public function display(PriceProductDiscountRepository $priceProductDiscountRepository, int $id
     ): Response
     {
@@ -134,7 +135,7 @@ class PriceProductDiscountController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/price/product/discount/list', name: 'price_product_discount_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/price/product/discount/list', name: 'price_product_discount_list')]
     public function list(PriceProductDiscountRepository $priceProductDiscountRepository,
                          PaginatorInterface             $paginator,
                          Request                        $request
@@ -173,7 +174,7 @@ class PriceProductDiscountController extends AbstractController
         );
     }
 
-    #[Route('/price/product/discount/{id}/fetch', name: 'price_product_discount_fetch')]
+    #[Route('/admin/price/product/discount/{id}/fetch', name: 'price_product_discount_fetch')]
     public function fetch(int                            $id, ProductRepository $productRepository,
                           PriceProductDiscountRepository $priceProductDiscountRepository
     ):

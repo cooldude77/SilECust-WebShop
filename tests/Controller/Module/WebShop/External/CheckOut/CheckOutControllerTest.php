@@ -32,7 +32,7 @@ class CheckOutControllerTest extends WebTestCase
         $this
             ->browser()
             ->visit($uriCheckout)
-            ->assertOn('/signup?_redirect_upon_success_url=/checkout', ['query']);
+            ->assertNotAuthenticated();
 
         // user is logged in
         // cart is empty

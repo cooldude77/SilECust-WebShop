@@ -3,7 +3,8 @@
 namespace App\Tests\Controller\Module\WebShop\External\Payment;
 
 use App\Entity\OrderHeader;
-use App\Entity\OrderItemPaymentPrice;
+use App\Entity\OrderJournal;
+use App\Entity\OrderPayment;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
 use App\Tests\Fixtures\CartFixture;
 use App\Tests\Fixtures\CurrencyFixture;
@@ -42,9 +43,9 @@ class PaymentControllerTest extends WebTestCase
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
         $this->createOpenOrderFixtures($this->customer);
-        $this->createOrderItemsFixture($this->orderHeader, $this->productA, $this->productB);
+        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
 
-        $uri = "/checkout/payment/start";
+        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/start";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
@@ -58,59 +59,76 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
+        $this->createOpenOrderFixtures($this->customer);
 
-        $uri = "/checkout/payment/success";
+        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/success";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
 
             })
             ->interceptRedirects()
-            ->visit($uri)
-            ->use(callback: function (Browser $browser) {
+            ->post($uri,
+                [
+                    'body' => [
+                        OrderPayment::PAYMENT_GATEWAY_RESPONSE =>
+                            [
+                                'payment_id' => 'An id'
+                            ]
+                    ]
+                ])
+            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1);
 
-                /** @var OrderHeader $header */
-                $header = $this->findOneBy(
-                    OrderHeader::class, ['id' => $this->orderHeader->object()]
-                );
-                self::assertEquals(
-                    OrderStatusTypes::ORDER_PAYMENT_COMPLETE,
-                    $header->getOrderStatusType()->getType()
-                );
+        /** @var OrderHeader $header */
+        $header = $this->findOneBy(
+            OrderHeader::class, ['id' => $this->openOrderHeader->getId()]
+        );
+        self::assertEquals(
+            OrderStatusTypes::ORDER_PAYMENT_COMPLETE,
+            $header->getOrderStatusType()->getType()
+        );
 
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
 
-            })
-            ->assertRedirectedTo("/order/{$this->orderHeader->getId()}/success");
+        $this->assertNotNull($journal);
     }
 
     public function testOnPaymentFailure()
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
+        $this->createOpenOrderFixtures($this->customer);
 
-        $uri = "/checkout/payment/failure";
+        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/failure";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
 
             })
-            ->visit($uri)
-            ->use(callback: function (Browser $browser) {
-
-                /** @var OrderHeader $header */
-                $header = $this->findOneBy(
-                    OrderHeader::class, ['id' => $this->orderHeader->object()]
-                );
-                self::assertEquals(
-                    OrderStatusTypes::ORDER_PAYMENT_FAILED,
-                    $header->getOrderStatusType()->getType()
-                );
+            ->post($uri,
+                [
+                    'body' => [
+                        OrderPayment::PAYMENT_GATEWAY_RESPONSE =>
+                            [
+                                'payment_id' => 'An id'
+                            ]
+                    ]
+                ]);
 
 
-            });
+        /** @var OrderHeader $header */
+        $header = $this->findOneBy(
+            OrderHeader::class, ['id' => $this->openOrderHeader->object()]
+        );
+        self::assertEquals(
+            OrderStatusTypes::ORDER_PAYMENT_FAILED,
+            $header->getOrderStatusType()->getType()
+        );
+
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+
+        $this->assertNotNull($journal);
     }
 }

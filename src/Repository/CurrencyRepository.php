@@ -45,4 +45,11 @@ class CurrencyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function create(?\App\Entity\Country $find): Currency
+    {
+        $currency = new Currency();
+        $currency->setCountry($find);
+
+        return $currency;
+    }
 }

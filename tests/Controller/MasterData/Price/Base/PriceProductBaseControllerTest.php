@@ -5,6 +5,7 @@ namespace App\Tests\Controller\MasterData\Price\Base;
 use App\Entity\PriceProductBase;
 use App\Factory\PriceProductBaseFactory;
 use App\Tests\Fixtures\CurrencyFixture;
+use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Fixtures\LocationFixture;
 use App\Tests\Fixtures\PriceFixture;
 use App\Tests\Fixtures\ProductFixture;
@@ -17,9 +18,18 @@ use Zenstruck\Browser\Test\HasBrowser;
 class PriceProductBaseControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture,
+    use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture, EmployeeFixture,
         PriceFixture, FindByCriteria;
 
+    protected function setUp(): void
+    {
+        $this->createEmployeeFixtures();
+    }
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
+
+    }
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
@@ -32,9 +42,14 @@ class PriceProductBaseControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
 
-        $createUrl = '/price/product/base/create';
+        $uri = '/admin/price/product/base/create';
 
-        $this->browser()->visit($createUrl)
+        $this->browser()->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
             ->use(function (Browser $browser) {
                 $this->addOption(
                     $browser,
@@ -74,12 +89,17 @@ class PriceProductBaseControllerTest extends WebTestCase
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
 
-        $url = "price/product/base/{$this->priceProductBaseA->getId()}/edit";
+        $uri ="/admin/price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
 
         $this
             ->browser()
-            ->visit($url)
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
             ->use(function (Browser $browser) {
 
                 $crawler = $browser->crawler();
@@ -133,9 +153,14 @@ class PriceProductBaseControllerTest extends WebTestCase
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
 
-        $url = "price/product/base/{$this->priceProductBaseA->getId()}/edit";
+        $uri = "/admin/price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
-        $this->browser()->visit($url)->assertSuccessful();
+        $this->browser()->visit($uri)->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSuccessful();
 
 
     }
@@ -144,8 +169,13 @@ class PriceProductBaseControllerTest extends WebTestCase
     public function testList()
     {
 
-        $url = "price/product/base/list";
-        $this->browser()->visit($url)->assertSuccessful();
+        $uri = '/admin/price/product/base/list';
+        $this->browser()->visit($uri)->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSuccessful();
 
     }
 

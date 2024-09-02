@@ -15,8 +15,8 @@ VALUES (1, 1, 'KA', 'Karnataka');
 INSERT INTO `city` (`id`, `state_id`, `code`, `name`)
 VALUES (1, 1, 'BLR', 'Bangalore');
 
-INSERT INTO `pin_code` (`id`, `city_id`, `pin_code`)
-VALUES (1, 1, '560001');
+INSERT INTO `postal_code` (`id`, `city_id`, `postal_code`,`name`)
+VALUES (1, 1, '560001','Bangalore G.p.o.');
 
 INSERT INTO `tax_slab` (`id`, `country_id`, `name`, `description`, `rate_of_tax`)
 VALUES (1, 1, 'Slab A', 'Tax Slab A', 10);

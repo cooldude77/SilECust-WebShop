@@ -8,4 +8,5 @@ class StateDTO
     public ?string $code = null;
     public ?string $name = null;
     public ?string $countryId=null;
+    public int $cityId =0;
 }

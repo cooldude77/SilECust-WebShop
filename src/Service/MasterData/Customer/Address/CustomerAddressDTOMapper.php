@@ -7,14 +7,14 @@ use App\Entity\CustomerAddress;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use App\Repository\CustomerAddressRepository;
 use App\Repository\CustomerRepository;
-use App\Repository\PinCodeRepository;
+use App\Repository\PostalCodeRepository;
 
 readonly class CustomerAddressDTOMapper
 {
 
     public function __construct(private CustomerRepository $customerRepository,
         private CustomerAddressRepository $customerAddressRepository,
-        private PinCodeRepository $pinCodeRepository,
+        private PostalCodeRepository $postalCodeRepository,
     ) {
     }
 
@@ -36,9 +36,9 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setAddressType($customerAddressDTO->addressType);
 
-        $customerAddress->setPinCode(
-            $this->pinCodeRepository->find(
-                $customerAddressDTO->pinCodeId
+        $customerAddress->setPostalCode(
+            $this->postalCodeRepository->find(
+                $customerAddressDTO->postalCodeId
             )
         );
 
@@ -60,9 +60,9 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setAddressType($customerAddressDTO->addressType);
 
-        $customerAddress->setPinCode(
-            $this->pinCodeRepository->find(
-                $customerAddressDTO->pinCodeId
+        $customerAddress->setPostalCode(
+            $this->postalCodeRepository->find(
+                $customerAddressDTO->postalCodeId
             )
         );
 

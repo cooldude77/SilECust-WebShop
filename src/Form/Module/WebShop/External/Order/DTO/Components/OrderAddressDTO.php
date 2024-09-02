@@ -13,7 +13,7 @@ class OrderAddressDTO
 
     public ?string $line3 = null;
 
-    public ?string $pinCode = null;
+    public ?string $postalCode = null;
 
     public ?string $city = null;
 

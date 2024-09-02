@@ -14,7 +14,7 @@ class OrderHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
 
@@ -24,6 +24,9 @@ class OrderHeader
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatusType $orderStatusType = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $generatedId = null;
 
     public function getId(): ?int
     {
@@ -62,6 +65,18 @@ class OrderHeader
     public function setOrderStatusType(?OrderStatusType $orderStatusType): static
     {
         $this->orderStatusType = $orderStatusType;
+
+        return $this;
+    }
+
+    public function getGeneratedId(): ?string
+    {
+        return $this->generatedId;
+    }
+
+    public function setGeneratedId(string $generatedId): static
+    {
+        $this->generatedId = $generatedId;
 
         return $this;
     }

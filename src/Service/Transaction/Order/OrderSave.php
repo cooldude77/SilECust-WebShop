@@ -8,13 +8,18 @@ use App\Entity\OrderAddress;
 use App\Entity\OrderHeader;
 use App\Entity\OrderItem;
 use App\Entity\Product;
+use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use App\Repository\OrderAddressRepository;
 use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
+use App\Repository\OrderPaymentRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
+use App\Service\MasterData\Price\PriceByCountryCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 
 /**
  *
@@ -23,20 +28,24 @@ readonly class OrderSave
 {
 
     /**
-     * @param OrderHeaderRepository     $orderHeaderRepository
-     * @param OrderItemRepository       $orderItemRepository
-     * @param OrderAddressRepository    $orderAddressRepository
+     * @param OrderHeaderRepository $orderHeaderRepository
+     * @param OrderItemRepository $orderItemRepository
+     * @param OrderAddressRepository $orderAddressRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
-     * @param DatabaseOperations        $databaseOperations
+     * @param DatabaseOperations $databaseOperations
      */
     public function __construct(
-        private OrderHeaderRepository $orderHeaderRepository,
-        private OrderItemRepository $orderItemRepository,
-        private OrderAddressRepository $orderAddressRepository,
-        private OrderStatusTypeRepository $orderStatusTypeRepository,
+        private OrderHeaderRepository           $orderHeaderRepository,
+        private OrderItemRepository             $orderItemRepository,
+        private OrderAddressRepository          $orderAddressRepository,
+        private OrderStatusTypeRepository       $orderStatusTypeRepository,
         private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private DatabaseOperations $databaseOperations,
-    ) {
+        private OrderIdStrategyInterface        $orderIdStrategy,
+        private OrderPaymentRepository          $orderPaymentRepository,
+        private PriceByCountryCalculator        $priceByCountryCalculator,
+        private DatabaseOperations              $databaseOperations,
+    )
+    {
     }
 
 
@@ -48,6 +57,7 @@ readonly class OrderSave
 
 
         $orderHeader = $this->orderHeaderRepository->create($customer);
+        $orderHeader->setGeneratedId($this->orderIdStrategy->generateOrderId());
 
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();
@@ -73,7 +83,7 @@ readonly class OrderSave
         // todo: check count same
 
         /**
-         * @var   int              $key
+         * @var   int $key
          * @var  CartSessionObject $cartObject
          */
         foreach ($cartArray as $key => $cartObject) /** @var OrderItem $orderItem */ {
@@ -118,8 +128,9 @@ readonly class OrderSave
     }
 
     public function createOrUpdate(?OrderHeader $orderHeader, CustomerAddress $address,
-        array $currentAddressesForOrder
-    ): void {
+                                   array        $currentAddressesForOrder
+    ): void
+    {
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
             $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
@@ -154,12 +165,19 @@ readonly class OrderSave
 
     }
 
+    /**
+     * @throws PriceProductTaxNotFound
+     * @throws PriceProductBaseNotFound
+     */
     public function addNewItem(Product $product, int $quantity, OrderHeader $orderHeader): void
     {
         // todo: check if the item already exists
-        $item = $this->orderItemRepository->create($orderHeader, $product, $quantity);
+        $orderItem = $this->orderItemRepository->create($orderHeader, $product, $quantity);
 
-        $this->databaseOperations->save($item);
+        $priceObject = $this->priceByCountryCalculator->getPriceObject($orderItem);
+        $itemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
+
+        $this->databaseOperations->save($itemPaymentPrice);
 
     }
 
@@ -167,8 +185,23 @@ readonly class OrderSave
     public function savePrice(OrderItem $orderItem, PriceObject $priceObject): void
     {
 
-        $price = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
-        $this->databaseOperations->save($price);
+        $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->findOneBy(['orderItem' => $orderItem]);
+        if ($orderItemPaymentPrice == null)
+            $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
+        else {
+            $orderItemPaymentPrice->setBasePrice($priceObject->getBasePrice());
+            $orderItemPaymentPrice->setDiscount($priceObject->getDiscount());
+            $orderItemPaymentPrice->setRateOfTax($priceObject->getTaxRate());
+        }
+
+        $this->databaseOperations->save($orderItemPaymentPrice);
+    }
+
+    public function savePayment(OrderHeader $orderHeader, array $paymentInformation): void
+    {
+        $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
+        $this->databaseOperations->save($orderPayment);
+
     }
 
 }

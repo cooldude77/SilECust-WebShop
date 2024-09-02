@@ -22,8 +22,8 @@ class OrderItemPaymentPrice
     #[ORM\Column]
     private ?float $taxRate = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity:OrderItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false,onDelete :'CASCADE')]
     private ?OrderItem $orderItem = null;
 
     public function getId(): ?int

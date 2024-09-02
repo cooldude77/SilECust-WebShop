@@ -21,7 +21,7 @@ trait EmployeeFixture
 
     private Proxy|Employee $employee;
 
-    public function createEmployee(): void
+    public function createEmployeeFixtures(): void
     {
 
         $this->userForEmployee = UserFactory::createOne

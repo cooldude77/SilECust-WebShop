@@ -12,9 +12,11 @@ class FileGeneralDirectoryPathNamerTest extends KernelTestCase
     public function testGetFileFullPath()
     {
         self::bootKernel();
-        $namer = new FileDirectoryPathProvider(static::$kernel);
+        $kernel = static::$kernel;
+        $kernel->getProjectDir();
+        $namer = new FileDirectoryPathProvider($kernel->getProjectDir(), static::$kernel->getContainer()->getParameter('file_storage_path'));
 
-        $expected = static::$kernel->getProjectDir().'/public/uploads/general';
-        assertEquals($namer->getFullPathForImageFiles([]),$expected);
+        $expected = static::$kernel->getProjectDir() . '/data/test/uploads/general/file_name.xyz';
+        assertEquals($namer->getFullPathForImageFile('file_name.xyz'), $expected);
     }
 }

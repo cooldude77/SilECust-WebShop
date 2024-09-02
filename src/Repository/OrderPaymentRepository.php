@@ -41,10 +41,11 @@ class OrderPaymentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(OrderHeader $orderHeader): OrderPayment
+    public function create(OrderHeader $orderHeader, array $paymentGatewayResponse): OrderPayment
     {
         $payment = new OrderPayment();
         $payment->setOrderHeader($orderHeader);
+        $payment->setPaymentResponse($paymentGatewayResponse);
 
         return $payment;
     }

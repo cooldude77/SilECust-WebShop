@@ -126,35 +126,8 @@ class PanelSideBarListMapBuilder
                                         $adminUrl,
                                         'country'
                                     ),
-                                    'text' => 'Country',
+                                    'text' => 'Country/State(etc.)',
                                     'css-id' => 'sidebar-link-country-list'
-                                ],
-                                [
-                                    'id' => 'state-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'customer'
-                                    ),
-                                    'text' => 'State',
-                                    'css-id' => 'sidebar-link-state-list'
-                                ],
-                                [
-                                    'id' => 'city-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'city'
-                                    ),
-                                    'text' => 'City',
-                                    'css-id' => 'sidebar-link-city-list'
-                                ],
-                                [
-                                    'id' => 'pin-code-list',
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'postal_code'
-                                    ),
-                                    'text' => 'Pin Code',
-                                    'css-id' => 'sidebar-link-postal-list'
                                 ],
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
@@ -321,12 +294,12 @@ class PanelSideBarListMapBuilder
     private function appendForAdmin(string $adminUrl,
         string $function
     ): string {
-        return $adminUrl . "?_function={$function}&_type=list";
+        return $adminUrl . "?_function=$function&_type=list";
     }
 
     private function appendForCustomer(string $adminUrl,
         string $arg
     ): string {
-        return $adminUrl . "/{$arg}";
+        return $adminUrl . "/$arg";
     }
 }

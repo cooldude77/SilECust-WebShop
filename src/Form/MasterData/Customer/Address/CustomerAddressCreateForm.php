@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Customer\Address;
 
-use App\Form\MasterData\Customer\Address\Attribute\PinCode\PinCodeAutoCompleteField;
+use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeAutoCompleteField;
 use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -28,7 +28,7 @@ class CustomerAddressCreateForm extends AbstractType
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('pinCode', PinCodeAutoCompleteField::class, ['mapped' => false]);
+        $builder->add('postalCode', PostalCodeAutoCompleteField::class, ['mapped' => false]);
         $builder->add(
             'addressType', ChoiceType::class,
             [
@@ -41,7 +41,7 @@ class CustomerAddressCreateForm extends AbstractType
             ]
         );
         $builder->add('isDefault', CheckboxType::class, ['label' => 'Use as default address']);
-        $builder->add('pinCodeId', HiddenType::class);
+        $builder->add('postalCodeId', HiddenType::class);
 
         $builder->add('save', SubmitType::class);
 
@@ -50,7 +50,7 @@ class CustomerAddressCreateForm extends AbstractType
             FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
             $form = $formEvent->getForm();
             $data = $formEvent->getData();
-            $data['pinCodeId'] = $data['pinCode'];
+            $data['postalCodeId'] = $data['postalCode'];
 
             $formEvent->setData($data);
         }

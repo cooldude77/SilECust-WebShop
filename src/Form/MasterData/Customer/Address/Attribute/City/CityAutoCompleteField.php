@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Customer\Address\Attribute\City;
 
-use App\Entity\Category;
+use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
@@ -14,10 +14,10 @@ class CityAutoCompleteField extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'class' => Category::class,
-            'placeholder' => 'Choose a Category',
-            'choice_label' => 'description',
-            'choice_value'=>'id',
+            'class' => City::class,
+            'placeholder' => 'Choose a city',
+            'choice_label' => 'name',
+            'choice_value' => 'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);
     }

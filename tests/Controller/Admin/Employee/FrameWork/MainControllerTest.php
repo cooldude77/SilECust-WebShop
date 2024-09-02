@@ -28,7 +28,7 @@ class MainControllerTest extends WebTestCase
         $uri = '/admin?_function=dashboard';
         $this->browser()->visit($uri)->assertNotAuthenticated();
 
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
 
         $this->browser()
             ->use(function (SymfonyBrowser $kernelBrowser) {

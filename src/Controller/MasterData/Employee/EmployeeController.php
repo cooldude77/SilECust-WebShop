@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EmployeeController extends AbstractController
 {
 
-    #[Route('/employee/create', 'employee_create')]
+    #[Route('/admin/employee/create', 'employee_create')]
     public function create(EmployeeDTOMapper      $employeeDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
@@ -62,7 +62,7 @@ class EmployeeController extends AbstractController
     }
 
 
-    #[Route('/employee/{id}/edit', name: 'employee_edit')]
+    #[Route('/admin/employee/{id}/edit', name: 'employee_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          EmployeeRepository     $employeeRepository,
                          EmployeeDTOMapper      $employeeDTOMapper,
@@ -113,7 +113,7 @@ class EmployeeController extends AbstractController
         return $this->render('master_data/employee/employee_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/employee/{id}/display', name: 'employee_display')]
+    #[Route('/admin/employee/{id}/display', name: 'employee_display')]
     public function display(EmployeeRepository $employeeRepository, int $id): Response
     {
         $employee = $employeeRepository->find($id);
@@ -137,7 +137,7 @@ class EmployeeController extends AbstractController
 
     }
 
-    #[Route('/employee/list', name: 'employee_list')]
+    #[Route('/admin/employee/list', name: 'employee_list')]
     public function list(EmployeeRepository $employeeRepository, Request $request): Response
     {
 

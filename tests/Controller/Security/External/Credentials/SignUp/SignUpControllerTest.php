@@ -62,19 +62,7 @@ class SignUpControllerTest extends WebTestCase
         $createUrl = '/signup/advanced?_redirect_after_success=home';
 
 
-        $salutation = SalutationFactory::createOne(['name' => 'Mr.',
-                                                    'description' => 'Mister...']);
-
-        $this->browser()->visit($createUrl)
-            ->use(function (Browser $browser, Crawler $crawler) use ($salutation) {
-
-                $domDocument = $crawler->getNode(0)?->parentNode;
-
-                $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $salutation->getId());
-                $selectElement = $crawler->filter('select')->getNode(0);
-                $selectElement->appendChild($option);
-            })
+         $this->browser()->visit($createUrl)
             ->fillField(
                 'user_sign_up_advanced_form[firstName]', 'First Name'
             )->fillField(
