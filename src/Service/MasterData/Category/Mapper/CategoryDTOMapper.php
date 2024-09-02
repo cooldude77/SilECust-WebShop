@@ -47,10 +47,12 @@ class CategoryDTOMapper
     public function mapToDtoFromEntity(?Category $category): CategoryDTO
     {
         $categoryDTO = new CategoryDTO();
+
         $categoryDTO->id = $category->getId();
         $categoryDTO->name = $category->getName();
         $categoryDTO->description = $category->getDescription();
-        $categoryDTO->parent = $category->getParent()->getId();
+
+        $categoryDTO->parent = $category->getParent()!=null??$category->getParent()->getId();
         return $categoryDTO;
 
     }

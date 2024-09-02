@@ -107,13 +107,57 @@ class CategoryControllerTest extends WebTestCase
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
      */
-    public function testEdit()
+    public function testEditWithoutNullParent()
     {
 
         $categoryParent1 = CategoryFactory::createOne(['name' => 'CatParent1', 'description' => 'Category Parent1']);
         $categoryParent2 = CategoryFactory::createOne(['name' => 'CatParent2', 'description' => 'Category Parent2']);
 
         $category = CategoryFactory::createOne(['name' => 'Cat1', 'description' => 'Category 1', 'parent' => $categoryParent1]);
+
+        $id = $category->getId();
+
+        $uri = "/admin/category/$id/edit";
+
+        $this->browser()
+            ->visit($uri)
+            // test: not authenticated
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $response = $browser->client()->getResponse();
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_edit_form' => [
+                            'id' => $category->getId(),
+                            'name' => 'CatChanged',
+                            'description' => 'Category Changed',
+                            'parentId' => $categoryParent2->getId()
+                        ],
+                    ],
+                ])
+            ->assertSuccessful();
+
+
+        $edited = CategoryFactory::find($category->getId());
+
+        assertEquals('CatChanged', $edited->getName());
+        assertEquals('Category Changed', $edited->getDescription());
+        assertEquals($categoryParent2->getId(), $edited->getParent()->getId());
+
+    }
+  public function testEditWithNullParent()
+    {
+
+        $categoryParent1 = CategoryFactory::createOne(['name' => 'CatParent1', 'description' => 'Category Parent1']);
+        $categoryParent2 = CategoryFactory::createOne(['name' => 'CatParent2', 'description' => 'Category Parent2']);
+
+        $category = CategoryFactory::createOne(['name' => 'Cat1', 'description' => 'Category 1']);
 
         $id = $category->getId();
 
