@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Twig\EventDispatcher;
+namespace App\Service\Twig\EventDispatcher;
 
-use App\Event\Component\UI\Panel\List\GridColumnEvent;
+use App\Event\Component\UI\Panel\List\GridCreateLinkEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class GridColumnEventDispatcher extends AbstractExtension
+class GridCreateLinkEventDispatcher extends AbstractExtension
 {
     public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
@@ -16,13 +16,13 @@ class GridColumnEventDispatcher extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('dispatchGridColumnEventEvent', [$this, 'dispatchGridColumnEventEvent']),
+            new TwigFunction('dispatchGridCreateLinkEvent', [$this, 'dispatchGridCreateLinkEvent']),
         ];
     }
 
-    public function dispatchGridColumnEventEvent(string $eventName, mixed $data): mixed
+    public function dispatchGridCreateLinkEvent(string $eventName, mixed $data): mixed
     {
-        $event = new GridColumnEvent();
+        $event = new GridCreateLinkEvent();
         $event->setData($data);
         return $this->eventDispatcher->dispatch($event, $eventName);
     }

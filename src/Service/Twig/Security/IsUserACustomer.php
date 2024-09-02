@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig\Security;
+namespace App\Service\Twig\Security;
 
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use Twig\Extension\AbstractExtension;

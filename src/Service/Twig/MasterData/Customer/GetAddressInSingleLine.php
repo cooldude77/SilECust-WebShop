@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig\MasterData\Customer;
+namespace App\Service\Twig\MasterData\Customer;
 
 use App\Service\MasterData\Customer\Address\CustomerAddressQuery;
 use Twig\Extension\AbstractExtension;
