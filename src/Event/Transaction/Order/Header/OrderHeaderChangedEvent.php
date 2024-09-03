@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Transaction\Order\Admin\Header;
+namespace App\Event\Transaction\Order\Header;
 
 use App\Entity\OrderHeader;
 

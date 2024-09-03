@@ -19,11 +19,13 @@ class ProductControllerTest extends WebTestCase
     {
         $this->createEmployeeFixtures();
     }
+
     protected function tearDown(): void
     {
         $this->browser()->visit('/logout');
 
     }
+
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
@@ -130,6 +132,25 @@ class ProductControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })->visit($uri)->assertSuccessful();
+
+    }
+
+    public function testListUsingSearchTerm()
+    {
+
+        $this->createProductFixtures();
+        $uri = "/admin/product/list?searchTerm={$this->productA->getName()}";
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSee($this->productA->getName())
+            ->assertNotSee($this->productB->getName())
+            ->assertSuccessful();
 
     }
 

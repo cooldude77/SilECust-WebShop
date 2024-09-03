@@ -11,6 +11,7 @@ use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
+use App\Repository\OrderShippingRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Transaction\Order\Object\OrderObject;
 use App\Service\Transaction\Order\Status\OrderStatusTypes;
@@ -32,6 +33,7 @@ readonly class OrderRead
                                 private OrderStatusTypeRepository       $orderStatusTypeRepository,
                                 private OrderAddressRepository          $orderAddressRepository,
                                 private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
+                                private OrderShippingRepository $orderShippingRepository,
                                 private OrderPaymentRepository          $orderPaymentRepository
     )
     {
@@ -82,6 +84,7 @@ readonly class OrderRead
         $object->setOrderItems($this->getOrderItems($orderHeader));
         $object->setOrderPayment($this->getPayment($orderHeader));
         $object->setOrderItemPaymentPrices($this->getOrderItemPaymentPrices($orderHeader));
+        $object->setOrderShipping($this->getShipping($orderHeader));
 
         return $object;
     }
@@ -153,6 +156,12 @@ readonly class OrderRead
     public function getOrderByGeneratedId(string $generatedId): OrderHeader
     {
         return $this->orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
+    }
+
+    private function getShipping(OrderHeader $orderHeader): array
+    {
+        return $this->orderShippingRepository->findBy(['orderHeader' => $orderHeader]);
+
     }
 
 }

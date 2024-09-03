@@ -15,6 +15,7 @@ use App\Repository\OrderHeaderRepository;
 use App\Repository\OrderItemPaymentPriceRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderPaymentRepository;
+use App\Repository\OrderShippingRepository;
 use App\Repository\OrderStatusTypeRepository;
 use App\Service\Component\Database\DatabaseOperations;
 use App\Service\MasterData\Price\PriceByCountryCalculator;
@@ -42,6 +43,7 @@ readonly class OrderSave
         private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
         private OrderIdStrategyInterface        $orderIdStrategy,
         private OrderPaymentRepository          $orderPaymentRepository,
+        private OrderShippingRepository         $orderShippingRepository,
         private PriceByCountryCalculator        $priceByCountryCalculator,
         private DatabaseOperations              $databaseOperations,
     )
@@ -201,6 +203,21 @@ readonly class OrderSave
     {
         $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
         $this->databaseOperations->save($orderPayment);
+
+    }
+
+    public function saveShippingData(OrderHeader $orderHeader, array $valueAndDataArray): void
+    {
+
+        foreach ($valueAndDataArray as $data) {
+
+            $shipping = $this->orderShippingRepository->create(
+                $orderHeader, $data['name'], $data['value'], $data['data']);
+            $this->databaseOperations->persist($shipping);
+        }
+
+        $this->databaseOperations->flush();
+
 
     }
 

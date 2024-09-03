@@ -6,7 +6,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 use App\Entity\OrderHeader;
 use App\Event\Component\Database\ListQueryEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
+use App\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
 use App\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;

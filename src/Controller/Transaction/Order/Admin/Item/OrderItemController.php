@@ -5,9 +5,8 @@ namespace App\Controller\Transaction\Order\Admin\Item;
 // ...
 use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
-use App\Event\Transaction\Order\Admin\Item\OrderItemAddEvent;
-use App\Event\Transaction\Order\Admin\Item\OrderItemEditEvent;
+use App\Event\Transaction\Order\Item\OrderItemAddEvent;
+use App\Event\Transaction\Order\Item\OrderItemEditEvent;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;

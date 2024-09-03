@@ -4,6 +4,7 @@ twig:
   globals:
     item_price_calculator: "@item_price_calculator"
     price_by_country_code: "@price_by_country_code"
+    header_price_calculator: "@header_price_calculator"
 when@test:
   twig:
     strict_variables: true
