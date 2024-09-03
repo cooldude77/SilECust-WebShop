@@ -41,13 +41,13 @@ class OrderShippingRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(OrderHeader $orderHeader, string $name, float $value, string $data): OrderShipping
+    public function create(OrderHeader $orderHeader, string $name, float $value, array $data): OrderShipping
     {
         $ship = new OrderShipping();
         $ship->setOrderHeader($orderHeader);
         $ship->setName($name);
         $ship->setValue($value);
-        $ship->setData(json_decode($data));
+        $ship->setData($data);
 
         return $ship;
     }

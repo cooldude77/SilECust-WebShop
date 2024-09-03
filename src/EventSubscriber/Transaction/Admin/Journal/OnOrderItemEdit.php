@@ -2,8 +2,8 @@
 
 namespace App\EventSubscriber\Transaction\Admin\Journal;
 
-use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
-use App\Event\Transaction\Order\Admin\Item\OrderItemEditEvent;
+use App\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
+use App\Event\Transaction\Order\Item\OrderItemEditEvent;
 use App\Service\Transaction\Order\Journal\OrderJournalSnapShot;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

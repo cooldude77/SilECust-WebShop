@@ -50,7 +50,8 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
-            ->visit($uri);
+            ->visit($uri)
+            ->assertSee(4930.5);;
 
     }
 }

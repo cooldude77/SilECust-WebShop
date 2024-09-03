@@ -52,10 +52,19 @@ services:
   price_by_country_code:
     class: App\Service\MasterData\Price\PriceByCountryCalculator
 
+  header_price_calculator:
+    class: App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator
+
   App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface: '@App\Service\Transaction\Order\IdGeneration\OrderIdStrategy'
 
   # search services
   product.search : '@App\Service\MasterData\Product\ProductSearch'
+
+when@dev:
+  services:
+    App\Service\Transaction\Order\Header\Shipping\DevShippingCharges: ~
+    App\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface:
+      '@App\Service\Transaction\Order\Header\Shipping\DevShippingCharges'
 
 when@test:
   services:
@@ -67,3 +76,7 @@ when@test:
         $requestStack: '@request_stack'
         $storageFactory: '@session.storage.factory'
         $usageReporter: [ '@session_listener','onSessionUsage' ]
+
+    App\Tests\Service\Shipping\TestShippingCharges: ~
+    App\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface:
+      '@App\Tests\Service\Shipping\TestShippingCharges'

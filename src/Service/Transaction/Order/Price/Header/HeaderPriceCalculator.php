@@ -9,11 +9,14 @@ use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use App\Service\MasterData\Price\PriceByCountryCalculator;
 use App\Service\Transaction\Order\OrderRead;
 
-class HeaderPriceCalculator
+readonly class HeaderPriceCalculator
 {
 
 
-    public function __construct(private readonly OrderRead $orderRead, private readonly PriceByCountryCalculator $priceByCountryCalculator)
+    public function __construct(
+        private OrderRead                $orderRead,
+        private PriceByCountryCalculator $priceByCountryCalculator,
+        private ShippingChargeCalculator $shippingPriceCalculator)
     {
 
     }
@@ -33,6 +36,9 @@ class HeaderPriceCalculator
             $totalPrice += $this->priceByCountryCalculator->getPriceWithTax($item->getProduct()->getId()) * $item->getQuantity();
 
         }
+
+        $totalPrice += $this->shippingPriceCalculator->getShippingCharges($header);
+
         return $totalPrice;
     }
 }

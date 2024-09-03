@@ -9,6 +9,7 @@ use App\Event\Module\WebShop\External\Payment\PaymentStartEvent;
 use App\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use App\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use App\Service\Transaction\Order\OrderRead;
+use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,17 +33,16 @@ class PaymentController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         OrderRead                $orderRead,
         Request                  $request,
-        PaymentPriceCalculator   $paymentPriceCalculator): Response
+        HeaderPriceCalculator    $headerPriceCalculator): Response
     {
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
         $event = new PaymentStartEvent($orderHeader);
-
         $eventDispatcher->dispatch($event, PaymentStartEvent::BEFORE_PAYMENT_PROCESS);
 
-        $orderItemPaymentPrices = $orderRead->getOrderItemPaymentPrices($orderHeader);
-        $finalPrice = $paymentPriceCalculator->calculateOrderPaymentPrice($orderItemPaymentPrices);
+        //todo: order object validator
+        $finalPrice = $headerPriceCalculator->calculateOrderValue($orderHeader);
 
         //todo: tests pending for events
         $event = new BeforeTwigRenderInController($request);

@@ -6,6 +6,7 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Transaction\Order\Header\BeforeOrderViewEvent;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class OrderViewBeforePaymentController extends AbstractController
 {
@@ -62,19 +64,27 @@ class OrderViewBeforePaymentController extends AbstractController
 
 
     /**
-     * @param OrderRead              $orderRead
+     * @param OrderRead $orderRead
      * @param CustomerFromUserFinder $customerFromUserFinder
      *
      * @return Response
      * @throws UserNotLoggedInException
      * @throws UserNotAssociatedWithACustomerException
      */
-    public function order(OrderRead $orderRead, CustomerFromUserFinder $customerFromUserFinder
-    ): Response {
+    public function order(OrderRead                $orderRead,
+                          CustomerFromUserFinder   $customerFromUserFinder,
+                          EventDispatcherInterface $eventDispatcher,
+    ): Response
+    {
 
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
+
+
+        $eventDispatcher->dispatch(new BeforeOrderViewEvent($orderHeader), BeforeOrderViewEvent::BEFORE_ORDER_VIEW_EVENT);
+
         $orderObject = $orderRead->getOrderObject($orderHeader);
 
+        //todo: order object validator
 
         return $this->render(
             'module/web_shop/external/order/order_view.html.twig',
