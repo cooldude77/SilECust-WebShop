@@ -11,38 +11,49 @@ use App\Repository\ProductAttributeKeyValueRepository;
 readonly class ProductAttributeKeyValueDTOMapper
 {
 
-    public function __construct(private ProductAttributeKeyRepository $ProductAttributeKeyRepository,
-        private ProductAttributeKeyValueRepository                       $ProductAttributeKeyValueRepository
-    ) {
+    public function __construct(private ProductAttributeKeyRepository      $productAttributeKeyRepository,
+                                private ProductAttributeKeyValueRepository $productAttributeKeyValueRepository
+    )
+    {
     }
 
-    public function mapDtoToEntityForCreate(ProductAttributeKeyValueDTO $ProductAttributeKeyValueDTO
-    ): ProductAttributeKeyValue {
-        /** @var ProductAttributeKey $ProductAttributeKey */
+    public function mapDtoToEntityForCreate(ProductAttributeKeyValueDTO $productAttributeKeyValueDTO
+    ): ProductAttributeKeyValue
+    {
+        /** @var ProductAttributeKey $productAttributeKey */
 
-        $ProductAttributeKey = $this->ProductAttributeKeyRepository->findOneBy(
-            ['id' => $ProductAttributeKeyValueDTO->ProductAttributeKeyId]
+        $productAttributeKey = $this->productAttributeKeyRepository->findOneBy(
+            ['id' => $productAttributeKeyValueDTO->ProductAttributeKeyId]
         );
 
-        $attribute = $this->ProductAttributeKeyValueRepository->create($ProductAttributeKey);
+        $attribute = $this->productAttributeKeyValueRepository->create($productAttributeKey);
 
-        $attribute->setName($ProductAttributeKeyValueDTO->name);
-        $attribute->setValue($ProductAttributeKeyValueDTO->value);
+        $attribute->setName($productAttributeKeyValueDTO->name);
+        $attribute->setValue($productAttributeKeyValueDTO->value);
 
-        $attribute->setProductAttributeKey($ProductAttributeKey);
+        $attribute->setProductAttributeKey($productAttributeKey);
 
         return $attribute;
 
     }
 
-    public function mapDtoToEntityForUpdate(ProductAttributeKeyValueDTO $ProductAttributeKeyValueDTO,
-                                            ProductAttributeKeyValue $ProductAttributeKeyValueEntity): ProductAttributeKeyValue
+    public function mapDtoToEntityForUpdate(ProductAttributeKeyValueDTO $productAttributeKeyValueDTO,
+    ): ProductAttributeKeyValue
     {
+        $productAttributeKeyValueEntity = $this->productAttributeKeyValueRepository->find($productAttributeKeyValueDTO->id);
+        $productAttributeKeyValueEntity->setName($productAttributeKeyValueDTO->name);
+        $productAttributeKeyValueEntity->setValue($productAttributeKeyValueDTO->value);
 
-        $ProductAttributeKeyValueEntity->setName($ProductAttributeKeyValueDTO->name);
-        $ProductAttributeKeyValueEntity->setValue($ProductAttributeKeyValueDTO->value);
+        return $productAttributeKeyValueEntity;
+    }
 
-        return $ProductAttributeKeyValueEntity;
+    public function mapDtoFromEntityForEdit(ProductAttributeKeyValue $productAttributeKeyValue): ProductAttributeKeyValueDTO
+    {
+        $productAttributeKeyValueDTO = new ProductAttributeKeyValueDTO();
+        $productAttributeKeyValueDTO->id = $productAttributeKeyValue->getId();
+        $productAttributeKeyValueDTO->name = $productAttributeKeyValue->getName();
+        $productAttributeKeyValueDTO->value = $productAttributeKeyValue->getValue();
+        return $productAttributeKeyValueDTO;
     }
 
 }

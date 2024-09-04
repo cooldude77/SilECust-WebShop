@@ -3,29 +3,32 @@
 namespace App\Controller\MasterData\Product\Attribute\Value;
 
 use App\Entity\ProductAttributeKey;
+use App\Entity\ProductAttributeKeyValue;
 use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeKeyValueDTO;
 use App\Form\MasterData\Product\Attribute\Value\ProductAttributeKeyValueCreateForm;
 use App\Form\MasterData\Product\Attribute\Value\ProductAttributeKeyValueEditForm;
 use App\Repository\ProductAttributeKeyValueRepository;
+use App\Repository\ProductRepository;
 use App\Service\MasterData\Product\Attribute\Value\ProductAttributeKeyValueDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ProductAttributeKeyValueController extends AbstractController
 {
 
-    #[Route('/admin/product/attribute/{id}/value/create', name: 'sc_route_admin_product_attribute_value_create')]
-    public function create(int                    $id, ProductAttributeKeyValueDTOMapper $mapper,
+    #[Route('/admin/product/attribute/{id}/value/create', name: 'sc_route_admin_product_attribute_key_value_create')]
+    public function create(ProductAttributeKey    $productAttributeKey, ProductAttributeKeyValueDTOMapper $mapper,
                            EntityManagerInterface $entityManager, Request $request
-    ): Response {
-        $ProductAttributeKeyValueDTO = new ProductAttributeKeyValueDTO();
-        $ProductAttributeKeyValueDTO->ProductAttributeKeyId = $id;
+    ): Response
+    {
+        $productAttributeKeyValueDTO = new ProductAttributeKeyValueDTO();
+        $productAttributeKeyValueDTO->ProductAttributeKeyId = $productAttributeKey->getId();
 
         $form = $this->createForm(
-            ProductAttributeKeyValueCreateForm::class, $ProductAttributeKeyValueDTO
+            ProductAttributeKeyValueCreateForm::class, $productAttributeKeyValueDTO
         );
 
         $form->handleRequest($request);
@@ -57,15 +60,34 @@ class ProductAttributeKeyValueController extends AbstractController
 
     }
 
+    #[Route('/admin/product/attribute/value/{id}/display', name: 'sc_route_admin_product_attribute_key_value_display')]
+    public function display(ProductRepository $productRepository, ProductAttributeKeyValue $productAttributeKeyValue, Request $request): Response
+    {
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/value/{id}/edit', name: 'sc_route_admin_product_attribute_value_edit')]
-    public function edit(int                                $id, ProductAttributeKeyValueDTOMapper $mapper,
+        $displayParams = ['title' => 'Product Attribute Key Value',
+            'link_id' => 'id-product-attribute-key-value',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'link_id' => 'id-display-product-attribute-key'],
+                ['label' => 'Value',
+                    'propertyName' => 'value'],]];
+
+        return $this->render(
+            'admin/ui/panel/section/content/display/display.html.twig' ,
+            ['request' => $request, 'entity' => $productAttributeKeyValue, 'params' => $displayParams]
+        );
+
+    }
+
+
+    #[Route('/admin/product/attribute/value/{id}/edit', name: 'sc_route_admin_product_attribute_key_value_edit')]
+    public function edit(ProductAttributeKeyValue $productAttributeKeyValue, ProductAttributeKeyValueDTOMapper $mapper,
                          EntityManagerInterface             $entityManager,
                          ProductAttributeKeyValueRepository $ProductAttributeKeyValueRepository, Request $request
-    ): Response {
-        $ProductAttributeKeyValueDTO = new ProductAttributeKeyValueDTO();
-
-        $ProductAttributeKeyValueEntity = $ProductAttributeKeyValueRepository->find($id);
+    ): Response
+    {
+        $ProductAttributeKeyValueDTO =  $mapper->mapDtoFromEntityForEdit($productAttributeKeyValue);
 
         $form = $this->createForm(ProductAttributeKeyValueEditForm::class, $ProductAttributeKeyValueDTO);
 
@@ -74,8 +96,7 @@ class ProductAttributeKeyValueController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $ProductAttributeKeyEntity = $mapper->mapDtoToEntityForUpdate(
-                $form->getData(), $ProductAttributeKeyValueEntity
-            );
+                $form->getData());
 
             $entityManager->persist($ProductAttributeKeyEntity);
             $entityManager->flush();
@@ -100,27 +121,30 @@ class ProductAttributeKeyValueController extends AbstractController
     }
 
 
-    #[Route("/product/attribute/{id}/value/list", name: 'sc_route_admin_product_attribute_value_list')]
+    #[Route("/product/attribute/{id}/value/list", name: 'sc_route_admin_product_attribute_key_value_list')]
     public function list(ProductAttributeKey $productAttributeKey, ProductAttributeKeyValueRepository $productAttributeKeyValueRepository, Request $request
-    ): Response {
+    ): Response
+    {
 
         $listGrid = ['title' => 'Product Attribute Values',
-                     'link_id' => 'id-product-attribute-value',
-                     'columns' => [['label' => 'Name',
-                                    'propertyName' => 'name',
-                                    'action' => 'display'],
-                                   ['label' => 'value',
-                                    'propertyName' => 'value'],],
-                     'createButtonConfig' => ['link_id' => 'id-create-product-attribute-value',
-                                              'function' => 'product_attribute_value',
-                                              'anchorText' => 'Create Product Attribute Value']];
+            'link_id' => 'id-product-attribute-value',
+            'function'=>'product_attribute_key_value',
+            'columns' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'action' => 'display'],
+                ['label' => 'value',
+                    'propertyName' => 'value'],],
+            'createButtonConfig' => ['link_id' => 'id-create-product-attribute-value',
+                'function' => 'product_attribute_key_value',
+                'id' => $productAttributeKey->getId(),
+                'anchorText' => 'Create Product Attribute Value']];
 
         $productAttributeKeyValues = $productAttributeKeyValueRepository->findBy(
             ['productAttributeKey' => $productAttributeKey]
         );
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request,'entities' => $productAttributeKeyValues, 'listGrid' => $listGrid]
+            ['request' => $request, 'entities' => $productAttributeKeyValues, 'listGrid' => $listGrid]
         );
     }
 
