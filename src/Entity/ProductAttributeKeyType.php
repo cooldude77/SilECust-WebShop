@@ -18,7 +18,7 @@ class ProductAttributeKeyType
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $type = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -28,14 +28,14 @@ class ProductAttributeKeyType
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getType(): ?string
     {
-        return $this->name;
+        return $this->type;
     }
 
-    public function setName(string $name): static
+    public function setType(string $type): static
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }

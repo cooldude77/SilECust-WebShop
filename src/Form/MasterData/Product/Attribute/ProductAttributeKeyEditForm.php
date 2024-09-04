@@ -32,7 +32,7 @@ class ProductAttributeKeyEditForm extends AbstractType
         $ProductAttributeKeyTypes = $this->ProductAttributeKeyTypeRepository->findAll();
         foreach ($ProductAttributeKeyTypes as $bu) {
 
-            $selectArray[$bu->getName()] = $bu->getId();
+            $selectArray[$bu->getType()] = $bu->getId();
         }
         return $selectArray;
     }
