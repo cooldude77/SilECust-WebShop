@@ -1,7 +1,6 @@
 <div class="container">
 
 
-
     <div class="flex-row d-flex justify-right">
         <div class="col-3">
             {# Create new button if defined in config #}
@@ -17,9 +16,11 @@
             {% endif %}
 
         </div>
-        <div class="col-3 p-2 ">
-            {{ render(controller('\\App\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-        </div>
+        {% if listGrid.searchEnabled is defined and listGrid.searchEnabled == true %}
+            <div class="col-3 p-2 ">
+                {{ render(controller('\\App\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
+            </div>
+        {% endif %}
     </div>
     <div class="row font-weight-bold py-2 bg-light">
         {% for column in listGrid.columns %}

@@ -3,16 +3,17 @@
 namespace App\Controller\MasterData\Product\Group;
 
 // ...
-use App\Form\MasterData\Product\DTO\ProductDTO;
+use App\Entity\ProductGroup;
+use App\Form\MasterData\Product\Group\DTO\ProductGroupDTO;
+use App\Form\MasterData\Product\Group\ProductGroupCreateForm;
+use App\Form\MasterData\Product\Group\ProductGroupEditForm;
 use App\Form\MasterData\Product\ProductCreateForm;
 use App\Form\MasterData\Product\ProductEditForm;
-use App\Repository\ProductRepository;
-use App\Service\Component\UI\Search\SearchEntityInterface;
-use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
+use App\Repository\ProductGroupRepository;
+use App\Service\MasterData\Product\Group\ProductGroupDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,16 +23,16 @@ class ProductGroupController extends AbstractController
 {
 
 
-    #[Route('/admin/product-group/create', 'sc_admin_product_group_create')]
-    public function create(ProductDTOMapper       $productDTOMapper,
+    #[Route('/admin/product-group/create', 'sc_route_admin_product_group_create')]
+    public function create(ProductGroupDTOMapper       $productGroupDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
                            ValidatorInterface     $validator
     ): Response
     {
-        $productDTO = new ProductDTO();
+        $productGroupDTO = new ProductGroupDTO();
         $form = $this->createForm(
-            ProductCreateForm::class, $productDTO
+            ProductGroupCreateForm::class, $productGroupDTO
         );
 
         $form->handleRequest($request);
@@ -39,7 +40,7 @@ class ProductGroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $productEntity = $productDTOMapper->mapToEntityForCreate($data);
+            $productEntity = $productGroupDTOMapper->mapDtoToEntityForCreate($data);
 
             $errors = $validator->validate($productEntity);
 
@@ -52,38 +53,32 @@ class ProductGroupController extends AbstractController
                 $id = $productEntity->getId();
 
                 $this->addFlash(
-                    'success', "Product created successfully"
+                    'success', "Product Group created successfully"
                 );
 
                 return new Response(
                     serialize(
-                        ['id' => $id, 'message' => "Product created successfully"]
+                        ['id' => $id, 'message' => "Product Group created successfully"]
                     ), 200
                 );
             }
         }
-        return $this->render('master_data/productGroup/productGroup_create.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]);
     }
 
 
-    #[Route('/admin/product-group/{id}/edit', name: 'sc_admin_product_group_edit')]
+    #[Route('/admin/productGroup-group/{id}/edit', name: 'sc_route_admin_product_group_edit')]
     public function edit(EntityManagerInterface $entityManager,
-                         ProductRepository      $productRepository, ProductDTOMapper $productDTOMapper, Request $request,
-                         int                    $id,
+                         ProductGroupRepository      $productGroupRepository, ProductGroupDTOMapper $productGroupDTOMapper, Request $request,
+                        ProductGroup $productGroup,
 
                          ValidatorInterface     $validator
     ): Response
     {
-        $product = $productRepository->find($id);
 
+        $productGroupDTO = $productGroupDTOMapper->mapToDtoFromEntityForEdit($productGroup);
 
-        if (!$product) {
-            throw $this->createNotFoundException('No product found for id ' . $id);
-        }
-
-        $productDTO = $productDTOMapper->mapToDtoFromEntityForEdit($product);
-
-        $form = $this->createForm(ProductEditForm::class, $productDTO, ['validation_groups' => ['edit']]);
+        $form = $this->createForm(ProductGroupEditForm::class, $productGroupDTO, ['validation_groups' => ['edit']]);
 
 
         $form->handleRequest($request);
@@ -91,83 +86,79 @@ class ProductGroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $product = $productDTOMapper->mapToEntityForEdit($data);
+            $productGroup = $productGroupDTOMapper->mapDtoToEntityForUpdate($data);
 
-
-            $errors = $validator->validate($product);
+            $errors = $validator->validate($productGroup);
 
             if (count($errors) == 0) {
                 // perform some action...
-                $entityManager->persist($product);
+                $entityManager->persist($productGroup);
                 $entityManager->flush();
 
-                $id = $product->getId();
+                $id = $productGroup->getId();
 
                 $this->addFlash(
-                    'success', "Product updated successfully"
+                    'success', "Product Group updated successfully"
                 );
 
                 return new Response(
                     serialize(
-                        ['id' => $id, 'message' => "Product updated successfully"]
+                        ['id' => $id, 'message' => "Product Group updated successfully"]
                     ), 200
                 );
             }
         }
 
-        return $this->render('master_data/productGroup/productGroup_edit.html.twig', ['form' => $form]);
+        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/product-group/{id}/display', name: 'sc_admin_product_group_display')]
-    public function display(ProductRepository $productRepository, int $id, Request $request): Response
+    #[Route('/admin/product-group/{id}/display', name: 'sc_route_admin_product_group_display')]
+    public function display(ProductGroupRepository $productGroupRepository, int $id, Request $request): Response
     {
-        $product = $productRepository->find($id);
+        $product = $productGroupRepository->find($id);
         if (!$product) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Product',
-            'link_id' => 'id-product',
+        $displayParams = ['title' => 'Product Group',
+            'link_id' => 'id-product-group',
             'editButtonLinkText' => 'Edit',
             'fields' => [['label' => 'Name',
                 'propertyName' => 'name',
-                'link_id' => 'id-display-product'],
+                'link_id' => 'id-display-product-group'],
                 ['label' => 'Description',
                     'propertyName' => 'description'],]];
 
         return $this->render(
-            'master_data/productGroup/productGroup_display.html.twig',
+            'admin/ui/panel/section/content/display/display.html.twig',
             ['request' => $request, 'entity' => $product, 'params' => $displayParams]
         );
 
     }
 
-    #[Route('/admin/product-group/list', name: 'product_group_list')]
-    public function list(ProductRepository     $productRepository,
-                         PaginatorInterface    $paginator,
-                         #[Autowire(service: 'product.search')]
-                         SearchEntityInterface $searchEntity,
-                         Request               $request):
+    #[Route('/admin/product-group/list', name: 'sc_route_admin_product_group_list')]
+    public function list(ProductGroupRepository  $productGroupRepository,
+                         PaginatorInterface $paginator,
+                         Request            $request):
     Response
     {
 
         $listGrid = [
-            'title' => 'Product',
-            'link_id' => 'id-product',
-            'function' => 'product',
+            'title' => 'Product Group',
+            'link_id' => 'id-product-group',
+            'function' => 'product_group',
             'columns' => [
                 ['label' => 'Name',
                     'propertyName' => 'name',
                     'action' => 'display',],
                 ['label' => 'Description', 'propertyName' => 'description'],
             ],
-            'createButtonConfig' => ['link_id' => ' id-create-product',
-                'anchorText' => 'Create Product']
+            'createButtonConfig' => [
+                'link_id' => ' id-create-product-group',
+                'anchorText' => 'Create Product Group']
         ];
-        if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
-
-        $query = $productRepository->getQueryForSelect(isset($searchCriteria) ? $searchCriteria : null);
+       
+        $query = $productGroupRepository->getQueryForSelect();
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

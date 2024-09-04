@@ -49,4 +49,11 @@ class ProductGroupRepository extends ServiceEntityRepository
     {
         return new ProductGroup();
     }
+
+    public function getQueryForSelect()
+    {
+        $dql = "SELECT pg FROM App\Entity\ProductGroup pg";
+        return $this->getEntityManager()->createQuery($dql);
+
+    }
 }

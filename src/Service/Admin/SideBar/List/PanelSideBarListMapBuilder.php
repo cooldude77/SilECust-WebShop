@@ -43,13 +43,13 @@ class PanelSideBarListMapBuilder
                                 ],
                                 // todo: implement
                                 [
-                                    'id' => 'product-type-list',
+                                    'id' => 'product-group-list',
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
-                                        'product_type'
+                                        'product_group'
                                     ),
-                                    'text' => 'Product Types',
-                                    'css-id' => 'sidebar-link-product-type-list'
+                                    'text' => 'Product Group',
+                                    'css-id' => 'sidebar-link-product-group-list'
                                 ],
                                 [
                                     'id' => 'product-attribute-key-list',

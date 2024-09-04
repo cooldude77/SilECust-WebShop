@@ -82,12 +82,12 @@ class PanelActionListMapBuilder
                             'list' => 'sc_route_admin_product_attribute_key_value_list'
                         ]
                     ],
-                    'product_type' => [
+                    'product_group' => [
                         'routes' => [
-                            'create' => 'product_type_create',
-                            'edit' => 'product_type_edit',
-                            'display' => 'product_type_display',
-                            'list' => 'product_type_list'
+                            'create' => 'sc_route_admin_product_group_create',
+                            'edit' => 'sc_route_admin_product_group_edit',
+                            'display' => 'sc_route_admin_product_group_display',
+                            'list' => 'sc_route_admin_product_group_list'
                         ]
                     ],
                     'customer' => [
