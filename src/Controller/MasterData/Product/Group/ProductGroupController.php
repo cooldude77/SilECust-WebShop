@@ -109,7 +109,7 @@ class ProductGroupController extends AbstractController
             }
         }
 
-        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]);
+        return $this->render('master_data/product/group/product_group_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/admin/product-group/{id}/display', name: 'sc_route_admin_product_group_display')]

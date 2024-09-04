@@ -29,6 +29,9 @@ class ProductDTO
     )]
     public ?string $description = null;
 
+
+    public ?int $productGroupId = 0;
+
     #[Assert\GreaterThan(
         value: 0,
         groups: ['edit']

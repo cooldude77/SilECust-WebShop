@@ -6,12 +6,16 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\MasterData\Product\DTO\ProductDTO;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductGroupRepository;
 use App\Repository\ProductRepository;
 
 class ProductDTOMapper
 {
 
-    public function __construct(private readonly ProductRepository $productRepository, private readonly CategoryRepository $categoryRepository)
+    public function __construct(
+        private readonly ProductRepository      $productRepository,
+        private readonly CategoryRepository     $categoryRepository,
+        private readonly ProductGroupRepository $productGroupRepository)
     {
     }
 
@@ -21,8 +25,11 @@ class ProductDTOMapper
 
         $product = $this->productRepository->create($this->categoryRepository->find($productDTO->categoryId));
 
+
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
+        $productGroup = $this->productGroupRepository->findOneBy(['id' => $productDTO->productGroupId]);
+        $product->setProductGroup($productGroup);
 
         return $product;
     }
@@ -36,6 +43,8 @@ class ProductDTOMapper
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
         $product->setCategory($this->categoryRepository->find($productDTO->categoryId));
+        $productGroup = $this->productGroupRepository->findOneBy(['id' => $productDTO->productGroupId]);
+        $product->setProductGroup($productGroup);
 
         return $product;
 
@@ -51,6 +60,7 @@ class ProductDTOMapper
         $productDTO->name = $product->getName();
         $productDTO->description = $product->getDescription();
         $productDTO->categoryId = $product->getCategory()->getId();
+        $productDTO->productGroupId = $product->getProductGroup() != null ?? $product->getProductGroup()->getId();
 
         return $productDTO;
 
