@@ -22,8 +22,9 @@ class ProductAttributeKeyCreateForm extends AbstractType
         $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
         $builder->add(
-            'ProductAttributeKeyTypeId', ChoiceType::class, [// validation message if the data transformer fails
-                                        'choices' => $this->fill()]
+            'ProductAttributeKeyTypeId', ChoiceType::class, [
+                // validation message if the data transformer fails
+                                        'choices' => $this->fill(),'label'=>'Key Type']
         );
 
         $builder->add('save', SubmitType::class);

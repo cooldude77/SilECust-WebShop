@@ -11,16 +11,18 @@ use App\Repository\ProductAttributeKeyTypeRepository;
 class ProductAttributeKeyDTOMapper
 {
 
-    public function __construct(private ProductAttributeKeyTypeRepository $ProductAttributeKeyTypeRepository,
-        private ProductAttributeKeyRepository                             $ProductAttributeKeyRepository
-    ) {
+    public function __construct(private ProductAttributeKeyTypeRepository $productAttributeKeyTypeRepository,
+                                private ProductAttributeKeyRepository     $productAttributeKeyRepository
+    )
+    {
     }
 
     public function mapDtoToEntity(ProductAttributeKeyDTO $ProductAttributeKeyDTO
-    ): ProductAttributeKey {
-        $attribute = $this->ProductAttributeKeyRepository->create();
+    ): ProductAttributeKey
+    {
+        $attribute = $this->productAttributeKeyRepository->create();
         /** @var ProductAttributeKeyType $type */
-        $type = $this->ProductAttributeKeyTypeRepository->findOneBy(
+        $type = $this->productAttributeKeyTypeRepository->findOneBy(
             ['id' => $ProductAttributeKeyDTO->ProductAttributeKeyTypeId]
         );
 
@@ -33,10 +35,10 @@ class ProductAttributeKeyDTOMapper
 
     }
 
-    public function mapDtoToEntityForEdit(ProductAttributeKeyDTO $ProductAttributeKeyDTO,
-                                          ProductAttributeKey $ProductAttributeKeyEntity
-    ) {
+    public function mapDtoToEntityForEdit(ProductAttributeKeyDTO $ProductAttributeKeyDTO): ProductAttributeKey
+    {
 
+        $ProductAttributeKeyEntity = $this->productAttributeKeyRepository->find($ProductAttributeKeyDTO->id);
 
         $ProductAttributeKeyEntity->setName($ProductAttributeKeyDTO->name);
         $ProductAttributeKeyEntity->setDescription($ProductAttributeKeyDTO->description);
@@ -44,6 +46,15 @@ class ProductAttributeKeyDTOMapper
         return $ProductAttributeKeyEntity;
 
 
+    }
+
+    public function mapDtoFromEntityForEdit(ProductAttributeKey $productAttributeKey): ProductAttributeKeyDTO
+    {
+        $productAttributeKeyDTO = new ProductAttributeKeyDTO();
+        $productAttributeKeyDTO->id = $productAttributeKey->getId();
+        $productAttributeKeyDTO->name = $productAttributeKey->getName();
+        $productAttributeKeyDTO->description = $productAttributeKey->getDescription();
+        return $productAttributeKeyDTO;
     }
 
 }

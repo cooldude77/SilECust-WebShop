@@ -2,6 +2,7 @@
 
 namespace App\Controller\MasterData\Product\Attribute\Value;
 
+use App\Entity\ProductAttributeKey;
 use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeKeyValueDTO;
 use App\Form\MasterData\Product\Attribute\Value\ProductAttributeKeyValueCreateForm;
 use App\Form\MasterData\Product\Attribute\Value\ProductAttributeKeyValueEditForm;
@@ -100,7 +101,7 @@ class ProductAttributeKeyValueController extends AbstractController
 
 
     #[Route("/product/attribute/{id}/value/list", name: 'sc_route_admin_product_attribute_value_list')]
-    public function list(int $id, ProductAttributeKeyValueRepository $ProductAttributeKeyValueRepository, Request $request
+    public function list(ProductAttributeKey $productAttributeKey, ProductAttributeKeyValueRepository $productAttributeKeyValueRepository, Request $request
     ): Response {
 
         $listGrid = ['title' => 'Product Attribute Values',
@@ -111,15 +112,15 @@ class ProductAttributeKeyValueController extends AbstractController
                                    ['label' => 'value',
                                     'propertyName' => 'value'],],
                      'createButtonConfig' => ['link_id' => 'id-create-product-attribute-value',
-                                              'function' => 'sc_route_admin_product_attribute_value',
+                                              'function' => 'product_attribute_value',
                                               'anchorText' => 'Create Product Attribute Value']];
 
-        $ProductAttributeKeyValues = $ProductAttributeKeyValueRepository->findBy(
-            ['ProductAttributeKey' => $id]
+        $productAttributeKeyValues = $productAttributeKeyValueRepository->findBy(
+            ['productAttributeKey' => $productAttributeKey]
         );
         return $this->render(
             'admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request,'entities' => $ProductAttributeKeyValues, 'listGrid' => $listGrid]
+            ['request' => $request,'entities' => $productAttributeKeyValues, 'listGrid' => $listGrid]
         );
     }
 

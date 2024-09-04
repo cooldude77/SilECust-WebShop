@@ -3,10 +3,12 @@
 namespace App\Controller\MasterData\Product\Attribute;
 
 // ...
+use App\Entity\ProductAttributeKey;
 use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeKeyDTO;
 use App\Form\MasterData\Product\Attribute\ProductAttributeKeyCreateForm;
 use App\Form\MasterData\Product\Attribute\ProductAttributeKeyEditForm;
 use App\Repository\ProductAttributeKeyRepository;
+use App\Repository\ProductRepository;
 use App\Service\MasterData\Product\Attribute\ProductAttributeKeyDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +20,7 @@ class ProductAttributeKeyController extends AbstractController
 {
     #[Route('/admin/product/attribute/key/create', name: 'sc_route_admin_product_attribute_key_create')]
     public function create(ProductAttributeKeyDTOMapper $mapper, EntityManagerInterface $entityManager,
-                           Request                   $request
+                           Request                      $request
     ): Response
     {
         $productAttributeKeyDTO = new ProductAttributeKeyDTO();
@@ -56,16 +58,32 @@ class ProductAttributeKeyController extends AbstractController
 
     }
 
+    #[Route('/admin/product/attribute/{id}/display', name: 'sc_route_admin_product_attribute_key_display')]
+    public function display(ProductRepository $productRepository, ProductAttributeKey $productAttributeKey, Request $request): Response
+    {
+
+        $displayParams = ['title' => 'Product Attribute Key',
+            'link_id' => 'id-product-attribute-key',
+            'editButtonLinkText' => 'Edit',
+            'fields' => [['label' => 'Name',
+                'propertyName' => 'name',
+                'link_id' => 'id-display-product-attribute-key'],
+                ['label' => 'Description',
+                    'propertyName' => 'description'],]];
+
+        return $this->render(
+            'master_data/product/attribute/key/product_attribute_key_display.html.twig',
+            ['request' => $request, 'entity' => $productAttributeKey, 'params' => $displayParams]
+        );
+
+    }
 
     #[Route('/admin/product/attribute/key/{id}/edit', name: 'sc_route_admin_product_attribute_key_edit')]
-    public function edit(int                           $id, ProductAttributeKeyDTOMapper $mapper,
-                         EntityManagerInterface        $entityManager,
-                         ProductAttributeKeyRepository $productAttributeKeyRepository, Request $request
+    public function edit(ProductAttributeKey    $productAttributeKey, ProductAttributeKeyDTOMapper $mapper,
+                         EntityManagerInterface $entityManager, Request $request
     ): Response
     {
-        $productAttributeKeyDTO = new ProductAttributeKeyDTO();
-
-        $productAttributeKeyEntity = $productAttributeKeyRepository->find($id);
+        $productAttributeKeyDTO = $mapper->mapDtoFromEntityForEdit($productAttributeKey);
 
         $form = $this->createForm(ProductAttributeKeyEditForm::class, $productAttributeKeyDTO);
 
@@ -73,9 +91,7 @@ class ProductAttributeKeyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productAttributeKeyEntity = $mapper->mapDtoToEntityForEdit(
-                $form->getData(), $productAttributeKeyEntity
-            );
+            $productAttributeKeyEntity = $mapper->mapDtoToEntityForEdit($form->getData());
 
             $entityManager->persist($productAttributeKeyEntity);
             $entityManager->flush();
@@ -86,7 +102,7 @@ class ProductAttributeKeyController extends AbstractController
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Product Attribute Key Value updated successfully"]
+                    ['id' => $productAttributeKeyEntity->getId(), 'message' => "Product Attribute Key Value updated successfully"]
                 ), 200
             );
         }

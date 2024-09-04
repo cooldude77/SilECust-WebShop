@@ -74,6 +74,14 @@ class PanelActionListMapBuilder
                             'list' => 'sc_route_admin_product_attribute_key_list'
                         ]
                     ],
+                    'product_attribute_key_value' => [
+                        'routes' => [
+                            'create' => 'sc_route_admin_product_attribute_key_value_create',
+                            'edit' => 'sc_route_admin_product_attribute_key_value_edit',
+                            'display' => 'sc_route_admin_product_attribute_key_value_display',
+                            'list' => 'sc_route_admin_product_attribute_key_value_list'
+                        ]
+                    ],
                     'product_type' => [
                         'routes' => [
                             'create' => 'product_type_create',
