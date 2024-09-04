@@ -2,14 +2,14 @@
 
 namespace App\Form\MasterData\Product\Attribute\Value;
 
-use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
+use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeKeyValueDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductAttributeValueEditForm extends AbstractType
+class ProductAttributeKeyValueEditForm extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -22,7 +22,7 @@ class ProductAttributeValueEditForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductAttributeValueDTO::class]);
+        $resolver->setDefaults(['data_class' => ProductAttributeKeyValueDTO::class]);
     }
     public function getBlockPrefix(): string
     {

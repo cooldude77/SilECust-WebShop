@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductType;
+use App\Entity\ProductGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductType>
+ * @extends ServiceEntityRepository<ProductGroup>
  *
- * @method ProductType|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductType|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductType[]    findAll()
- * @method ProductType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductGroup[]    findAll()
+ * @method ProductGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductTypeRepository extends ServiceEntityRepository
+class ProductGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductType::class);
+        parent::__construct($registry, ProductGroup::class);
     }
 
     //    /**
-    //     * @return ProductType[] Returns an array of ProductType objects
+    //     * @return ProductGroup[] Returns an array of ProductGroup objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class ProductTypeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductType
+    //    public function findOneBySomeField($value): ?ProductGroup
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')
@@ -45,8 +45,8 @@ class ProductTypeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create():ProductType
+    public function create():ProductGroup
     {
-        return new ProductType();
+        return new ProductGroup();
     }
 }

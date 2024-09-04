@@ -2,30 +2,30 @@
 
 namespace App\Factory;
 
-use App\Entity\ProductAttributeValue;
-use App\Repository\ProductAttributeValueRepository;
+use App\Entity\ProductAttributeKeyValue;
+use App\Repository\ProductAttributeKeyValueRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @extends ModelFactory<ProductAttributeValue>
+ * @extends ModelFactory<ProductAttributeKeyValue>
  *
- * @method        ProductAttributeValue|Proxy                     create(array|callable $attributes = [])
- * @method static ProductAttributeValue|Proxy                     createOne(array $attributes = [])
- * @method static ProductAttributeValue|Proxy                     find(object|array|mixed $criteria)
- * @method static ProductAttributeValue|Proxy                     findOrCreate(array $attributes)
- * @method static ProductAttributeValue|Proxy                     first(string $sortedField = 'id')
- * @method static ProductAttributeValue|Proxy                     last(string $sortedField = 'id')
- * @method static ProductAttributeValue|Proxy                     random(array $attributes = [])
- * @method static ProductAttributeValue|Proxy                     randomOrCreate(array $attributes = [])
- * @method static ProductAttributeValueRepository|RepositoryProxy repository()
- * @method static ProductAttributeValue[]|Proxy[]                 all()
- * @method static ProductAttributeValue[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
- * @method static ProductAttributeValue[]|Proxy[]                 createSequence(iterable|callable $sequence)
- * @method static ProductAttributeValue[]|Proxy[]                 findBy(array $attributes)
- * @method static ProductAttributeValue[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
- * @method static ProductAttributeValue[]|Proxy[]                 randomSet(int $number, array $attributes = [])
+ * @method        ProductAttributeKeyValue|Proxy                     create(array|callable $attributes = [])
+ * @method static ProductAttributeKeyValue|Proxy                     createOne(array $attributes = [])
+ * @method static ProductAttributeKeyValue|Proxy                     find(object|array|mixed $criteria)
+ * @method static ProductAttributeKeyValue|Proxy                     findOrCreate(array $attributes)
+ * @method static ProductAttributeKeyValue|Proxy                     first(string $sortedField = 'id')
+ * @method static ProductAttributeKeyValue|Proxy                     last(string $sortedField = 'id')
+ * @method static ProductAttributeKeyValue|Proxy                     random(array $attributes = [])
+ * @method static ProductAttributeKeyValue|Proxy                     randomOrCreate(array $attributes = [])
+ * @method static ProductAttributeKeyValueRepository|RepositoryProxy repository()
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 all()
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 findBy(array $attributes)
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static ProductAttributeKeyValue[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class ProductAttributeValueFactory extends ModelFactory
 {
@@ -59,12 +59,12 @@ final class ProductAttributeValueFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(ProductAttributeValue $productAttributeValue): void {})
+            // ->afterInstantiate(function(ProductAttributeKeyValue $productAttributeValue): void {})
         ;
     }
 
     protected static function getClass(): string
     {
-        return ProductAttributeValue::class;
+        return ProductAttributeKeyValue::class;
     }
 }

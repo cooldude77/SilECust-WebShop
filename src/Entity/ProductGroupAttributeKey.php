@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * And vice versa
  */
 #[ORM\Entity(repositoryClass: ProductTypeAttributeRepository::class)]
-class ProductTypeAttribute
+class ProductGroupAttributeKey
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,37 +21,37 @@ class ProductTypeAttribute
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductType $productType = null;
+    private ?ProductGroup $productGroup = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ProductAttribute $productAttribute = null;
+    private ?ProductAttributeKey $productAttributeKey = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProductType(): ?ProductType
+    public function getProductGroup(): ?ProductGroup
     {
-        return $this->productType;
+        return $this->productGroup;
     }
 
-    public function setProductType(?ProductType $productType): static
+    public function setProductGroup(?ProductGroup $productGroup): static
     {
-        $this->productType = $productType;
+        $this->productGroup = $productGroup;
 
         return $this;
     }
 
-    public function getProductAttribute(): ?ProductAttribute
+    public function getProductAttributeKey(): ?ProductAttributeKey
     {
-        return $this->productAttribute;
+        return $this->productAttributeKey;
     }
 
-    public function setProductAttribute(?ProductAttribute $productAttribute): static
+    public function setProductAttributeKey(?ProductAttributeKey $productAttributeKey): static
     {
-        $this->productAttribute = $productAttribute;
+        $this->productAttributeKey = $productAttributeKey;
 
         return $this;
     }

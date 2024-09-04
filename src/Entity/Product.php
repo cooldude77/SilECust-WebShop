@@ -42,7 +42,7 @@ class Product
     private ?Category $category = null;
 
     #[ORM\ManyToOne]
-    private ?ProductType $type = null;
+    private ?ProductGroup $productGroup = null;
 
     #[ORM\Column]
     private ?bool $isActive = false;
@@ -93,14 +93,14 @@ class Product
         return $this;
     }
 
-    public function getType(): ?ProductType
+    public function getProductGroup(): ?ProductGroup
     {
-        return $this->type;
+        return $this->productGroup;
     }
 
-    public function setType(?ProductType $type): static
+    public function setProductGroup(?ProductGroup $productGroup): static
     {
-        $this->type = $type;
+        $this->productGroup = $productGroup;
 
         return $this;
     }

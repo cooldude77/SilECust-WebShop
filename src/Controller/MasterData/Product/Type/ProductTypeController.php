@@ -6,7 +6,7 @@ namespace App\Controller\MasterData\Product\Type;
 use App\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
 use App\Form\MasterData\Product\Type\ProductTypeCreateForm;
 use App\Form\MasterData\Product\Type\ProductTypeUpdateForm;
-use App\Repository\ProductTypeRepository;
+use App\Repository\ProductGroupRepository;
 use App\Service\MasterData\Product\Type\ProductTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,10 +56,10 @@ class ProductTypeController extends AbstractController
 
   #[Route('/admin/product/type/{id}/edit', name: 'product_type_edit')]
     public function edit(
-        int $id,
-        ProductTypeDTOMapper $mapper, EntityManagerInterface $entityManager,
-        ProductTypeRepository $productTypeRepository,
-        Request $request
+      int                    $id,
+      ProductTypeDTOMapper   $mapper, EntityManagerInterface $entityManager,
+      ProductGroupRepository $productTypeRepository,
+      Request                $request
     ): Response {
         $productTypeDTO = new ProductTypeDTO();
 
@@ -95,10 +95,10 @@ class ProductTypeController extends AbstractController
 
 
     #[Route('/admin/product/type/list', name: 'product_type_list')]
-    public function list(ProductTypeRepository $productTypeRepository,Request $request): Response
+    public function list(ProductGroupRepository $productTypeRepository, Request $request): Response
     {
 
-        $listGrid = ['title' => 'ProductType',
+        $listGrid = ['title' => 'ProductGroup',
                      'link_id'=>'id-product-type',
                      'columns' => [['label' => 'Name',
                                     'propertyName' => 'name',
@@ -108,7 +108,7 @@ class ProductTypeController extends AbstractController
                      'createButtonConfig' => [
                          'link_id'=>' id-create-product-type',
                          'function' => 'productType',
-                                              'anchorText' => 'Create ProductType']];
+                                              'anchorText' => 'Create ProductGroup']];
 
         $productTypes = $productTypeRepository->findAll();
         return $this->render(

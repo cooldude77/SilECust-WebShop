@@ -2,17 +2,17 @@
 
 namespace App\Form\MasterData\Product\Attribute;
 
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Repository\ProductAttributeTypeRepository;
+use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeKeyDTO;
+use App\Repository\ProductAttributeKeyTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductAttributeEditForm extends AbstractType
+class ProductAttributeKeyEditForm extends AbstractType
 {
-    public function __construct(private ProductAttributeTypeRepository $productAttributeTypeRepository
+    public function __construct(private ProductAttributeKeyTypeRepository $ProductAttributeKeyTypeRepository
     ) {
     }
 
@@ -29,8 +29,8 @@ class ProductAttributeEditForm extends AbstractType
     private function fill(): array
     {
         $selectArray = [];
-        $productAttributeTypes = $this->productAttributeTypeRepository->findAll();
-        foreach ($productAttributeTypes as $bu) {
+        $ProductAttributeKeyTypes = $this->ProductAttributeKeyTypeRepository->findAll();
+        foreach ($ProductAttributeKeyTypes as $bu) {
 
             $selectArray[$bu->getName()] = $bu->getId();
         }
@@ -39,7 +39,7 @@ class ProductAttributeEditForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductAttributeDTO::class]);
+        $resolver->setDefaults(['data_class' => ProductAttributeKeyDTO::class]);
     }
 
 

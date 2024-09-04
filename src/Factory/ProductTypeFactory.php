@@ -2,30 +2,30 @@
 
 namespace App\Factory;
 
-use App\Entity\ProductType;
-use App\Repository\ProductTypeRepository;
+use App\Entity\ProductGroup;
+use App\Repository\ProductGroupRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @extends ModelFactory<ProductType>
+ * @extends ModelFactory<ProductGroup>
  *
- * @method        ProductType|Proxy                     create(array|callable $attributes = [])
- * @method static ProductType|Proxy                     createOne(array $attributes = [])
- * @method static ProductType|Proxy                     find(object|array|mixed $criteria)
- * @method static ProductType|Proxy                     findOrCreate(array $attributes)
- * @method static ProductType|Proxy                     first(string $sortedField = 'id')
- * @method static ProductType|Proxy                     last(string $sortedField = 'id')
- * @method static ProductType|Proxy                     random(array $attributes = [])
- * @method static ProductType|Proxy                     randomOrCreate(array $attributes = [])
- * @method static ProductTypeRepository|RepositoryProxy repository()
- * @method static ProductType[]|Proxy[]                 all()
- * @method static ProductType[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
- * @method static ProductType[]|Proxy[]                 createSequence(iterable|callable $sequence)
- * @method static ProductType[]|Proxy[]                 findBy(array $attributes)
- * @method static ProductType[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
- * @method static ProductType[]|Proxy[]                 randomSet(int $number, array $attributes = [])
+ * @method        ProductGroup|Proxy                     create(array|callable $attributes = [])
+ * @method static ProductGroup|Proxy                     createOne(array $attributes = [])
+ * @method static ProductGroup|Proxy                     find(object|array|mixed $criteria)
+ * @method static ProductGroup|Proxy                     findOrCreate(array $attributes)
+ * @method static ProductGroup|Proxy                     first(string $sortedField = 'id')
+ * @method static ProductGroup|Proxy                     last(string $sortedField = 'id')
+ * @method static ProductGroup|Proxy                     random(array $attributes = [])
+ * @method static ProductGroup|Proxy                     randomOrCreate(array $attributes = [])
+ * @method static ProductGroupRepository|RepositoryProxy repository()
+ * @method static ProductGroup[]|Proxy[]                 all()
+ * @method static ProductGroup[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static ProductGroup[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static ProductGroup[]|Proxy[]                 findBy(array $attributes)
+ * @method static ProductGroup[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static ProductGroup[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class ProductTypeFactory extends ModelFactory
 {
@@ -58,12 +58,12 @@ final class ProductTypeFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(ProductType $productType): void {})
+            // ->afterInstantiate(function(ProductGroup $productType): void {})
         ;
     }
 
     protected static function getClass(): string
     {
-        return ProductType::class;
+        return ProductGroup::class;
     }
 }

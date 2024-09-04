@@ -2,24 +2,24 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductAttribute;
-use App\Entity\ProductAttributeValue;
+use App\Entity\ProductAttributeKey;
+use App\Entity\ProductAttributeKeyValue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductAttributeValue>
+ * @extends ServiceEntityRepository<ProductAttributeKeyValue>
  *
- * @method ProductAttributeValue|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductAttributeValue|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductAttributeValue[]    findAll()
- * @method ProductAttributeValue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductAttributeKeyValue|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductAttributeKeyValue|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductAttributeKeyValue[]    findAll()
+ * @method ProductAttributeKeyValue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductAttributeValueRepository extends ServiceEntityRepository
+class ProductAttributeKeyValueRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductAttributeValue::class);
+        parent::__construct($registry, ProductAttributeKeyValue::class);
     }
 
     //    /**
@@ -46,11 +46,11 @@ class ProductAttributeValueRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(ProductAttribute $productAttribute): ProductAttributeValue
+    public function create(ProductAttributeKey $productAttribute): ProductAttributeKeyValue
     {
 
-        $productAttributeValue = new ProductAttributeValue();
-        $productAttributeValue->setProductAttribute($productAttribute);
+        $productAttributeValue = new ProductAttributeKeyValue();
+        $productAttributeValue->setProductAttributeKey($productAttribute);
         return $productAttributeValue;
     }
 }

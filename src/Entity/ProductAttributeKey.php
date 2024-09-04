@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductAttributeTypeRepository;
+use App\Repository\ProductAttributeKeyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Example SINGLE SELECT
- * OR MULTI SELECT
+ * Product Attributes are independent
+ * and can be connected to product
  */
-#[ORM\Entity(repositoryClass: ProductAttributeTypeRepository::class)]
-class ProductAttributeType
+#[ORM\Entity(repositoryClass: ProductAttributeKeyRepository::class)]
+class ProductAttributeKey
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,6 +22,11 @@ class ProductAttributeType
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ProductAttributeKeyType   $productAttributeKeyType = null;
+
 
     public function getId(): ?int
     {
@@ -48,6 +53,18 @@ class ProductAttributeType
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getProductAttributeKeyType(): ?ProductAttributeKeyType
+    {
+        return $this->productAttributeKeyType;
+    }
+
+    public function setProductAttributeKeyType(ProductAttributeKeyType $productAttributeKeyType): static
+    {
+        $this->productAttributeKeyType = $productAttributeKeyType;
 
         return $this;
     }

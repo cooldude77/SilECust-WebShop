@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductTypeRepository;
+use App\Repository\ProductGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductTypeRepository::class)]
-class ProductType
+#[ORM\Entity(repositoryClass: ProductGroupRepository::class)]
+class ProductGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

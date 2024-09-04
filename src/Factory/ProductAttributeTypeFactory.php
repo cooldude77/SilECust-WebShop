@@ -2,30 +2,30 @@
 
 namespace App\Factory;
 
-use App\Entity\ProductAttributeType;
-use App\Repository\ProductAttributeTypeRepository;
+use App\Entity\ProductAttributeKeyType;
+use App\Repository\ProductAttributeKeyTypeRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @extends ModelFactory<ProductAttributeType>
+ * @extends ModelFactory<ProductAttributeKeyType>
  *
- * @method        ProductAttributeType|Proxy                     create(array|callable $attributes = [])
- * @method static ProductAttributeType|Proxy                     createOne(array $attributes = [])
- * @method static ProductAttributeType|Proxy                     find(object|array|mixed $criteria)
- * @method static ProductAttributeType|Proxy                     findOrCreate(array $attributes)
- * @method static ProductAttributeType|Proxy                     first(string $sortedField = 'id')
- * @method static ProductAttributeType|Proxy                     last(string $sortedField = 'id')
- * @method static ProductAttributeType|Proxy                     random(array $attributes = [])
- * @method static ProductAttributeType|Proxy                     randomOrCreate(array $attributes = [])
- * @method static ProductAttributeTypeRepository|RepositoryProxy repository()
- * @method static ProductAttributeType[]|Proxy[]                 all()
- * @method static ProductAttributeType[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
- * @method static ProductAttributeType[]|Proxy[]                 createSequence(iterable|callable $sequence)
- * @method static ProductAttributeType[]|Proxy[]                 findBy(array $attributes)
- * @method static ProductAttributeType[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
- * @method static ProductAttributeType[]|Proxy[]                 randomSet(int $number, array $attributes = [])
+ * @method        ProductAttributeKeyType|Proxy                     create(array|callable $attributes = [])
+ * @method static ProductAttributeKeyType|Proxy                     createOne(array $attributes = [])
+ * @method static ProductAttributeKeyType|Proxy                     find(object|array|mixed $criteria)
+ * @method static ProductAttributeKeyType|Proxy                     findOrCreate(array $attributes)
+ * @method static ProductAttributeKeyType|Proxy                     first(string $sortedField = 'id')
+ * @method static ProductAttributeKeyType|Proxy                     last(string $sortedField = 'id')
+ * @method static ProductAttributeKeyType|Proxy                     random(array $attributes = [])
+ * @method static ProductAttributeKeyType|Proxy                     randomOrCreate(array $attributes = [])
+ * @method static ProductAttributeKeyTypeRepository|RepositoryProxy repository()
+ * @method static ProductAttributeKeyType[]|Proxy[]                 all()
+ * @method static ProductAttributeKeyType[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static ProductAttributeKeyType[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static ProductAttributeKeyType[]|Proxy[]                 findBy(array $attributes)
+ * @method static ProductAttributeKeyType[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static ProductAttributeKeyType[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class ProductAttributeTypeFactory extends ModelFactory
 {
@@ -58,12 +58,12 @@ final class ProductAttributeTypeFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(ProductAttributeType $productAttributeType): void {})
+            // ->afterInstantiate(function(ProductAttributeKeyType $productAttributeType): void {})
         ;
     }
 
     protected static function getClass(): string
     {
-        return ProductAttributeType::class;
+        return ProductAttributeKeyType::class;
     }
 }

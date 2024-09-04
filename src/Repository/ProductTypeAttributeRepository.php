@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductTypeAttribute;
+use App\Entity\ProductGroupAttributeKey;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductTypeAttribute>
+ * @extends ServiceEntityRepository<ProductGroupAttributeKey>
  *
- * @method ProductTypeAttribute|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductTypeAttribute|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductTypeAttribute[]    findAll()
- * @method ProductTypeAttribute[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductGroupAttributeKey|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductGroupAttributeKey|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductGroupAttributeKey[]    findAll()
+ * @method ProductGroupAttributeKey[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ProductTypeAttributeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductTypeAttribute::class);
+        parent::__construct($registry, ProductGroupAttributeKey::class);
     }
 
     //    /**
-    //     * @return ProductTypeAttribute[] Returns an array of ProductTypeAttribute objects
+    //     * @return ProductGroupAttributeKey[] Returns an array of ProductGroupAttributeKey objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class ProductTypeAttributeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductTypeAttribute
+    //    public function findOneBySomeField($value): ?ProductGroupAttributeKey
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

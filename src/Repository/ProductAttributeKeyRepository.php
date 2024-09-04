@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductAttributeType;
+use App\Entity\ProductAttributeKey;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductAttributeType>
+ * @extends ServiceEntityRepository<ProductAttributeKey>
  *
- * @method ProductAttributeType|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductAttributeType|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductAttributeType[]    findAll()
- * @method ProductAttributeType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductAttributeKey|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductAttributeKey|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductAttributeKey[]    findAll()
+ * @method ProductAttributeKey[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductAttributeTypeRepository extends ServiceEntityRepository
+class ProductAttributeKeyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductAttributeType::class);
+        parent::__construct($registry, ProductAttributeKey::class);
     }
 
     //    /**
-    //     * @return ProductAttributeValueType[] Returns an array of ProductAttributeValueType objects
+    //     * @return ProductGroupAttributeKey[] Returns an array of ProductGroupAttributeKey objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class ProductAttributeTypeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ProductAttributeValueType
+    //    public function findOneBySomeField($value): ?ProductGroupAttributeKey
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')
@@ -45,4 +45,8 @@ class ProductAttributeTypeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create():ProductAttributeKey
+    {
+        return new ProductAttributeKey();
+    }
 }

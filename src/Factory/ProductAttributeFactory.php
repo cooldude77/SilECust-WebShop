@@ -2,30 +2,30 @@
 
 namespace App\Factory;
 
-use App\Entity\ProductAttribute;
-use App\Repository\ProductAttributeRepository;
+use App\Entity\ProductAttributeKey;
+use App\Repository\ProductAttributeKeyRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
- * @extends ModelFactory<ProductAttribute>
+ * @extends ModelFactory<ProductAttributeKey>
  *
- * @method        ProductAttribute|Proxy                     create(array|callable $attributes = [])
- * @method static ProductAttribute|Proxy                     createOne(array $attributes = [])
- * @method static ProductAttribute|Proxy                     find(object|array|mixed $criteria)
- * @method static ProductAttribute|Proxy                     findOrCreate(array $attributes)
- * @method static ProductAttribute|Proxy                     first(string $sortedField = 'id')
- * @method static ProductAttribute|Proxy                     last(string $sortedField = 'id')
- * @method static ProductAttribute|Proxy                     random(array $attributes = [])
- * @method static ProductAttribute|Proxy                     randomOrCreate(array $attributes = [])
- * @method static ProductAttributeRepository|RepositoryProxy repository()
- * @method static ProductAttribute[]|Proxy[]                 all()
- * @method static ProductAttribute[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
- * @method static ProductAttribute[]|Proxy[]                 createSequence(iterable|callable $sequence)
- * @method static ProductAttribute[]|Proxy[]                 findBy(array $attributes)
- * @method static ProductAttribute[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
- * @method static ProductAttribute[]|Proxy[]                 randomSet(int $number, array $attributes = [])
+ * @method        ProductAttributeKey|Proxy                     create(array|callable $attributes = [])
+ * @method static ProductAttributeKey|Proxy                     createOne(array $attributes = [])
+ * @method static ProductAttributeKey|Proxy                     find(object|array|mixed $criteria)
+ * @method static ProductAttributeKey|Proxy                     findOrCreate(array $attributes)
+ * @method static ProductAttributeKey|Proxy                     first(string $sortedField = 'id')
+ * @method static ProductAttributeKey|Proxy                     last(string $sortedField = 'id')
+ * @method static ProductAttributeKey|Proxy                     random(array $attributes = [])
+ * @method static ProductAttributeKey|Proxy                     randomOrCreate(array $attributes = [])
+ * @method static ProductAttributeKeyRepository|RepositoryProxy repository()
+ * @method static ProductAttributeKey[]|Proxy[]                 all()
+ * @method static ProductAttributeKey[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static ProductAttributeKey[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static ProductAttributeKey[]|Proxy[]                 findBy(array $attributes)
+ * @method static ProductAttributeKey[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static ProductAttributeKey[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class ProductAttributeFactory extends ModelFactory
 {
@@ -59,12 +59,12 @@ final class ProductAttributeFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(ProductAttribute $productAttribute): void {})
+            // ->afterInstantiate(function(ProductAttributeKey $productAttribute): void {})
         ;
     }
 
     protected static function getClass(): string
     {
-        return ProductAttribute::class;
+        return ProductAttributeKey::class;
     }
 }

@@ -66,12 +66,12 @@ class PanelActionListMapBuilder
                             'list' => 'sc_route_admin_currency_list'
                         ]
                     ],
-                    'product_attribute' => [
+                    'product_attribute_key' => [
                         'routes' => [
-                            'create' => 'product_attribute_create',
-                            'edit' => 'product_attribute_edit',
-                            'display' => 'product_attribute_display',
-                            'list' => 'product_attribute_list'
+                            'create' => 'sc_route_admin_product_attribute_key_create',
+                            'edit' => 'sc_route_admin_product_attribute_key_edit',
+                            'display' => 'sc_route_admin_product_attribute_key_display',
+                            'list' => 'sc_route_admin_product_attribute_key_list'
                         ]
                     ],
                     'product_type' => [

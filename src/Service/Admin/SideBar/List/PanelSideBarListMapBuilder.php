@@ -42,25 +42,25 @@ class PanelSideBarListMapBuilder
                                     'css-id' => 'sidebar-link-product-list'
                                 ],
                                 // todo: implement
-                                /* [
-                                     'id' => 'product-type-list',
-                                     'url' => $this->appendForAdmin(
-                                         $adminUrl,
-                                         'product_type'
-                                     ),
-                                     'text' => 'Product Types',
-                                     'css-id' => 'sidebar-link-product-type-list'
-                                 ],
-                                 [
-                                     'id' => 'product-attribute-list',
-                                     'url' => $this->appendForAdmin(
-                                         $adminUrl,
-                                         'product_attribute'
-                                     ),
-                                     'text' => 'Product Attributes',
-                                     'css-id' => 'sidebar-link-product-attribute-list'
-                                 ],
-                                */
+                                [
+                                    'id' => 'product-type-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'product_type'
+                                    ),
+                                    'text' => 'Product Types',
+                                    'css-id' => 'sidebar-link-product-type-list'
+                                ],
+                                [
+                                    'id' => 'product-attribute-key-list',
+                                    'url' => $this->appendForAdmin(
+                                        $adminUrl,
+                                        'product_attribute_key'
+                                    ),
+                                    'text' => 'Product Attribute Key',
+                                    'css-id' => 'sidebar-link-product-attribute-key-list'
+                                ],
+
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
@@ -174,22 +174,22 @@ class PanelSideBarListMapBuilder
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],
                         ],
-                       /* [
-                            'id' => 'web-shop',
-                            'header_text' => 'WebShop',
-                            'items' => [
-                                [
-                                    'url' => $this->appendForAdmin(
-                                        $adminUrl,
-                                        'web_shop'
-                                    ),
-                                    'text' => 'Shops',
-                                    'css-id' => 'sidebar-link-web-shop-list'
-                                ]
-                            ],
-                            'roles' => ['ROLE_EMPLOYEE'],
-                        ],
-                       */
+                        /* [
+                             'id' => 'web-shop',
+                             'header_text' => 'WebShop',
+                             'items' => [
+                                 [
+                                     'url' => $this->appendForAdmin(
+                                         $adminUrl,
+                                         'web_shop'
+                                     ),
+                                     'text' => 'Shops',
+                                     'css-id' => 'sidebar-link-web-shop-list'
+                                 ]
+                             ],
+                             'roles' => ['ROLE_EMPLOYEE'],
+                         ],
+                        */
                         [
                             'id' => 'employee',
                             'header_text' => 'Employees',
@@ -292,14 +292,16 @@ class PanelSideBarListMapBuilder
     }
 
     private function appendForAdmin(string $adminUrl,
-        string $function
-    ): string {
+                                    string $function
+    ): string
+    {
         return $adminUrl . "?_function=$function&_type=list";
     }
 
     private function appendForCustomer(string $adminUrl,
-        string $arg
-    ): string {
+                                       string $arg
+    ): string
+    {
         return $adminUrl . "/$arg";
     }
 }
