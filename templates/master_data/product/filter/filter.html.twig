@@ -1,0 +1,16 @@
+{% block content %}
+
+    <div id="productAttributeKeys">
+
+
+        {{ form_start(form) }}
+        <ul class="productAttributeKey">
+            {% for key in form.attributeKeyValues %}
+                <li>{{ form_row(key) }}  {{ key.vars.value.value }}</li>
+
+            {% endfor %}
+        </ul>
+        <button type="submit">Apply</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
