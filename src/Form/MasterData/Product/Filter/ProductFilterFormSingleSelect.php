@@ -17,8 +17,9 @@ class ProductFilterFormSingleSelect extends AbstractType
     {
         $builder->add("idProductAttributeKey", HiddenType::class);
         $builder->add("idProductAttributeKeyValue", HiddenType::class);
+        $builder->add('name', TextType::class);
         $builder->add('value', TextType::class);
-        $builder->add('isSelected', CheckboxType::class,['required'=>false]);
+        $builder->add('isSelected', CheckboxType::class, ['required' => false]);
     }
 
     public function getBlockPrefix(): string

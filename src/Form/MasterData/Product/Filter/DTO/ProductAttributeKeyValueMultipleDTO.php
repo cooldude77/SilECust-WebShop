@@ -12,4 +12,9 @@ class ProductAttributeKeyValueMultipleDTO
         $this->attributeKeyValues[] = $dto;
     }
 
+    public function getAttributeKeyValues(): array
+    {
+        return $this->attributeKeyValues;
+    }
+
 }

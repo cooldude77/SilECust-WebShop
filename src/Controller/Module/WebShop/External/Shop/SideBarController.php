@@ -2,6 +2,8 @@
 
 namespace App\Controller\Module\WebShop\External\Shop;
 
+use App\Controller\MasterData\Product\Attribute\Value\ProductAttributeKeyValueController;
+use App\Controller\MasterData\Product\Filter\ProductFilterAttributeKeyValueController;
 use App\Controller\Module\WebShop\External\Category\CategoryController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +14,11 @@ class SideBarController extends AbstractController
 
     public function sideBar(Request $request): Response
     {
+        if ($request->query->get('category')) {
+            return $this->forward(ProductFilterAttributeKeyValueController::class . '::' . 'filterProduct',
+                ['request' => $request]
+            );
+        }
         return $this->forward(CategoryController::class . '::' . 'list', ['request' => $request]);
     }
 

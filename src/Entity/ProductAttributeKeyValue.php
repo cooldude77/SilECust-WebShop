@@ -19,7 +19,7 @@ class ProductAttributeKeyValue
     #[ORM\Column(length: 255)]
     private ?string $value = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productTypeAttributeKeyValue')]
+    #[ORM\ManyToOne()]
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductAttributeKey $productAttributeKey = null;
 

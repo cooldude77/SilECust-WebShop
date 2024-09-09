@@ -14,8 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductFilterAttributeKeyValueController extends AbstractController
 {
 
-    #[Route('/xyz', 'prod_filter')]
-    public function filter(
+    #[Route('/product/filters', 'prod_filter')]
+    public function filterProduct(
         ProductFilterProviderInterface $productFilterProvider,
         CategoryRepository             $categoryRepository,
         ProductFilterMapper            $productFilterMapper,
@@ -32,6 +32,10 @@ class ProductFilterAttributeKeyValueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $keyValues = json_encode($productFilterMapper->mapToKeyValuePair($data));
+            return $this->redirectToRoute('home',
+                ['category' => $request->query->get('category'), 'filter' => $keyValues]);
+
         }
         return $this->render('master_data/product/filter/filter.html.twig', ['form' => $form]);
     }

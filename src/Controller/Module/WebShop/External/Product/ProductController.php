@@ -8,6 +8,7 @@ use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Service\Module\WebShop\External\Product\ProductFilterSearchInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,8 @@ class ProductController extends AbstractController
 {
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function mainPage($name, Request $request):
-    Response {
+    Response
+    {
 
         $session = $request->getSession();
 
@@ -57,10 +59,11 @@ class ProductController extends AbstractController
         );
     }
 
-    public function list(ProductRepository $productRepository,
-        CategoryRepository $categoryRepository,
-        Request $request
-    ): Response {
+    public function list(ProductRepository  $productRepository,
+                         CategoryRepository $categoryRepository,
+                         Request            $request
+    ): Response
+    {
 
         if ($request->query->get('category') != null) {
 
@@ -76,8 +79,17 @@ class ProductController extends AbstractController
         );
     }
 
-    public function listBySearchTerm(Request $request, ProductRepository $productRepository
-    ): Response {
+    /**
+     * @param Request $request
+     * @param ProductRepository $productRepository
+     * @return Response
+     * Forwarded in HeaderController of shop
+     */
+    public function listBySearchTerm(Request                      $request,
+                                     ProductRepository            $productRepository,
+                                     ProductFilterSearchInterface $productFilterSearch
+    ): Response
+    {
         $products = $productRepository->search($request->get('searchTerm'));
 
         return $this->render(
@@ -87,5 +99,28 @@ class ProductController extends AbstractController
 
 
     }
+
+    /* @param Request $request
+     * @param ProductRepository $productRepository
+     * @return Response
+     * Forwarded in HeaderController of shop
+     */
+    public function listByFilter(Request                      $request,
+                                   CategoryRepository           $categoryRepository,
+                                   ProductFilterSearchInterface $productFilterSearch
+    ): Response
+    {
+
+        $category = $categoryRepository->findOneBy(['name'=>$request->query->get('category')]);
+        $products = $productFilterSearch->searchByFilter($category,json_decode($request->query->get('filter'),true));
+
+        return $this->render(
+            'module/web_shop/external/product/web_shop_product_list.html.twig',
+            ['products' => $products]
+        );
+
+
+    }
+
 
 }

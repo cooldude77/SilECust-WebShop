@@ -17,6 +17,11 @@ class ContentController extends AbstractController
             return $this->forward(ProductController::class . '::' . 'listBySearchTerm', ['request'
                                                                                          => $request]
             );
+        }
+        elseif ($request->query->get('filter')) {
+            return $this->forward(ProductController::class . '::' . 'listByFilter', ['request'
+                                                                                         => $request]
+            );
         } else {
             return $this->forward(ProductController::class . '::' . 'list', ['request' => $request]
             );

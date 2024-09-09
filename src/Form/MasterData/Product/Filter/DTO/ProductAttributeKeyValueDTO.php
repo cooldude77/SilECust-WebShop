@@ -9,5 +9,6 @@ class ProductAttributeKeyValueDTO
     public int $idProductAttributeKeyValue = 0;
     public bool $isSelected = false;
     public ?string $value = null;
+    public ?string $name = null;
 
 }

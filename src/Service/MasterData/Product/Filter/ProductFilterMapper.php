@@ -13,7 +13,8 @@ class ProductFilterMapper
 
         $productFilters = new ProductAttributeKeyValueMultipleDTO();
         /**
-         *
+         * @var  $key
+         * @var  $array
          */
         foreach ($availableFilters as $key => $array) {
 
@@ -21,6 +22,7 @@ class ProductFilterMapper
                 $productFilterDTO = new ProductAttributeKeyValueDTO();
                 $productFilterDTO->idProductAttributeKey = $key;
                 $productFilterDTO->idProductAttributeKeyValue = $arr['value']->getId();
+                $productFilterDTO->name = $arr['value']->getProductAttributeKey()->getName();
                 $productFilterDTO->value = $arr['value']->getValue();
 
                 $productFilters->add($productFilterDTO);
@@ -28,5 +30,15 @@ class ProductFilterMapper
         }
 
         return $productFilters;
+    }
+
+    public function mapToKeyValuePair(ProductAttributeKeyValueMultipleDTO $attributeKeyValueMultipleDTO): array
+    {
+        $passableFilters = [];
+        /** @var ProductAttributeKeyValueDTO $attributeKeyValue */
+        foreach ($attributeKeyValueMultipleDTO->getAttributeKeyValues() as $attributeKeyValue)
+            $passableFilters[$attributeKeyValue->idProductAttributeKey][] = $attributeKeyValue->idProductAttributeKeyValue;
+
+        return $passableFilters;
     }
 }
