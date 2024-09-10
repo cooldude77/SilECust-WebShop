@@ -101,4 +101,18 @@ class ProductRepository extends ServiceEntityRepository
 
         return $q->getResult();
     }
+
+    public function findAllByChildren(Category $category): mixed
+    {
+        $result = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('p')
+            ->from(Product::class, 'p')
+            ->join('p.category', 'c')
+            ->where('c.path like :path')
+            ->setParameter('path', "{$category->getPath()}%")
+            ->getQuery()->getResult();
+
+        return $result;
+    }
 }

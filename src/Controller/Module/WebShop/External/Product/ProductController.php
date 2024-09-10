@@ -17,7 +17,8 @@ class ProductController extends AbstractController
 {
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function mainPage($name, Request $request):
-    Response {
+    Response
+    {
 
         $session = $request->getSession();
 
@@ -57,15 +58,16 @@ class ProductController extends AbstractController
         );
     }
 
-    public function list(ProductRepository $productRepository,
-        CategoryRepository $categoryRepository,
-        Request $request
-    ): Response {
+    public function list(ProductRepository  $productRepository,
+                         CategoryRepository $categoryRepository,
+                         Request            $request
+    ): Response
+    {
 
         if ($request->query->get('category') != null) {
 
             $category = $categoryRepository->findOneBy(['name' => $request->get('category')]);
-            $products = $productRepository->findBy(['category' => $category]);
+            $products = $productRepository->findAllByChildren($category);
         } else {
             $products = $productRepository->findAll();
         }
@@ -77,7 +79,8 @@ class ProductController extends AbstractController
     }
 
     public function listBySearchTerm(Request $request, ProductRepository $productRepository
-    ): Response {
+    ): Response
+    {
         $products = $productRepository->search($request->get('searchTerm'));
 
         return $this->render(

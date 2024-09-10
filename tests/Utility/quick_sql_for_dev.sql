@@ -33,13 +33,17 @@ INSERT INTO `category` (`id`, `parent_id`, `name`, `description`, `path`)
 VALUES (3, 1, 'SHIRTS', 'shirts', '/1/3');
 INSERT INTO `category` (`id`, `parent_id`, `name`, `description`, `path`)
 VALUES (4, 2, 'LAPTOPS', 'Laptops', '/2/4');
+INSERT INTO `category` (`id`, `parent_id`, `name`, `description`, `path`)
+VALUES (5, 4, 'LAPTOP', 'Laptop', '/2/4/5');
+INSERT INTO `category` (`id`, `parent_id`, `name`, `description`, `path`)
+VALUES (6, 1, 'TROUSER', 'Trouser', '/1/6');
 
 INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
-VALUES (1, 'T_SHIRT_PLAIN', 'T Shirt Plain', 1, NULL, 1, 'Plain T Shirt');
+VALUES (1, 'T_SHIRT_PLAIN', 'T Shirt Plain', 3, NULL, 1, 'Plain T Shirt');
 INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
-VALUES (2, 'T_SHIRT_CHECKS', 'T Shirt Checks', 1, NULL, 1, 'Check T Shirt');
+VALUES (2, 'T_SHIRT_CHECKS', 'T Shirt Checks', 3, NULL, 1, 'Check T Shirt');
 INSERT INTO `product` (`id`, `name`, `description`, `category_id`, `type_id`, `is_active`, `long_description`)
-VALUES (3, 'TROUSER', 'Trouser Top Quality', 1, NULL, 1, 'Trouser');
+VALUES (3, 'TROUSER', 'Trouser Top Quality', 6, NULL, 1, 'Trouser');
 
 INSERT INTO `price_product_base` (`id`, `product_id`, `currency_id`, `price`)
 VALUES (1, 1, 1, 100);
