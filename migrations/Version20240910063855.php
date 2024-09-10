@@ -19,7 +19,9 @@ final class Version20240910063855 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->addSql('SET FOREIGN_KEY_CHECKS = 0');
         $this->addSql('ALTER TABLE `category` DROP INDEX `UNIQ_64C19C1727ACA70`');
+        $this->addSql('SET FOREIGN_KEY_CHECKS = 1');
 
     }
 
