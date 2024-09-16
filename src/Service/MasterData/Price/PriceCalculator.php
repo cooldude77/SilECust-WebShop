@@ -22,9 +22,10 @@ use App\Service\Transaction\Order\PriceObject;
 readonly class PriceCalculator
 {
     /**
-     * @param PriceProductBaseRepository     $priceProductBaseRepository
+     * @param PriceProductBaseRepository $priceProductBaseRepository
      * @param PriceProductDiscountRepository $priceProductDiscountRepository
-     * @param PriceProductTaxRepository      $priceProductTaxRepository
+     * @param PriceProductTaxRepository $priceProductTaxRepository
+     * @param TaxSlabRepository $taxSlabRepository
      */
     public function __construct(private PriceProductBaseRepository $priceProductBaseRepository,
         private PriceProductDiscountRepository $priceProductDiscountRepository,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Transaction\Order\Admin\Item;
+namespace App\Event\Transaction\Order\Item;
 
 use App\Entity\OrderItem;
 

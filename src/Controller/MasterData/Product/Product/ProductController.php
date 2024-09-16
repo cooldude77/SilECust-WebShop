@@ -7,10 +7,12 @@ use App\Form\MasterData\Product\DTO\ProductDTO;
 use App\Form\MasterData\Product\ProductCreateForm;
 use App\Form\MasterData\Product\ProductEditForm;
 use App\Repository\ProductRepository;
+use App\Service\Component\UI\Search\SearchEntityInterface;
 use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -141,9 +143,11 @@ class ProductController extends AbstractController
     }
 
     #[Route('/admin/product/list', name: 'product_list')]
-    public function list(ProductRepository  $productRepository,
-                         PaginatorInterface $paginator,
-                         Request            $request):
+    public function list(ProductRepository     $productRepository,
+                         PaginatorInterface    $paginator,
+                         #[Autowire(service: 'product.search')]
+                         SearchEntityInterface $searchEntity,
+                         Request               $request):
     Response
     {
 
@@ -160,8 +164,10 @@ class ProductController extends AbstractController
             'createButtonConfig' => ['link_id' => ' id-create-product',
                 'anchorText' => 'Create Product']
         ];
+        if ($request->query->get('searchTerm') != null)
+            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
 
-        $query = $productRepository->getQueryForSelect();
+        $query = $productRepository->getQueryForSelect(isset($searchCriteria) ? $searchCriteria : null);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

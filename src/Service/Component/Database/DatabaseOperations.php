@@ -27,7 +27,7 @@ class DatabaseOperations
         $this->entityManager->remove($item);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->entityManager->clear();
     }
@@ -37,7 +37,8 @@ class DatabaseOperations
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
-        return  $entity;
+        return $entity;
     }
+
 
 }

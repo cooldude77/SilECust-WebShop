@@ -18,12 +18,12 @@ trait ProductFixture
 
     public Product|Proxy $productB;
 
-    public string $productAName = 'Prod A';
-    public string $productBName = 'Prod B';
+    public string $productAName = 'Prod name A';
+    public string $productBName = 'Prod name B';
 
 
-    public string $productADescription = 'Product A';
-    public string $productBDescription = 'Product B';
+    public string $productADescription = 'Product description A';
+    public string $productBDescription = 'Product description B';
 
 
     public string $categoryAName = 'Cat A';
@@ -37,24 +37,24 @@ trait ProductFixture
     {
         $this->categoryA = CategoryFactory::createOne(
             ['name' => $this->categoryAName,
-             'description' => $this->categoryADescription]
+                'description' => $this->categoryADescription]
         );
 
         $this->productA = ProductFactory::createOne(['category' => $this->categoryA,
-                                                     'name' => $this->productAName,
-                                                     'description' => $this->productADescription,
-                                                     'isActive' => true]);
+            'name' => $this->productAName,
+            'description' => $this->productADescription,
+            'isActive' => true]);
 
         $this->categoryB = CategoryFactory::createOne(
 
             ['name' => $this->categoryBName,
-             'description' => $this->categoryBDescription]
+                'description' => $this->categoryBDescription]
         );
 
         $this->productB = ProductFactory::createOne(['category' => $this->categoryB,
-                                                     'name' => 'Product B',
-                                                     'description' => 'B new product',
-                                                     'isActive' => true]);
+            'name' => $this->productBName,
+            'description' => $this->productBDescription,
+            'isActive' => true]);
     }
 
 }

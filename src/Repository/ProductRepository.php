@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -56,10 +58,21 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-    function getQueryForSelect(): Query
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
     {
-        $dql = "SELECT p FROM App\Entity\Product p";
-        return $this->getEntityManager()->createQuery($dql);
+
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('p')
+            ->from(Product::class, 'p');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
 
     }
 
@@ -87,5 +100,19 @@ class ProductRepository extends ServiceEntityRepository
         $e = $q->getDQL();
 
         return $q->getResult();
+    }
+
+    public function findAllByChildren(Category $category): mixed
+    {
+        $result = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('p')
+            ->from(Product::class, 'p')
+            ->join('p.category', 'c')
+            ->where('c.path like :path')
+            ->setParameter('path', "{$category->getPath()}%")
+            ->getQuery()->getResult();
+
+        return $result;
     }
 }
