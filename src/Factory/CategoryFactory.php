@@ -4,6 +4,8 @@ namespace App\Factory;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Service\MasterData\Category\PathCalculator;
+use Symfony\Component\Filesystem\Path;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -34,7 +36,7 @@ final class CategoryFactory extends ModelFactory
      *
      * @todo inject services if required
      */
-    public function __construct()
+    public function __construct(private readonly PathCalculator $calculator)
     {
         parent::__construct();
     }
@@ -58,7 +60,10 @@ final class CategoryFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(Category $category): void {})
+             ->afterInstantiate(function(Category $category): void {
+
+                $category->setPath( $this->calculator->calculate($category));
+             })
         ;
     }
 
@@ -66,4 +71,5 @@ final class CategoryFactory extends ModelFactory
     {
         return Category::class;
     }
+
 }

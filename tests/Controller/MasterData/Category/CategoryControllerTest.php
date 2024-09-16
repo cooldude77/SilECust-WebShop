@@ -60,10 +60,12 @@ class CategoryControllerTest extends WebTestCase
 
         assertEquals('Cat1', $created->getName());
         assertEquals('Category 1', $created->getDescription());
+        assertEquals("/{$created->getId()}", $created->getPath());
 
     }
 
-    private  string $token ;
+    private string $token;
+
     public function testCreateWithAParent()
     {
 
@@ -98,6 +100,7 @@ class CategoryControllerTest extends WebTestCase
 
         assertEquals('Category Child With Parent', $created->getDescription());
         assertEquals($category->getId(), $created->getParent()->getId());
+        assertEquals("{$created->getParent()->getPath()}/{$created->getId()}", $created->getPath());
 
 
     }
@@ -149,9 +152,11 @@ class CategoryControllerTest extends WebTestCase
         assertEquals('CatChanged', $edited->getName());
         assertEquals('Category Changed', $edited->getDescription());
         assertEquals($categoryParent2->getId(), $edited->getParent()->getId());
+        assertEquals("{$edited->getParent()->getPath()}/{$edited->getId()}", $edited->getPath());
 
     }
-  public function testEditWithNullParent()
+
+    public function testEditWithNullParent()
     {
 
         $categoryParent1 = CategoryFactory::createOne(['name' => 'CatParent1', 'description' => 'Category Parent1']);
@@ -193,6 +198,7 @@ class CategoryControllerTest extends WebTestCase
         assertEquals('CatChanged', $edited->getName());
         assertEquals('Category Changed', $edited->getDescription());
         assertEquals($categoryParent2->getId(), $edited->getParent()->getId());
+        assertEquals("{$edited->getParent()->getPath()}/{$edited->getId()}", $edited->getPath());
 
     }
 

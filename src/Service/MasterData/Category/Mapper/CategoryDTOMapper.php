@@ -27,6 +27,11 @@ class CategoryDTOMapper
 
         $category->setParent($this->categoryRepository->findOneBy(['id' => $categoryDTO->parent]));
 
+        // the path is set to random because the id of the category is not known before persisting
+        // it will be set later in the event.
+        $category->setPath(md5(uniqid()));
+
+
         return $category;
     }
 
@@ -40,6 +45,7 @@ class CategoryDTOMapper
 
         $category->setParent($this->categoryRepository->findOneBy(['id' => $categoryDTO->parent]));
 
+        // Note : the path will be set in lifestylecallback
 
         return $category;
     }
