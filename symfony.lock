@@ -55,6 +55,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "silecust/theme-management-bundle": {
+        "version": "dev-br_extension"
+    },
     "symfony/asset-mapper": {
         "version": "7.0",
         "recipe": {
