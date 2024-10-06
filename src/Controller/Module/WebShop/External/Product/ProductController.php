@@ -7,12 +7,14 @@ use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
 use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
+use App\Form\Module\WebShop\External\Product\WebShopProductSorter;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -85,16 +87,28 @@ class ProductController extends AbstractController
         $event = new ProductListingQueryEvent($request);
         $eventDispatcher->dispatch($event, ProductListingQueryEvent::LIST_QUERY_EVENT);
 
-        $query = $event->getQuery()->getResult();
         $pagination = $paginator->paginate(
             $event->getQuery(), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
 
+        $sortForm = $this->createForm(WebShopProductSorter::class);
+
+        $sortForm->handleRequest($request);
+
+
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+
+            $queryParams = $this->mergeQueryParameters($request, $sortForm);
+
+            return $this->redirectToRoute('home', $queryParams);
+        }
+
         return $this->render(
             'module/web_shop/external/product/web_shop_product_list.html.twig',
-            ['pagination' => $pagination]
+            ['pagination' => $pagination,
+                'sortForm' => $sortForm]
         );
     }
 
@@ -109,6 +123,22 @@ class ProductController extends AbstractController
         );
 
 
+    }
+
+    /**
+     * @param Request $request
+     * @param FormInterface $sortForm
+     * @return array
+     */
+    public function mergeQueryParameters(Request $request, FormInterface $sortForm): array
+    {
+        $queryParams = $request->query->all();
+
+        $queryParams['sort_by'] =
+            $sortForm->get('sort_by')->getData();
+        $queryParams['order'] =
+            $sortForm->get('order')->getData();
+        return $queryParams;
     }
 
 }
