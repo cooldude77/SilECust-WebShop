@@ -115,4 +115,14 @@ class ProductRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function getQueryFindAll(): Query
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('p')
+            ->from(Product::class, 'p')
+            ->getQuery();
+    }
+
 }

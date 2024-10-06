@@ -6,15 +6,24 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\Query\QueryException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
+    public function __construct()
+    {
+
+    }
+
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function mainPage($name, Request $request):
     Response
@@ -58,23 +67,34 @@ class ProductController extends AbstractController
         );
     }
 
-    public function list(ProductRepository  $productRepository,
-                         CategoryRepository $categoryRepository,
-                         Request            $request
+    /**
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     * @throws QueryException
+     */
+    public function list(EventDispatcherInterface $eventDispatcher,
+                         PaginatorInterface       $paginator,
+                         Request                  $request
     ): Response
     {
 
-        if ($request->query->get('category') != null) {
 
-            $category = $categoryRepository->findOneBy(['name' => $request->get('category')]);
-            $products = $productRepository->findAllByChildren($category);
-        } else {
-            $products = $productRepository->findAll();
-        }
+        $event = new ProductListingQueryEvent($request);
+        $eventDispatcher->dispatch($event, ProductListingQueryEvent::LIST_QUERY_EVENT);
+
+        $query = $event->getQuery()->getResult();
+        $pagination = $paginator->paginate(
+            $event->getQuery(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render(
             'module/web_shop/external/product/web_shop_product_list.html.twig',
-            ['products' => $products]
+            ['pagination' => $pagination]
         );
     }
 
