@@ -23,6 +23,11 @@ class CustomerAddress
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $line1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]

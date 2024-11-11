@@ -19,10 +19,18 @@ class ProductAttributeType
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )] private ?string $description = null;
 
     public function getId(): ?int
     {

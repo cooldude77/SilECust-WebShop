@@ -19,6 +19,11 @@ class DiscountPriceProduct
     private ?Product $product = null;
 
     #[ORM\Column]
+    #[Assert\LessThan(
+        value: 0
+    )] #[Assert\GreaterThan(
+        value: 100
+    )]
     private ?int $discountPercentage = null;
 
     public function getId(): ?int

@@ -19,7 +19,11 @@ class PriceProductDiscount
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?float $value = null;
+    #[Assert\LessThan(
+        value: 0
+    )] #[Assert\GreaterThan(
+        value: 100
+    )]private ?float $value = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
