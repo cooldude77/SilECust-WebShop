@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product Attributes are independent

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PostalCodeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostalCodeRepository::class)]
 class PostalCode
