@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CustomerTypeAttributeController extends AbstractController
 {
-    #[Route('/customer/type/attribute/create', name: 'create_customer_type_attribute')]
+    #[Route('/admin/customer/type/attribute/create', name: 'create_customer_type_attribute')]
     public function createCustomer(EntityManagerInterface $entityManager): Response
     {
         $customer = new CustomerType();

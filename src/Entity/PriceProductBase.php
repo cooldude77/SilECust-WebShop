@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PriceProductBaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PriceProductBaseRepository::class)]
 class PriceProductBase
@@ -11,6 +12,10 @@ class PriceProductBase
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Assert\GreaterThan(
+        value: 0,
+        groups: ['edit']
+    )]
     private ?int $id = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
@@ -18,6 +23,9 @@ class PriceProductBase
     private ?Product $product = null;
 
     #[ORM\Column]
+    #[Assert\LessThan(
+        value: 0
+    )]
     private ?float $price = null;
 
     #[ORM\ManyToOne]

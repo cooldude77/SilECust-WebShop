@@ -18,7 +18,7 @@ class OrderAddressForm extends AbstractType
     public ?string $line1 = null;
     public ?string $line2 = null;
     public ?string $line3 = null;
-    public ?string $pinCode = null;
+    public ?string $postalCode = null;
 
     public ?string $city = null;
 
@@ -34,7 +34,7 @@ class OrderAddressForm extends AbstractType
         $builder->add('orderId', NumberType::class);
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
-        $builder->add('pinCode', TextType::class);
+        $builder->add('postalCode', TextType::class);
         $builder->add('city', TextType::class);
         $builder->add('state', TextType::class);
         $builder->add('country', TextType::class);

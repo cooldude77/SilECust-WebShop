@@ -45,4 +45,18 @@ class CityRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function create(?\App\Entity\State $find)
+    {
+        $city = new City();
+        $city->setState($find);
+
+        return $city;
+    }
+
+    public function getQueryForSelect(\App\Entity\State $state): \Doctrine\ORM\Query
+    {
+        $dql = "SELECT s FROM App\Entity\City s where s.state=:state";
+        return $this->getEntityManager()->createQuery($dql)->setParameter("state", $state);
+
+    }
 }

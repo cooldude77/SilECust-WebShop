@@ -7,7 +7,7 @@ use App\Entity\City;
 use App\Entity\Country;
 use App\Entity\Currency;
 use App\Entity\FileBaseType;
-use App\Entity\PinCode;
+use App\Entity\PostalCode;
 use App\Entity\ProductImageType;
 use App\Entity\Salutation;
 use App\Entity\State;
@@ -35,7 +35,7 @@ class AbstractWebTestCase extends WebTestCase
                 Country::class,
                 State::class,
                 City::class,
-                PinCode::class,
+                PostalCode::class,
                 Salutation::class,
                 WebShopImageType::class
 

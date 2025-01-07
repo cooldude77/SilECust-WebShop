@@ -24,7 +24,7 @@ class CustomerAddressController extends AbstractController
     /**
      * @throws AddressTypeNotProvided
      */
-    #[Route('/customer/{id}/address/create', name: 'customer_address_create')]
+    #[Route('/admin/customer/{id}/address/create', name: 'customer_address_create')]
     public function create(int                    $id, CustomerAddressDTOMapper $mapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
@@ -48,7 +48,7 @@ class CustomerAddressController extends AbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
 
             $customerAddress = $mapper->mapDtoToEntityForCreate($data);
 
@@ -70,13 +70,13 @@ class CustomerAddressController extends AbstractController
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/customer/address/{id}/edit', name: 'customer_address_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/address/{id}/edit', name: 'customer_address_edit')]
     public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
                          EntityManagerInterface    $entityManager,
                          CustomerAddressRepository $customerAddressRepository, Request $request
@@ -94,7 +94,7 @@ class CustomerAddressController extends AbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-            $data->pinCodeId = $form->get('pinCode')->getData()->getId();
+            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
 
             $customerEntity = $mapper->mapDtoToEntityForUpdate(
                 $data, $customerAddress
@@ -117,12 +117,12 @@ class CustomerAddressController extends AbstractController
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
 
-    #[Route('/customer/address/{id}/display', name: 'customer_address_display')]
+    #[Route('/admin/customer/address/{id}/display', name: 'customer_address_display')]
     public function display(CustomerAddressRepository $customerAddressRepository, int $id): Response
     {
         $customerAddress = $customerAddressRepository->find($id);
@@ -147,7 +147,7 @@ class CustomerAddressController extends AbstractController
     }
 
 
-    #[Route('/customer/{id}/address/list', name: 'customer_address_list')]
+    #[Route('/admin/customer/{id}/address/list', name: 'customer_address_list')]
     public function list(int                       $id,
                          CustomerAddressRepository $customerAddressRepository,
                          Request                   $request,

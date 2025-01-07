@@ -1,9 +1,19 @@
 {% if categories is defined and categories is not empty %}
+    {% for category in categories %}
+        {{ _self.recursive(category) }}
+    {% endfor %}
+
+{% endif %}
+{% macro recursive(category) %}
     <ul>
-        {% for category in categories %}
-            <li>
-                <a href="{{ path('home',{'category':category.name}) }}">{{ category.description }}</a>
-            </li>
+        {% for key, value in category %}
+            {% if key == 'name' %}
+                <li>
+                    <a href="{{ path('home',{'category':value}) }}">{{ category.description }}</a>
+                </li>
+            {% elseif value is iterable %}
+                {{ _self.recursive(value) }}
+            {% endif %}
         {% endfor %}
     </ul>
-{% endif %}
+{% endmacro recursive %}

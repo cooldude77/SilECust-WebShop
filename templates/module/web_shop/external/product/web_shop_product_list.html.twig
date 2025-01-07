@@ -1,8 +1,26 @@
-{% if products|length == 0 %}
-    No products found
-{% else %}
+{% if pagination is not null and pagination|length > 0 %}
+    <div class="row">
+        {{ form_start(sortForm) }}
+        <div class="d-flex flex-row">
+
+            <div class="col-sm-3 mx-1">{{ form_widget(sortForm.sort_by) }}</div>
+            <div class="col-sm-3 mx-1 ">{{ form_widget(sortForm.order) }}</div>
+            <div class="col-sm-3 mx-1">{{ form_widget(sortForm.submit) }}</div>
+            {{ form_rest(sortForm) }}
+
+        </div>
+        {{ form_end(sortForm) }}
+    </div>
+
     <div class="d-flex flex-row">
-        {% for product in products %}
+        {% for entity in pagination %}
+            {#  Is entity the product entity? It could be any other sorted field from other table.
+          Get the product from it  #}
+
+            {% set event = dispatchWebShopProductListSingleProductEvent('web_shop.product_list.single_product_display',
+                {"entity": entity}) %}
+            {% set product = event.getProduct %}
+
             <div class="col-sm-3 card p-2 mx-auto">
                 <div id="product-image">
                     <a href="{{ path('web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
@@ -23,5 +41,13 @@
             </div>
         {% endfor %}
     </div>
+    <div class="navigation">
+        {{ knp_pagination_render(
+            pagination,
+            'admin/ui/panel/section/content/list/sliding.html.twig'
+        ) }}
+    </div>
+{% else %}
+    No products found
 {% endif %}
 

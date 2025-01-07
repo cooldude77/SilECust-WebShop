@@ -17,7 +17,7 @@ class CustomerAddressDTO
     public ?string $line3 = null;
 
     public ?string $addressType = "billing";
-    public ?int $pinCodeId = 0;
+    public ?int $postalCodeId = 0;
 
     public bool $isDefault = false;
 

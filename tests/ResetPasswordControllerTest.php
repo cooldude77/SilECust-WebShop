@@ -4,10 +4,15 @@ namespace App\Tests;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Tests\Fixtures\CustomerFixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Zenstruck\Browser;
+use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Mailer\Test\InteractsWithMailer;
+use Zenstruck\Mailer\Test\TestEmail;
 
 class ResetPasswordControllerTest extends WebTestCase
 {
@@ -15,90 +20,54 @@ class ResetPasswordControllerTest extends WebTestCase
     private EntityManagerInterface $em;
     private UserRepository $userRepository;
 
-    protected function setUp(): void
-    {
-        $this->client = static::createClient();
+    use HasBrowser, CustomerFixture, InteractsWithMailer;
 
-        // Ensure we have a clean database
-        $container = static::getContainer();
-
-        /** @var EntityManagerInterface $em */
-        $em = $container->get('doctrine')->getManager();
-        $this->em = $em;
-
-        $this->userRepository = $container->get(UserRepository::class);
-
-        foreach ($this->userRepository->findAll() as $user) {
-            $this->em->remove($user);
-        }
-
-        $this->em->flush();
-    }
 
     public function testResetPasswordController(): void
     {
-        // Create a test user
-        $user = (new User())
-            ->setLogin('me@example.com')
-            ->setPassword('a-test-password-that-will-be-changed-later')
-        ;
-        $this->em->persist($user);
-        $this->em->flush();
+
+        $this->createCustomerFixtures();
 
         // Test Request reset password page
-        $this->client->request('GET', '/reset-password');
+        $this->browser()
+            ->visit('/reset-password')
+            ->use(function (Browser $browser) {
+                self::assertResponseIsSuccessful();
+                self::assertPageTitleContains('Reset your password');
+            })
+            // Submit the reset password form and test email message is queued / sent
+            ->fillField('reset_password_request_form[login]', $this->customer->getUser()->getLogin())
+            ->click('Send password reset email')
+            ->assertSee('Password Reset Email Sent')
+            ->assertSee('This link will expire in 1 hour');
 
-        self::assertResponseIsSuccessful();
-        self::assertPageTitleContains('Reset your password');
+        $link = '';
+        $this->mailer()
+            ->assertSentEmailCount(1)
+            ->assertEmailSentTo($this->userForCustomer->getLogin(), function (TestEmail $email) use (&$link) {
+                $email
+                    ->assertSubject('Your password reset request')
+                    ->assertFrom(self::$kernel->getContainer()->getParameter('silecust.sign_up.email.email_from_address'))
+                    ->assertTextContains('This link will expire in 1 hour.');
+                $text = $email->getHtmlBody();
+                preg_match('#(/reset-password/reset/[a-zA-Z0-9]+)#', $text, $resetLink);
+                $link = $resetLink[0];
 
-        // Submit the reset password form and test email message is queued / sent
-        $this->client->submitForm('Send password reset email', [
-            'reset_password_request_form[login]' => 'me@example.com',
-        ]);
+            });
 
-        // Ensure the reset password email was sent
-        // Use either assertQueuedEmailCount() || assertEmailCount() depending on your mailer setup
-        // self::assertQueuedEmailCount(1);
-        self::assertEmailCount(1);
+        $this->browser()
+            ->interceptRedirects()
+            ->visit($link)
+            ->followRedirects()
+            ->interceptRedirects()
+            ->fillField('change_password_form[plainPassword][first]', 'newStrongPassword')
+            ->fillField('change_password_form[plainPassword][second]', 'newStrongPassword')
+            ->click('Reset password')
+            ->assertRedirectedTo('/');
 
-        self::assertCount(1, $messages = $this->getMailerMessages());
-
-        self::assertEmailAddressContains($messages[0], 'from', 'email@test.com');
-        self::assertEmailAddressContains($messages[0], 'to', 'me@example.com');
-        self::assertEmailTextBodyContains($messages[0], 'This link will expire in 1 hour.');
-
-        self::assertResponseRedirects('/reset-password/check-email');
-
-        // Test check email landing page shows correct "expires at" time
-        $crawler = $this->client->followRedirect();
-
-        self::assertPageTitleContains('Password Reset Email Sent');
-        self::assertStringContainsString('This link will expire in 1 hour', $crawler->html());
-
-        // Test the link sent in the email is valid
-        $email = $messages[0]->toString();
-        preg_match('#(/reset-password/reset/[a-zA-Z0-9]+)#', $email, $resetLink);
-
-        $this->client->request('GET', $resetLink[1]);
-
-        self::assertResponseRedirects('/reset-password/reset');
-
-        $this->client->followRedirect();
-
-        // Test we can set a new password
-        $this->client->submitForm('Reset password', [
-            'change_password_form[plainPassword][first]' => 'newStrongPassword',
-            'change_password_form[plainPassword][second]' => 'newStrongPassword',
-        ]);
-
-        self::assertResponseRedirects('/');
-
-        $user = $this->userRepository->findOneBy(['login' => 'me@example.com']);
-
-        self::assertInstanceOf(User::class, $user);
-
-        /** @var UserPasswordHasherInterface $passwordHasher */
         $passwordHasher = static::getContainer()->get(UserPasswordHasherInterface::class);
-        self::assertTrue($passwordHasher->isPasswordValid($user, 'newStrongPassword'));
+        self::assertTrue($passwordHasher->isPasswordValid($this->userForCustomer->object(), 'newStrongPassword'));
+
+
     }
 }

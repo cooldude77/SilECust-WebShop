@@ -38,12 +38,8 @@ class CustomerDTOMapper
 
     public function mapToEntityForEdit(FormInterface $form, Customer $customer): Customer
     {
-        /** @var Category $category */
-        $salutation = $this->salutationRepository->find($form->get('salutationId')->getData());
 
         $customerDTO = $form->getData();
-
-        $customer->setSalutation($salutation);
 
         $customer->setFirstName($customerDTO->firstName);
         $customer->setMiddleName($customerDTO->middleName);

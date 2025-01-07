@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PriceProductBaseController extends AbstractController
 {
 
-    #[Route('/price/product/base/create', name: 'price_product_base_create')]
+    #[Route('/admin/price/product/base/create', name: 'price_product_base_create')]
     public function create(PriceProductBaseDTOMapper $mapper, EntityManagerInterface $entityManager,
                            Request                   $request
     ): Response
@@ -65,7 +65,7 @@ class PriceProductBaseController extends AbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/price/product/base/{id}/edit', name: 'price_product_base_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/price/product/base/{id}/edit', name: 'price_product_base_edit')]
     public function edit(int                        $id, PriceProductBaseDTOMapper $mapper,
                          EntityManagerInterface     $entityManager,
                          PriceProductBaseRepository $priceProductBaseRepository, Request $request
@@ -106,7 +106,7 @@ class PriceProductBaseController extends AbstractController
 
     }
 
-    #[Route('/price/product/base/{id}/display', name: 'price_product_base_display')]
+    #[Route('/admin/price/product/base/{id}/display', name: 'price_product_base_display')]
     public function display(PriceProductBaseRepository $priceProductBaseRepository, int $id
     ): Response
     {
@@ -134,7 +134,7 @@ class PriceProductBaseController extends AbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/price/product/base/list', name: 'price_product_base_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/price/product/base/list', name: 'price_product_base_list')]
     public function list(PriceProductBaseRepository $priceProductBaseRepository,
                          PaginatorInterface         $paginator,
                          Request                    $request
@@ -174,7 +174,7 @@ class PriceProductBaseController extends AbstractController
         );
     }
 
-    #[Route('/price/product/base/{id}/fetch', name: 'price_product_base_fetch')]
+    #[Route('/admin/price/product/base/{id}/fetch', name: 'price_product_base_fetch')]
     public function fetch(int                        $id, ProductRepository $productRepository,
                           PriceProductBaseRepository $priceProductBaseRepository
     ):

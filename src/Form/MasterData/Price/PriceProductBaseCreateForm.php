@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Price;
 
-use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
+use App\Form\Finance\Currency\CurrencyAutoCompleteField;
 use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use App\Form\MasterData\Product\ProductAutoCompleteField;
 use Symfony\Component\Form\AbstractType;

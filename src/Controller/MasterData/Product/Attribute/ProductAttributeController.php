@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductAttributeController extends AbstractController
 {
-    #[Route('/product/attribute/create', name: 'product_attribute_create')]
+    #[Route('/admin/product/attribute/create', name: 'product_attribute_create')]
     public function create(ProductAttributeDTOMapper $mapper, EntityManagerInterface $entityManager,
         Request $request
     ): Response {
@@ -50,13 +50,13 @@ class ProductAttributeController extends AbstractController
         }
 
         return $this->render(
-            '/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/product/attribute/{id}/edit', name: 'product_attribute_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/{id}/edit', name: 'product_attribute_edit')]
     public function edit(int $id, ProductAttributeDTOMapper $mapper,
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeRepository, Request $request
@@ -96,7 +96,7 @@ class ProductAttributeController extends AbstractController
     }
 
 
-    #[Route('/product/attribute/list', name: 'product_attribute_list')]
+    #[Route('/admin/product/attribute/list', name: 'product_attribute_list')]
     public function list(ProductAttributeRepository $productAttributeRepository,Request $request): Response
     {
 

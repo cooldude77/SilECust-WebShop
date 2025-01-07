@@ -2,7 +2,7 @@
 
 namespace App\Form\MasterData\Customer\DTO;
 
-use App\Entity\PinCode;
+use App\Entity\PostalCode;
 use App\Entity\Salutation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

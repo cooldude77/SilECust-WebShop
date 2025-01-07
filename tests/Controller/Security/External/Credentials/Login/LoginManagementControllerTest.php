@@ -58,7 +58,7 @@ class LoginManagementControllerTest extends WebTestCase
 
     public function testLoginAsEmployee()
     {
-        $this->createEmployee();
+        $this->createEmployeeFixtures();
         $uri = '/login';
         // user with employee
         $this->browser()

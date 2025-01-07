@@ -29,7 +29,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public function setProperty(GridPropertyEvent $event): void
     {
         $route = $this->router->match($event->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['my_order_display', 'order_display']))
+        if (!in_array($route['_route'], ['my_order_display', 'sc_admin_route_order_display']))
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'display')
             )

@@ -58,6 +58,14 @@ class PanelActionListMapBuilder
                             'list' => 'sc_route_admin_tax_slab_list'
                         ]
                     ],
+                    'currency' => [
+                        'routes' => [
+                            'create' => 'sc_route_admin_currency_create',
+                            'edit' => 'sc_route_admin_currency_edit',
+                            'display' => 'sc_route_admin_currency_display',
+                            'list' => 'sc_route_admin_currency_list'
+                        ]
+                    ],
                     'product_attribute' => [
                         'routes' => [
                             'create' => 'product_attribute_create',
@@ -100,34 +108,34 @@ class PanelActionListMapBuilder
                     ],
                     'country' => [
                         'routes' => [
-                            'create' => 'country_create',
-                            'edit' => 'country_edit',
-                            'display' => 'country_display',
-                            'list' => 'country_list'
+                            'create' => 'sc_route_admin_country_create',
+                            'edit' => 'sc_route_admin_country_edit',
+                            'display' => 'sc_route_admin_country_display',
+                            'list' => 'sc_route_admin_country_list'
                         ]
                     ],
                     'state' => [
                         'routes' => [
-                            'create' => 'state_create',
-                            'edit' => 'state_edit',
-                            'display' => 'state_display',
-                            'list' => 'state_list'
+                            'create' => 'sc_route_admin_state_create',
+                            'edit' => 'sc_route_admin_state_edit',
+                            'display' => 'sc_route_admin_state_display',
+                            'list' => 'sc_route_admin_state_list'
                         ]
                     ],
                     'city' => [
                         'routes' => [
-                            'create' => 'city_create',
-                            'edit' => 'city_edit',
-                            'display' => 'city_display',
-                            'list' => 'city_list'
+                            'create' => 'sc_route_admin_city_create',
+                            'edit' => 'sc_route_admin_city_edit',
+                            'display' => 'sc_route_admin_city_display',
+                            'list' => 'sc_route_admin_city_list'
                         ]
                     ],
                     'postal_code' => [
                         'routes' => [
-                            'create' => 'postal_code_create',
-                            'edit' => 'postal_code_edit',
-                            'display' => 'postal_code_display',
-                            'list' => 'postal_code_list'
+                            'create' => 'sc_route_admin_postal_code_create',
+                            'edit' => 'sc_route_admin_postal_code_edit',
+                            'display' => 'sc_route_admin_postal_code_display',
+                            'list' => 'sc_route_admin_postal_code_list'
                         ]
                     ],
                     'category' => [
@@ -140,18 +148,18 @@ class PanelActionListMapBuilder
                     ],
                     'order' => [
                         'routes' => [
-                            'create' => 'order_create',
-                            'edit' => 'order_edit',
-                            'display' => 'order_display',
-                            'list' => 'order_list'
+                            'create' => 'sc_admin_route_order_create',
+                            'edit' => 'sc_admin_route_order_edit',
+                            'display' => 'sc_admin_route_order_display',
+                            'list' => 'sc_admin_route_order_list'
                         ]
                     ],
                     'order_item' => [
                         'routes' => [
-                            'create' => 'order_item_create',
-                            'edit' => 'order_item_edit',
-                            'display' => 'order_item_display',
-                            'list' => 'order_item_list'
+                            'create' => 'sc_admin_route_order_item_create',
+                            'edit' => 'sc_admin_route_order_item_edit',
+                            'display' => 'sc_admin_route_order_item_display',
+                            'list' => 'sc_admin_route_order_item_list'
                         ]
                     ],
                     'file' => [

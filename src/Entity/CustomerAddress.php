@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerAddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
 class CustomerAddress
@@ -22,6 +23,11 @@ class CustomerAddress
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $line1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -32,7 +38,7 @@ class CustomerAddress
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?PinCode $pinCode = null;
+    private ?PostalCode $postalCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $addressType = null;
@@ -88,14 +94,14 @@ class CustomerAddress
         $this->line3 = $line3;
     }
 
-    public function getPinCode(): ?PinCode
+    public function getPostalCode(): ?PostalCode
     {
-        return $this->pinCode;
+        return $this->postalCode;
     }
 
-    public function setPinCode(?PinCode $pinCode): void
+    public function setPostalCode(?PostalCode $postalCode): void
     {
-        $this->pinCode = $pinCode;
+        $this->postalCode = $postalCode;
     }
 
     public function getAddressType(): ?string
