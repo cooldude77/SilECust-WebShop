@@ -1,4 +1,16 @@
 # Common steps
+
+# Set parameters ( required)
+In order for application to work
+in `.env.local`( for dev ) and in `.env.test.local` (for test)
+
+set these parameters
+````
+SILECUST_SIGN_UP_EMAIL_FROM_ADDRESS="replace with your value"  
+SILECUST_SIGN_UP_EMAIL_HEADLINE="replace with your value"
+SILECUST_DEFAULT_COUNTRY=IN or "IN" ( any one of it for now)
+````
+
 After installation is complete and  database has been created , you can follow these steps to start working on your development environment
 
 Go to installation directory
@@ -27,16 +39,6 @@ sudo a2enconf adminer.conf
 sudo service apache2 restart
 ````
 
-# Set parameters ( required)
- In order for application to work , especially pricing 
- in `.env.local`( for dev ) and in `.env.test.local` (for test)
- 
-set these parameters
-````
-SILECUST_SIGN_UP_EMAIL_FROM_ADDRESS="replace with your value"  
-SILECUST_SIGN_UP_EMAIL_HEADLINE="replace with your value"
-SILECUST_DEFAULT_COUNTRY=IN or "IN" ( any one of it for now)
-````
 ## htaccess file 
 In dev environment to load css and js files,
 copy included .htaccess_dev to .htaccess in your project and follow the instructions in the file (TBD in the script)

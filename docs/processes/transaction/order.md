@@ -15,7 +15,7 @@ Once the order has been placed by customer, this will be the status
 
 ## Order Journal
 
-Order journal is created everytime after payment has been successfully created. This is essentially created after every stage order is changed (TBD) once the order status is set to PAYMENT_SUCCESSFUL
+Order journal is created everytime after payment has been successfully created. This is essentially created after every stage order is chan ged (TBD) once the order status is set to PAYMENT_SUCCESSFUL
 
 _Why is it needed?_
  - For auditing
