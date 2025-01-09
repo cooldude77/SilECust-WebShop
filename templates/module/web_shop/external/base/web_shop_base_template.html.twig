@@ -4,16 +4,15 @@
 {% endblock %}
 {% block body %}
     <div id="wrapper" class="h-100 container">
-
-        {% block header_wrapper %}
-            {% block header %}
-                <div id="header" class="row">
-                </div>
+        <div id="header-wrapper" class="row">
+            {% block header_wrapper %}
+                {% block header %}
+                    <div id="header" class="row">
+                    </div>
+                {% endblock %}
             {% endblock %}
-        {% endblock %}
-
+        </div>
         <div id="content-wrapper" class="row h-100 my-4 ">
-
             {% block sidebar_wrapper %}
                 <div id="sidebar" class="col-sm-3 sidenav card p-3">
                     {% block sidebar %}
