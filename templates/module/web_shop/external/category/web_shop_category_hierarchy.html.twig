@@ -1,9 +1,14 @@
-{% if categories is defined and categories is not empty %}
-    {% for category in categories %}
-        {{ _self.recursive(category) }}
-    {% endfor %}
-
-{% endif %}
+<div id="sidebar-header" class="w-100 d-flex bg-light p-2">
+    <div class=" m-2">Categories</div>
+    <div class="m-2"><a href="">search...</a></div>
+</div>
+<div id="category-hierarchy" class="mt-1">
+    {% if categories is defined and categories is not empty %}
+        {% for category in categories %}
+            {{ _self.recursive(category) }}
+        {% endfor %}
+    {% endif %}
+</div>
 {% macro recursive(category) %}
     <ul>
         {% for key, value in category %}

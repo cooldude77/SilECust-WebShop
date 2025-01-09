@@ -1,18 +1,16 @@
 {% if pagination is not null and pagination|length > 0 %}
-    <div class="row">
+    <div id="product-filter" class="w-100 d-flex bg-light p-2">
         {{ form_start(sortForm) }}
         <div class="d-flex flex-row">
-
-            <div class="col-sm-3 mx-1">{{ form_widget(sortForm.sort_by) }}</div>
-            <div class="col-sm-3 mx-1 ">{{ form_widget(sortForm.order) }}</div>
+            <div class="col-sm-6 mx-1">{{ form_widget(sortForm.sort_by) }}</div>
+            <div class="col-sm-6 mx-1 ">{{ form_widget(sortForm.order) }}</div>
             <div class="col-sm-3 mx-1">{{ form_widget(sortForm.submit) }}</div>
             {{ form_rest(sortForm) }}
-
         </div>
         {{ form_end(sortForm) }}
     </div>
 
-    <div class="d-flex flex-row">
+    <div id="product-list" class="d-flex flex-row mt-2">
         {% for entity in pagination %}
             {#  Is entity the product entity? It could be any other sorted field from other table.
           Get the product from it  #}

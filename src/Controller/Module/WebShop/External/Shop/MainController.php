@@ -3,6 +3,7 @@
 namespace App\Controller\Module\WebShop\External\Shop;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelFooterController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
@@ -15,7 +16,7 @@ class MainController extends AbstractController
 {
 
     /**
-     * @param Request          $request
+     * @param Request $request
      * @param SessionInterface $session
      *
      * @return Response
@@ -50,6 +51,14 @@ class MainController extends AbstractController
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
             'content'
+        );
+
+        $session->set(
+            PanelFooterController::FOOTER_CONTROLLER_CLASS_NAME, FooterController::class
+        );
+        $session->set(
+            PanelFooterController::FOOTER_CONTROLLER_CLASS_METHOD_NAME,
+            'footer'
         );
 
         $session->set(

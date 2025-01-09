@@ -12,18 +12,21 @@ Note: These two will give different result
 // so always pass request as a parameter
 {{ dump(request.query) }} #}
 {% block header %}
-    {% if headerResponse is defined and headerResponse is not null%}
+    {% if headerResponse is defined and headerResponse is not null %}
         {{ headerResponse | raw }}
     {% endif %}
 {% endblock %}
 
-    {% block sidebar %}
-        {% if sideBarResponse is defined and sideBarResponse is not null %}
-            {{ sideBarResponse | raw }}
-        {% endif %}
-    {% endblock %}
-
+{% block sidebar %}
+    {% if sideBarResponse is defined and sideBarResponse is not null %}
+        {{ sideBarResponse | raw }}
+    {% endif %}
+{% endblock %}
 {% block content %}
     {{ contentResponse | raw }}
-
+{% endblock %}
+{% block footer %}
+    {% if footerResponse is defined and footerResponse is not null %}
+        {{ footerResponse | raw }}
+    {% endif %}
 {% endblock %}

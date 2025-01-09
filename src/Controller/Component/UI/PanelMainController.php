@@ -3,6 +3,7 @@
 namespace App\Controller\Component\UI;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
+use App\Controller\Component\UI\Panel\Components\PanelFooterController;
 use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
@@ -38,7 +39,6 @@ class PanelMainController extends AbstractController
 
 
         $this->checkMandatoryParameters($request->getSession(), $environment);
-
 
         // get head controller
         $headResponse = $this->forward(
@@ -84,6 +84,17 @@ class PanelMainController extends AbstractController
             return $this->redirect($sideBarResponse->getTargetUrl());
         }
 
+        // get footer
+        $footerResponse = $this->forward(
+            PanelFooterController::class . '::' . 'footer', ['request' => $request]
+        );
+
+        // if redirect
+        if ($footerResponse instanceof RedirectResponse) {
+            $this->resetParameters($request->getSession());
+            return $this->redirect($footerResponse->getTargetUrl());
+        }
+
 
         // no redirect, just print data
         $response = $this->render(
@@ -92,6 +103,7 @@ class PanelMainController extends AbstractController
                 'headerResponse' => $headerResponse->getContent(),
                 'contentResponse' => $contentResponse->getContent(),
                 'sideBarResponse' => $sideBarResponse->getContent(),
+                'footerResponse' => $footerResponse->getContent(),
                 'request' => $request]
         );
 
@@ -105,13 +117,14 @@ class PanelMainController extends AbstractController
 
     /**
      * @param SessionInterface $session
-     * @param Environment      $environment
+     * @param Environment $environment
      *
      * @return void
      * @throws BaseTemplateNotFoundPanelMainException
      */
     private function checkMandatoryParameters(SessionInterface $session, Environment $environment
-    ): void {
+    ): void
+    {
         if ($session->get(self::BASE_TEMPLATE) != null) {
             if ($environment->getLoader()->exists($session->get(self::BASE_TEMPLATE))) {
                 return;
