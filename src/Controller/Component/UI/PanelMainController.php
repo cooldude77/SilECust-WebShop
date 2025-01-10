@@ -8,7 +8,7 @@ use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

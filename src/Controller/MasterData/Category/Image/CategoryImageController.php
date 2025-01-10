@@ -14,7 +14,7 @@ use App\Service\MasterData\Category\Image\CategoryImageOperation;
 use App\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
 use App\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

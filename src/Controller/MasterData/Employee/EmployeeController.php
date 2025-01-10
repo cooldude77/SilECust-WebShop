@@ -9,7 +9,7 @@ use App\Form\MasterData\Employee\EmployeeEditForm;
 use App\Repository\EmployeeRepository;
 use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

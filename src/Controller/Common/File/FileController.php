@@ -12,7 +12,7 @@ use App\Repository\FileRepository;
 use App\Service\Common\File\FilePhysicalOperation;
 use App\Service\Common\File\Provider\FileDirectoryPathProvider;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

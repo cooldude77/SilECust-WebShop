@@ -6,7 +6,7 @@ namespace App\Controller\Module\WebShop\External\Payment;
 use App\Form\Module\WebShop\External\PaymentType\PaymentTypeChoiceForm;
 use App\Service\Module\WebShop\External\Payment\PaymentService;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

@@ -7,7 +7,7 @@ use App\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
 use App\Form\Module\WebShop\Admin\Section\Mapper\WebShopSectionDTOMapper;
 use App\Form\Module\WebShop\Admin\Section\WebShopSectionCreateForm;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 

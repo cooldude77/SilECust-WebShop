@@ -15,7 +15,7 @@ use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

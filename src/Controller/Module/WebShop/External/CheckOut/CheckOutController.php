@@ -6,7 +6,7 @@ use App\Controller\Component\Routing\RoutingConstants;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

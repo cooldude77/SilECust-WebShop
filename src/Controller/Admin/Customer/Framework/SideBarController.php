@@ -7,7 +7,7 @@ use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 

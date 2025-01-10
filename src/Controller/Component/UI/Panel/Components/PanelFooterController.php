@@ -3,7 +3,7 @@
 namespace App\Controller\Component\UI\Panel\Components;
 
 use App\Service\Component\UI\Panel\SessionAndMethodChecker;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

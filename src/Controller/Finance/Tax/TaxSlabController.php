@@ -8,7 +8,7 @@ use App\Form\Finance\TaxSlab\TaxSlabEditForm;
 use App\Repository\TaxSlabRepository;
 use App\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

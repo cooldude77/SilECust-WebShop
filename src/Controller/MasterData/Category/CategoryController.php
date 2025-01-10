@@ -8,7 +8,7 @@ use App\Form\MasterData\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
 use App\Service\MasterData\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

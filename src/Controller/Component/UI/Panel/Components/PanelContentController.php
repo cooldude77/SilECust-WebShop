@@ -6,7 +6,7 @@ use App\Exception\Component\UI\Panel\Components\ControllerContentClassDoesNotExi
 use App\Exception\Component\UI\Panel\Components\ControllerContentMethodDoesNotExist;
 use App\Exception\Component\UI\Panel\Components\NoContentControllerClassProvided;
 use App\Exception\Component\UI\Panel\Components\NoContentControllerMethodProvided;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;

@@ -4,7 +4,7 @@ namespace App\Controller\Module\WebShop\External\Category;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

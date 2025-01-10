@@ -1,1 +1,0 @@
-The Class was created in order to provide event hook to 3rd party templates. AbstractController just renders it as it is provided with values without any chance for manipulation pre-render

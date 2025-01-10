@@ -9,7 +9,7 @@ use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Repository\CustomerRepository;
 use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

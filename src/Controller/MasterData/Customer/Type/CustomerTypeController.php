@@ -3,7 +3,7 @@
 namespace App\Controller\MasterData\Customer\Type;
 
 // ...
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 
 class CustomerTypeController extends EnhancedAbstractController
 {

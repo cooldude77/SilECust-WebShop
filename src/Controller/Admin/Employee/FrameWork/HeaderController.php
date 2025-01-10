@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin\Employee\FrameWork;
 
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class HeaderController extends EnhancedAbstractController

@@ -5,7 +5,7 @@ namespace App\Controller\MasterData\Customer\Type\Attribute;
 // ...
 use App\Entity\CustomerType;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

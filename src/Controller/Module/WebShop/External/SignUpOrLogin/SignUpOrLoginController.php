@@ -2,7 +2,7 @@
 
 namespace App\Controller\Module\WebShop\External\SignUpOrLogin;
 
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

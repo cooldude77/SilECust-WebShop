@@ -24,7 +24,7 @@ use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;
 use App\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
 use App\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

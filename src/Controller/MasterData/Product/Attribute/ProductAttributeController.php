@@ -9,7 +9,7 @@ use App\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
 use App\Repository\ProductAttributeRepository;
 use App\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
- use App\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

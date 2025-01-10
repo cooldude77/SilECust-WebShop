@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17f62d4329bdbbc2092e9f33f61a667c",
+    "content-hash": "9f8749bc0d4d0d839450f9510870154c",
     "packages": [
         {
             "name": "composer/semver",
@@ -2112,6 +2112,45 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "silecust/framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cooldude77/silecust-framework.git",
+                "reference": "47b8901d005dc94aab27b665b0196d10e352c9f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cooldude77/silecust-framework/zipball/47b8901d005dc94aab27b665b0196d10e352c9f3",
+                "reference": "47b8901d005dc94aab27b665b0196d10e352c9f3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3",
+                "symfony/framework-bundle": "7.2.*"
+            },
+            "default-branch": true,
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Silecust\\Framework\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Ashvini",
+                    "email": "2662881+cooldude77@users.noreply.github.com"
+                }
+            ],
+            "description": "Silecust framework for common classes",
+            "support": {
+                "issues": "https://github.com/cooldude77/silecust-framework/issues",
+                "source": "https://github.com/cooldude77/silecust-framework/tree/master"
+            },
+            "time": "2025-01-10T11:44:03+00:00"
         },
         {
             "name": "symfony/asset",
@@ -10047,7 +10086,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
