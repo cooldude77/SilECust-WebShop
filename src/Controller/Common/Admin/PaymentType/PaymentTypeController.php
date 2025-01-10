@@ -10,12 +10,12 @@ use App\Repository\PaymentTypeRepository;
 use App\Service\Common\PaymentType\Mapper\PaymentTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PaymentTypeController extends AbstractController
+class PaymentTypeController extends EnhancedAbstractController
 {
 
     #[\Symfony\Component\Routing\Attribute\Route('/payment_type/create', 'payment_type_create')]

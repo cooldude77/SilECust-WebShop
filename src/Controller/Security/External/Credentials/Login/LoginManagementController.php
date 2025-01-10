@@ -8,13 +8,13 @@ use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Security\User\Employee\EmployeeFromUserFinder;
 use LogicException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginManagementController extends AbstractController
+class LoginManagementController extends EnhancedAbstractController
 {
 
 

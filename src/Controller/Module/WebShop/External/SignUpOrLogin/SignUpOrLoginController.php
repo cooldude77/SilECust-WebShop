@@ -2,11 +2,11 @@
 
 namespace App\Controller\Module\WebShop\External\SignUpOrLogin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SignUpOrLoginController extends AbstractController
+class SignUpOrLoginController extends EnhancedAbstractController
 {
 
     #[Route('/checkout/entry', name: 'web_shop_sign_up_or_login')]

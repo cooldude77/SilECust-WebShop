@@ -8,12 +8,12 @@ use App\Form\MasterData\Product\Attribute\Value\ProductAttributeValueEditForm;
 use App\Repository\ProductAttributeValueRepository;
 use App\Service\MasterData\Product\Attribute\Value\ProductAttributeValueDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductAttributeValueController extends AbstractController
+class ProductAttributeValueController extends EnhancedAbstractController
 {
 
     #[Route('/admin/product/attribute/{id}/value/create', name: 'product_attribute_value_create')]

@@ -8,13 +8,13 @@ use App\Form\Finance\TaxSlab\TaxSlabEditForm;
 use App\Repository\TaxSlabRepository;
 use App\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TaxSlabController extends AbstractController
+class TaxSlabController extends EnhancedAbstractController
 {
 
     #[Route('/admin/tax-slab/create', 'sc_route_admin_tax_slab_create')]

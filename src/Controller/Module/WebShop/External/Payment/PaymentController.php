@@ -10,13 +10,13 @@ use App\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use App\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use App\Service\Transaction\Order\OrderRead;
 use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class PaymentController extends AbstractController
+class PaymentController extends EnhancedAbstractController
 {
 
     /**

@@ -11,12 +11,12 @@ use App\Repository\CityRepository;
 use App\Service\Location\Mapper\City\CityDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class CityController extends AbstractController
+class CityController extends EnhancedAbstractController
 {
     #[Route('/admin/city/state/{id}/create', 'sc_route_admin_city_create')]
     public function create(State                  $state,

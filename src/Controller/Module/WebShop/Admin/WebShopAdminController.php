@@ -9,12 +9,12 @@ use App\Repository\WebShopRepository;
 use App\Service\Module\WebShop\Admin\Mapper\WebShopDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopAdminController extends AbstractController
+class WebShopAdminController extends EnhancedAbstractController
 {
     #[\Symfony\Component\Routing\Attribute\Route('/web-shop/create', 'web_shop_create')]
     public function create(WebShopDTOMapper $webShopDTOMapper,

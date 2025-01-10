@@ -12,14 +12,14 @@ use App\Repository\PriceProductDiscountRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class PriceProductDiscountController extends AbstractController
+class PriceProductDiscountController extends EnhancedAbstractController
 {
 
     #[Route('/admin/price/product/discount/create', name: 'price_product_discount_create')]

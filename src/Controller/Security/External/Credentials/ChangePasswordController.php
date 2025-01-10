@@ -2,11 +2,11 @@
 
 namespace App\Controller\Security\External\Credentials;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ChangePasswordController extends AbstractController
+class ChangePasswordController extends EnhancedAbstractController
 {
 
     #[Route(path: '/user/password/change', name: 'user_change_password')]

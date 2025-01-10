@@ -7,11 +7,11 @@ use App\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
 use App\Form\Module\WebShop\Admin\Section\Mapper\WebShopSectionDTOMapper;
 use App\Form\Module\WebShop\Admin\Section\WebShopSectionCreateForm;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebShopAdminSectionController extends AbstractController
+class WebShopAdminSectionController extends EnhancedAbstractController
 {
     #[Route('/web-shop/section/create', name: 'module_web_shop_section_create')]
     public function createWebShopSection(EntityManagerInterface $entityManager,

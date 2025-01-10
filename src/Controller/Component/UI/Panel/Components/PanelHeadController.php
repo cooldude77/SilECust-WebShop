@@ -3,12 +3,12 @@
 namespace App\Controller\Component\UI\Panel\Components;
 
 use App\Service\Component\UI\Panel\SessionAndMethodChecker;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class PanelHeadController extends AbstractController
+class PanelHeadController extends EnhancedAbstractController
 {
     public const string HEAD_CONTROLLER_CLASS_NAME = 'HEAD_CONTROLLER_CLASS_NAME';
     public const string HEAD_CONTROLLER_CLASS_METHOD_NAME = 'HEAD_CONTROLLER_CLASS_METHOD_NAME';
@@ -40,13 +40,19 @@ class PanelHeadController extends AbstractController
             $session->set(self::HEAD_CONTROLLER_CLASS_NAME, null);
             $session->set(self::HEAD_CONTROLLER_CLASS_METHOD_NAME, null);
 
-        } else {
+        }
+        /*
+        else {
 
 
             $response = $this->render(
                 'admin/ui/panel/head/head.html.twig',
                 ['page_title' => $session->get(PanelHeadController::PAGE_TITLE)]
             );
+        }
+        */
+        else {
+            $response = new Response();
         }
 
         return $response;

@@ -3,12 +3,12 @@
 namespace App\Controller\Module\WebShop\External\Shop;
 
 use App\Form\Module\WebShop\External\Shop\HeaderSearchForm;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HeaderController extends AbstractController
+class HeaderController extends EnhancedAbstractController
 {
 
     public function header(Request $request): Response

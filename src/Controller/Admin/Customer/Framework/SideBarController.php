@@ -7,11 +7,11 @@ use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class SideBarController extends AbstractController
+class SideBarController extends EnhancedAbstractController
 {
 
     public function sideBar(RoleBasedSideBarList $roleBasedSideBarList,

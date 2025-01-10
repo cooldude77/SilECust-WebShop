@@ -7,13 +7,13 @@ use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
 use App\Repository\OrderHeaderRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-class OrderConfirmationController extends AbstractController
+class OrderConfirmationController extends EnhancedAbstractController
 {
     #[Route('/order/{generatedId}/success', 'module_web_shop_order_complete_details')]
     public function view(Request $request,SessionInterface $session): Response

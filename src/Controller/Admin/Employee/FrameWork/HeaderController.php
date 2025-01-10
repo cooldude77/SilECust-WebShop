@@ -2,10 +2,10 @@
 
 namespace App\Controller\Admin\Employee\FrameWork;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class HeaderController extends AbstractController
+class HeaderController extends EnhancedAbstractController
 {
 
     public function header(): Response

@@ -11,12 +11,12 @@ use App\Repository\ProductRepository;
 use App\Service\MasterData\Inventory\Mapper\InventoryProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InventoryProductController extends AbstractController
+class InventoryProductController extends EnhancedAbstractController
 {
 
     #[Route('/admin/inventory/product/{id}/create', 'inventory_product_create')]

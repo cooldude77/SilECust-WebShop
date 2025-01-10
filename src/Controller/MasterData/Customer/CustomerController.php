@@ -9,12 +9,12 @@ use App\Form\MasterData\Customer\DTO\CustomerDTO;
 use App\Repository\CustomerRepository;
 use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CustomerController extends AbstractController
+class CustomerController extends EnhancedAbstractController
 {
 
     #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/create', 'customer_create')]

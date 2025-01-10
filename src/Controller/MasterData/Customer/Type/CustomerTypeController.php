@@ -3,9 +3,9 @@
 namespace App\Controller\MasterData\Customer\Type;
 
 // ...
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 
-class CustomerTypeController extends AbstractController
+class CustomerTypeController extends EnhancedAbstractController
 {
 
 }

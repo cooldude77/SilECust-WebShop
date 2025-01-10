@@ -12,13 +12,13 @@ use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use App\Service\Security\User\Customer\CustomerService;
 use App\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class SignUpController extends AbstractController
+class SignUpController extends EnhancedAbstractController
 {
 
     /**

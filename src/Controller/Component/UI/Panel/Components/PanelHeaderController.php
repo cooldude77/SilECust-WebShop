@@ -3,12 +3,12 @@
 namespace App\Controller\Component\UI\Panel\Components;
 
 use App\Service\Component\UI\Panel\SessionAndMethodChecker;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use App\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class PanelHeaderController extends AbstractController
+class PanelHeaderController extends EnhancedAbstractController
 {
     public const string HEADER_CONTROLLER_CLASS_NAME = 'HEADER_CONTROLLER_CLASS_NAME';
     public const string HEADER_CONTROLLER_CLASS_METHOD_NAME = 'HEADER_CONTROLLER_CLASS_METHOD_NAME';
