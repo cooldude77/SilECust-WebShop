@@ -14,7 +14,7 @@ use App\Service\MasterData\Category\Image\CategoryImageOperation;
 use App\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
 use App\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  *
  */
-class CategoryImageController extends AbstractController
+class CategoryImageController extends EnhancedAbstractController
 {
     /**
      * @param int $id

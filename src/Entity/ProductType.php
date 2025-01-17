@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductTypeRepository::class)]
 class ProductType
@@ -14,9 +15,19 @@ class ProductType
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $description = null;
 
     public function getId(): ?int

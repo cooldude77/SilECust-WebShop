@@ -4,9 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\VarExporter\Hydrator;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -54,15 +53,71 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function findTopLevelCategories(): array
     {
+
         return $this->getEntityManager()
-            ->createQuery("SELECT a FROM App\Entity\Category  a where a.parent IS null")
+            ->createQueryBuilder()
+            ->select('c','parent')
+            ->from(Category::class, 'c')
+            ->join('c.parent','parent')
+            ->orderBy('c.parent')
+            ->getQuery()
             ->getResult();
+
     }
- public function findAllCategories(): array
+
+    /*
+    return $this->getEntityManager()
+        ->createQuery("SELECT a FROM App\Entity\Category  a where a.parent IS null")
+        ->getResult();
+
+
+     $p = $this->getEntityManager()
+         ->createQueryBuilder()
+         ->select('c', 'parent')
+         //            ->addSelect('parent')
+         ->from(Category::class, 'c')
+         ->leftJoin('c.parent', 'parent')
+         ->where('c.id = :id')
+         ->setParameter('id',4)
+         ->getQuery()
+         ->getResult();
+
+
+    $rsm = new ResultSetMapping();
+    $rsm->addEntityResult(Category::class, 'c');
+    $rsm->addFieldResult('c', 'id', 'id');
+    //$rsm->addFieldResult('c', 'parent', 'parent');
+    $rsm->addEntityResult(Category::class,'parent','parent');
+    $rsm->addFieldResult('c', 'name', 'name');
+
+    $query = $this->getEntityManager()->createNativeQuery('  with recursive cte as (
+(  SELECT c.id, c.parent_id, c.name,1 AS level
+FROM   category c
+WHERE c.parent_id is null
+)
+
+UNION  ALL
+
+(SELECT e.id, e.parent_id, e.name, cte.level + 1
+FROM   cte cte
+JOIN   category e ON e.parent_id= cte.id))
+
+SELECT * FROM   cte;', $rsm);
+//     ->setParameter(1, null);
+    $x = $query->getResult();
+
+    return $x;
+
+//        return $p;
+
+*/
+
+
+    public function findAllCategories(): array
     {
         return $this->getEntityManager()
-            ->createQuery("SELECT a FROM App\Entity\Category a where a.parent")
-            ->getResult();
+            ->createQuery("SELECT a FROM App\Entity\Category a")
+            ->getResult(Query::HYDRATE_ARRAY);
         /*
          * select * from (SELECT cp.id,cp.name,cp.parent_id,cp.description
     FROM category AS cp JOIN category AS c
@@ -71,6 +126,19 @@ UNION
 SELECT cp.id,cp.name,cp.parent_id,cp.description
     FROM category cp ) x order by parent_id,id;
          */
+    }
+
+    public function findAllCategoriesTill(?Category $category)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $result = $qb->select('c')
+            ->from(Category::class, 'c')
+            ->where("c.path LIKE :p1")
+            ->setParameter('p1', $category->getPath() . "/%")
+            ->getQuery()
+            ->getResult();
+        return $result;
     }
 
 

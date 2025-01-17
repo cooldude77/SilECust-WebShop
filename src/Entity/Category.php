@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     #[ORM\Id]
@@ -38,6 +40,9 @@ class Category
     #[ORM\JoinColumn]
     // Note: removed inversed By: 'category', from above notation
     private ?self $parent = null;
+
+    #[ORM\Column(type: Types::TEXT, unique: true)]
+    private ?string $path = null;
 
 
     public function getId(): ?int
@@ -85,6 +90,18 @@ class Category
     public function __toString()
     {
         return $this->description; //or anything else
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): static
+    {
+        $this->path = $path;
+
+        return $this;
     }
 
 }

@@ -7,6 +7,7 @@ class PriceObject
     private float $discount;
     private float $taxRate;
 
+    private float $shipping;
     public function __construct(private float $basePrice)
     {
     }
@@ -39,6 +40,16 @@ class PriceObject
     public function setTaxRate(float $taxRate): void
     {
         $this->taxRate = $taxRate;
+    }
+
+    public function getShipping(): float
+    {
+        return $this->shipping;
+    }
+
+    public function setShipping(float $shipping): void
+    {
+        $this->shipping = $shipping;
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product Attributes are independent
@@ -18,9 +19,18 @@ class ProductAttribute
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )] private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $description = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

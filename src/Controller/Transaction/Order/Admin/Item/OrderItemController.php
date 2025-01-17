@@ -5,9 +5,8 @@ namespace App\Controller\Transaction\Order\Admin\Item;
 // ...
 use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
-use App\Event\Transaction\Order\Admin\Item\OrderItemAddEvent;
-use App\Event\Transaction\Order\Admin\Item\OrderItemEditEvent;
+use App\Event\Transaction\Order\Item\OrderItemAddEvent;
+use App\Event\Transaction\Order\Item\OrderItemEditEvent;
 use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use App\Form\Transaction\Order\Item\OrderItemCreateForm;
 use App\Form\Transaction\Order\Item\OrderItemEditForm;
@@ -16,13 +15,13 @@ use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class OrderItemController extends AbstractController
+class OrderItemController extends EnhancedAbstractController
 {
     #[Route('/order/{id}/item/create', name: 'order_item_create')]
     public function create(int                         $id, EntityManagerInterface $entityManager,

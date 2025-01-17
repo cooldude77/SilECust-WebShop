@@ -27,5 +27,10 @@ class GridCreateLinkEvent extends Event
         $this->linkValue = $linkValue;
     }
 
+    public function getLinkValue(): string
+    {
+        return $this->linkValue;
+    }
+
 
 }

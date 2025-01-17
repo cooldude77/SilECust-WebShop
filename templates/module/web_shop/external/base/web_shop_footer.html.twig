@@ -1,0 +1,14 @@
+{#
+Common Header template , that adds profile and logout link
+Also has a block to insert your function
+#}
+ {#  https://github.com/twigphp/Twig/issues/1980 can't use - in block naam #}
+
+ {% block web_shop_footer %}
+
+     <nav class="navbar navbar-default d-flex bg-primary bg-light d-flex">
+         <div class="container-fluid">
+          <div class="row">Copyright @silecust</div>
+         </div>
+     </nav>
+ {% endblock %}

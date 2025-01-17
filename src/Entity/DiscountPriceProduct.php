@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DiscountPriceProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscountPriceProductRepository::class)]
 class DiscountPriceProduct
@@ -18,6 +19,11 @@ class DiscountPriceProduct
     private ?Product $product = null;
 
     #[ORM\Column]
+    #[Assert\LessThan(
+        value: 0
+    )] #[Assert\GreaterThan(
+        value: 100
+    )]
     private ?int $discountPercentage = null;
 
     public function getId(): ?int

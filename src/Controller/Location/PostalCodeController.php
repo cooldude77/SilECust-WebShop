@@ -11,13 +11,13 @@ use App\Repository\PostalCodeRepository;
 use App\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
-class PostalCodeController extends AbstractController
+class PostalCodeController extends EnhancedAbstractController
 {
     #[Route('/admin/postal_code/city/{id}/create', 'sc_route_admin_postal_code_create')]
     public function create(City $city,

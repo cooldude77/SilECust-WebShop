@@ -2,9 +2,9 @@
 
 namespace App\Controller\MasterData\Product\Attribute;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 
-class ProductTypeAndAttributeController extends AbstractController
+class ProductTypeAndAttributeController extends EnhancedAbstractController
 {
 
 }

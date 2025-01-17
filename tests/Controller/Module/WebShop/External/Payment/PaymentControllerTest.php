@@ -51,8 +51,11 @@ class PaymentControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
+            // start from here because shipping call is triggered here and shipping costs are added here
+            ->visit('/checkout/order/view')
+            ->assertSuccessful()
             ->visit($uri)
-            ->assertSee(4830);
+            ->assertSee(4930.5);
     }
 
     public function testOnPaymentSuccess()

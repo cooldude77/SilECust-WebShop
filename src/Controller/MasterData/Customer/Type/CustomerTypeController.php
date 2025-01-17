@@ -3,9 +3,9 @@
 namespace App\Controller\MasterData\Customer\Type;
 
 // ...
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 
-class CustomerTypeController extends AbstractController
+class CustomerTypeController extends EnhancedAbstractController
 {
 
 }

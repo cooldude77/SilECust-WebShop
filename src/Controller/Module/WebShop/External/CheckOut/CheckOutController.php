@@ -6,11 +6,11 @@ use App\Controller\Component\Routing\RoutingConstants;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CheckOutController extends AbstractController
+class CheckOutController extends EnhancedAbstractController
 {
 
 

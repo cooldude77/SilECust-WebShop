@@ -8,13 +8,13 @@ use App\Form\MasterData\Category\DTO\CategoryDTO;
 use App\Repository\CategoryRepository;
 use App\Service\MasterData\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CategoryController extends AbstractController
+class CategoryController extends EnhancedAbstractController
 {
 
     #[Route('/admin/category/create', 'sc_route_admin_category_create')]

@@ -6,8 +6,8 @@ use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +23,10 @@ use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 #[Route('/reset-password')]
-class ResetPasswordController extends AbstractController
+class ResetPasswordController extends EnhancedAbstractController
 {
     use ResetPasswordControllerTrait;
 
-    public function __construct(
-        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
-        private readonly EntityManagerInterface $entityManager
-    ) {
-    }
 
     /**
      * Display & process form to request a password reset.
@@ -42,6 +37,8 @@ class ResetPasswordController extends AbstractController
                             #[Autowire(param: 'silecust.sign_up.email.email_from_address')]
                             string              $fromAddress,
                             MailerInterface     $mailer,
+                            ResetPasswordHelperInterface $resetPasswordHelper,
+                            EntityManagerInterface $entityManager,
                             TranslatorInterface $translator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -52,6 +49,8 @@ class ResetPasswordController extends AbstractController
                 $form->get('login')->getData(),
                 $fromAddress,
                 $mailer,
+                $resetPasswordHelper,
+                $entityManager,
                 $translator
             );
         }
@@ -65,12 +64,12 @@ class ResetPasswordController extends AbstractController
      * Confirmation page after a user has requested a password reset.
      */
     #[Route('/check-email', name: 'app_check_email')]
-    public function checkEmail(): Response
+    public function checkEmail(ResetPasswordHelperInterface $resetPasswordHelper): Response
     {
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether a user was found with the given email address or not
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
-            $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
+            $resetToken = $resetPasswordHelper->generateFakeResetToken();
         }
 
         return $this->render('reset_password/check_email.html.twig', [
@@ -82,7 +81,13 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, ?string $token = null): Response
+    public function reset(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        ResetPasswordHelperInterface $resetPasswordHelper,
+        TranslatorInterface $translator,
+        EntityManagerInterface $entityManager,
+        ?string $token = null): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
@@ -100,7 +105,7 @@ class ResetPasswordController extends AbstractController
 
         try {
             /** @var User $user */
-            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+            $user = $resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
@@ -117,7 +122,7 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // A password reset token should be used only once, remove it.
-            $this->resetPasswordHelper->removeResetRequest($token);
+            $resetPasswordHelper->removeResetRequest($token);
 
             // Encode(hash) the plain password, and set it.
             $encodedPassword = $passwordHasher->hashPassword(
@@ -126,7 +131,7 @@ class ResetPasswordController extends AbstractController
             );
 
             $user->setPassword($encodedPassword);
-            $this->entityManager->flush();
+            $entityManager->flush();
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
@@ -142,9 +147,15 @@ class ResetPasswordController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    private function processSendingPasswordResetEmail(string $emailFormData, string $fromAddress,MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(
+        string                       $emailFormData,
+        string                       $fromAddress,
+        MailerInterface              $mailer,
+        ResetPasswordHelperInterface $resetPasswordHelper,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface          $translator): RedirectResponse
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([
+        $user = $entityManager->getRepository(User::class)->findOneBy([
             'login' => $emailFormData,
         ]);
 
@@ -154,7 +165,7 @@ class ResetPasswordController extends AbstractController
         }
 
         try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+            $resetToken = $resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
             // If you want to tell the user why a reset email was not sent, uncomment
             // the lines below and change the redirect to 'app_forgot_password_request'.
@@ -176,8 +187,7 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
-            ])
-        ;
+            ]);
 
         $mailer->send($email);
 

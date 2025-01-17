@@ -9,12 +9,12 @@ use App\Form\MasterData\Product\Type\ProductTypeUpdateForm;
 use App\Repository\ProductTypeRepository;
 use App\Service\MasterData\Product\Type\ProductTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ProductTypeController extends AbstractController
+class ProductTypeController extends EnhancedAbstractController
 {
     #[Route('/admin/product/type/create', name: 'product_type_create')]
     public function create(ProductTypeDTOMapper $mapper, EntityManagerInterface $entityManager,

@@ -9,12 +9,12 @@ use App\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
 use App\Repository\ProductAttributeRepository;
 use App\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductAttributeController extends AbstractController
+class ProductAttributeController extends EnhancedAbstractController
 {
     #[Route('/admin/product/attribute/create', name: 'product_attribute_create')]
     public function create(ProductAttributeDTOMapper $mapper, EntityManagerInterface $entityManager,

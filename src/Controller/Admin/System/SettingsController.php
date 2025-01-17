@@ -2,12 +2,12 @@
 
 namespace App\Controller\Admin\System;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class SettingsController extends AbstractController
+class SettingsController extends EnhancedAbstractController
 {
 
 

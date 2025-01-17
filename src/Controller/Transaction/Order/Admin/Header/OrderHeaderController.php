@@ -6,7 +6,7 @@ namespace App\Controller\Transaction\Order\Admin\Header;
 use App\Entity\OrderHeader;
 use App\Event\Component\Database\ListQueryEvent;
 use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Admin\Header\OrderHeaderChangedEvent;
+use App\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
 use App\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
@@ -17,12 +17,12 @@ use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class OrderHeaderController extends AbstractController
+class OrderHeaderController extends EnhancedAbstractController
 {
     // Right now no creation from panel
     // #[Route('/admin/order/create', name: 'sc_admin_route_order_create')]

@@ -17,6 +17,7 @@ class CityControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
         $this->createLocationFixtures();
     }

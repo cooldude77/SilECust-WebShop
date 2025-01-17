@@ -19,6 +19,20 @@ class MainControllerTest extends WebTestCase
 {
     use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture, SuperAdminFixture;
 
+
+    protected function setUp(): void
+    {
+
+        // When tests are run together , there might be a conflict in case of login user from another test not
+        // logged out before another user login is tested and errors may happen
+        // Individually these tests may run fine
+        // So users are logged out before testing
+
+        parent::setUp();
+        $this->browser()->visit('/logout');
+
+    }
+
     /**
      * @return void
      */

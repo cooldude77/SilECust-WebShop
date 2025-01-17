@@ -10,12 +10,12 @@ use App\Repository\StateRepository;
 use App\Service\Location\Mapper\State\StateDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class StateController extends AbstractController
+class StateController extends EnhancedAbstractController
 {
     #[Route('/admin/state/country/{id}/create', 'sc_route_admin_state_create')]
     public function create(Country                $country, StateDTOMapper $stateDTOMapper,

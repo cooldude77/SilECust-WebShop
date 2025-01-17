@@ -3,11 +3,11 @@
 namespace App\Controller\Common\File;
 
 use App\Service\Common\Image\SystemImage;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-class SystemImageController extends AbstractController
+class SystemImageController extends EnhancedAbstractController
 {
 
 

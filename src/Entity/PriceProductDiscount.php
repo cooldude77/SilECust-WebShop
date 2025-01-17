@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PriceProductDiscountRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PriceProductDiscountRepository::class)]
 class PriceProductDiscount
@@ -18,7 +19,11 @@ class PriceProductDiscount
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?float $value = null;
+    #[Assert\LessThan(
+        value: 0
+    )] #[Assert\GreaterThan(
+        value: 100
+    )]private ?float $value = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]

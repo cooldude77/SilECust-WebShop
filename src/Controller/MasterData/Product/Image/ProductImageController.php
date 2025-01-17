@@ -15,7 +15,7 @@ use App\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
 use App\Service\MasterData\Product\Image\ProductImageOperation;
 use App\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  *
  */
-class ProductImageController extends AbstractController
+class ProductImageController extends EnhancedAbstractController
 {
     /**
      * @param int $id
