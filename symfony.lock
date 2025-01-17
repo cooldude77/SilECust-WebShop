@@ -55,6 +55,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "silecust/framework": {
+        "version": "dev-master"
+    },
     "symfony/asset-mapper": {
         "version": "7.0",
         "recipe": {
