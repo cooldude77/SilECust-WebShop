@@ -1,6 +1,6 @@
 ## Welcome To Silecust Web Shop
 ## Installation
- [Install Silecust](installation/installation.md) in various environments 
+ [Install Silecust](installation/installation.md) in various environments ( only dev and test for now , **do not** use in production)
 ## Quickstart
 Just want to have a feel of the product. Go to [quickstart](quickstart/quickstart.md) after installation
 
