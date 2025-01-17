@@ -8,7 +8,7 @@ use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ use Twig\Environment;
  *  The main panel will display header, content, sidebar, footer
  *  The content panel will contain the actual route called
  */
-class PanelMainController extends AbstractController
+class PanelMainController extends EnhancedAbstractController
 {
 
     public const string CONTEXT_ROUTE_SESSION_KEY = 'context_route';

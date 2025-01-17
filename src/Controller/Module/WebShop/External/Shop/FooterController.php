@@ -2,11 +2,11 @@
 
 namespace App\Controller\Module\WebShop\External\Shop;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FooterController extends AbstractController
+class FooterController extends EnhancedAbstractController
 {
 
     public function header(Request $request): Response

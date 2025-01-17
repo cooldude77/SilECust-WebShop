@@ -12,19 +12,16 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductController extends AbstractController
+class ProductController extends EnhancedAbstractController
 {
-    public function __construct()
-    {
 
-    }
 
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function mainPage($name, Request $request):
@@ -70,12 +67,10 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @param ProductRepository $productRepository
-     * @param CategoryRepository $categoryRepository
+     * @param EventDispatcherInterface $eventDispatcher
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @return Response
-     * @throws QueryException
      */
     public function list(EventDispatcherInterface $eventDispatcher,
                          PaginatorInterface       $paginator,

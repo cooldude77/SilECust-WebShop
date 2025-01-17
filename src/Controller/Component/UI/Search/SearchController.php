@@ -3,12 +3,12 @@
 namespace App\Controller\Component\UI\Search;
 
 use App\Form\Common\UI\Search\SearchForm;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class SearchController extends AbstractController
+class SearchController extends EnhancedAbstractController
 {
 
     #[Route('/admin/search', name: 'sc_admin_route_grid_search')]

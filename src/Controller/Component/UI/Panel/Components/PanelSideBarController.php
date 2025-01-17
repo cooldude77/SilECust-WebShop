@@ -3,12 +3,12 @@
 namespace App\Controller\Component\UI\Panel\Components;
 
 use App\Service\Component\UI\Panel\SessionAndMethodChecker;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class PanelSideBarController extends AbstractController
+class PanelSideBarController extends EnhancedAbstractController
 {
     public const string SIDE_BAR_CONTROLLER_CLASS_NAME = 'SIDE_BAR_CONTROLLER_CLASS_NAME';
     public const string SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME = 'SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME';

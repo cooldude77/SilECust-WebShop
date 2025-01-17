@@ -15,13 +15,13 @@ use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class OrderItemController extends AbstractController
+class OrderItemController extends EnhancedAbstractController
 {
     #[Route('/order/{id}/item/create', name: 'order_item_create')]
     public function create(int                         $id, EntityManagerInterface $entityManager,

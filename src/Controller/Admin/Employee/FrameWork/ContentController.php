@@ -10,7 +10,7 @@ use App\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use App\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
 use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  *
  */
-class ContentController extends AbstractController
+class ContentController extends EnhancedAbstractController
 {
 
     /**
