@@ -1,8 +1,10 @@
 When you install Silecust , you will see basic white vanilla version of the app. The app is functional however, the looks may not be of your liking or you would like to modify it . 
 
-To create a theme , create a composer theme in your desired folder 
+## Create a new theme ,
+Create a composer theme in your desired folder 
 and then 
-`composer init` 
+`composer init`  
+
 Then use the example of composer.json in base theme , copy all the required packages
 Install the packages using 
 `composer install`
