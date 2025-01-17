@@ -1,9 +1,29 @@
-{% if categories is defined and categories is not empty %}
-    <ul>
+<div id="sidebar-headline" class="w-100 d-flex bg-light p-2">
+    <div class=" m-2">Categories</div>
+    <div class="m-2"><a href="">search...</a></div>
+</div>
+<div id="category-hierarchy" class="mt-1">
+    {% if categories is defined and categories is not empty %}
         {% for category in categories %}
-            <li>
-                <a href="{{ path('home',{'category':category.name}) }}">{{ category.description }}</a>
-            </li>
+            {{ _self.recursive(category) }}
+        {% endfor %}
+    {% else %}
+        <p>
+            You do not have any categories to display. Create them <a target="_blank"
+                                                                      href="{{ "sc_route_admin_category_create" }}">here</a>
+        </p>
+    {% endif %}
+</div>
+{% macro recursive(category) %}
+    <ul>
+        {% for key,value in category %}
+            {% if key == 'name' %}
+                <li>
+                    <a href="{{ path('home',{'category':value}) }}">{{ category.description }}</a>
+                </li>
+            {% elseif value is iterable %}
+                {{ _self.recursive(value) }}
+            {% endif %}
         {% endfor %}
     </ul>
-{% endif %}
+{% endmacro recursive %}

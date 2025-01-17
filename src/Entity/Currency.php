@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
 class Currency
@@ -18,12 +19,27 @@ class Currency
     private ?Country $country = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $symbol = null;
 
     public function getId(): ?int

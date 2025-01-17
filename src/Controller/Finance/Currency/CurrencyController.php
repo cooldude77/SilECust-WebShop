@@ -11,13 +11,13 @@ use App\Repository\CountryRepository;
 use App\Repository\CurrencyRepository;
 use App\Service\Finance\Currency\Mapper\CurrencyDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CurrencyController extends AbstractController
+class CurrencyController extends EnhancedAbstractController
 {
 
     #[Route('/admin/currency/create', 'sc_route_admin_currency_create')]

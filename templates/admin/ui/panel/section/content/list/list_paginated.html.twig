@@ -1,6 +1,4 @@
 <div class="container">
-
-
     <div class="flex-row d-flex justify-right">
         <div class="col-3">
             {# Create new button if defined in config #}
@@ -16,11 +14,9 @@
             {% endif %}
 
         </div>
-        {% if listGrid.searchEnabled is defined and listGrid.searchEnabled == true %}
-            <div class="col-3 p-2 ">
-                {{ render(controller('\\App\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-            </div>
-        {% endif %}
+        <div class="col-3 p-2 ">
+            {{ render(controller('\\App\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
+        </div>
     </div>
     <div class="row font-weight-bold py-2 bg-light">
         {% for column in listGrid.columns %}
@@ -35,9 +31,9 @@
     </div>
 
     {# Pagination starts #}
-    {% if pagination is not null and pagination|length > 0 %}
-        {% for entity in pagination %}
-            <div class="row py-2 fs-6">
+        {% if pagination is not null and pagination|length > 0 %}
+            {% for entity in pagination %}
+                <div class="row py-2 fs-6">
                 {# columns of the grid #}
                 {% for column in listGrid.columns %}
                     {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',

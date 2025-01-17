@@ -9,12 +9,12 @@ use App\Repository\CountryRepository;
 use App\Service\Location\Mapper\Country\CountryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class CountryController extends AbstractController
+class CountryController extends EnhancedAbstractController
 {
     #[Route('/admin/country/create', 'sc_route_admin_country_create')]
     public function create(CountryDTOMapper       $countryDTOMapper,

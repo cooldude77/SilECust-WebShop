@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Service\MasterData\Category\PathCalculator;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -34,7 +35,7 @@ final class CategoryFactory extends ModelFactory
      *
      * @todo inject services if required
      */
-    public function __construct()
+    public function __construct(private readonly PathCalculator $calculator)
     {
         parent::__construct();
     }
@@ -49,6 +50,7 @@ final class CategoryFactory extends ModelFactory
         return [
             'description' => self::faker()->text(255),
             'name' => self::faker()->text(255),
+            'path' => uniqid()
         ];
     }
 
@@ -58,12 +60,15 @@ final class CategoryFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            // ->afterInstantiate(function(Category $category): void {})
-        ;
+            ->afterInstantiate(function (Category $category): void {
+
+                $this->calculator->calculate($category);
+            });
     }
 
     protected static function getClass(): string
     {
         return Category::class;
     }
+
 }

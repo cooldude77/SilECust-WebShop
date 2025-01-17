@@ -6,7 +6,7 @@ use App\Exception\Component\UI\Panel\Components\ControllerContentClassDoesNotExi
 use App\Exception\Component\UI\Panel\Components\ControllerContentMethodDoesNotExist;
 use App\Exception\Component\UI\Panel\Components\NoContentControllerClassProvided;
 use App\Exception\Component\UI\Panel\Components\NoContentControllerMethodProvided;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Actual functional routes will be called here
  */
-class PanelContentController extends AbstractController
+class PanelContentController extends EnhancedAbstractController
 {
     public const string CONTENT_CONTROLLER_CLASS_NAME = 'CONTENT_CONTROLLER_CLASS_NAME';
     public const string CONTENT_CONTROLLER_CLASS_METHOD_NAME = 'CONTENT_CONTROLLER_CLASS_METHOD_NAME';

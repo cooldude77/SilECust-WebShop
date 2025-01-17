@@ -10,15 +10,16 @@ use App\Repository\ProductRepository;
 use App\Service\Component\UI\Search\SearchEntityInterface;
 use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ProductController extends AbstractController
+class ProductController extends EnhancedAbstractController
 {
 
 
@@ -142,6 +143,9 @@ class ProductController extends AbstractController
 
     }
 
+    /**
+     * @throws QueryException
+     */
     #[Route('/admin/product/list', name: 'product_list')]
     public function list(ProductRepository     $productRepository,
                          PaginatorInterface    $paginator,
@@ -167,7 +171,7 @@ class ProductController extends AbstractController
         if ($request->query->get('searchTerm') != null)
             $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
 
-        $query = $productRepository->getQueryForSelect(isset($searchCriteria) ? $searchCriteria : null);
+        $query = $productRepository->getQueryForSelect($searchCriteria ?? null);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

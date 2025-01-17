@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductAttributeKeyTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Example SINGLE SELECT
@@ -18,10 +19,18 @@ class ProductAttributeKeyType
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )] private ?string $description = null;
 
     public function getId(): ?int
     {
