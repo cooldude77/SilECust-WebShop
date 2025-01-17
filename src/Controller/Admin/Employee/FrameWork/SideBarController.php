@@ -7,13 +7,13 @@ use App\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeExceptio
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
 use App\Service\Security\User\Employee\EmployeeFromUserFinder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
-class SideBarController extends AbstractController
+class SideBarController extends EnhancedAbstractController
 {
 
     public function sideBar(RoleBasedSideBarList $roleBasedSideBarList,

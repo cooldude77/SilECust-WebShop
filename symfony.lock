@@ -55,8 +55,8 @@
             "tests/bootstrap.php"
         ]
     },
-    "silecust/theme-management-bundle": {
-        "version": "dev-br_extension"
+    "silecust/framework": {
+        "version": "dev-master"
     },
     "symfony/asset-mapper": {
         "version": "7.0",
@@ -95,6 +95,18 @@
         },
         "files": [
             ".env"
+        ]
+    },
+    "symfony/form": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "7d86a6723f4a623f59e2bf966b6aad2fc461d36b"
+        },
+        "files": [
+            "config/packages/csrf.yaml"
         ]
     },
     "symfony/framework-bundle": {
@@ -289,6 +301,15 @@
             "branch": "main",
             "version": "1.13",
             "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
+        }
+    },
+    "zenstruck/browser": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.9",
+            "ref": "66c5290398734ff02cedddf44dce6eb2002d958c"
         }
     },
     "zenstruck/foundry": {

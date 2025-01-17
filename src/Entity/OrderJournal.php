@@ -6,6 +6,7 @@ use App\Repository\OrderJournalRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderJournalRepository::class)]
 #[HasLifecycleCallbacks]

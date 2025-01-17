@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderHeaderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderHeaderRepository::class)]
 class OrderHeader

@@ -6,7 +6,7 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Controller is for showing panel to customers
  * The sidebar is created on basis of action list inside Sidebar panel
  */
-class MainController extends AbstractController
+class MainController extends EnhancedAbstractController
 {
 
     /**

@@ -4,12 +4,12 @@ namespace App\Controller\Module\WebShop\External\Category;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategoryController extends AbstractController
+class CategoryController extends EnhancedAbstractController
 {
     /**
      * @param CategoryRepository $categoryRepository

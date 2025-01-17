@@ -1,7 +1,4 @@
 <div class="container">
-
-
-
     <div class="flex-row d-flex justify-right">
         <div class="col-3">
             {# Create new button if defined in config #}
@@ -34,9 +31,9 @@
     </div>
 
     {# Pagination starts #}
-    {% if pagination is not null and pagination|length > 0 %}
-        {% for entity in pagination %}
-            <div class="row py-2 fs-6">
+        {% if pagination is not null and pagination|length > 0 %}
+            {% for entity in pagination %}
+                <div class="row py-2 fs-6">
                 {# columns of the grid #}
                 {% for column in listGrid.columns %}
                     {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',

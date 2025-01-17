@@ -11,13 +11,13 @@ use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
 use App\Exception\Security\User\UserNotLoggedInException;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Transaction\Order\OrderRead;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class OrderViewBeforePaymentController extends AbstractController
+class OrderViewBeforePaymentController extends EnhancedAbstractController
 {
 
 

@@ -6,15 +6,23 @@ use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
+use App\Form\Module\WebShop\External\Product\WebShopProductSorter;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\Query\QueryException;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductController extends AbstractController
+class ProductController extends EnhancedAbstractController
 {
+
+
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
     public function mainPage($name, Request $request):
     Response
@@ -58,23 +66,44 @@ class ProductController extends AbstractController
         );
     }
 
-    public function list(ProductRepository  $productRepository,
-                         CategoryRepository $categoryRepository,
-                         Request            $request
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    public function list(EventDispatcherInterface $eventDispatcher,
+                         PaginatorInterface       $paginator,
+                         Request                  $request
     ): Response
     {
 
-        if ($request->query->get('category') != null) {
 
-            $category = $categoryRepository->findOneBy(['name' => $request->get('category')]);
-            $products = $productRepository->findAllByChildren($category);
-        } else {
-            $products = $productRepository->findAll();
+        $event = new ProductListingQueryEvent($request);
+        $eventDispatcher->dispatch($event, ProductListingQueryEvent::LIST_QUERY_EVENT);
+
+        $pagination = $paginator->paginate(
+            $event->getQuery(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        $sortForm = $this->createForm(WebShopProductSorter::class);
+
+        $sortForm->handleRequest($request);
+
+
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+
+            $queryParams = $this->mergeQueryParameters($request, $sortForm);
+
+            return $this->redirectToRoute('home', $queryParams);
         }
 
         return $this->render(
             'module/web_shop/external/product/web_shop_product_list.html.twig',
-            ['products' => $products]
+            ['pagination' => $pagination,
+                'sortForm' => $sortForm]
         );
     }
 
@@ -89,6 +118,22 @@ class ProductController extends AbstractController
         );
 
 
+    }
+
+    /**
+     * @param Request $request
+     * @param FormInterface $sortForm
+     * @return array
+     */
+    public function mergeQueryParameters(Request $request, FormInterface $sortForm): array
+    {
+        $queryParams = $request->query->all();
+
+        $queryParams['sort_by'] =
+            $sortForm->get('sort_by')->getData();
+        $queryParams['order'] =
+            $sortForm->get('order')->getData();
+        return $queryParams;
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  File contains all files anywhere in the system

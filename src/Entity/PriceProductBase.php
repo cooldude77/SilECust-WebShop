@@ -23,6 +23,9 @@ class PriceProductBase
     private ?Product $product = null;
 
     #[ORM\Column]
+    #[Assert\LessThan(
+        value: 0
+    )]
     private ?float $price = null;
 
     #[ORM\ManyToOne]

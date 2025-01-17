@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
@@ -14,6 +15,7 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+
     private ?string $code = null;
 
     #[ORM\ManyToOne(inversedBy: 'cities')]
@@ -21,6 +23,11 @@ class City
     private ?State $state = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        maxMessage: 'Length cannot exceed 255'
+    )]
     private ?string $name = null;
 
     public function getId(): ?int

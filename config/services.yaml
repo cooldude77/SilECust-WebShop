@@ -33,6 +33,8 @@ services:
       - { name: kernel.event_listener, event: kernel.exception }
 
 
+ # Twig extensions
+
   App\Twig\Security\IsUserACustomer:
     tags:
       -{ name: twig.extension }
@@ -41,6 +43,11 @@ services:
     tags:
       -{ name: twig.extension }
   App\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
+    tags:
+      -{ name: twig.extension }
+
+ # Web-Shop
+  App\Service\Module\WebShop\External\Product\Twig\ProductInProductList:
     tags:
       -{ name: twig.extension }
   # add more service definitions when explicit configuration is needed
