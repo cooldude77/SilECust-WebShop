@@ -5,7 +5,7 @@ namespace App\Controller\Module\WebShop\External\Order;
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
-use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Repository\OrderHeaderRepository;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Shop;
+namespace App\Controller\Module\WebShop\External\Shop\Components;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FooterController extends EnhancedAbstractController
+class HeadController extends EnhancedAbstractController
 {
 
-    public function header(Request $request): Response
+    public function head(Request $request): Response
     {
         return $this->render(
-            'module/web_shop/external/base/web_shop_footer.html.twig'
+            'module/web_shop/external/base/head.html.twig'
         );
 
 

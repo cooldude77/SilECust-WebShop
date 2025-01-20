@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Shop;
+namespace App\Controller\Module\WebShop\External\Shop\Components;
 
 use App\Form\Module\WebShop\External\Shop\HeaderSearchForm;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -27,7 +27,7 @@ class HeaderController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/base/web_shop_common_header.html.twig',
+            'module/web_shop/external/base/header.html.twig',
             ['form' => $form]
         );
 

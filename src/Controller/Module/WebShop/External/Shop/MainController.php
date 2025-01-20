@@ -4,9 +4,15 @@ namespace App\Controller\Module\WebShop\External\Shop;
 
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelFooterController;
+use App\Controller\Component\UI\Panel\Components\PanelHeadController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\Panel\Components\PanelSideBarController;
 use App\Controller\Component\UI\PanelMainController;
+use App\Controller\Module\WebShop\External\Shop\Components\ContentController;
+use App\Controller\Module\WebShop\External\Shop\Components\FooterController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeadController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\Components\SideBarController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +49,14 @@ class MainController extends EnhancedAbstractController
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
+        ); 
+        
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
+        );
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_METHOD_NAME,
+            'head'
         );
 
         $session->set(

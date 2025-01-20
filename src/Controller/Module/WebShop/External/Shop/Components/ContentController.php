@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Shop;
+namespace App\Controller\Module\WebShop\External\Shop\Components;
 
 use App\Controller\Module\WebShop\External\Product\ProductController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

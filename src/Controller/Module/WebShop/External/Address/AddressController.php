@@ -6,7 +6,7 @@ use App\Controller\Component\Routing\RoutingConstants;
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
-use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;

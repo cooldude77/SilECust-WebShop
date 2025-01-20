@@ -5,7 +5,7 @@ namespace App\Controller\Module\WebShop\External\Cart;
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
-use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
 use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;

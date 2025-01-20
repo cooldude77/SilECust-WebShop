@@ -5,12 +5,10 @@ namespace App\Controller\Module\WebShop\External\Product;
 use App\Controller\Component\UI\Panel\Components\PanelContentController;
 use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
 use App\Controller\Component\UI\PanelMainController;
-use App\Controller\Module\WebShop\External\Shop\HeaderController;
+use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
 use App\Form\Module\WebShop\External\Product\WebShopProductSorter;
-use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -46,7 +44,7 @@ class ProductController extends EnhancedAbstractController
         );
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/base/web_shop_base_template.html.twig'
+            'module/web_shop/external/base/base.html.twig'
         );
 
         $request->query->set('name', $name);
