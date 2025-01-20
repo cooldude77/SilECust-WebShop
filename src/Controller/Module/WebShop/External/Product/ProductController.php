@@ -59,7 +59,7 @@ class ProductController extends EnhancedAbstractController
 
         $product = $productRepository->findOneBy(['name' => $request->query->get('name')]);
         return $this->render(
-            'module/web_shop/external/product/web_shop_single_product.html.twig',
+            'module/web_shop/external/product/single_product.html.twig',
             ['product' => $product]
         );
     }
@@ -99,7 +99,7 @@ class ProductController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/product/web_shop_product_list.html.twig',
+            'module/web_shop/external/product/product_list.html.twig',
             ['pagination' => $pagination,
                 'sortForm' => $sortForm]
         );
@@ -111,7 +111,7 @@ class ProductController extends EnhancedAbstractController
         $products = $productRepository->search($request->get('searchTerm'));
 
         return $this->render(
-            'module/web_shop/external/product/web_shop_product_list.html.twig',
+            'module/web_shop/external/product/product_list.html.twig',
             ['products' => $products]
         );
 

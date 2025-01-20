@@ -26,7 +26,7 @@ class CategoryController extends EnhancedAbstractController
         $array = $this->sort($categoryRepository->findAllCategories());
 
         return $this->render(
-            'module/web_shop/external/category/web_shop_category_hierarchy.html.twig',
+            'module/web_shop/external/category/category_hierarchy.html.twig',
             [
                 'categories' => $array]
         );
