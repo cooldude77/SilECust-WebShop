@@ -1,4 +1,6 @@
 {# Web shop home page, derives from base template. Contents are served in main controller and there is no need to add anything #}
 {% extends 'module/web_shop/external/base/base.html.twig' %}
 
-
+{% block head %}
+    {% block page_title %}Silecust Webshop{% endblock %}
+{% endblock %}

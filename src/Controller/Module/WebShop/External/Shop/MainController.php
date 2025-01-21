@@ -49,8 +49,8 @@ class MainController extends EnhancedAbstractController
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
-        ); 
-        
+        );
+
         $session->set(
             PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
         );
