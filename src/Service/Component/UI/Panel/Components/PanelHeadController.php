@@ -46,7 +46,7 @@ class PanelHeadController extends EnhancedAbstractController
 
 
             $response = $this->render(
-                'admin/ui/panel/head/head.html.twig',
+                'common/ui/panel/head/head.html.twig',
                 ['page_title' => $session->get(PanelHeadController::PAGE_TITLE)]
             );
         }

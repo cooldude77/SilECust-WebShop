@@ -28,7 +28,7 @@ class PanelMainController extends EnhancedAbstractController
 
     /**
      * @param Request $request
-     *
+     * @param Environment $environment
      * @return Response
      *
      * The twig template has panels for header,content, sidebar and footer
@@ -98,7 +98,7 @@ class PanelMainController extends EnhancedAbstractController
 
         // no redirect, just print data
         $response = $this->render(
-            'admin/ui/panel/panel_main.html.twig', [
+            'common/ui/panel/panel_main.html.twig', [
                 'headResponse' => $headResponse->getContent(),
                 'headerResponse' => $headerResponse->getContent(),
                 'contentResponse' => $contentResponse->getContent(),
@@ -108,7 +108,7 @@ class PanelMainController extends EnhancedAbstractController
         );
 
 
-        // reset parameter is only to be done after above resposne is complete
+        // reset parameter is only to be done after above response is complete
         // otherwise it will throw up exception looking for parameters
         $this->resetParameters($request->getSession());
 
@@ -139,7 +139,7 @@ class PanelMainController extends EnhancedAbstractController
      *
      * @return void
      */
-    private function resetParameters(SessionInterface $session)
+    private function resetParameters(SessionInterface $session): void
     {
         $session->set(self::BASE_TEMPLATE, null);
     }

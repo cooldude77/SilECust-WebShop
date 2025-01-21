@@ -42,7 +42,7 @@ class PanelFooterController extends EnhancedAbstractController
 
 
             $response = $this->render(
-                'admin/ui/panel/footer/footer.html.twig',
+                'common/ui/panel/footer/footer.html.twig',
             );
         }
         */
