@@ -2,14 +2,12 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Tests\Fixtures\CustomerFixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
 use Zenstruck\Mailer\Test\TestEmail;
@@ -31,7 +29,7 @@ class ResetPasswordControllerTest extends WebTestCase
         // Test Request reset password page
         $this->browser()
             ->visit('/reset-password')
-            ->use(function (Browser $browser) {
+            ->use(function () {
                 self::assertResponseIsSuccessful();
                 self::assertPageTitleContains('Reset your password');
             })

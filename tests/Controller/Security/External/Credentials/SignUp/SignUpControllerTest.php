@@ -5,12 +5,9 @@ namespace App\Tests\Controller\Security\External\Credentials\SignUp;
 use App\Entity\Customer;
 use App\Entity\User;
 use App\Factory\CustomerFactory;
-use App\Factory\SalutationFactory;
 use App\Factory\UserFactory;
 use App\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
 
@@ -29,13 +26,13 @@ class SignUpControllerTest extends WebTestCase
             ->fillField(
                 'sign_up_simple_form[login]', 'x@y.com'
             )->fillField(
-                'sign_up_simple_form[password]', 'fwfwefwefwqwe2234fwf'
+                'sign_up_simple_form[password]', 'random password'
             )
             ->fillField('sign_up_simple_form[agreeTerms]', true)
             ->interceptRedirects()
             ->click('Sign Up')
             ->assertRedirectedTo('/')
-            ->use(function (Browser $browser) {
+            ->use(function () {
                 $user = $this->findOneBy(User::class, ['login' => 'x@y.com']);
                 $customer = $this->findOneBy(Customer::class, ['email' => 'x@y.com']);
 
@@ -62,7 +59,7 @@ class SignUpControllerTest extends WebTestCase
         $createUrl = '/signup/advanced?_redirect_after_success=home';
 
 
-         $this->browser()->visit($createUrl)
+        $this->browser()->visit($createUrl)
             ->fillField(
                 'user_sign_up_advanced_form[firstName]', 'First Name'
             )->fillField(
