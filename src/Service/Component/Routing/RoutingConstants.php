@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Component\Routing;
+namespace App\Service\Component\Routing;
 
 class RoutingConstants
 {

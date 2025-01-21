@@ -2,13 +2,13 @@
 
 namespace App\Controller\Module\WebShop\External\Order;
 
-use App\Controller\Component\UI\Panel\Components\PanelContentController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Transaction\Order\Header\BeforeOrderViewEvent;
 use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use App\Exception\Security\User\UserNotLoggedInException;
+use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\PanelMainController;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;
 use App\Service\Transaction\Order\OrderRead;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

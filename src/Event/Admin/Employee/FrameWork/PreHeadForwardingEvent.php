@@ -2,8 +2,8 @@
 
 namespace App\Event\Admin\Employee\FrameWork;
 
-use App\Controller\Component\UI\Panel\Components\PanelHeadController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\Components\PanelHeadController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\EventDispatcher\Event;

@@ -2,9 +2,6 @@
 
 namespace App\Controller\Module\WebShop\External\Cart;
 
-use App\Controller\Component\UI\Panel\Components\PanelContentController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use App\Event\Module\WebShop\External\Cart\CartEvent;
@@ -19,6 +16,9 @@ use App\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use App\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use App\Repository\ProductRepository;
+use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\PanelMainController;
 use App\Service\MasterData\Price\PriceByCountryCalculator;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;

@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
-
-    {% block javascripts %}
-        {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
-    {% endblock %}
+{% block javascripts %}
+    {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
+{% endblock %}
 {% block body %}
     <div id="wrapper" class="h-100 container">
         <div class="row">

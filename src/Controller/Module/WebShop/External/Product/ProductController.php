@@ -2,13 +2,13 @@
 
 namespace App\Controller\Module\WebShop\External\Product;
 
-use App\Controller\Component\UI\Panel\Components\PanelContentController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
 use App\Form\Module\WebShop\External\Product\WebShopProductSorter;
 use App\Repository\ProductRepository;
+use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\PanelMainController;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -2,10 +2,10 @@
 
 namespace App\Tests\Controller\Module\WebShop\External\Address;
 
-use App\Controller\Component\Routing\RoutingConstants;
 use App\Entity\CustomerAddress;
 use App\Entity\OrderAddress;
 use App\Factory\CustomerAddressFactory;
+use App\Service\Component\Routing\RoutingConstants;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use App\Tests\Fixtures\CustomerFixture;
 use App\Tests\Fixtures\LocationFixture;

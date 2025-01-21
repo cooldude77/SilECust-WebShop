@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Component\UI\Panel\Components;
+namespace App\Service\Component\UI\Panel\Components;
 
 use App\Exception\Component\UI\Panel\Components\ControllerContentClassDoesNotExist;
 use App\Exception\Component\UI\Panel\Components\ControllerContentMethodDoesNotExist;

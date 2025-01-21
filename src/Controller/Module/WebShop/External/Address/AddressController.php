@@ -2,10 +2,6 @@
 
 namespace App\Controller\Module\WebShop\External\Address;
 
-use App\Controller\Component\Routing\RoutingConstants;
-use App\Controller\Component\UI\Panel\Components\PanelContentController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use App\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
@@ -18,6 +14,10 @@ use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingM
 use App\Form\Module\WebShop\External\Address\New\AddressCreateForm;
 use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use App\Repository\CustomerAddressRepository;
+use App\Service\Component\Routing\RoutingConstants;
+use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\PanelMainController;
 use App\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressSave;

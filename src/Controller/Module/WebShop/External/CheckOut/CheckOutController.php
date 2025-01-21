@@ -2,7 +2,7 @@
 
 namespace App\Controller\Module\WebShop\External\CheckOut;
 
-use App\Controller\Component\Routing\RoutingConstants;
+use App\Service\Component\Routing\RoutingConstants;
 use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use App\Service\Security\User\Customer\CustomerFromUserFinder;

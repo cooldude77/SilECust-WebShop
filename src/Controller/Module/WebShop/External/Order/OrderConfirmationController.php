@@ -2,11 +2,11 @@
 
 namespace App\Controller\Module\WebShop\External\Order;
 
-use App\Controller\Component\UI\Panel\Components\PanelContentController;
-use App\Controller\Component\UI\Panel\Components\PanelHeaderController;
-use App\Controller\Component\UI\PanelMainController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
 use App\Repository\OrderHeaderRepository;
+use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelHeaderController;
+use App\Service\Component\UI\Panel\PanelMainController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
