@@ -6,7 +6,7 @@
                 (listGrid.create_button_allowed is defined and listGrid.create_button_allowed== true) %}
                 <div class="row py-2">
                     <div class="col m-0">
-                        {% include 'admin/ui/panel/section/content/action/top_level/_create_link.html.twig'
+                        {% include 'admin/ui/panel/section/content/action/top_level/create_link.html.twig'
                             with
                             {config: listGrid.createButtonConfig} %}
                     </div>
@@ -47,7 +47,7 @@
                             {% if column.value is defined %}
                                 <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
                             {% else %}
-                                {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
+                                {% include 'admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
                                     'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
                                     'name':attribute(entity, column.propertyName),
                                     'id':attribute(entity, 'id'),
@@ -76,7 +76,7 @@
 
                     {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
 
-                        {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
+                        {% include 'admin/ui/panel/section/content/action/grid/edit_link.html.twig' with {
                             'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
                             'id':attribute(entity, 'id'),
                             'link_id':listGrid.link_id} %}

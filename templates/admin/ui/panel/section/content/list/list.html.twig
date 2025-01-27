@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col my-1">
-        {% include 'admin/ui/panel/section/content/action/top_level/_create_link.html.twig'
+        {% include 'admin/ui/panel/section/content/action/top_level/create_link.html.twig'
             with
             {config: listGrid.createButtonConfig} %}
     </div>
@@ -21,7 +21,7 @@
             {% for column in listGrid.columns %}
                 {% if column.action is defined and column.action == 'display' %}
                     <div class="col">
-                        {% include 'admin/ui/panel/section/content/action/grid/_display_link.html.twig' with {
+                        {% include 'admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
                             'function':listGrid.function is defined ? listGrid.function: app.request.get('_function'),
                             'name':attribute(entity, column.propertyName),
                             'id':attribute(entity, 'id'),
@@ -34,7 +34,7 @@
                 {% endif %}
             {% endfor %}
             <div class="col">
-                {% include 'admin/ui/panel/section/content/action/grid/_edit_link.html.twig' with {
+                {% include 'admin/ui/panel/section/content/action/grid/edit_link.html.twig' with {
                     'function':listGrid.function is defined ? listGrid.function: app.request.get('_function'),
                     'id':attribute(entity, 'id'),
                     'link_id':listGrid.link_id} %}

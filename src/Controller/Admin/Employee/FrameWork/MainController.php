@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin\Employee\FrameWork;
 
+use App\Controller\Module\WebShop\External\Shop\Components\FooterController;
 use App\Controller\Module\WebShop\External\Shop\Components\HeadController;
 use App\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use App\Service\Component\UI\Panel\Components\PanelContentController;
+use App\Service\Component\UI\Panel\Components\PanelFooterController;
 use App\Service\Component\UI\Panel\Components\PanelHeadController;
 use App\Service\Component\UI\Panel\Components\PanelHeaderController;
 use App\Service\Component\UI\Panel\Components\PanelSideBarController;
@@ -63,6 +65,15 @@ class MainController extends EnhancedAbstractController
         $session->set(
             PanelHeadController::HEAD_CONTROLLER_CLASS_METHOD_NAME,
             'head'
+        );
+
+
+        $session->set(
+            PanelFooterController::FOOTER_CONTROLLER_CLASS_NAME, FooterController::class
+        );
+        $session->set(
+            PanelFooterController::FOOTER_CONTROLLER_CLASS_METHOD_NAME,
+            'footer'
         );
 
         $session->set(PanelMainController::BASE_TEMPLATE, 'admin/base/admin_base.html.twig');
