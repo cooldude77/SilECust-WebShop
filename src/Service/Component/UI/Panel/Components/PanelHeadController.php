@@ -15,16 +15,13 @@ class PanelHeadController extends EnhancedAbstractController
 
     public const string PAGE_TITLE = "pageTitle";
 
-    public function __construct(private readonly SessionAndMethodChecker $sessionAndMethodChecker)
-    {
-    }
 
-    public function head(Request $request, SessionInterface $session): Response
+    public function head(Request $request, SessionInterface $session,SessionAndMethodChecker $sessionAndMethodChecker): Response
     {
 
 
         if (
-            $this->sessionAndMethodChecker->checkSessionVariablesAndMethod(
+            $sessionAndMethodChecker->checkSessionVariablesAndMethod(
                 self::HEAD_CONTROLLER_CLASS_NAME,
                 self::HEAD_CONTROLLER_CLASS_METHOD_NAME
             )

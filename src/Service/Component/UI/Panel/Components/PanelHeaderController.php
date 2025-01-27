@@ -15,16 +15,13 @@ class PanelHeaderController extends EnhancedAbstractController
 
     public const string IS_HEADER_VISIBLE = "IS_HEADER_VISIBLE";
 
-    public function __construct(private readonly SessionAndMethodChecker $sessionAndMethodChecker)
-    {
-    }
 
-    public function header(Request $request, SessionInterface $session): Response
+    public function header(Request $request, SessionInterface $session,SessionAndMethodChecker $sessionAndMethodChecker): Response
     {
 
 
         if (
-            $this->sessionAndMethodChecker->checkSessionVariablesAndMethod(
+            $sessionAndMethodChecker->checkSessionVariablesAndMethod(
                 self::HEADER_CONTROLLER_CLASS_NAME,
                 self::HEADER_CONTROLLER_CLASS_METHOD_NAME
             )

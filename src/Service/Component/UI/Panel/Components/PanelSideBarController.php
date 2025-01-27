@@ -13,14 +13,11 @@ class PanelSideBarController extends EnhancedAbstractController
     public const string SIDE_BAR_CONTROLLER_CLASS_NAME = 'SIDE_BAR_CONTROLLER_CLASS_NAME';
     public const string SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME = 'SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME';
 
-    public function __construct(private readonly SessionAndMethodChecker $sessionAndMethodChecker)
-    {
-    }
 
-    public function sideBar(SessionInterface $session, Request $request): Response
+    public function sideBar(SessionInterface $session, Request $request,SessionAndMethodChecker $sessionAndMethodChecker): Response
     {
         if (
-            $this->sessionAndMethodChecker->checkSessionVariablesAndMethod(
+            $sessionAndMethodChecker->checkSessionVariablesAndMethod(
             self::SIDE_BAR_CONTROLLER_CLASS_NAME,
             self::SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME)
         ) {

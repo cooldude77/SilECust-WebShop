@@ -130,7 +130,7 @@ class PanelMainController extends EnhancedAbstractController
                 return;
             }
         }
-        throw  new BaseTemplateNotFoundPanelMainException();
+        throw  new BaseTemplateNotFoundPanelMainException($session->get(self::BASE_TEMPLATE));
 
     }
 

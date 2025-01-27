@@ -13,14 +13,11 @@ class PanelFooterController extends EnhancedAbstractController
     public const string FOOTER_CONTROLLER_CLASS_NAME = 'FOOTER_CONTROLLER_CLASS_NAME';
     public const string FOOTER_CONTROLLER_CLASS_METHOD_NAME = 'FOOTER_CONTROLLER_CLASS_METHOD_NAME';
 
-    public function __construct(private readonly SessionAndMethodChecker $sessionAndMethodChecker)
-    {
-    }
 
-    public function footer(Request $request, SessionInterface $session): Response
+    public function footer(Request $request, SessionInterface $session,SessionAndMethodChecker $sessionAndMethodChecker): Response
     {
         if (
-            $this->sessionAndMethodChecker->checkSessionVariablesAndMethod(
+            $sessionAndMethodChecker->checkSessionVariablesAndMethod(
                 self::FOOTER_CONTROLLER_CLASS_NAME,
                 self::FOOTER_CONTROLLER_CLASS_METHOD_NAME
             )
