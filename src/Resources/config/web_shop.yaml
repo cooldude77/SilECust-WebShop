@@ -2,6 +2,7 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+
   App\Service\Component\Controller\HttpKernelHelper:
     public: true
     arguments:
@@ -92,3 +93,12 @@ services:
     public: true
     arguments:
       - "@event_dispatcher"
+  App\EventSubscriber\Module\WebShop\External\Order\Product\ProductListQuerySubscriber:
+    public: true
+    tags:
+      - 'kernel.event_subscriber'
+  App\Service\Module\WebShop\External\Product\ProductListQueryBuilder:
+    public: true
+
+  App\Service\Module\WebShop\External\Product\Twig\ProductInProductList:
+    public: true
