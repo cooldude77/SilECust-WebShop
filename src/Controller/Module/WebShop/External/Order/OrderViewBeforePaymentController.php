@@ -54,7 +54,7 @@ class OrderViewBeforePaymentController extends EnhancedAbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/order/page/order_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/order/page/order_page.html.twig'
         );
 
 
@@ -87,7 +87,7 @@ class OrderViewBeforePaymentController extends EnhancedAbstractController
         //todo: order object validator
 
         return $this->render(
-            'module/web_shop/external/order/order_view.html.twig',
+            '@SilecustWebShop/module/web_shop/external/order/order_view.html.twig',
             ['orderObject' => $orderObject]
         );
     }

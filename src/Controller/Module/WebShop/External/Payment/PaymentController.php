@@ -49,7 +49,7 @@ class PaymentController extends EnhancedAbstractController
         $eventDispatcher->dispatch($event, BeforeTwigRenderInController::BEFORE_TWIG_RENDER);
 
         return $event->getView() == null ?
-            $this->render('module/web_shop/external/payment/start.html.twig',
+            $this->render('@SilecustWebShop/module/web_shop/external/payment/start.html.twig',
                 ['finalPrice' => $finalPrice, 'orderHeader' => $orderHeader]) :
             $this->render($event->getView());
 
@@ -117,7 +117,7 @@ class PaymentController extends EnhancedAbstractController
             $this->addFlash('success', 'Your order was created and is in under process');
 
             return $this->render(
-                'module/web_shop/external/payment/failure.html.twig',
+                '@SilecustWebShop/module/web_shop/external/payment/failure.html.twig',
                 ['orderHeader' => $orderHeader]
             );
         } else {

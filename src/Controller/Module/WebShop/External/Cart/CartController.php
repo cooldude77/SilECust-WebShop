@@ -63,7 +63,7 @@ class  CartController extends EnhancedAbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/cart/page/cart_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/cart/page/cart_page.html.twig'
         );
 
 
@@ -122,7 +122,7 @@ class  CartController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/cart/cart_list.html.twig', ['form' => $form]
+            '@SilecustWebShop/module/web_shop/external/cart/cart_list.html.twig', ['form' => $form]
         );
     }
 
@@ -227,7 +227,7 @@ class  CartController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/cart/add_to_cart_form.html.twig', ['form' => $form]
+            '@SilecustWebShop/module/web_shop/external/cart/add_to_cart_form.html.twig', ['form' => $form]
         );
     }
 
@@ -313,7 +313,7 @@ class  CartController extends EnhancedAbstractController
         $unitPrice = $priceByCountryCalculator->getPriceWithoutTax($id);
 
         return $this->render(
-            'module/web_shop/external/cart/cart_single_product.html.twig', ['product' => $product,
+            '@SilecustWebShop/module/web_shop/external/cart/cart_single_product.html.twig', ['product' => $product,
                                                                             'unitPrice' => $unitPrice,
                                                                             'quantity' => $quantity,
                                                                             'currency' => $priceByCountryCalculator->getCurrency(

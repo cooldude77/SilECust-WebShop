@@ -33,12 +33,12 @@ class WebShopAdminSectionController extends EnhancedAbstractController
             $entityManager->persist($webShopSectionEntity);
             $entityManager->flush();
 
-            $response = $this->render('module/web_shop/web_shop/section/admin/success.html.twig');
+            $response = $this->render('@SilecustWebShop/module/web_shop/web_shop/section/admin/success.html.twig');
             $response->setStatusCode(401);
 
             return $response;
         }
-        return $this->render('module/web_shop/admin/web_shop/section/create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/module/web_shop/admin/web_shop/section/create.html.twig', ['form' => $form]);
 
 
     }
