@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Controller\Security\External\Credentials\Login\LoginManagementController:
+    arguments:
+      - "@event_dispatcher"
+  App\Controller\Security\External\Credentials\SignUp\SignUpController:
+    arguments:
+      - "@event_dispatcher"
+  App\Controller\Security\External\Credentials\ChangePasswordController:
+    arguments:
+      - "@event_dispatcher"
+  App\Controller\Security\External\Credentials\ResetPasswordController:
+    arguments:
+      - "@event_dispatcher"

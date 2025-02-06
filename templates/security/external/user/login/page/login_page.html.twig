@@ -1,4 +1,4 @@
-{% extends 'security/base/security_base.html.twig' %}
+{% extends '@SilecustWebShop/security/base/security_base.html.twig' %}
 {% block head %}
     <meta charset="UTF-8">
     <link rel="icon"
@@ -9,15 +9,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous">
 
-    {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-    {% endblock %}
+
 {% endblock %}
 {% block title %}Sign In{% endblock %}
 
 {% block content %}
 
-    {% include 'security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
+    {% include '@SilecustWebShop/security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
 
    <a href="{{path('user_customer_sign_up') }}">Go to sign up</a>
    <a href="{{path('app_forgot_password_request') }}">Forgot Password</a>

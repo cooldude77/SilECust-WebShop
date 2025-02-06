@@ -24,10 +24,7 @@ services:
     alias: App\Service\Component\Controller\RequestStackHelper
   silecust_controller_view_helper:
     alias: App\Service\Component\Controller\ViewHelper
-  App\Service\Component\UI\Panel\Session\SessionAndMethodChecker:
-    public: true
-  App\Repository\CategoryRepository:
-    public: true
+
 
   App\Controller\Home\HomeController:
     public: true
@@ -35,30 +32,6 @@ services:
       - "@event_dispatcher"
 
   App\Controller\Module\WebShop\External\Shop\MainController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\PanelMainController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\Components\PanelHeadController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\Components\PanelHeaderController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\Components\PanelContentController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\Components\PanelSidebarController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
-  App\Service\Component\UI\Panel\Components\PanelFooterController:
     public: true
     arguments:
       - "@event_dispatcher"
@@ -80,10 +53,6 @@ services:
     arguments:
       - "@event_dispatcher"
 
-  App\Service\Component\UI\Panel\Components\PanelSideBarController:
-    public: true
-    arguments:
-      - "@event_dispatcher"
 
   App\Controller\Module\WebShop\External\Shop\Components\SideBarController:
     public: true
