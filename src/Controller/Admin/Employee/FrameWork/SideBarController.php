@@ -26,7 +26,7 @@ class SideBarController extends EnhancedAbstractController
 
 
             return $this->render(
-                'admin/ui/panel/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
+                '@SilecustWebShop/admin/ui/panel/sidebar/sidebar.html.twig', ['sideBar' => $sideBar]
             );
         } catch (UserNotLoggedInException|UserNotAssociatedWithAnEmployeeException$e) {
             return new Response("Not Authorized", 403);

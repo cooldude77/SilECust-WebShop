@@ -148,7 +148,7 @@ class CategoryController extends EnhancedAbstractController
 
         $categories = $categoryRepository->findAll();
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
         );
     }

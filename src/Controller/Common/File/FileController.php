@@ -153,7 +153,7 @@ class FileController extends EnhancedAbstractController
                                               'link_id' => 'id-file']];
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['entities' => $files, 'listGrid' => $listGrid]
         );
     }

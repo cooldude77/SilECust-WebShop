@@ -14,7 +14,7 @@ class SettingsController extends EnhancedAbstractController
     #[Route('/system/settings', 'system_settings')]
     public function list(): Response
     {
-        return $this->render('admin/employee/settings/settings_list.html.twig');
+        return $this->render('@SilecustWebShop/admin/employee/settings/settings_list.html.twig');
     }
 
     public function logoForm(): Response
@@ -22,7 +22,7 @@ class SettingsController extends EnhancedAbstractController
         $form = $this->createFormBuilder()->create('logo', FileType::class)->getForm();
 
 
-        return $this->render('admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+        return $this->render('@SilecustWebShop/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }

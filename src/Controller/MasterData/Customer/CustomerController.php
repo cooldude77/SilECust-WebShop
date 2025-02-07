@@ -137,7 +137,7 @@ class CustomerController extends EnhancedAbstractController
 
         $customers = $customerRepository->findAll();
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request,'entities' => $customers, 'listGrid' => $listGrid]
         );
     }

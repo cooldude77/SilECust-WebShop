@@ -153,7 +153,7 @@ class EmployeeController extends EnhancedAbstractController
 
         $employees = $employeeRepository->findAll();
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request, 'entities' => $employees, 'listGrid' => $listGrid]
         );
     }

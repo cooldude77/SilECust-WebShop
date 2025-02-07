@@ -186,7 +186,7 @@ class CategoryImageController extends EnhancedAbstractController
                 'anchorText' => 'Category File']];
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
         );
 

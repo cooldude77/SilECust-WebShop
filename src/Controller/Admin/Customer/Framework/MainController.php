@@ -153,7 +153,7 @@ class MainController extends EnhancedAbstractController
             'footer'
         );
 
-        $session->set(PanelMainController::BASE_TEMPLATE, 'admin/base/admin_base.html.twig');
+        $session->set(PanelMainController::BASE_TEMPLATE, '@SilecustWebShop/admin/base/admin_base.html.twig');
     }
 
 
