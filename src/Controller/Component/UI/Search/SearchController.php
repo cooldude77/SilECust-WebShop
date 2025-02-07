@@ -24,7 +24,7 @@ class SearchController extends EnhancedAbstractController
             $url = $request->query->get('_redirected_to');
             return $this->redirect( "$url&searchTerm={$form->getData()['searchTerm']}");
 }
-        return $this->render('common/ui/search/search_form.html.twig', ['form' => $form, 'request' => $request]);
+        return $this->render('@SilecustWebShop/common/ui/search/search_form.html.twig', ['form' => $form, 'request' => $request]);
 
     }
 }

@@ -140,7 +140,7 @@ class CustomerAddressController extends EnhancedAbstractController
             ]];
 
         return $this->render(
-            'master_data/customer/customer_display.html.twig',
+            '@SilecustWebShop/master_data//customer/customer_display.html.twig',
             ['entity' => $customerAddress, 'params' => $displayParams]
         );
 

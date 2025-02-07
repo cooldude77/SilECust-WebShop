@@ -80,7 +80,7 @@ class ProductImageController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('master_data/product/image/product_image_create.html.twig', ['form' =>
+        return $this->render('@SilecustWebShop/master_data//product/image/product_image_create.html.twig', ['form' =>
                 $form]
         );
     }
@@ -142,7 +142,7 @@ class ProductImageController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/product/image/product_image_edit.html.twig',
+            '@SilecustWebShop/master_data//product/image/product_image_edit.html.twig',
             ['form' => $form, 'entity' => $productImage]
         );
 
@@ -251,7 +251,7 @@ class ProductImageController extends EnhancedAbstractController
             ]];
 
         return $this->render(
-            'master_data/product/image/product_image_display.html.twig',
+            '@SilecustWebShop/master_data//product/image/product_image_display.html.twig',
             ['request' => $request, 'entity' => $entity, 'params' => $displayParams]
         );
 

@@ -58,7 +58,7 @@ class EmployeeController extends EnhancedAbstractController
                 );
             }
         }
-        return $this->render('master_data/employee/employee_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data//employee/employee_create.html.twig', ['form' => $form]);
     }
 
 
@@ -110,7 +110,7 @@ class EmployeeController extends EnhancedAbstractController
                 );
             }
         }
-        return $this->render('master_data/employee/employee_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data//employee/employee_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/admin/employee/{id}/display', name: 'employee_display')]
@@ -131,7 +131,7 @@ class EmployeeController extends EnhancedAbstractController
                     'propertyName' => 'lastName'],]];
 
         return $this->render(
-            'master_data/employee/employee_display.html.twig',
+            '@SilecustWebShop/master_data//employee/employee_display.html.twig',
             ['entity' => $employee, 'params' => $displayParams]
         );
 
