@@ -1,0 +1,56 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Service\Transaction\Order\Mapper\Components\OrderAddressMapper: ~
+  App\Service\Transaction\Order\Mapper\Components\OrderStatusMapper: ~
+  App\Service\Transaction\Order\Mapper\Components\OrderPaymentMapper: ~
+  App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper: ~
+  App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper: ~
+  App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper: ~
+  App\Service\Module\WebShop\Admin\Transaction\Order\OrderMainDtoMapper: ~
+  App\Service\Module\WebShop\Admin\Transaction\Order\OrderHeaderDtoMapper: ~
+  App\Service\Module\WebShop\Admin\Transaction\Order\OrderItemDtoMapper: ~
+  App\Service\Module\WebShop\Admin\Transaction\Order\OrderAddressDtoMapper: ~
+  App\Service\Module\WebShop\Admin\Mapper\WebShopDTOMapper: ~
+
+  App\Service\Module\WebShop\External\Cart\Order\Mapper\CartToOrderObjectDTOMapper: ~
+  App\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper: ~
+
+  App\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper: ~
+  App\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper: ~
+
+  App\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper: ~
+  App\Service\MasterData\Product\Type\ProductTypeDTOMapper: ~
+  App\Service\MasterData\Product\Mapper\ProductDTOMapper: ~
+
+  App\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper: ~
+  App\Service\MasterData\Product\Attribute\Value\ProductAttributeValueDTOMapper: ~
+  App\Service\MasterData\Inventory\Mapper\InventoryProductDTOMapper: ~
+  App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper: ~
+  App\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper: ~
+  App\Service\MasterData\Category\Mapper\CategoryDTOMapper: ~
+
+  App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper: ~
+  App\Service\Common\PaymentType\Mapper\PaymentTypeDTOMapper: ~
+  App\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper: ~
+  App\Service\Location\Mapper\City\CityDTOMapper: ~
+  App\Service\Location\Mapper\State\StateDTOMapper: ~
+  App\Service\Location\Mapper\Country\CountryDTOMapper: ~
+  App\Service\Security\User\Mapper\SignUpDTOMapper: ~
+
+  App\Form\Module\WebShop\Admin\Section\Mapper\WebShopSectionDTOMapper: ~
+  App\Form\MasterData\Price\Discount\Mapper\PriceProductDiscountDTOMapper: ~
+
+  App\Form\MasterData\Price\Tax\Mapper\PriceProductTaxDTOMapper: ~
+
+  App\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper: ~
+  App\Form\Common\File\Mapper\FileDTOMapper: ~
+  App\Security\Mapper\UserDTOMapper: ~
+  App\Service\Admin\Employee\Common\FunctionToEntityMapper: ~
+
+  App\Service\MasterData\Customer\Mapper\CustomerDTOMapper: ~
+
+  App\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper: ~
+  App\Service\Finance\Currency\Mapper\CurrencyDTOMapper: ~

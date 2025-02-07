@@ -3,29 +3,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Service\Component\Controller\HttpKernelHelper:
-    public: true
-    arguments:
-      - "@request_stack"
-      - "@http_kernel"
-
-  App\Service\Component\Controller\RequestStackHelper:
-    public: true
-    arguments:
-      - "@request_stack"
-  App\Service\Component\Controller\ViewHelper:
-    public: true
-    arguments:
-      - "@twig"
-
-  silecust_controller_http_helper:
-    alias: App\Service\Component\Controller\HttpKernelHelper
-  silecust_controller_request_helper:
-    alias: App\Service\Component\Controller\RequestStackHelper
-  silecust_controller_view_helper:
-    alias: App\Service\Component\Controller\ViewHelper
-
-
   App\Controller\Home\HomeController:
     public: true
     arguments:
@@ -71,3 +48,5 @@ services:
 
   App\Service\Module\WebShop\External\Product\Twig\ProductInProductList:
     public: true
+
+

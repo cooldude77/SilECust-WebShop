@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper: ~

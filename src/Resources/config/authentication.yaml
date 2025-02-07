@@ -3,6 +3,11 @@ services:
     autowire: true
     autoconfigure: true
 
+
+  App\Service\Security\User\Customer\CustomerService: ~
+  App\Service\Security\User\Mapper\SignUpDTOMapper: ~
+
+
   App\Controller\Security\External\Credentials\Login\LoginManagementController:
     arguments:
       - "@event_dispatcher"
@@ -15,3 +20,4 @@ services:
   App\Controller\Security\External\Credentials\ResetPasswordController:
     arguments:
       - "@event_dispatcher"
+  App\Command\Security\User\SuperUserCreateCommand: ~
