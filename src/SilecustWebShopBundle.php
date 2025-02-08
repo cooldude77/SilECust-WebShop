@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Resources\CompilerPass;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -34,5 +35,11 @@ class SilecustWebShopBundle extends AbstractBundle
         $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));
         $loader->load('web_shop.yaml');
 
+
+
+    }
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new CompilerPass());
     }
 }

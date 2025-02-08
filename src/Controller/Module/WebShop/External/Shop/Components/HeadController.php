@@ -12,7 +12,7 @@ class HeadController extends EnhancedAbstractController
     public function head(Request $request): Response
     {
         return $this->render(
-            '@SilecustWebShop/module/web_shop/external/base/head.html.twig',
+            'module/web_shop/external/base/head.html.twig',
 
         );
 

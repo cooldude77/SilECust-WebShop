@@ -98,7 +98,7 @@ class PanelMainController extends EnhancedAbstractController
 
         // no redirect, just print data
         $response = $this->render(
-            '@SilecustWebShop/common/ui/panel/panel_main.html.twig', [
+            'common/ui/panel/panel_main.html.twig', [
                 'headResponse' => $headResponse->getContent(),
                 'headerResponse' => $headerResponse->getContent(),
                 'contentResponse' => $contentResponse->getContent(),

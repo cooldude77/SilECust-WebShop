@@ -27,7 +27,7 @@ class HeaderController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/module/web_shop/external/base/header.html.twig',
+            'module/web_shop/external/base/header.html.twig',
             ['form' => $form]
         );
 

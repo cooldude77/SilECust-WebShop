@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use App\Tests\Kernel;
 use Doctrine\Deprecations\Deprecation;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -24,7 +24,7 @@ if (class_exists(Deprecation::class)) {
 // but the auto increments will continue to increase in tests
 // So beware of that scenario
 
-bootstrap();
+//bootstrap();
 function bootstrap(): void
 {
     $kernel = new Kernel('test', true);

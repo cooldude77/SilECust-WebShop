@@ -2,16 +2,25 @@
 
 namespace App\Tests\Controller\Module\WebShop\External\Shop;
 
-use App\Controller\Module\WebShop\External\Shop\MainController;
-use App\Entity\WebShop;
-use PHPUnit\Framework\TestCase;
+use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 
 class MainControllerTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        require_once '/var/www/html/project/productized/bundles/silecust/tests/Kernel.php';
+
+        $kernel = new Kernel('test', true);
+        $kernel->boot();
+
+        $container = $kernel->getContainer();
+        // $this->handler = $container->get('my_own.handling.handler');
+    }
 
     use HasBrowser;
+
     public function testShop()
     {
 

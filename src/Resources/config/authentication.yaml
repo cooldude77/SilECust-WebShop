@@ -20,4 +20,6 @@ services:
   App\Controller\Security\External\Credentials\ResetPasswordController:
     arguments:
       - "@event_dispatcher"
-  App\Command\Security\User\SuperUserCreateCommand: ~
+  App\Command\Security\User\SuperUserCreateCommand:
+    arguments:
+      - "@security.user_password_hasher"
