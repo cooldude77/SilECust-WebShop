@@ -1,6 +1,6 @@
 <?php
 
-use App\Tests\TestKernel;
+use App\Tests\Kernel;
 use Doctrine\Deprecations\Deprecation;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -24,14 +24,14 @@ if (class_exists(Deprecation::class)) {
 // but the auto increments will continue to increase in tests
 // So beware of that scenario
 
-bootstrap();
+//bootstrap();
 function bootstrap(): void
 {
-    $kernel = new TestKernel('test', true);
+    $kernel = new Kernel('test', true);
     $kernel->boot();
 
     $application = new Application($kernel);
-    $application->setCatchExceptions(true);
+    $application->setCatchExceptions(false);
     $application->setAutoExit(false);
 
     $application->run(new ArrayInput(['command' => 'doctrine:database:drop', '--if-exists' => '1', '--force' => '1',]));
@@ -41,7 +41,7 @@ function bootstrap(): void
     $application->run(new ArrayInput(['command' => 'doctrine:migrations:migrate', '--no-interaction' => true]));
 
 //    $application->run(new ArrayInput(['command' => 'doctrine:fixtures:load', '--no-interaction'
-    // => true,'--append'=>true]));
+   // => true,'--append'=>true]));
 
     $kernel->shutdown();
 }

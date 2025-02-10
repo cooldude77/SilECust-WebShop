@@ -22,8 +22,13 @@ class SilecustWebShopBundle extends AbstractBundle
            $loader->load('web_shop.php');
 
         */
+        die();
         $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));
         $loader->load('database.yaml');
+        $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));
+        $loader->load('doctrine.yaml');
+        $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));
+        $loader->load('doctrine_migrations.yaml');
         $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));
         $loader->load('framework.yaml');
         $loader = new YamlFileLoader($builder, new FileLocator(__DIR__ . '/../src/Resources/config'));

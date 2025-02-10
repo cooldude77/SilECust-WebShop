@@ -10,7 +10,7 @@ class MainControllerTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        require_once '/var/www/html/project/productized/bundles/silecust/tests/Kernel.php';
+        require_once '/var/www/html/project/productized/bundles/silecust/tests/TestKernel.php';
 
         $kernel = new Kernel('test', true);
         $kernel->boot();
