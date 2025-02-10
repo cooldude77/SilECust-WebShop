@@ -147,7 +147,7 @@ class TaxSlabController extends EnhancedAbstractController
 
         $categories = $taxSlabRepository->findAll();
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
+            'admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
         );
     }

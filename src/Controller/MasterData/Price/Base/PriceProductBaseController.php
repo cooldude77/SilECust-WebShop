@@ -58,7 +58,7 @@ class PriceProductBaseController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/master_data//price/base_product/price_product_base_create.html.twig', ['form' => $form]
+            'master_data//price/base_product/price_product_base_create.html.twig', ['form' => $form]
         );
 
 
@@ -99,7 +99,7 @@ class PriceProductBaseController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/master_data//price/base_product/price_product_base_edit.html.twig',
+            'master_data//price/base_product/price_product_base_edit.html.twig',
             ['form' => $form]
         );
 
@@ -128,7 +128,7 @@ class PriceProductBaseController extends EnhancedAbstractController
         ];
 
         return $this->render(
-            '@SilecustWebShop/master_data//price/base_product/price_product_base_display.html.twig',
+            'master_data//price/base_product/price_product_base_display.html.twig',
             ['entity' => $priceProductBase, 'params' => $displayParams]
         );
 
@@ -169,7 +169,7 @@ class PriceProductBaseController extends EnhancedAbstractController
         );
 
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

@@ -43,7 +43,7 @@ class ContentController extends EnhancedAbstractController
 
         if ($request->query->get('_function') == 'dashboard') {
             return $this->render(
-                '@SilecustWebShop/admin/employee/dashboard/dashboard.html.twig',
+                'admin/employee/dashboard/dashboard.html.twig',
                 ['request' => $request]
             );
         }
@@ -74,7 +74,7 @@ class ContentController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/content.html.twig', ['content' => $content]
+            'admin/ui/panel/section/content/content.html.twig', ['content' => $content]
         );
 
     }

@@ -44,7 +44,7 @@ class ProductController extends EnhancedAbstractController
         );
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            '@SilecustWebShop/module/web_shop/external/base/base.html.twig'
+            'module/web_shop/external/base/base.html.twig'
         );
 
         $request->query->set('name', $name);

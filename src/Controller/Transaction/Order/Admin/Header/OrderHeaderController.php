@@ -169,7 +169,7 @@ class OrderHeaderController extends EnhancedAbstractController
         );
 
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

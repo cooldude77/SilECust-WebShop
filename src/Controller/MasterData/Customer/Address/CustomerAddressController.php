@@ -70,7 +70,7 @@ class CustomerAddressController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
@@ -117,7 +117,7 @@ class CustomerAddressController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            'admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
@@ -140,7 +140,7 @@ class CustomerAddressController extends EnhancedAbstractController
             ]];
 
         return $this->render(
-            '@SilecustWebShop/master_data//customer/customer_display.html.twig',
+            'master_data//customer/customer_display.html.twig',
             ['entity' => $customerAddress, 'params' => $displayParams]
         );
 
@@ -184,7 +184,7 @@ class CustomerAddressController extends EnhancedAbstractController
             /*page number*/ 10 /*limit per page*/
         );
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            'admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

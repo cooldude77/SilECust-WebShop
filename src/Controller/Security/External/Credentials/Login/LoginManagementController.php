@@ -28,7 +28,7 @@ class LoginManagementController extends EnhancedAbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
-            '@SilecustWebShop/security/external/user/login/page/login_page.html.twig', ['last_username' =>
+            'security/external/user/login/page/login_page.html.twig', ['last_username' =>
                                                                            $lastUsername,
                                                                        'error' => $error,]
         );
