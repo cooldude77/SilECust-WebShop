@@ -44,7 +44,7 @@
     "symfony/yaml": "7.2.*",
     "symfonycasts/reset-password-bundle": "^1.22",
     "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^v3.18.0"
+    "twig/twig": "^v3.19"
   },
   "config": {
     "allow-plugins": {

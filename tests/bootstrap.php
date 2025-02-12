@@ -27,7 +27,7 @@ if (class_exists(Deprecation::class)) {
 bootstrap();
 function bootstrap(): void
 {
-    $kernel = new Kernel('test', true);
+    $kernel = new \App\Tests\TestKernel('test', true);
     $kernel->boot();
 
     $application = new Application($kernel);
