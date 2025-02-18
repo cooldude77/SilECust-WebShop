@@ -7,6 +7,7 @@ use App\SilecustWebShopBundle;
 use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -36,6 +37,7 @@ class TestKernel extends Kernel
         yield new ZenstruckFoundryBundle();
         yield new TwigBundle();
         yield new DAMADoctrineTestBundle();
+        yield new KnpPaginatorBundle();
         yield new SilecustWebShopBundle();
 
     }
