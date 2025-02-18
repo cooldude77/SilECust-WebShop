@@ -3,3 +3,11 @@ services:
     public: false
     autowire: true
     autoconfigure: true
+  App\:
+    resource: '../../src/'
+
+  mailer.mailer:
+        class: Symfony\Component\Mailer\Mailer
+        public: true
+        arguments:
+          - '@mailer.default_transport'

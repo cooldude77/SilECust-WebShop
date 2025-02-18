@@ -30,6 +30,8 @@ class AddressControllerTest extends WebTestCase
 
     public function testCreateAddressesWhenNoAddressesPresent()
     {
+        static::bootKernel();
+
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
 
