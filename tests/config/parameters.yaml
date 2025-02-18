@@ -4,3 +4,4 @@ parameters:
   silecust.sign_up.email.template_location: security/external/user/sign_up/email/sign_up_email.html.twig
   silecust.sign_up.email.headline: null
   silecust.default_country: IN
+  file_storage_path: '/data/test'

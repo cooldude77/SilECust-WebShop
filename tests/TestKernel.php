@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
@@ -32,6 +33,7 @@ class TestKernel extends Kernel
         yield new DoctrineMigrationsBundle();
         yield new MonologBundle();
         yield new ZenstruckFoundryBundle();
+        yield new TwigBundle();
         yield new SilecustWebShopBundle();
 
     }
