@@ -13,6 +13,7 @@
         <server name="KERNEL_CLASS" value="App\Tests\TestKernel"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;max[direct]=0"/>
+        <server name="APP_ENV" value="test" force="true" />
     </php>
 
     <testsuites>
@@ -20,7 +21,9 @@
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
-
+    <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
     <source>
         <include>
             <directory>./src/</directory>

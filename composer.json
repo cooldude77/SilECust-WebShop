@@ -42,6 +42,7 @@
     "zenstruck/console-test": "^1.5",
     "zenstruck/foundry": "^1.37",
     "zenstruck/mailer-test": "^1.4",
-    "phpunit/phpunit": "^10.4"
+    "phpunit/phpunit": "^10.4",
+    "dama/doctrine-test-bundle": "^8.2"
   }
 }

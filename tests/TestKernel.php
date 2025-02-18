@@ -4,6 +4,7 @@ namespace App\Tests;
 
 
 use App\SilecustWebShopBundle;
+use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -34,6 +35,7 @@ class TestKernel extends Kernel
         yield new MonologBundle();
         yield new ZenstruckFoundryBundle();
         yield new TwigBundle();
+        yield new DAMADoctrineTestBundle();
         yield new SilecustWebShopBundle();
 
     }
