@@ -1,0 +1,36 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%database.url%'
+                use_savepoints: true
+
+            replica:
+                url: '%database.url%'
+                use_savepoints: true
+                replicas:
+                    replica_one:
+                        url: '%database.url%'
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+
+
+doctrine_migrations:
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as migrations classes should NOT be autoloaded
+        'App\migrations': '%kernel.project_dir%/src/migrations'
+    enable_profiler: false

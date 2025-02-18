@@ -1,0 +1,4 @@
+services:
+  App\Security\UserProvider:
+    arguments:
+      - "@silecust_repository_user"

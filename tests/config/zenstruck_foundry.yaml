@@ -1,0 +1,12 @@
+services:
+    App\Factory\UserFactory:
+        arguments:
+            - '@security.password_hasher'
+    # See full configuration: https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#full-default-bundle-configuration
+zenstruck_foundry:
+    # Whether to auto-refresh proxies by default (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#auto-refresh)
+#    auto_refresh_proxies: true
+    faker:
+        locale: fr_FR # set the locale
+        seed: 5678 # set the random number generator seed
+

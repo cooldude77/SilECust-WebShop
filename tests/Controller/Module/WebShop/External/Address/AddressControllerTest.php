@@ -47,8 +47,8 @@ class AddressControllerTest extends WebTestCase
                 // assume address is created
                 $this->shippingAddress = CustomerAddressFactory::createOne(
                     ['customer' => $this->customer,
-                     'addressType' => 'shipping',
-                     'line1' => 'A Good House']
+                        'addressType' => 'shipping',
+                        'line1' => 'A Good House']
                 );
 
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
@@ -59,8 +59,8 @@ class AddressControllerTest extends WebTestCase
                 // assume address is created
                 $this->billingAddress = CustomerAddressFactory::createOne(
                     ['customer' => $this->customer,
-                     'addressType' => 'billing',
-                     'line1' => 'A Good House']
+                        'addressType' => 'billing',
+                        'line1' => 'A Good House']
                 );
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=shipping&_redirect_upon_success_url=/checkout/addresses',
@@ -249,7 +249,7 @@ class AddressControllerTest extends WebTestCase
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(
-                function (KernelBrowser $browser) use ($address1Shipping,$address1Billing) {
+                function (KernelBrowser $browser) use ($address1Shipping, $address1Billing) {
                     $this->createSession($browser);
                     self::assertNotNull(
                         $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
@@ -289,7 +289,6 @@ class AddressControllerTest extends WebTestCase
                     );
 
 
-
                     $orderAddress = $this->findOneBy(
                         OrderAddress::class, ['billingAddress' => $address1Billing->object()]
                     );
@@ -298,7 +297,7 @@ class AddressControllerTest extends WebTestCase
                 }
             );
 
-   // choose different shipping
+        // choose different shipping
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
@@ -353,7 +352,6 @@ class AddressControllerTest extends WebTestCase
                     );
 
 
-
                     $orderAddress = $this->findOneBy(
                         OrderAddress::class, ['billingAddress' => $address2Billing->object()]
                     );
@@ -361,7 +359,6 @@ class AddressControllerTest extends WebTestCase
                     self::assertNotNull($orderAddress);
                 }
             );
-
 
 
     }

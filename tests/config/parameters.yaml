@@ -1,0 +1,2 @@
+parameters:
+  database.url: mysql://dbAdmin:dbPassword@127.0.0.1:3306/silecust_bundle?charset=utf8mb4

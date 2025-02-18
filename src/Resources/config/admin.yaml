@@ -1,0 +1,4 @@
+services:
+  App\Command\Security\User\SuperUserCreateCommand: ~
+  App\Command\Security\User\CustomerCreateCommand: ~
+  App\Command\Development\DevDataFixtureForQuickStart: ~

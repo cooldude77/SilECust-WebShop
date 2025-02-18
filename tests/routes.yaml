@@ -1,0 +1,10 @@
+# config/routes/attributes.yaml
+controllers:
+  resource:
+    path: /var/www/html/project/productized/bundles/silecust/src/Controller/
+    namespace: App\Controller
+  type: attribute
+
+kernel:
+  resource: App\Tests\TestKernel
+  type: attribute

@@ -1,0 +1,58 @@
+services:
+
+  App\Repository\UserRepository:
+    autowire: true
+    tags: [ 'doctrine.repository_service' ]
+  silecust_repository_user:
+    alias: App\Repository\UserRepository
+
+
+  App\Repository\ProductAttributeValueRepository: ~
+  App\Repository\OrderAddressRepository: ~
+  App\Repository\WebShopFileRepository: ~
+  App\Repository\PriceProductTaxRepository: ~
+  App\Repository\EmployeeRepository: ~
+  App\Repository\ProductTypeAttributeRepository: ~
+  App\Repository\CustomerIndividualRepository: ~
+  App\Repository\OrderShippingRepository: ~
+  App\Repository\CityRepository: ~
+  App\Repository\ImageRepository: ~
+  App\Repository\FileRepository: ~
+  App\Repository\InventoryProductRepository: ~
+  App\Repository\OrderItemPaymentPriceRepository: ~
+  App\Repository\OrderStatusTypeRepository: ~
+  App\Repository\OrderStatusRepository: ~
+  App\Repository\CategoryImageRepository: ~
+  App\Repository\StateRepository: ~
+  App\Repository\OrderJournalRepository: ~
+  App\Repository\WebShopHomeSectionRepository: ~
+  App\Repository\WebShopRepository: ~
+  App\Repository\DiscountPriceProductRepository: ~
+  App\Repository\OrderItemRepository: ~
+  App\Repository\CustomerAddressRepository: ~
+  App\Repository\OrderHeaderRepository: ~
+  App\Repository\CategoryRepository: ~
+  App\Repository\AddressRepository: ~
+  App\Repository\DiscountPriceCategoryRepository: ~
+  App\Repository\CustomerTypeAttributeRepository: ~
+  App\Repository\PaymentTypeRepository: ~
+  App\Repository\OrderGuidRepository: ~
+  App\Repository\CurrencyRepository: ~
+  App\Repository\ResetPasswordRequestRepository: ~
+  App\Repository\CustomerRepository: ~
+  App\Repository\ProductAttributeRepository: ~
+  App\Repository\PostalCodeRepository: ~
+
+  App\Repository\OrderPaymentRepository: ~
+  App\Repository\SalutationRepository: ~
+  App\Repository\TaxSlabRepository: ~
+  App\Repository\WebShopImageTypeRepository: ~
+  App\Repository\ProductRepository: ~
+  App\Repository\CustomerTypeRepository: ~
+  App\Repository\ProductTypeRepository: ~
+  App\Repository\ProductImageRepository: ~
+  App\Repository\PriceProductDiscountRepository: ~
+  App\Repository\ProductAttributeTypeRepository: ~
+  App\Repository\CountryRepository: ~
+  App\Repository\PriceProductBaseRepository: ~
+  App\Repository\WebShopImageFileRepository: ~

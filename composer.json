@@ -7,52 +7,19 @@
   "prefer-stable": true,
   "require": {
     "php": ">=8.3",
-    "ext-ctype": "*",
-    "ext-dom": "*",
-    "ext-fileinfo": "*",
-    "ext-iconv": "*",
-    "ext-libxml": "*",
+    "symfony/framework-bundle": "^7.2",
+    "symfony/phpunit-bridge": "^7.2",
+    "symfony/console": "^7.2",
+    "symfony/yaml": "^7.2",
+    "silecust/framework": "dev-master",
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.11",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^3.0",
-    "knplabs/knp-paginator-bundle": "^6.3",
-    "phpdocumentor/reflection-docblock": "^5.4",
-    "phpstan/phpdoc-parser": "^2.0",
-    "silecust/framework": "dev-master",
-    "symfony/asset": "7.2.*",
-    "symfony/asset-mapper": "7.2.*",
-    "symfony/console": "7.2.*",
-    "symfony/dotenv": "7.2.*",
-    "symfony/filesystem": "7.2.*",
-    "symfony/flex": "^2",
-    "symfony/form": "7.2.*",
-    "symfony/framework-bundle": "7.2.*",
-    "symfony/mailer": "7.2.*",
-    "symfony/mime": "7.2.*",
+    "monolog/monolog": "^3.8",
     "symfony/monolog-bundle": "^3.10",
-    "symfony/property-access": "7.2.*",
-    "symfony/property-info": "7.2.*",
-    "symfony/runtime": "7.2.*",
-    "symfony/security-bundle": "7.2.*",
-    "symfony/serializer": "7.2.*",
-    "symfony/stimulus-bundle": "^2.16",
-    "symfony/string": "7.2.*",
-    "symfony/twig-bundle": "7.2.*",
-    "symfony/ux-autocomplete": "^2.16",
-    "symfony/validator": "7.2.*",
-    "symfony/yaml": "7.2.*",
-    "symfonycasts/reset-password-bundle": "^1.22",
-    "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^v3.19"
-  },
-  "config": {
-    "allow-plugins": {
-      "php-http/discovery": true,
-      "symfony/flex": true,
-      "symfony/runtime": true
-    },
-    "sort-packages": true
+    "doctrine/migrations": "^3.8",
+    "symfony/security-bundle": "^7.2"
   },
   "autoload": {
     "psr-4": {
@@ -64,50 +31,11 @@
       "App\\Tests\\": "tests/"
     }
   },
-  "replace": {
-    "symfony/polyfill-ctype": "*",
-    "symfony/polyfill-iconv": "*",
-    "symfony/polyfill-php72": "*",
-    "symfony/polyfill-php73": "*",
-    "symfony/polyfill-php74": "*",
-    "symfony/polyfill-php80": "*",
-    "symfony/polyfill-php81": "*"
-  },
-  "scripts": {
-    "auto-scripts": {
-      "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "importmap:install": "symfony-cmd"
-    },
-    "post-install-cmd": [
-      "@auto-scripts"
-    ],
-    "post-update-cmd": [
-      "@auto-scripts"
-    ]
-  },
-  "conflict": {
-    "symfony/symfony": "*"
-  },
-  "extra": {
-    "symfony": {
-      "allow-contrib": true,
-      "require": "7.2.*"
-    }
-  },
   "require-dev": {
-    "dama/doctrine-test-bundle": "^8.0",
-    "phpunit/phpunit": "^9.5",
-    "symfony/browser-kit": "7.2.*",
-    "symfony/css-selector": "7.2.*",
-    "symfony/maker-bundle": "^1.55",
-    "symfony/phpunit-bridge": "^7.2",
-    "symfony/stopwatch": "7.2.*",
-    "symfony/var-dumper": "7.2.*",
-    "symfony/web-profiler-bundle": "7.2.*",
     "zenstruck/browser": "^1.8",
     "zenstruck/console-test": "^1.5",
     "zenstruck/foundry": "^1.37",
-    "zenstruck/mailer-test": "^1.4"
+    "zenstruck/mailer-test": "^1.4",
+    "phpunit/phpunit": "^10.4"
   }
 }

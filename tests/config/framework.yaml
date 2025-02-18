@@ -1,0 +1,8 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    http_method_override: false
+    test: true
+    session:
+        storage_factory_id: session.storage.factory.mock_file
+        save_path: '%kernel.cache_dir%/sessions'
+        #csrf_protection: false // see commit note
