@@ -1,4 +1,6 @@
 security:
+  role_hierarchy:
+    ROLE_SUPER_ADMIN: [ ROLE_EMPLOYEE ]
   # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
   providers:
     # used to reload user from session & other features (e.g. switch_user)
