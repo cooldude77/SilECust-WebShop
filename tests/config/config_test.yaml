@@ -25,10 +25,8 @@ services:
   App\Service\Transaction\Order\PriceObject:
     autoconfigure: false
     autowire: false
-
-
-
-
+#  App\Service\MasterData\Product\ProductSearch:
+ #   alias: product.search
   mailer.mailer:
     class: Symfony\Component\Mailer\Mailer
     public: true

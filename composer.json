@@ -28,7 +28,8 @@
     "symfony/serializer": "^7.2",
     "symfony/asset-mapper": "^7.2",
     "knplabs/knp-paginator-bundle": "^6.6",
-    "symfony/form": "^7.2"
+    "symfony/form": "^7.2",
+    "symfony/ux-autocomplete": "^2.23"
   },
   "autoload": {
     "psr-4": {

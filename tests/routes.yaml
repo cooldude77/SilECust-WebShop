@@ -8,3 +8,6 @@ controllers:
 kernel:
   resource: App\Tests\TestKernel
   type: attribute
+ux_autocomplete:
+    resource: '@AutocompleteBundle/config/routes.php'
+    prefix: '/autocomplete'
