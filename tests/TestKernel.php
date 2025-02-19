@@ -17,6 +17,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle;
 use Zenstruck\Foundry\ZenstruckFoundryBundle;
 
 class TestKernel extends Kernel
@@ -38,6 +39,7 @@ class TestKernel extends Kernel
         yield new TwigBundle();
         yield new DAMADoctrineTestBundle();
         yield new KnpPaginatorBundle();
+        yield new SymfonyCastsResetPasswordBundle();
         yield new SilecustWebShopBundle();
 
     }

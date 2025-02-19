@@ -2,6 +2,7 @@
 framework:
     http_method_override: false
     test: true
+    secret: 'S3CRET'
     session:
         storage_factory_id: session.storage.factory.mock_file
         save_path: '%kernel.cache_dir%/sessions'

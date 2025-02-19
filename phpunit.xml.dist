@@ -21,12 +21,13 @@
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
-    <extensions>
-        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
-    </extensions>
     <source>
         <include>
             <directory>./src/</directory>
         </include>
     </source>
+    <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
+
 </phpunit>

@@ -3,7 +3,6 @@
 namespace App\Event\Admin\Employee\FrameWork;
 
 use App\Service\Component\UI\Panel\Components\PanelHeadController;
-use App\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -14,10 +13,9 @@ class PreHeadForwardingEvent extends Event
 
 
     /**
-     * @param Request          $request
-     * @param SessionInterface $session
+     * @param Request $request
      */
-    public function __construct(private readonly Request $request, private SessionInterface $session)
+    public function __construct(private readonly Request $request)
     {
     }
 

@@ -11,6 +11,11 @@ class DevDataFixtureForQuickStartTest extends KernelTestCase
 
     use InteractsWithConsole, CustomerFixture;
 
+    protected function setUp(): void
+    {
+
+        static::bootKernel();
+    }
 
     public function testCreateSampleCustomer()
     {

@@ -1,13 +1,41 @@
 services:
   _defaults:
-    public: false
     autowire: true
     autoconfigure: true
+    public: false
   App\:
     resource: '../../src/'
+    exclude:
+      - '../../src/DependencyInjection/'
+      - '../../src/Entity/'
+      - '../../src/Kernel.php'
+      - '../../src/Event/'
+
 
   mailer.mailer:
-        class: Symfony\Component\Mailer\Mailer
-        public: true
-        arguments:
-          - '@mailer.default_transport'
+    class: Symfony\Component\Mailer\Mailer
+    public: true
+    arguments:
+      - '@mailer.default_transport'
+  session.storage.factory.mock_file:
+    class: App\Tests\Utility\MyOwnMockFileSessionStorageFactory
+  session.factory:
+    class: App\Tests\Utility\MySessionFactory
+    arguments:
+      $requestStack: '@request_stack'
+      $storageFactory: '@session.storage.factory'
+      $usageReporter: [ '@session_listener','onSessionUsage' ]
+
+symfonycasts_reset_password:
+  request_password_repository: App\Repository\ResetPasswordRequestRepository
+  lifetime: 3600
+  throttle_limit: 3600
+  enable_garbage_collection: true
+
+twig:
+  strict_variables: true
+  file_name_pattern: '*.twig'
+  form_themes: [ 'bootstrap_5_layout.html.twig' ]
+  globals:
+    item_price_calculator: App\Service\Transaction\Order\Item\ItemPriceCalculator
+    price_by_country_code: App\Service\MasterData\Pricing\PriceByCountryCalculator

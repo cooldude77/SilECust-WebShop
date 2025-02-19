@@ -28,3 +28,10 @@ doctrine_migrations:
         # as migrations classes should NOT be autoloaded
         'App\migrations': '%kernel.project_dir%/src/migrations'
     enable_profiler: false
+
+dama_doctrine_test:
+    enable_static_connection: true
+    enable_static_meta_data_cache: true
+    enable_static_query_cache: true
+    connection_keys:
+        default: custom_key

@@ -5,8 +5,6 @@ services:
     tags: [ 'doctrine.repository_service' ]
   silecust_repository_user:
     alias: App\Repository\UserRepository
-
-
   App\Repository\ProductAttributeValueRepository: ~
   App\Repository\OrderAddressRepository: ~
   App\Repository\WebShopFileRepository: ~
@@ -38,7 +36,9 @@ services:
   App\Repository\PaymentTypeRepository: ~
   App\Repository\OrderGuidRepository: ~
   App\Repository\CurrencyRepository: ~
-  App\Repository\ResetPasswordRequestRepository: ~
+  App\Repository\ResetPasswordRequestRepository:
+    arguments:
+      - "@doctrine"
   App\Repository\CustomerRepository: ~
   App\Repository\ProductAttributeRepository: ~
   App\Repository\PostalCodeRepository: ~
@@ -56,3 +56,31 @@ services:
   App\Repository\CountryRepository: ~
   App\Repository\PriceProductBaseRepository: ~
   App\Repository\WebShopImageFileRepository: ~
+
+  App\Service\Transaction\Order\Item\ItemPriceCalculator: ~
+  App\Service\MasterData\Pricing\PriceByCountryCalculator: ~
+
+  App\EventListener\ExceptionListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
+
+
+  App\Twig\Security\IsUserACustomer:
+    tags:
+      -{ name: twig.extension }
+
+  App\Twig\EventDispatcher\GridColumnEventDispatcher:
+    tags:
+      -{ name: twig.extension }
+  App\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
+    tags:
+      -{ name: twig.extension }
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
+
+  item_price_calculator:
+    class: App\Service\Transaction\Order\Item\ItemPriceCalculator
+
+  price_by_country_code:
+    class: App\Service\MasterData\Pricing\PriceByCountryCalculator
+

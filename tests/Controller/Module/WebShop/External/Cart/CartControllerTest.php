@@ -31,6 +31,13 @@ class CartControllerTest extends WebTestCase
         CartFixture,
         SessionFactoryFixture;
 
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
+    }
+
     public function testInCartProcesses()
     {
 
@@ -76,7 +83,7 @@ class CartControllerTest extends WebTestCase
                 // Test : An order should only be created when item is added to the cart
                 $this->assertNull($order);
 
-              })
+            })
             // Test: empty cart should not have clear cart button
             ->assertNotSee("Clear Cart")
 
@@ -101,7 +108,7 @@ class CartControllerTest extends WebTestCase
 
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                            'product' => $this->productA->object()]
+                        'product' => $this->productA->object()]
                 );
 
                 self::assertNotNull($item);
@@ -122,7 +129,7 @@ class CartControllerTest extends WebTestCase
                 );
 
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                            'product' => $this->productB->object()]
+                        'product' => $this->productB->object()]
                 );
 
                 $this->assertNotNull($item);
@@ -155,14 +162,14 @@ class CartControllerTest extends WebTestCase
                 // Test : An order got created
                 self::assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productA->object()]
+                        'product' => $this->productA->object()]
                 );
 
                 // Test : Order has right quantities
                 $this->assertEquals(4, $itemA->getQuantity());
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productB->object()]
+                        'product' => $this->productB->object()]
                 );
                 // Test : Order has right quantities
                 $this->assertEquals(6, $itemB->getQuantity());
@@ -188,12 +195,12 @@ class CartControllerTest extends WebTestCase
 
                 $this->assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productA->object()]
+                        'product' => $this->productA->object()]
                 );
                 // Test : Item A got removed
                 $this->assertNull($itemA);
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productB->object()]
+                        'product' => $this->productB->object()]
                 );
                 // Test: Item B is still there
                 $this->assertNotNull($itemB);
@@ -214,12 +221,12 @@ class CartControllerTest extends WebTestCase
                     OrderHeader::class, ['customer' => $this->customer->object()]
                 );
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productA->object()]
+                        'product' => $this->productA->object()]
                 );
                 $this->assertNull($itemA);
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                                                             'product' => $this->productB->object()]
+                        'product' => $this->productB->object()]
                 );
 
                 $this->assertNull($itemB);

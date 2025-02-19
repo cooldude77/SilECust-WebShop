@@ -85,8 +85,7 @@ class MainControllerTest extends WebTestCase
     {
         // Unauthenticated entry
         $uri = '/admin?_function=dashboard';
-
-        $this->createCustomerFixtures();
+       $this->createCustomerFixtures();
 
         // authenticate before visit
         $this->browser()->use(function (Browser $browser) {
