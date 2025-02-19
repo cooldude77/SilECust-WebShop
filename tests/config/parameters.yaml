@@ -2,6 +2,6 @@ parameters:
   database.url: mysql://dbAdmin:dbPassword@127.0.0.1:3306/silecust_bundle?charset=utf8mb4
   silecust.sign_up.email.email_from_address: from@fromAddress
   silecust.sign_up.email.template_location: security/external/user/sign_up/email/sign_up_email.html.twig
-  silecust.sign_up.email.headline: null
+  silecust.sign_up.email.headline: A Headline
   silecust.default_country: IN
   file_storage_path: '/data/test'

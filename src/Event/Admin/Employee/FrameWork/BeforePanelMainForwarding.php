@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Employee\FrameWork\Event;
+namespace App\Event\Admin\Employee\FrameWork;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
