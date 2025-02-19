@@ -23,6 +23,7 @@ class PriceProductBaseControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
     protected function tearDown(): void

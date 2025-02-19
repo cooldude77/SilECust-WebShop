@@ -19,6 +19,7 @@ use App\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class PaymentControllerTest extends WebTestCase
 {
@@ -32,7 +33,14 @@ class PaymentControllerTest extends WebTestCase
         CartFixture,
         OrderFixture,
         OrderItemFixture,
-        SessionFactoryFixture;
+        SessionFactoryFixture,
+        Factories;
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
+    }
 
 
     public function testOnPaymentStart()

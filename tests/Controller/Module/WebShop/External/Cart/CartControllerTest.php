@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class CartControllerTest extends WebTestCase
 {
@@ -29,7 +30,7 @@ class CartControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
-        SessionFactoryFixture;
+        SessionFactoryFixture, Factories;
 
     protected function setUp(): void
     {

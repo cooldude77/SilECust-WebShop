@@ -7,12 +7,14 @@ use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class LoginManagementControllerTest extends WebTestCase
 {
-    use HasBrowser, CustomerFixture, EmployeeFixture;
+    use HasBrowser, CustomerFixture, EmployeeFixture, Factories;
 
     // password is converted into code in UserFactory method
+
 
     /**
      * @return void

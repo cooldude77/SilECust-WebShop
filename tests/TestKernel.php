@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\UX\Autocomplete\AutocompleteBundle;
 use SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle;
 use Zenstruck\Foundry\ZenstruckFoundryBundle;
+use Zenstruck\Mailer\Test\ZenstruckMailerTestBundle;
 
 class TestKernel extends Kernel
 {
@@ -42,6 +43,7 @@ class TestKernel extends Kernel
         yield new KnpPaginatorBundle();
         yield new SymfonyCastsResetPasswordBundle();
         yield new AutocompleteBundle();
+        yield new ZenstruckMailerTestBundle();
         yield new SilecustWebShopBundle();
 
     }

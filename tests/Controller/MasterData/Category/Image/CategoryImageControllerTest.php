@@ -11,13 +11,14 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class CategoryImageControllerTest extends WebTestCase
 {
-    use HasBrowser, selectElement, EmployeeFixture;
+    use HasBrowser, selectElement, EmployeeFixture, Factories;
 
     protected function setUp(): void
-    {
+    { $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
 

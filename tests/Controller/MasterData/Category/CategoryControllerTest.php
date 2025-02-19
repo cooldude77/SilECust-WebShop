@@ -2,12 +2,16 @@
 
 namespace App\Tests\Controller\MasterData\Category;
 
+use App\Entity\Category;
 use App\Factory\CategoryFactory;
 use App\Tests\Fixtures\EmployeeFixture;
 use App\Tests\Utility\SelectElement;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 use function PHPUnit\Framework\assertEquals;
 
 /**
@@ -16,10 +20,11 @@ use function PHPUnit\Framework\assertEquals;
 class CategoryControllerTest extends WebTestCase
 {
 
-    use HasBrowser, selectElement, EmployeeFixture;
+    use HasBrowser, selectElement, EmployeeFixture, Factories;
 
     protected function setUp(): void
     {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
 
@@ -43,6 +48,7 @@ class CategoryControllerTest extends WebTestCase
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
+
             })
             ->post($uri,
                 [
@@ -149,6 +155,9 @@ class CategoryControllerTest extends WebTestCase
 
         $edited = CategoryFactory::find($category->getId());
 
+        /** @var EntityManager $entityManager */
+     //   $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+       // $edited = $entityManager->getRepository(Category::class)->find($category->getId());
         assertEquals('CatChanged', $edited->getName());
         assertEquals('Category Changed', $edited->getDescription());
         assertEquals($categoryParent2->getId(), $edited->getParent()->getId());

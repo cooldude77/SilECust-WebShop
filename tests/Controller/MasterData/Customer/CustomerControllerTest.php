@@ -9,11 +9,12 @@ use App\Tests\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class CustomerControllerTest extends WebTestCase
 {
 
-    use HasBrowser, EmployeeFixture, CustomerFixture;
+    use HasBrowser, EmployeeFixture, CustomerFixture, Factories;
 
     protected function tearDown(): void
     {

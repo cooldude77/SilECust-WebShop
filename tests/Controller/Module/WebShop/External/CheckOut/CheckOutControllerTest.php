@@ -12,12 +12,19 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class CheckOutControllerTest extends WebTestCase
 {
     use HasBrowser, SessionFactoryFixture, ProductFixture,
         CustomerFixture, LocationFixture,
-        CartFixture;
+        CartFixture,Factories;
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
+    }
 
     public function testCheckout()
     {

@@ -14,6 +14,7 @@ use App\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class ProductControllerTest extends WebTestCase
 {
@@ -26,7 +27,14 @@ class ProductControllerTest extends WebTestCase
         FindByCriteria,
         CartFixture,
         OrderFixture,
-        SessionFactoryFixture;
+        SessionFactoryFixture,
+        Factories;
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
+    }
 
     public function testAddToCart()
     {

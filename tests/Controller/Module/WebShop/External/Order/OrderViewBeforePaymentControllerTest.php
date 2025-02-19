@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class OrderViewBeforePaymentControllerTest extends WebTestCase
 {
@@ -29,7 +30,14 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         CartFixture,
         OrderFixture,
         OrderItemFixture,
-        SessionFactoryFixture;
+        SessionFactoryFixture,
+        Factories;
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
+    }
 
 
     public function testOrderViewBeforePayment()

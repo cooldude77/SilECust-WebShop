@@ -9,14 +9,15 @@ use App\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class ProductControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture, EmployeeFixture;
+    use HasBrowser, ProductFixture, EmployeeFixture, Factories;
 
     protected function setUp(): void
-    {
+    { $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
 

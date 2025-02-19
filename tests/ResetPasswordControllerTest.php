@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
 use Zenstruck\Mailer\Test\TestEmail;
 
@@ -18,8 +19,12 @@ class ResetPasswordControllerTest extends WebTestCase
     private EntityManagerInterface $em;
     private UserRepository $userRepository;
 
-    use HasBrowser, CustomerFixture, InteractsWithMailer;
+    use HasBrowser, CustomerFixture, InteractsWithMailer,Factories;
 
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+    }
 
     public function testResetPasswordController(): void
     {
