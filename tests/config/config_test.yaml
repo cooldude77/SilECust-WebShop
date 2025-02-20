@@ -27,11 +27,7 @@ services:
     autowire: false
 #  App\Service\MasterData\Product\ProductSearch:
  #   alias: product.search
-  mailer.mailer:
-    class: Symfony\Component\Mailer\Mailer
-    public: true
-    arguments:
-      - '@mailer.default_transport'
+
   session.storage.factory.mock_file:
     class: App\Tests\Utility\MyOwnMockFileSessionStorageFactory
   session.factory:
