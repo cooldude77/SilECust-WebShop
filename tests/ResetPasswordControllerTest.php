@@ -2,12 +2,12 @@
 
 namespace App\Tests;
 
+use App\Factory\UserFactory;
 use App\Repository\UserRepository;
 use App\Tests\Fixtures\CustomerFixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
@@ -19,7 +19,7 @@ class ResetPasswordControllerTest extends WebTestCase
     private EntityManagerInterface $em;
     private UserRepository $userRepository;
 
-    use HasBrowser, CustomerFixture, InteractsWithMailer,Factories;
+    use HasBrowser, CustomerFixture, InteractsWithMailer, Factories;
 
     protected function setUp(): void
     {
@@ -68,8 +68,11 @@ class ResetPasswordControllerTest extends WebTestCase
             ->click('Reset password')
             ->assertRedirectedTo('/');
 
-        $passwordHasher = static::getContainer()->get(UserPasswordHasherInterface::class);
-        self::assertTrue($passwordHasher->isPasswordValid($this->userForCustomer->object(), 'newStrongPassword'));
+        $passwordHasher = static::getContainer()->get('security.user_password_hasher');
+
+        $user = UserFactory::find($this->customer->getUser());
+
+        self::assertTrue($passwordHasher->isPasswordValid($user->object(), 'newStrongPassword'));
 
 
     }
