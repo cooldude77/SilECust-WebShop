@@ -2,7 +2,8 @@ services:
     App\Factory\UserFactory:
         arguments:
             - '@security.password_hasher'
-
+        autowire: true
+        autoconfigure: true
     # See full configuration: https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#full-default-bundle-configuration
 zenstruck_foundry:
     # Whether to auto-refresh proxies by default (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#auto-refresh)

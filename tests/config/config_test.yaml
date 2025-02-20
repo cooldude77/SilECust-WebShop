@@ -40,6 +40,10 @@ services:
       $requestStack: '@request_stack'
       $storageFactory: '@session.storage.factory'
       $usageReporter: [ '@session_listener','onSessionUsage' ]
+  product_search_service:
+    class: App\Service\MasterData\Product\ProductSearch
+  product.search:
+    alias: product_search_service
 
 symfonycasts_reset_password:
   request_password_repository: App\Repository\ResetPasswordRequestRepository
