@@ -1,0 +1,6 @@
+doctrine_migrations:
+  migrations_paths:
+    # namespace is arbitrary but should be different from Silecust\WebShop\Migrations
+    # as migrations classes should NOT be autoloaded
+    'Silecust\WebShop\migrations': '%kernel.project_dir%/vendor/silecust/web-shop/src/migrations'
+  enable_profiler: false
