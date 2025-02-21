@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Service\File;
+namespace Silecust\WebShop\Tests\Service\File;
 
-use App\Service\Common\File\Provider\FileDirectoryPathProvider;
+use Silecust\WebShop\Service\Common\File\Provider\FileDirectoryPathProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertEquals;
 

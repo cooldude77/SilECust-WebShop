@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Transaction\Order\Price\Header;
+namespace Silecust\WebShop\Service\Transaction\Order\Price\Header;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderItem;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Service\MasterData\Price\PriceByCountryCalculator;
-use App\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 
 readonly class HeaderPriceCalculator
 {

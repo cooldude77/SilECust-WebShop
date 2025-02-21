@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Payment;
 
-use App\Service\Module\WebShop\External\Order\DTO\OrderObject;
-use App\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Service\Module\WebShop\External\Order\DTO\OrderObject;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 
 class PaymentService
 {

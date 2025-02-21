@@ -1,15 +1,15 @@
 <?php
 // src/Controller/CustomerController.php
-namespace App\Controller\MasterData\Customer\Address;
+namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 
 // ...
-use App\Event\Component\Database\ListQueryEvent;
-use App\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
-use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
-use App\Form\MasterData\Customer\Address\CustomerAddressEditForm;
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Repository\CustomerAddressRepository;
-use App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
+use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
+use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

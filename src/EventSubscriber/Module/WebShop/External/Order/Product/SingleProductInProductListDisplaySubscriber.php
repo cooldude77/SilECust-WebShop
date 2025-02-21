@@ -1,10 +1,10 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Product;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Product;
 
-use App\Entity\PriceProductBase;
-use App\Entity\Product;
-use App\Event\Module\WebShop\External\Product\Twig\SingleProductInProductListDisplayEvent;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Event\Module\WebShop\External\Product\Twig\SingleProductInProductListDisplayEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class SingleProductInProductListDisplaySubscriber implements EventSubscriberInterface

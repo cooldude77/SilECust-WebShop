@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Product;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Product;
 
-use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
-use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
-use App\Form\Module\WebShop\External\Product\WebShopProductSorter;
-use App\Repository\ProductRepository;
-use App\Service\Component\UI\Panel\Components\PanelContentController;
-use App\Service\Component\UI\Panel\Components\PanelHeaderController;
-use App\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Silecust\WebShop\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
+use Silecust\WebShop\Form\Module\WebShop\External\Product\WebShopProductSorter;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
+use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -1,12 +1,12 @@
 <?php
 /** @noinspection PhpArithmeticTypeCheckInspection */
 
-namespace App\Command\Security\User;
+namespace Silecust\WebShop\Command\Security\User;
 
-use App\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Service\Component\Database\DatabaseOperations;
-use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
+use Silecust\WebShop\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;

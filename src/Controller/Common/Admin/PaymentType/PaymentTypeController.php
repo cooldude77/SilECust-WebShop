@@ -1,13 +1,13 @@
 <?php
 // src/Controller/PaymentTypeController.php
-namespace App\Controller\Common\Admin\PaymentType;
+namespace Silecust\WebShop\Controller\Common\Admin\PaymentType;
 
 // ...
-use App\Form\Common\Admin\PaymentType\DTO\PaymentTypeDTO;
-use App\Form\Common\Admin\PaymentType\PaymentTypeCreateForm;
-use App\Form\Common\Admin\PaymentType\PaymentTypeEditForm;
-use App\Repository\PaymentTypeRepository;
-use App\Service\Common\PaymentType\Mapper\PaymentTypeDTOMapper;
+use Silecust\WebShop\Form\Common\Admin\PaymentType\DTO\PaymentTypeDTO;
+use Silecust\WebShop\Form\Common\Admin\PaymentType\PaymentTypeCreateForm;
+use Silecust\WebShop\Form\Common\Admin\PaymentType\PaymentTypeEditForm;
+use Silecust\WebShop\Repository\PaymentTypeRepository;
+use Silecust\WebShop\Service\Common\PaymentType\Mapper\PaymentTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

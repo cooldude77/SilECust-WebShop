@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\State;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State;
 
-use App\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
-use App\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use App\Repository\CountryRepository;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
+use Silecust\WebShop\Repository\CountryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

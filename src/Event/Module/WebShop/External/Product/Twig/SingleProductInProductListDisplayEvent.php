@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Product\Twig;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Product\Twig;
 
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Product;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class SingleProductInProductListDisplayEvent extends Event

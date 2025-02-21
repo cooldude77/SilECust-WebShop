@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\PaymentType;
+namespace Silecust\WebShop\Form\Module\WebShop\External\PaymentType;
 
-use App\Repository\PaymentTypeRepository;
+use Silecust\WebShop\Repository\PaymentTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

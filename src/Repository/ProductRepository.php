@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Category;
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query;

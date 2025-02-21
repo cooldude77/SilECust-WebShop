@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Cart;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Cart;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

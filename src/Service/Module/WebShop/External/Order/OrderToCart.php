@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Order;
 
-use App\Entity\OrderItem;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 
 readonly class OrderToCart
 {

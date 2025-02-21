@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\Section\Mapper;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\Section\Mapper;
 
-use App\Entity\WebShopSection;
-use App\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
-use App\Repository\WebShopHomeSectionRepository;
-use App\Repository\WebShopRepository;
+use Silecust\WebShop\Entity\WebShopSection;
+use Silecust\WebShop\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
+use Silecust\WebShop\Repository\WebShopHomeSectionRepository;
+use Silecust\WebShop\Repository\WebShopRepository;
 
 class WebShopSectionDTOMapper
 {

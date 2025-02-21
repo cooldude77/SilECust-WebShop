@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Service\Transaction\Order;
+namespace Silecust\WebShop\Service\Transaction\Order;
 
-use App\Entity\Customer;
-use App\Entity\OrderHeader;
-use App\Entity\OrderPayment;
-use App\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
-use App\Repository\OrderAddressRepository;
-use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderItemPaymentPriceRepository;
-use App\Repository\OrderItemRepository;
-use App\Repository\OrderPaymentRepository;
-use App\Repository\OrderShippingRepository;
-use App\Repository\OrderStatusTypeRepository;
-use App\Service\Transaction\Order\Object\OrderObject;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
+use Silecust\WebShop\Repository\OrderAddressRepository;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
+use Silecust\WebShop\Repository\OrderItemRepository;
+use Silecust\WebShop\Repository\OrderPaymentRepository;
+use Silecust\WebShop\Repository\OrderShippingRepository;
+use Silecust\WebShop\Repository\OrderStatusTypeRepository;
+use Silecust\WebShop\Service\Transaction\Order\Object\OrderObject;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 
 /**
  *
@@ -113,8 +113,8 @@ readonly class OrderRead
         return $this->orderPaymentRepository->findOneBy(['orderHeader' => $orderHeader]);
     }
 
-    public function getOrderItem(OrderHeader $orderHeader, ?\App\Entity\Product $product
-    ): ?\App\Entity\OrderItem
+    public function getOrderItem(OrderHeader $orderHeader, ?\Silecust\WebShop\Entity\Product $product
+    ): ?\Silecust\WebShop\Entity\OrderItem
     {
         return $this->orderItemRepository->findOneBy([
             'orderHeader' => $orderHeader,
@@ -122,7 +122,7 @@ readonly class OrderRead
     }
 
 
-    public function getShippingAddress($orderHeader): \App\Entity\OrderAddress
+    public function getShippingAddress($orderHeader): \Silecust\WebShop\Entity\OrderAddress
     {
 
         $address = $this->orderAddressRepository->findOneBy([

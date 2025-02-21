@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\PriceProductBase;
-use App\Repository\PriceProductBaseRepository;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Repository\PriceProductBaseRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

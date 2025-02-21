@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\CustomerAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,16 +45,16 @@ class CustomerAddressRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\Customer $customer): CustomerAddress
+    public function create(\Silecust\WebShop\Entity\Customer $customer): CustomerAddress
     {
         $address = new CustomerAddress();
         $address->setCustomer($customer);
         return $address;
     }
 
-    public function getQueryForSelectByCustomer(\App\Entity\Customer $customer): \Doctrine\ORM\Query
+    public function getQueryForSelectByCustomer(\Silecust\WebShop\Entity\Customer $customer): \Doctrine\ORM\Query
     {
-        $dql = "SELECT ca FROM App\Entity\CustomerAddress ca where ca.customer=:customer";
+        $dql = "SELECT ca FROM Silecust\WebShop\Entity\CustomerAddress ca where ca.customer=:customer";
         return $this->getEntityManager()->createQuery($dql)->setParameter('customer',$customer);
 
     }

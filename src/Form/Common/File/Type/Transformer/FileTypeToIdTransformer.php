@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/FileTypeToNumberTransformer.php
-namespace App\Form\Common\File\Type\Transformer;
+namespace Silecust\WebShop\Form\Common\File\Type\Transformer;
 
-use App\Entity\FileType;
+use Silecust\WebShop\Entity\FileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

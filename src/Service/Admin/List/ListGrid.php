@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\List;
+namespace Silecust\WebShop\Service\Admin\List;
 
 class ListGrid
 {

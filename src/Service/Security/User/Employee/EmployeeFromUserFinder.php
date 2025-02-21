@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Security\User\Employee;
+namespace Silecust\WebShop\Service\Security\User\Employee;
 
-use App\Entity\Employee;
-use App\Entity\User;
-use App\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Repository\EmployeeRepository;
+use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Repository\EmployeeRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class EmployeeFromUserFinder

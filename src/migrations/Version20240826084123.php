@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\migrations;
+namespace Silecust\WebShop\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;

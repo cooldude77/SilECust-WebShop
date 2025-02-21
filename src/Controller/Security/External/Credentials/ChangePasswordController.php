@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security\External\Credentials;
+namespace Silecust\WebShop\Controller\Security\External\Credentials;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Command\Development;
+namespace Silecust\WebShop\Tests\Command\Development;
 
-use App\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Console\Test\InteractsWithConsole;
 

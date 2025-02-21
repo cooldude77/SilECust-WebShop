@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\Category;
-use App\Repository\CategoryRepository;
-use App\Service\MasterData\Category\PathCalculator;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\MasterData\Category\PathCalculator;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

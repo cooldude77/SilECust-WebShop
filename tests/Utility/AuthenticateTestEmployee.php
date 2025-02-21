@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Utility;
+namespace Silecust\WebShop\Tests\Utility;
 
-use App\Entity\Employee;
-use App\Factory\EmployeeFactory;
+use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Factory\EmployeeFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait AuthenticateTestEmployee

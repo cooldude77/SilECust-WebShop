@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderPayment;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderPayment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

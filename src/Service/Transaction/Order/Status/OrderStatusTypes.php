@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Transaction\Order\Status;
+namespace Silecust\WebShop\Service\Transaction\Order\Status;
 
 readonly class OrderStatusTypes
 {

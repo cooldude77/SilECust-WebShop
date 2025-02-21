@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\WebShopImageType;
+use Silecust\WebShop\Entity\WebShopImageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

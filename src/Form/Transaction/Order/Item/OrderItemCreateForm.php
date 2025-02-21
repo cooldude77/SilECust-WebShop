@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Transaction\Order\Item;
+namespace Silecust\WebShop\Form\Transaction\Order\Item;
 
-use App\Form\MasterData\Product\ProductAutoCompleteField;
-use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
+use Silecust\WebShop\Form\MasterData\Product\ProductAutoCompleteField;
+use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

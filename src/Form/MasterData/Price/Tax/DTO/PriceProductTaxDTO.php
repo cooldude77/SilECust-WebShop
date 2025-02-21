@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Price\Tax\DTO;
+namespace Silecust\WebShop\Form\MasterData\Price\Tax\DTO;
 
 class PriceProductTaxDTO
 {

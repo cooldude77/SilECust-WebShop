@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Admin\Employee\Common;
+namespace Silecust\WebShop\Exception\Admin\Employee\Common;
 
-use App\Service\Admin\Employee\FrameWork\AdminRouteObject;
+use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRouteObject;
 use Exception;
 
 class TitleNotFoundForAdminRouteObject extends Exception

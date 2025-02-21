@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Cart\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO;
 
 class CartProductDTO
 {

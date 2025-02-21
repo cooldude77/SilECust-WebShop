@@ -1,10 +1,10 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Order\Header\Grid;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Header\Grid;
 
-use App\Entity\OrderHeader;
-use App\Event\Component\UI\Panel\List\GridColumnEvent;
-use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
+use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Transaction\Order\Item\Mapper;
+namespace Silecust\WebShop\Service\Transaction\Order\Item\Mapper;
 
-use App\Entity\OrderItem;
-use App\Entity\OrderItemPaymentPrice;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Repository\OrderItemPaymentPriceRepository;
-use App\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Entity\OrderItemPaymentPrice;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
+use Silecust\WebShop\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
 
 readonly class OrderItemPaymentPriceMapper
 {

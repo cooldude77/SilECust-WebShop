@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Common\Admin\PaymentType\DTO;
+namespace Silecust\WebShop\Form\Common\Admin\PaymentType\DTO;
 
 class PaymentTypeDTO
 {

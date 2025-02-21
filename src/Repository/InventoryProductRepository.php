@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\InventoryProduct;
+use Silecust\WebShop\Entity\InventoryProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,7 +41,7 @@ class InventoryProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\Product $product):InventoryProduct
+    public function create(?\Silecust\WebShop\Entity\Product $product):InventoryProduct
     {
 
         $inventoryProduct = new InventoryProduct();
@@ -53,7 +53,7 @@ class InventoryProductRepository extends ServiceEntityRepository
 
     public function getQueryForSelect():Query
     {
-        $dql = "SELECT i FROM App\Entity\InventoryProduct i";
+        $dql = "SELECT i FROM Silecust\WebShop\Entity\InventoryProduct i";
         return $this->getEntityManager()->createQuery($dql);
 
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\Product;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 trait CartFixture

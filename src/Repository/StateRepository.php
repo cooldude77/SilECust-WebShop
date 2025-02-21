@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Country;
-use App\Entity\State;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\State;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,7 +47,7 @@ class StateRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\Country $country): State
+    public function create(?\Silecust\WebShop\Entity\Country $country): State
     {
         $state = new State();
         $state->setCountry($country);
@@ -55,7 +55,7 @@ class StateRepository extends ServiceEntityRepository
     }
     function getQueryForSelect(Country $country): Query
     {
-        $dql = "SELECT c FROM App\Entity\State c where c.country=:country";
+        $dql = "SELECT c FROM Silecust\WebShop\Entity\State c where c.country=:country";
         return $this->getEntityManager()->createQuery($dql)->setParameter("country",$country);
 
     }

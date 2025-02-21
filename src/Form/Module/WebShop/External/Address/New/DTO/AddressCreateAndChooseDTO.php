@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address\New\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO;
 
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 
 /**
  * Create and choose from the form

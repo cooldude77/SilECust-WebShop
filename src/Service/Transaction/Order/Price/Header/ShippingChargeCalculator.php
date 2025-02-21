@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Transaction\Order\Price\Header;
+namespace Silecust\WebShop\Service\Transaction\Order\Price\Header;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderShipping;
-use App\Repository\OrderShippingRepository;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderShipping;
+use Silecust\WebShop\Repository\OrderShippingRepository;
 
 readonly class ShippingChargeCalculator
 {

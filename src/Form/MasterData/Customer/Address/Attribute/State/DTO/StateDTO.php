@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\State\DTO;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO;
 
 class StateDTO
 {

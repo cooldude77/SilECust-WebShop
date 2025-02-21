@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Security\Mapper;
+namespace Silecust\WebShop\Security\Mapper;
 
-use App\Entity\User;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**

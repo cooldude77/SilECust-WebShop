@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Common\Utility;
+namespace Silecust\WebShop\Controller\Common\Utility;
 
 class CommonUtility
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Product;
-use App\Entity\ProductImage;
-use App\Entity\File;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Entity\ProductImage;
+use Silecust\WebShop\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Transaction\Order\Item;
+namespace Silecust\WebShop\Event\Transaction\Order\Item;
 
-use App\Entity\OrderItem;
+use Silecust\WebShop\Entity\OrderItem;
 
 class OrderItemAddEvent
 {

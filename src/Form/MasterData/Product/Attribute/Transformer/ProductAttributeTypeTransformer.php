@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/ProductAttributeTypeToNumberTransformer.php
-namespace App\Form\MasterData\Product\Attribute\Transformer;
+namespace Silecust\WebShop\Form\MasterData\Product\Attribute\Transformer;
 
-use App\Entity\ProductAttributeType;
+use Silecust\WebShop\Entity\ProductAttributeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

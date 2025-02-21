@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\PostalCode;
-use App\Repository\PostalCodeRepository;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Repository\PostalCodeRepository;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 use Zenstruck\Foundry\Persistence\Proxy;
 use Zenstruck\Foundry\Persistence\ProxyRepositoryDecorator;

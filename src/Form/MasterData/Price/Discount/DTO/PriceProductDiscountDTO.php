@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Price\Discount\DTO;
+namespace Silecust\WebShop\Form\MasterData\Price\Discount\DTO;
 
 class PriceProductDiscountDTO
 {

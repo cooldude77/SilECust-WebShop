@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Security;
+namespace Silecust\WebShop\Security;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Repository\UserRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

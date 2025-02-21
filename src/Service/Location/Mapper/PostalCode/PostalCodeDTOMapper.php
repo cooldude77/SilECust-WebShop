@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Location\Mapper\PostalCode;
+namespace Silecust\WebShop\Service\Location\Mapper\PostalCode;
 
-use App\Entity\PostalCode;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
-use App\Repository\CityRepository;
-use App\Repository\PostalCodeRepository;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
+use Silecust\WebShop\Repository\CityRepository;
+use Silecust\WebShop\Repository\PostalCodeRepository;
 
 class PostalCodeDTOMapper
 {

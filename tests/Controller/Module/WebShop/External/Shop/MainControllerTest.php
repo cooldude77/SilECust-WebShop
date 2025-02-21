@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\External\Shop;
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Shop;
 
-use App\Controller\Module\WebShop\External\Shop\MainController;
-use App\Entity\WebShop;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\MainController;
+use Silecust\WebShop\Entity\WebShop;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;

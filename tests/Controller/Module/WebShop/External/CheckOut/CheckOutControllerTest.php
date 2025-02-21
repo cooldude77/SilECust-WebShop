@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\External\CheckOut;
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\CheckOut;
 
-use App\Factory\CustomerAddressFactory;
-use App\Tests\Fixtures\CartFixture;
-use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Fixtures\ProductFixture;
-use App\Tests\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Factory\CustomerAddressFactory;
+use Silecust\WebShop\Tests\Fixtures\CartFixture;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;

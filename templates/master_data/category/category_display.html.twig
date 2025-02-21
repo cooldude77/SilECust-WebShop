@@ -1,5 +1,5 @@
 {% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 {{
-    render(controller(  'App\\Controller\\MasterData\\Category\\Image\\CategoryImageController::list',
+    render(controller(  'Silecust\\WebShop\\Controller\\MasterData\\Category\\Image\\CategoryImageController::list',
         {'id':attribute(entity,"id"),'request':app.request}))
 }}

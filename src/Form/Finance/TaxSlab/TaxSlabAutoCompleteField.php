@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Finance\TaxSlab;
+namespace Silecust\WebShop\Form\Finance\TaxSlab;
 
-use App\Entity\TaxSlab;
+use Silecust\WebShop\Entity\TaxSlab;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

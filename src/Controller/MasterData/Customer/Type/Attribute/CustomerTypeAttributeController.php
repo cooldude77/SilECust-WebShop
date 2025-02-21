@@ -1,9 +1,9 @@
 <?php
 // src/Controller/CustomerController.php
-namespace App\Controller\MasterData\Customer\Type\Attribute;
+namespace Silecust\WebShop\Controller\MasterData\Customer\Type\Attribute;
 
 // ...
-use App\Entity\CustomerType;
+use Silecust\WebShop\Entity\CustomerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;

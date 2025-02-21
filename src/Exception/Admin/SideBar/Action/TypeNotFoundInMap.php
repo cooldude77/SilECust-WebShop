@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Admin\SideBar\Action;
+namespace Silecust\WebShop\Exception\Admin\SideBar\Action;
 
 class TypeNotFoundInMap extends \Exception
 {

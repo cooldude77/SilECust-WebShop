@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Component\UI\Panel\Components;
+namespace Silecust\WebShop\Service\Component\UI\Panel\Components;
 
-use App\Exception\Component\UI\Panel\Components\ControllerContentClassDoesNotExist;
-use App\Exception\Component\UI\Panel\Components\ControllerContentMethodDoesNotExist;
-use App\Exception\Component\UI\Panel\Components\NoContentControllerClassProvided;
-use App\Exception\Component\UI\Panel\Components\NoContentControllerMethodProvided;
+use Silecust\WebShop\Exception\Component\UI\Panel\Components\ControllerContentClassDoesNotExist;
+use Silecust\WebShop\Exception\Component\UI\Panel\Components\ControllerContentMethodDoesNotExist;
+use Silecust\WebShop\Exception\Component\UI\Panel\Components\NoContentControllerClassProvided;
+use Silecust\WebShop\Exception\Component\UI\Panel\Components\NoContentControllerMethodProvided;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

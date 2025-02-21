@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\Country;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country;
 
-use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Component;
+namespace Silecust\WebShop\Service\Module\WebShop\External\CheckOut\Component;
 
-use App\Form\Module\WebShop\External\Order\DTO\Components\OrderHeaderDTO;
-use App\Repository\CustomerRepository;
+use Silecust\WebShop\Form\Module\WebShop\External\Order\DTO\Components\OrderHeaderDTO;
+use Silecust\WebShop\Repository\CustomerRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class OrderHeaderDTOCreator

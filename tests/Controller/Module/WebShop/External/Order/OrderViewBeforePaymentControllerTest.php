@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Order;
 
-use App\Tests\Fixtures\CartFixture;
-use App\Tests\Fixtures\CurrencyFixture;
-use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Fixtures\OrderFixture;
-use App\Tests\Fixtures\OrderItemFixture;
-use App\Tests\Fixtures\PriceFixture;
-use App\Tests\Fixtures\ProductFixture;
-use App\Tests\Fixtures\SessionFactoryFixture;
-use App\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Tests\Fixtures\CartFixture;
+use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Fixtures\OrderFixture;
+use Silecust\WebShop\Tests\Fixtures\OrderItemFixture;
+use Silecust\WebShop\Tests\Fixtures\PriceFixture;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Tests\Utility\FindByCriteria;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;

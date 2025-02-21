@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\MasterData\Product\Type;
+namespace Silecust\WebShop\Service\MasterData\Product\Type;
 
-use App\Entity\ProductType;
-use App\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
-use App\Repository\ProductTypeRepository;
+use Silecust\WebShop\Entity\ProductType;
+use Silecust\WebShop\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
+use Silecust\WebShop\Repository\ProductTypeRepository;
 
 class ProductTypeDTOMapper
 {

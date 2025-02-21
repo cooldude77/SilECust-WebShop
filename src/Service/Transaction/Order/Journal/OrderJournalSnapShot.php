@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Transaction\Order\Journal;
+namespace Silecust\WebShop\Service\Transaction\Order\Journal;
 
-use App\Entity\OrderHeader;
-use App\Repository\OrderJournalRepository;
-use App\Service\Component\Database\DatabaseOperations;
-use App\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Repository\OrderJournalRepository;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class OrderJournalSnapShot

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\ResetPasswordRequest;
-use App\Entity\User;
+use Silecust\WebShop\Entity\ResetPasswordRequest;
+use Silecust\WebShop\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;

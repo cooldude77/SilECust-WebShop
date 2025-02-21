@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Location;
+namespace Silecust\WebShop\Controller\Location;
 
-use App\Entity\Country;
-use App\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use App\Form\MasterData\Customer\Address\Attribute\State\StateCreateForm;
-use App\Form\MasterData\Customer\Address\Attribute\State\StateEditForm;
-use App\Repository\StateRepository;
-use App\Service\Location\Mapper\State\StateDTOMapper;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateEditForm;
+use Silecust\WebShop\Repository\StateRepository;
+use Silecust\WebShop\Service\Location\Mapper\State\StateDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

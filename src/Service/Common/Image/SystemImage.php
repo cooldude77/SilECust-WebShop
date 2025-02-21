@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\Image;
+namespace Silecust\WebShop\Service\Common\Image;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 

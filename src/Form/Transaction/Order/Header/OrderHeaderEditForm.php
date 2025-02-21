@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Transaction\Order\Header;
+namespace Silecust\WebShop\Form\Transaction\Order\Header;
 
-use App\Entity\OrderStatusType;
-use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
+use Silecust\WebShop\Entity\OrderStatusType;
+use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

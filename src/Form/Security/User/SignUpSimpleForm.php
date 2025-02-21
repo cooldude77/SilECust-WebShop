@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Security\User;
+namespace Silecust\WebShop\Form\Security\User;
 
-use App\Entity\User;
-use App\Form\Security\User\DTO\SignUpSimpleDTO;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Form\Security\User\DTO\SignUpSimpleDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

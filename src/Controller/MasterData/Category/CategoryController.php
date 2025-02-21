@@ -1,12 +1,12 @@
 <?php
 // src/Controller/LuckyController.php
-namespace App\Controller\MasterData\Category;
+namespace Silecust\WebShop\Controller\MasterData\Category;
 
-use App\Form\MasterData\Category\CategoryCreateForm;
-use App\Form\MasterData\Category\CategoryEditForm;
-use App\Form\MasterData\Category\DTO\CategoryDTO;
-use App\Repository\CategoryRepository;
-use App\Service\MasterData\Category\Mapper\CategoryDTOMapper;
+use Silecust\WebShop\Form\MasterData\Category\CategoryCreateForm;
+use Silecust\WebShop\Form\MasterData\Category\CategoryEditForm;
+use Silecust\WebShop\Form\MasterData\Category\DTO\CategoryDTO;
+use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\MasterData\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

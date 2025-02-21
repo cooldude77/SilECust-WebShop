@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller\Location;
+namespace Silecust\WebShop\Controller\Location;
 
-use App\Entity\City;
-use App\Entity\PostalCode;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeCreateForm;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeEditForm;
-use App\Repository\PostalCodeRepository;
-use App\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper;
+use Silecust\WebShop\Entity\City;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeEditForm;
+use Silecust\WebShop\Repository\PostalCodeRepository;
+use Silecust\WebShop\Service\Location\Mapper\PostalCode\PostalCodeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

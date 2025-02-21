@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Common\Identification;
+namespace Silecust\WebShop\Controller\Common\Identification;
 
 class CommonIdentificationConstants
 {

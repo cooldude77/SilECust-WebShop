@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Cart;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Cart;
 
-use App\Entity\Customer;
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\Product;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class CartItemDeletedEvent extends Event

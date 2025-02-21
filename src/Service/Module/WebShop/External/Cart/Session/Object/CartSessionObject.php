@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Session\Object;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object;
 
 class CartSessionObject
 {

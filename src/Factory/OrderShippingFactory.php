@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\OrderShipping;
-use App\Repository\OrderShippingRepository;
+use Silecust\WebShop\Entity\OrderShipping;
+use Silecust\WebShop\Repository\OrderShippingRepository;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 use Zenstruck\Foundry\Persistence\Proxy;
 use Zenstruck\Foundry\Persistence\ProxyRepositoryDecorator;

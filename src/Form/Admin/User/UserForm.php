@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\User;
+namespace Silecust\WebShop\Form\Admin\User;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ class UserForm extends AbstractType
         $builder->add('emailId', TextType::class);
         $builder->add('password', PasswordType::class);
         $builder->add('type', EntityType::class, [
-                'class' => 'App\Entity\UserType',
+                'class' => 'Silecust\WebShop\Entity\UserType',
                 'choice_label' => 'description'
             ]
         );

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\List\Column;
+namespace Silecust\WebShop\Service\Common\List\Column;
 
 class ListGridColumn
 {

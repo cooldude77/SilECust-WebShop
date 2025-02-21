@@ -1,11 +1,11 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Payment;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use App\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
-use App\Service\Transaction\Order\Journal\OrderJournalSnapShot;
-use App\Service\Transaction\Order\OrderSave;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
+use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentSuccess implements EventSubscriberInterface

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Location\Mapper\Country;
+namespace Silecust\WebShop\Service\Location\Mapper\Country;
 
-use App\Entity\Country;
-use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
-use App\Repository\CountryRepository;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
+use Silecust\WebShop\Repository\CountryRepository;
 
 class CountryDTOMapper
 {

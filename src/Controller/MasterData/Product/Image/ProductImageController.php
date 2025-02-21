@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller\MasterData\Product\Image;
+namespace Silecust\WebShop\Controller\MasterData\Product\Image;
 
-use App\Controller\Common\Utility\CommonUtility;
-use App\Controller\MasterData\Product\Image\ListObject\ProductImageObject;
-use App\Entity\ProductImage;
-use App\Form\MasterData\Product\Image\DTO\ProductImageDTO;
-use App\Form\MasterData\Product\Image\Form\ProductImageCreateForm;
-use App\Form\MasterData\Product\Image\Form\ProductImageEditForm;
-use App\Repository\ProductImageRepository;
-use App\Repository\ProductRepository;
-use App\Service\Common\Image\SystemImage;
-use App\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
-use App\Service\MasterData\Product\Image\ProductImageOperation;
-use App\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
+use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
+use Silecust\WebShop\Controller\MasterData\Product\Image\ListObject\ProductImageObject;
+use Silecust\WebShop\Entity\ProductImage;
+use Silecust\WebShop\Form\MasterData\Product\Image\DTO\ProductImageDTO;
+use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageCreateForm;
+use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageEditForm;
+use Silecust\WebShop\Repository\ProductImageRepository;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Common\Image\SystemImage;
+use Silecust\WebShop\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
+use Silecust\WebShop\Service\MasterData\Product\Image\ProductImageOperation;
+use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

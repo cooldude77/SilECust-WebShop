@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Component\Routing;
+namespace Silecust\WebShop\Service\Component\Routing;
 
 class RoutingConstants
 {

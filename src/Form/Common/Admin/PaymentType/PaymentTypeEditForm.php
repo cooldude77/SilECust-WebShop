@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Common\Admin\PaymentType;
+namespace Silecust\WebShop\Form\Common\Admin\PaymentType;
 
-use App\Form\CategoryAutoCompleteField;
-use App\Form\Common\Admin\PaymentType\DTO\PaymentTypeDTO;
+use Silecust\WebShop\Form\CategoryAutoCompleteField;
+use Silecust\WebShop\Form\Common\Admin\PaymentType\DTO\PaymentTypeDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

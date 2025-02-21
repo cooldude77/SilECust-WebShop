@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Form\MasterData\Category;
+namespace Silecust\WebShop\Form\MasterData\Category;
 
-use App\Form\CategoryAutoCompleteField;
-use App\Form\MasterData\Category\DTO\CategoryDTO;
-use App\Form\MasterData\CustomFormType;
-use App\Repository\CategoryRepository;
+use Silecust\WebShop\Form\CategoryAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Category\DTO\CategoryDTO;
+use Silecust\WebShop\Form\MasterData\CustomFormType;
+use Silecust\WebShop\Repository\CategoryRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

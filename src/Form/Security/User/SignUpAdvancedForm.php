@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Security\User;
+namespace Silecust\WebShop\Form\Security\User;
 
-use App\Form\MasterData\Customer\CustomerCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Transaction\Order;
+namespace Silecust\WebShop\Service\Transaction\Order;
 
 class PriceObject
 {

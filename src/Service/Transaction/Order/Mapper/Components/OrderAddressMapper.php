@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Transaction\Order\Mapper\Components;
+namespace Silecust\WebShop\Service\Transaction\Order\Mapper\Components;
 
-use App\Entity\OrderAddress;
-use App\Entity\OrderHeader;
-use App\Repository\OrderAddressRepository;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
+use Silecust\WebShop\Entity\OrderAddress;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Repository\OrderAddressRepository;
+use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 
 readonly class OrderAddressMapper
 {

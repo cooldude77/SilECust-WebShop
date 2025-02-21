@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\CustomerAddress;
-use App\Entity\OrderAddress;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\OrderAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,7 +46,7 @@ class OrderAddressRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\OrderHeader $orderHeader,
+    public function create(\Silecust\WebShop\Entity\OrderHeader $orderHeader,
         CustomerAddress $address
     ): OrderAddress {
         $orderAddress = new OrderAddress();

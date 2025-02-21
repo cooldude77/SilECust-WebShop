@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\MasterData\Category\Image\ListObject;
+namespace Silecust\WebShop\Controller\MasterData\Category\Image\ListObject;
 
 class CategoryImageObject
 {

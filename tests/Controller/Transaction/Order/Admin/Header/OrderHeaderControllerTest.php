@@ -1,15 +1,15 @@
 <?php /** @noinspection ALL */
 
-namespace App\Tests\Controller\Transaction\Order\Admin\Header;
+namespace Silecust\WebShop\Tests\Controller\Transaction\Order\Admin\Header;
 
-use App\Tests\Fixtures\CurrencyFixture;
-use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Fixtures\OrderFixture;
-use App\Tests\Fixtures\OrderItemFixture;
-use App\Tests\Fixtures\PriceFixture;
-use App\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Fixtures\OrderFixture;
+use Silecust\WebShop\Tests\Fixtures\OrderItemFixture;
+use Silecust\WebShop\Tests\Fixtures\PriceFixture;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

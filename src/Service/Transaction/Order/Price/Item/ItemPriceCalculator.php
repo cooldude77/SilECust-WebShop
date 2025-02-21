@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Transaction\Order\Price\Item;
+namespace Silecust\WebShop\Service\Transaction\Order\Price\Item;
 
-use App\Entity\Currency;
-use App\Entity\OrderItem;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Service\MasterData\Price\PriceByCountryCalculator;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
 
 readonly class ItemPriceCalculator
 {
@@ -46,7 +46,7 @@ readonly class ItemPriceCalculator
      * @throws PriceProductTaxNotFound
      * @throws PriceProductBaseNotFound
      */
-    public function getPriceObject(OrderItem $orderItem): \App\Service\Transaction\Order\PriceObject
+    public function getPriceObject(OrderItem $orderItem): \Silecust\WebShop\Service\Transaction\Order\PriceObject
     {
         return $this->priceByCountryCalculator->getPriceObject($orderItem);
     }

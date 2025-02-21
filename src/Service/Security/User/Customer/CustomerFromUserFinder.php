@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Security\User\Customer;
+namespace Silecust\WebShop\Service\Security\User\Customer;
 
-use App\Entity\Customer;
-use App\Entity\User;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Repository\CustomerRepository;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Repository\CustomerRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
 readonly class CustomerFromUserFinder

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Finance\TaxSlab\Mapper;
+namespace Silecust\WebShop\Service\Finance\TaxSlab\Mapper;
 
-use App\Entity\TaxSlab;
-use App\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
-use App\Repository\CountryRepository;
-use App\Repository\TaxSlabRepository;
+use Silecust\WebShop\Entity\TaxSlab;
+use Silecust\WebShop\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\TaxSlabRepository;
 
 readonly class TaxSlabDTOMapper
 {

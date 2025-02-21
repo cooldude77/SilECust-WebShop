@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\WebShop;
+use Silecust\WebShop\Entity\WebShop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,7 +53,7 @@ class WebShopRepository extends ServiceEntityRepository
 
     public function getQueryForSelect(): Query
     {
-        $dql = "SELECT w FROM App\Entity\WebShop w";
+        $dql = "SELECT w FROM Silecust\WebShop\Entity\WebShop w";
         return $this->getEntityManager()->createQuery($dql);
 
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Security\User\Customer;
+namespace Silecust\WebShop\Exception\Security\User\Customer;
 
-use App\Entity\User;
+use Silecust\WebShop\Entity\User;
 use Exception;
 
 class UserNotAssociatedWithACustomerException extends Exception

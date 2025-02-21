@@ -1,13 +1,13 @@
 <?php
 // src/controller/employeeController.php
-namespace App\Controller\MasterData\Employee;
+namespace Silecust\WebShop\Controller\MasterData\Employee;
 
 // ...
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
-use App\Form\MasterData\Employee\EmployeeCreateForm;
-use App\Form\MasterData\Employee\EmployeeEditForm;
-use App\Repository\EmployeeRepository;
-use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
+use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
+use Silecust\WebShop\Form\MasterData\Employee\EmployeeCreateForm;
+use Silecust\WebShop\Form\MasterData\Employee\EmployeeEditForm;
+use Silecust\WebShop\Repository\EmployeeRepository;
+use Silecust\WebShop\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

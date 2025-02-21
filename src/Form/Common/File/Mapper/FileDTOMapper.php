@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Common\File\Mapper;
+namespace Silecust\WebShop\Form\Common\File\Mapper;
 
-use App\Entity\File;
-use App\Form\Common\File\DTO\FileDTO;
-use App\Repository\FileRepository;
+use Silecust\WebShop\Entity\File;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Repository\FileRepository;
 
 class FileDTOMapper
 {

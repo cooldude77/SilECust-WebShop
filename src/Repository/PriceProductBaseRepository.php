@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\PriceProductBase;
+use Silecust\WebShop\Entity\PriceProductBase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,7 +46,7 @@ class PriceProductBaseRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency): PriceProductBase
+    public function create(?\Silecust\WebShop\Entity\Product $product, ?\Silecust\WebShop\Entity\Currency $currency): PriceProductBase
     {
 
         $price =  new PriceProductBase();
@@ -57,7 +57,7 @@ class PriceProductBaseRepository extends ServiceEntityRepository
 
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT ppb FROM App\Entity\PriceProductBase ppb";
+        $dql = "SELECT ppb FROM Silecust\WebShop\Entity\PriceProductBase ppb";
         return $this->getEntityManager()->createQuery($dql);
 
     }

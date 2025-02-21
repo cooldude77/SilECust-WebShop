@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\OrderJournal;
+use Silecust\WebShop\Entity\OrderJournal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,7 +40,7 @@ class OrderJournalRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\OrderHeader $orderHeader): OrderJournal
+    public function create(\Silecust\WebShop\Entity\OrderHeader $orderHeader): OrderJournal
     {
         $orderJournal = new OrderJournal();
         $orderJournal->setOrderHeader($orderHeader);

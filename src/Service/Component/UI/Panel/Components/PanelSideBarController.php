@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Component\UI\Panel\Components;
+namespace Silecust\WebShop\Service\Component\UI\Panel\Components;
 
-use App\Service\Component\UI\Panel\Session\SessionAndMethodChecker;
+use Silecust\WebShop\Service\Component\UI\Panel\Session\SessionAndMethodChecker;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

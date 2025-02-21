@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\MasterData\Customer\Address;
+namespace Silecust\WebShop\Service\MasterData\Customer\Address;
 
-use App\Entity\CustomerAddress;
-use App\Repository\CustomerAddressRepository;
-use App\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 
 class CustomerAddressQuery
 {

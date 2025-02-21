@@ -1,16 +1,16 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Cart;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Cart;
 
-use App\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
-use App\Event\Module\WebShop\External\Cart\CartEvent;
-use App\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
-use App\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
-use App\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
-use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Transaction\Order\OrderRead;
-use App\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
+use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

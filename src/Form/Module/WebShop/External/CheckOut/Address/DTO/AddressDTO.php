@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\CheckOut\Address\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\External\CheckOut\Address\DTO;
 
 class AddressDTO
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Transaction\Order\IdGeneration;
+namespace Silecust\WebShop\Service\Transaction\Order\IdGeneration;
 
 use Symfony\Component\String\ByteString;
 

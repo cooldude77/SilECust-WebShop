@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\MasterData\Product\Image;
+namespace Silecust\WebShop\Service\MasterData\Product\Image;
 
-use App\Entity\ProductImage;
-use App\Service\Common\File\FilePhysicalOperation;
-use App\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
+use Silecust\WebShop\Entity\ProductImage;
+use Silecust\WebShop\Service\Common\File\FilePhysicalOperation;
+use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use function PHPUnit\Framework\assertNotEquals;

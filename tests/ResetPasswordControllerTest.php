@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests;
+namespace Silecust\WebShop\Tests;
 
-use App\Factory\UserFactory;
-use App\Repository\UserRepository;
-use App\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Factory\UserFactory;
+use Silecust\WebShop\Repository\UserRepository;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

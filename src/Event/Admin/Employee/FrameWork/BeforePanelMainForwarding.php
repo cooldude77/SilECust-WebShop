@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Event\Admin\Employee\FrameWork;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;

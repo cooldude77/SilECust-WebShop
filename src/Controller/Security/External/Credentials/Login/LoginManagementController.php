@@ -1,12 +1,12 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\Security\External\Credentials\Login;
+namespace Silecust\WebShop\Controller\Security\External\Credentials\Login;
 
 // ...
-use App\Exception\Security\User\UserNotAuthorized;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Security\User\Employee\EmployeeFromUserFinder;
+use Silecust\WebShop\Exception\Security\User\UserNotAuthorized;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use LogicException;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bundle\SecurityBundle\Security;

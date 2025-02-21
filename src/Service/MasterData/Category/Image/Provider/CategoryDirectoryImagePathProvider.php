@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\MasterData\Category\Image\Provider;
+namespace Silecust\WebShop\Service\MasterData\Category\Image\Provider;
 
-use App\Entity\Category;
+use Silecust\WebShop\Entity\Category;
 
 /**
  *  Directory Structure:

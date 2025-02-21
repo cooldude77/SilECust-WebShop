@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/ProductToNumberTransformer.php
-namespace App\Form\MasterData\Product\Transformer;
+namespace Silecust\WebShop\Form\MasterData\Product\Transformer;
 
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

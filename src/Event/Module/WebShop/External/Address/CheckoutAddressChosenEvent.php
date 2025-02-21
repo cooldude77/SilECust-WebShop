@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Address;
 
-use App\Entity\Customer;
-use App\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class CheckoutAddressChosenEvent extends Event

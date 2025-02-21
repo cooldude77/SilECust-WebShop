@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Common\File\DTO;
+namespace Silecust\WebShop\Form\Common\File\DTO;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

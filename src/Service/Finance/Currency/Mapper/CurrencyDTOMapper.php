@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Finance\Currency\Mapper;
+namespace Silecust\WebShop\Service\Finance\Currency\Mapper;
 
-use App\Entity\Currency;
-use App\Form\Finance\Currency\DTO\CurrencyDTO;
-use App\Repository\CountryRepository;
-use App\Repository\CurrencyRepository;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Form\Finance\Currency\DTO\CurrencyDTO;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\CurrencyRepository;
 
 readonly class CurrencyDTOMapper
 {

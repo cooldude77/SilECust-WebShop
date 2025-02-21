@@ -1,18 +1,18 @@
 <?php
 /** @noinspection PhpUnused */
 
-namespace App\EventSubscriber\Admin\Common;
+namespace Silecust\WebShop\EventSubscriber\Admin\Common;
 
-use App\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
-use App\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
-use App\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
-use App\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
-use App\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
-use App\Exception\Admin\SideBar\Action\EmptyActionListMapException;
-use App\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
-use App\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
-use App\Service\Admin\Employee\Common\AdminTitle;
-use App\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
+use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
+use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
+use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
+use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
+use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
+use Silecust\WebShop\Service\Admin\Employee\Common\AdminTitle;
+use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Module\WebShop\CheckOut;
+namespace Silecust\WebShop\Exception\Module\WebShop\CheckOut;
 
 class NoItemsInCartException extends \Exception
 {

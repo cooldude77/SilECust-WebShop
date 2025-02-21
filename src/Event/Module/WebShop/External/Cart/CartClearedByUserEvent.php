@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Cart;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Cart;
 
-use App\Entity\Customer;
+use Silecust\WebShop\Entity\Customer;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class CartClearedByUserEvent extends Event

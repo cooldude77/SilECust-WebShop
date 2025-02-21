@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Component\UI\Panel\Components;
+namespace Silecust\WebShop\Exception\Component\UI\Panel\Components;
 
 class NoContentControllerMethodProvided extends \Exception
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\OrderHeader;
-use App\Factory\OrderHeaderFactory;
-use App\Factory\OrderStatusTypeFactory;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Factory\OrderHeaderFactory;
+use Silecust\WebShop\Factory\OrderStatusTypeFactory;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Zenstruck\Foundry\Proxy;
 
 trait OrderFixture

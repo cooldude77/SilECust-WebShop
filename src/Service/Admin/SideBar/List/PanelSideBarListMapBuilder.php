@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\SideBar\List;
+namespace Silecust\WebShop\Service\Admin\SideBar\List;
 
 class PanelSideBarListMapBuilder
 {

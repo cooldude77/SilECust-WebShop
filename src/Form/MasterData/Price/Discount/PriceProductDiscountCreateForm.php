@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Price\Discount;
+namespace Silecust\WebShop\Form\MasterData\Price\Discount;
 
 
-use App\Form\Finance\Currency\CurrencyAutoCompleteField;
-use App\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
-use App\Form\MasterData\Product\ProductAutoCompleteField;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Form\Finance\Currency\CurrencyAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
+use Silecust\WebShop\Form\MasterData\Product\ProductAutoCompleteField;
+use Silecust\WebShop\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

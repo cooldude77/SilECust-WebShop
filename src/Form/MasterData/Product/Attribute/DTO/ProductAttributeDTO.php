@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Product\Attribute\DTO;
+namespace Silecust\WebShop\Form\MasterData\Product\Attribute\DTO;
 
 /**
  * Note: We cannot completely create a DTO is not having a domain object

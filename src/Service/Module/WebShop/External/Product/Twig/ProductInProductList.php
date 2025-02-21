@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Product\Twig;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Product\Twig;
 
-use App\Event\Module\WebShop\External\Product\Twig\SingleProductInProductListDisplayEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Product\Twig\SingleProductInProductListDisplayEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

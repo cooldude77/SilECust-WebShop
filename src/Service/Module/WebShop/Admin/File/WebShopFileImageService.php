@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Module\WebShop\Admin\File;
+namespace Silecust\WebShop\Service\Module\WebShop\Admin\File;
 
-use App\Entity\WebShopImageFile;
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
-use App\Repository\WebShopImageFileRepository;
-use App\Repository\WebShopImageTypeRepository;
+use Silecust\WebShop\Entity\WebShopImageFile;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
+use Silecust\WebShop\Repository\WebShopImageFileRepository;
+use Silecust\WebShop\Repository\WebShopImageTypeRepository;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebShopFileImageService

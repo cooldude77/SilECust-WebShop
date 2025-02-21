@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\MasterData\Product\Image\ListObject;
+namespace Silecust\WebShop\Controller\MasterData\Product\Image\ListObject;
 
 class ProductImageObject
 {

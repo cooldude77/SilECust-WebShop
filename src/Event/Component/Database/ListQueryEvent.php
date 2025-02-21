@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\Database;
+namespace Silecust\WebShop\Event\Component\Database;
 
 use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\Request;

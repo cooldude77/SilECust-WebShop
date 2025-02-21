@@ -1,11 +1,11 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Order\Header;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Order\Header;
 
-use App\Event\Transaction\Order\Header\BeforeOrderViewEvent;
-use App\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
-use App\Service\Transaction\Order\OrderRead;
-use App\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderViewEvent;
+use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnBeforeOrderView implements EventSubscriberInterface

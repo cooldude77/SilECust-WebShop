@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\MasterData\Inventory\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Inventory\Mapper;
 
-use App\Entity\Category;
-use App\Entity\InventoryProduct;
-use App\Form\MasterData\Inventory\DTO\InventoryProductDTO;
-use App\Repository\InventoryProductRepository;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\InventoryProduct;
+use Silecust\WebShop\Form\MasterData\Inventory\DTO\InventoryProductDTO;
+use Silecust\WebShop\Repository\InventoryProductRepository;
+use Silecust\WebShop\Repository\ProductRepository;
 use Symfony\Component\Form\FormInterface;
 
 class InventoryProductDTOMapper

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Session;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session;
 
-use App\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
-use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;

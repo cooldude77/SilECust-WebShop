@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\Customer;
-use App\Entity\CustomerAddress;
-use App\Factory\CustomerAddressFactory;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Factory\CustomerAddressFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait CustomerAddressFixture

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\MasterData\Category;
+namespace Silecust\WebShop\Service\MasterData\Category;
 
-use App\Entity\Category;
+use Silecust\WebShop\Entity\Category;
 
 class PathCalculator
 {

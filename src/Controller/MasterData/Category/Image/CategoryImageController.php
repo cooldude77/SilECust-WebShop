@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Controller\MasterData\Category\Image;
+namespace Silecust\WebShop\Controller\MasterData\Category\Image;
 
-use App\Controller\Common\Utility\CommonUtility;
-use App\Controller\MasterData\Category\Image\ListObject\CategoryImageObject;
-use App\Entity\CategoryImage;
-use App\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
-use App\Form\MasterData\Category\Image\Form\CategoryImageCreateForm;
-use App\Form\MasterData\Category\Image\Form\CategoryImageEditForm;
-use App\Repository\CategoryImageRepository;
-use App\Repository\CategoryRepository;
-use App\Service\MasterData\Category\Image\CategoryImageOperation;
-use App\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
-use App\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
+use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
+use Silecust\WebShop\Controller\MasterData\Category\Image\ListObject\CategoryImageObject;
+use Silecust\WebShop\Entity\CategoryImage;
+use Silecust\WebShop\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
+use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageCreateForm;
+use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageEditForm;
+use Silecust\WebShop\Repository\CategoryImageRepository;
+use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation;
+use Silecust\WebShop\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
+use Silecust\WebShop\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Finance\Currency\DTO;
+namespace Silecust\WebShop\Form\Finance\Currency\DTO;
 
 class CurrencyDTO
 {

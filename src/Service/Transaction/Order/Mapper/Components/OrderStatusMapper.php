@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Transaction\Order\Mapper\Components;
+namespace Silecust\WebShop\Service\Transaction\Order\Mapper\Components;
 
-use App\Entity\OrderStatus;
-use App\Repository\OrderStatusRepository;
-use App\Repository\OrderStatusTypeRepository;
-use App\Service\Transaction\Order\SnapShot\OrderSnapShotCreator;
+use Silecust\WebShop\Entity\OrderStatus;
+use Silecust\WebShop\Repository\OrderStatusRepository;
+use Silecust\WebShop\Repository\OrderStatusTypeRepository;
+use Silecust\WebShop\Service\Transaction\Order\SnapShot\OrderSnapShotCreator;
 
 /**
  *

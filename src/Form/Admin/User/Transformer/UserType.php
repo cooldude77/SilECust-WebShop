@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\User\Transformer;
+namespace Silecust\WebShop\Form\Admin\User\Transformer;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;

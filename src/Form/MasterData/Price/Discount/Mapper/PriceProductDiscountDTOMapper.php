@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Price\Discount\Mapper;
+namespace Silecust\WebShop\Form\MasterData\Price\Discount\Mapper;
 
-use App\Entity\PriceProductDiscount;
-use App\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
-use App\Repository\CurrencyRepository;
-use App\Repository\PriceProductDiscountRepository;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Entity\PriceProductDiscount;
+use Silecust\WebShop\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
+use Silecust\WebShop\Repository\CurrencyRepository;
+use Silecust\WebShop\Repository\PriceProductDiscountRepository;
+use Silecust\WebShop\Repository\ProductRepository;
 
 readonly class PriceProductDiscountDTOMapper
 {

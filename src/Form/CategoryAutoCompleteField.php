@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form;
+namespace Silecust\WebShop\Form;
 
-use App\Entity\Category;
-use App\Repository\CategoryRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

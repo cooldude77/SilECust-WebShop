@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Transaction\Order\Header;
+namespace Silecust\WebShop\Event\Transaction\Order\Header;
 
-use App\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderHeader;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class BeforeOrderViewEvent extends Event

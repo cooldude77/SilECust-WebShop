@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Currency;
+use Silecust\WebShop\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,7 +45,7 @@ class CurrencyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function create(?\App\Entity\Country $find): Currency
+    public function create(?\Silecust\WebShop\Entity\Country $find): Currency
     {
         $currency = new Currency();
         $currency->setCountry($find);

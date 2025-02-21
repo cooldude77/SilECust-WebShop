@@ -1,86 +1,86 @@
 services:
 
-  App\Repository\UserRepository:
+  Silecust\WebShop\Repository\UserRepository:
     autowire: true
     tags: [ 'doctrine.repository_service' ]
   silecust_repository_user:
-    alias: App\Repository\UserRepository
-  App\Repository\ProductAttributeValueRepository: ~
-  App\Repository\OrderAddressRepository: ~
-  App\Repository\WebShopFileRepository: ~
-  App\Repository\PriceProductTaxRepository: ~
-  App\Repository\EmployeeRepository: ~
-  App\Repository\ProductTypeAttributeRepository: ~
-  App\Repository\CustomerIndividualRepository: ~
-  App\Repository\OrderShippingRepository: ~
-  App\Repository\CityRepository: ~
-  App\Repository\ImageRepository: ~
-  App\Repository\FileRepository: ~
-  App\Repository\InventoryProductRepository: ~
-  App\Repository\OrderItemPaymentPriceRepository: ~
-  App\Repository\OrderStatusTypeRepository: ~
-  App\Repository\OrderStatusRepository: ~
-  App\Repository\CategoryImageRepository: ~
-  App\Repository\StateRepository: ~
-  App\Repository\OrderJournalRepository: ~
-  App\Repository\WebShopHomeSectionRepository: ~
-  App\Repository\WebShopRepository: ~
-  App\Repository\DiscountPriceProductRepository: ~
-  App\Repository\OrderItemRepository: ~
-  App\Repository\CustomerAddressRepository: ~
-  App\Repository\OrderHeaderRepository: ~
-  App\Repository\CategoryRepository: ~
-  App\Repository\AddressRepository: ~
-  App\Repository\DiscountPriceCategoryRepository: ~
-  App\Repository\CustomerTypeAttributeRepository: ~
-  App\Repository\PaymentTypeRepository: ~
-  App\Repository\OrderGuidRepository: ~
-  App\Repository\CurrencyRepository: ~
-  App\Repository\ResetPasswordRequestRepository:
+    alias: Silecust\WebShop\Repository\UserRepository
+  Silecust\WebShop\Repository\ProductAttributeValueRepository: ~
+  Silecust\WebShop\Repository\OrderAddressRepository: ~
+  Silecust\WebShop\Repository\WebShopFileRepository: ~
+  Silecust\WebShop\Repository\PriceProductTaxRepository: ~
+  Silecust\WebShop\Repository\EmployeeRepository: ~
+  Silecust\WebShop\Repository\ProductTypeAttributeRepository: ~
+  Silecust\WebShop\Repository\CustomerIndividualRepository: ~
+  Silecust\WebShop\Repository\OrderShippingRepository: ~
+  Silecust\WebShop\Repository\CityRepository: ~
+  Silecust\WebShop\Repository\ImageRepository: ~
+  Silecust\WebShop\Repository\FileRepository: ~
+  Silecust\WebShop\Repository\InventoryProductRepository: ~
+  Silecust\WebShop\Repository\OrderItemPaymentPriceRepository: ~
+  Silecust\WebShop\Repository\OrderStatusTypeRepository: ~
+  Silecust\WebShop\Repository\OrderStatusRepository: ~
+  Silecust\WebShop\Repository\CategoryImageRepository: ~
+  Silecust\WebShop\Repository\StateRepository: ~
+  Silecust\WebShop\Repository\OrderJournalRepository: ~
+  Silecust\WebShop\Repository\WebShopHomeSectionRepository: ~
+  Silecust\WebShop\Repository\WebShopRepository: ~
+  Silecust\WebShop\Repository\DiscountPriceProductRepository: ~
+  Silecust\WebShop\Repository\OrderItemRepository: ~
+  Silecust\WebShop\Repository\CustomerAddressRepository: ~
+  Silecust\WebShop\Repository\OrderHeaderRepository: ~
+  Silecust\WebShop\Repository\CategoryRepository: ~
+  Silecust\WebShop\Repository\AddressRepository: ~
+  Silecust\WebShop\Repository\DiscountPriceCategoryRepository: ~
+  Silecust\WebShop\Repository\CustomerTypeAttributeRepository: ~
+  Silecust\WebShop\Repository\PaymentTypeRepository: ~
+  Silecust\WebShop\Repository\OrderGuidRepository: ~
+  Silecust\WebShop\Repository\CurrencyRepository: ~
+  Silecust\WebShop\Repository\ResetPasswordRequestRepository:
     arguments:
       - "@doctrine"
-  App\Repository\CustomerRepository: ~
-  App\Repository\ProductAttributeRepository: ~
-  App\Repository\PostalCodeRepository: ~
+  Silecust\WebShop\Repository\CustomerRepository: ~
+  Silecust\WebShop\Repository\ProductAttributeRepository: ~
+  Silecust\WebShop\Repository\PostalCodeRepository: ~
 
-  App\Repository\OrderPaymentRepository: ~
-  App\Repository\SalutationRepository: ~
-  App\Repository\TaxSlabRepository: ~
-  App\Repository\WebShopImageTypeRepository: ~
-  App\Repository\ProductRepository: ~
-  App\Repository\CustomerTypeRepository: ~
-  App\Repository\ProductTypeRepository: ~
-  App\Repository\ProductImageRepository: ~
-  App\Repository\PriceProductDiscountRepository: ~
-  App\Repository\ProductAttributeTypeRepository: ~
-  App\Repository\CountryRepository: ~
-  App\Repository\PriceProductBaseRepository: ~
-  App\Repository\WebShopImageFileRepository: ~
+  Silecust\WebShop\Repository\OrderPaymentRepository: ~
+  Silecust\WebShop\Repository\SalutationRepository: ~
+  Silecust\WebShop\Repository\TaxSlabRepository: ~
+  Silecust\WebShop\Repository\WebShopImageTypeRepository: ~
+  Silecust\WebShop\Repository\ProductRepository: ~
+  Silecust\WebShop\Repository\CustomerTypeRepository: ~
+  Silecust\WebShop\Repository\ProductTypeRepository: ~
+  Silecust\WebShop\Repository\ProductImageRepository: ~
+  Silecust\WebShop\Repository\PriceProductDiscountRepository: ~
+  Silecust\WebShop\Repository\ProductAttributeTypeRepository: ~
+  Silecust\WebShop\Repository\CountryRepository: ~
+  Silecust\WebShop\Repository\PriceProductBaseRepository: ~
+  Silecust\WebShop\Repository\WebShopImageFileRepository: ~
 
-  App\Service\Transaction\Order\Item\ItemPriceCalculator: ~
-  App\Service\MasterData\Pricing\PriceByCountryCalculator: ~
+  Silecust\WebShop\Service\Transaction\Order\Item\ItemPriceCalculator: ~
+  Silecust\WebShop\Service\MasterData\Pricing\PriceByCountryCalculator: ~
 
-  App\EventListener\ExceptionListener:
+  Silecust\WebShop\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
 
 
-  App\Twig\Security\IsUserACustomer:
+  Silecust\WebShop\Twig\Security\IsUserACustomer:
     tags:
       -{ name: twig.extension }
 
-  App\Twig\EventDispatcher\GridColumnEventDispatcher:
+  Silecust\WebShop\Twig\EventDispatcher\GridColumnEventDispatcher:
     tags:
       -{ name: twig.extension }
-  App\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
+  Silecust\WebShop\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
     tags:
       -{ name: twig.extension }
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
 
   item_price_calculator:
-    class: App\Service\Transaction\Order\Item\ItemPriceCalculator
+    class: Silecust\WebShop\Service\Transaction\Order\Item\ItemPriceCalculator
 
   price_by_country_code:
-    class: App\Service\MasterData\Pricing\PriceByCountryCalculator
+    class: Silecust\WebShop\Service\MasterData\Pricing\PriceByCountryCalculator
 

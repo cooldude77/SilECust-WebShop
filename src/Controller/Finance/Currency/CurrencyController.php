@@ -1,15 +1,15 @@
 <?php
 // src/Controller/LuckyController.php
-namespace App\Controller\Finance\Currency;
+namespace Silecust\WebShop\Controller\Finance\Currency;
 
-use App\Entity\Country;
-use App\Entity\Currency;
-use App\Form\Finance\Currency\CurrencyCreateForm;
-use App\Form\Finance\Currency\CurrencyEditForm;
-use App\Form\Finance\Currency\DTO\CurrencyDTO;
-use App\Repository\CountryRepository;
-use App\Repository\CurrencyRepository;
-use App\Service\Finance\Currency\Mapper\CurrencyDTOMapper;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Form\Finance\Currency\CurrencyCreateForm;
+use Silecust\WebShop\Form\Finance\Currency\CurrencyEditForm;
+use Silecust\WebShop\Form\Finance\Currency\DTO\CurrencyDTO;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\CurrencyRepository;
+use Silecust\WebShop\Service\Finance\Currency\Mapper\CurrencyDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

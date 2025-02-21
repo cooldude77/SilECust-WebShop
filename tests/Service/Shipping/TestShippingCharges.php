@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Service\Shipping;
+namespace Silecust\WebShop\Tests\Service\Shipping;
 
-use App\Entity\OrderHeader;
-use App\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
 
 class TestShippingCharges implements ShippingOrderServiceInterface
 {

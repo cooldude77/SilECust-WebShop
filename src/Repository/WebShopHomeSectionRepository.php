@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\WebShopSection;
+use Silecust\WebShop\Entity\WebShopSection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,7 +45,7 @@ class WebShopHomeSectionRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\WebShop $webShop): WebShopSection
+    public function create(?\Silecust\WebShop\Entity\WebShop $webShop): WebShopSection
     {
         $webShopSection = new WebShopSection();
         $webShopSection->setWebShop($webShop);

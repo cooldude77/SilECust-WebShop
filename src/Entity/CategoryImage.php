@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Silecust\WebShop\Entity;
 
-use App\Repository\CategoryImageRepository;
+use Silecust\WebShop\Repository\CategoryImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryImageRepository::class)]

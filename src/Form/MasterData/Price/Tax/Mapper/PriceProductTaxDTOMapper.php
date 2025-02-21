@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Price\Tax\Mapper;
+namespace Silecust\WebShop\Form\MasterData\Price\Tax\Mapper;
 
-use App\Entity\PriceProductTax;
-use App\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
-use App\Repository\PriceProductTaxRepository;
-use App\Repository\ProductRepository;
-use App\Repository\TaxSlabRepository;
+use Silecust\WebShop\Entity\PriceProductTax;
+use Silecust\WebShop\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
+use Silecust\WebShop\Repository\PriceProductTaxRepository;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Repository\TaxSlabRepository;
 
 readonly class PriceProductTaxDTOMapper
 {

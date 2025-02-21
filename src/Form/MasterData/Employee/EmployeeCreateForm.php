@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Form\MasterData\Employee;
+namespace Silecust\WebShop\Form\MasterData\Employee;
 
-use App\Entity\Employee;
-use App\Form\MasterData\Customer\DTO\SalutationAutoCompleteField;
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Repository\EmployeeRepository;
-use App\Repository\SalutationRepository;
+use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\SalutationAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
+use Silecust\WebShop\Repository\EmployeeRepository;
+use Silecust\WebShop\Repository\SalutationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

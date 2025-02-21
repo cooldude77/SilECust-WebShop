@@ -1,19 +1,19 @@
 <?php
 // src/Controller/OrderHeaderController.php
-namespace App\Controller\Transaction\Order\Admin\Header;
+namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Header;
 
 // ...
-use App\Entity\OrderHeader;
-use App\Event\Component\Database\ListQueryEvent;
-use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
-use App\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
-use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
-use App\Form\Transaction\Order\Header\OrderHeaderCreateForm;
-use App\Form\Transaction\Order\Header\OrderHeaderEditForm;
-use App\Repository\OrderHeaderRepository;
-use App\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
-use App\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
+use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
+use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
+use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderCreateForm;
+use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderEditForm;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
+use Silecust\WebShop\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

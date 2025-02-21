@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Twig\EventDispatcher;
+namespace Silecust\WebShop\Service\Twig\EventDispatcher;
 
-use App\Event\Component\UI\Panel\List\GridColumnEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

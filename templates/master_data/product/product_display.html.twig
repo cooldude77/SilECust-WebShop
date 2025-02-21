@@ -1,6 +1,6 @@
 {% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 {{
-render(controller(  'App\\Controller\\MasterData\\Product\\Image\\ProductImageController::list',
+render(controller(  'Silecust\\WebShop\\Controller\\MasterData\\Product\\Image\\ProductImageController::list',
     {'id':attribute(entity,"id"),'request':app.request}))
 }}
 

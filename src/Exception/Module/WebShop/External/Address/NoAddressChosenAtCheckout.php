@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Exception\Module\WebShop\External\Address;
 
 class NoAddressChosenAtCheckout extends \Exception
 {

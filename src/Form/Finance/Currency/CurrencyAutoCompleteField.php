@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Finance\Currency;
+namespace Silecust\WebShop\Form\Finance\Currency;
 
-use App\Entity\Currency;
+use Silecust\WebShop\Entity\Currency;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

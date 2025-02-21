@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\PaymentType;
-use App\Repository\PaymentTypeRepository;
+use Silecust\WebShop\Entity\PaymentType;
+use Silecust\WebShop\Repository\PaymentTypeRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

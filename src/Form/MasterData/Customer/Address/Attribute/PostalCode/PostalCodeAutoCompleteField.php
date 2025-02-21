@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\PostalCode;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode;
 
-use App\Entity\PostalCode;
+use Silecust\WebShop\Entity\PostalCode;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

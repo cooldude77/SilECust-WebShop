@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Common\File;
+namespace Silecust\WebShop\Controller\Common\File;
 
-use App\Service\Common\Image\SystemImage;
+use Silecust\WebShop\Service\Common\Image\SystemImage;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Attribute\Route;

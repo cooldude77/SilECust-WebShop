@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Admin\Common;
+namespace Silecust\WebShop\Exception\Admin\Common;
 
 class FunctionNotMappedToAnyEntity extends \Exception
 {

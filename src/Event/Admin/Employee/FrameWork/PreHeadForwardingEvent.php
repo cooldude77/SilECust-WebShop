@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Event\Admin\Employee\FrameWork;
 
-use App\Service\Component\UI\Panel\Components\PanelHeadController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\EventDispatcher\Event;

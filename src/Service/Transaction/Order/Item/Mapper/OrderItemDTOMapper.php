@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Transaction\Order\Item\Mapper;
+namespace Silecust\WebShop\Service\Transaction\Order\Item\Mapper;
 
-use App\Entity\OrderItem;
-use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
-use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderItemRepository;
-use App\Repository\ProductRepository;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Repository\OrderItemRepository;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 /**
  *

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Shop\Components;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components;
 
-use App\Form\Module\WebShop\External\Shop\HeaderSearchForm;
+use Silecust\WebShop\Form\Module\WebShop\External\Shop\HeaderSearchForm;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

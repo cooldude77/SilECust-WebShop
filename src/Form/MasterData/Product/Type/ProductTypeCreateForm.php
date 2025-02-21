@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Product\Type;
+namespace Silecust\WebShop\Form\MasterData\Product\Type;
 
-use App\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
+use Silecust\WebShop\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

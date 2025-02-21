@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Category;
+use Silecust\WebShop\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -67,7 +67,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     /*
     return $this->getEntityManager()
-        ->createQuery("SELECT a FROM App\Entity\Category  a where a.parent IS null")
+        ->createQuery("SELECT a FROM Silecust\WebShop\Entity\Category  a where a.parent IS null")
         ->getResult();
 
 
@@ -116,7 +116,7 @@ SELECT * FROM   cte;', $rsm);
     public function findAllCategories(): array
     {
         return $this->getEntityManager()
-            ->createQuery("SELECT a FROM App\Entity\Category a")
+            ->createQuery("SELECT a FROM Silecust\WebShop\Entity\Category a")
             ->getResult(Query::HYDRATE_ARRAY);
         /*
          * select * from (SELECT cp.id,cp.name,cp.parent_id,cp.description

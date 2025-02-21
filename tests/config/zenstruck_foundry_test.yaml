@@ -1,5 +1,5 @@
 services:
-    App\Factory\UserFactory:
+    Silecust\WebShop\Factory\UserFactory:
         arguments:
             - '@security.password_hasher'
         autowire: true

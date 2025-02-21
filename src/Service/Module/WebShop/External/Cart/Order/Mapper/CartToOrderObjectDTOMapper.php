@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Order\Mapper;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Order\Mapper;
 
-use App\Entity\Customer;
-use App\Form\Module\WebShop\External\Order\DTO\Components\Components\OrderItemDTO;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Form\Module\WebShop\External\Order\DTO\Components\Components\OrderItemDTO;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 
 class CartToOrderObjectDTOMapper
 {

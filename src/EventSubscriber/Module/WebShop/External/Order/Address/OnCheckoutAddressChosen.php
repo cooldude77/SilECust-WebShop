@@ -1,12 +1,12 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Address;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Address;
 
-use App\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
-use App\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
-use App\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
-use App\Service\Transaction\Order\OrderRead;
-use App\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
+use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnCheckoutAddressChosen implements EventSubscriberInterface

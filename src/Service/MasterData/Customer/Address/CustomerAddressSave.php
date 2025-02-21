@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\MasterData\Customer\Address;
+namespace Silecust\WebShop\Service\MasterData\Customer\Address;
 
-use App\Entity\CustomerAddress;
-use App\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 
 class CustomerAddressSave
 {

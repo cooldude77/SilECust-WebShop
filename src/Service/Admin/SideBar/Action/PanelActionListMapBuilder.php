@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Admin\SideBar\Action;
+namespace Silecust\WebShop\Service\Admin\SideBar\Action;
 
-use App\Exception\Admin\SideBar\Action\EmptyActionListMapException;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 
 class PanelActionListMapBuilder
 {

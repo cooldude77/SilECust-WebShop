@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Finance\Currency;
+namespace Silecust\WebShop\Form\Finance\Currency;
 
-use App\Form\Finance\Currency\DTO\CurrencyDTO;
-use App\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
-use App\Repository\CountryRepository;
+use Silecust\WebShop\Form\Finance\Currency\DTO\CurrencyDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
+use Silecust\WebShop\Repository\CountryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

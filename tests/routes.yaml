@@ -2,11 +2,11 @@
 controllers:
   resource:
     path: /var/www/html/project/productized/bundles/silecust/src/Controller/
-    namespace: App\Controller
+    namespace: Silecust\WebShop\Controller
   type: attribute
 
 kernel:
-  resource: App\Tests\TestKernel
+  resource: Silecust\WebShop\Tests\TestKernel
   type: attribute
 ux_autocomplete:
     resource: '@AutocompleteBundle/config/routes.php'

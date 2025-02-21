@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\Admin;
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\Admin;
 
-use App\Factory\WebShopFactory;
+use Silecust\WebShop\Factory\WebShopFactory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;

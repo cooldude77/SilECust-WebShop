@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/CurrencyToNumberTransformer.php
-namespace App\Form\Common\Currency;
+namespace Silecust\WebShop\Form\Common\Currency;
 
-use App\Entity\Currency;
+use Silecust\WebShop\Entity\Currency;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

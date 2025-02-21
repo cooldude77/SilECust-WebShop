@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/CategoryToNumberTransformer.php
-namespace App\Form\MasterData\Category\Transformer;
+namespace Silecust\WebShop\Form\MasterData\Category\Transformer;
 
-use App\Entity\Category;
+use Silecust\WebShop\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

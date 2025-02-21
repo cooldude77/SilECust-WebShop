@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\DTO;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\DTO;
 
 
 /**

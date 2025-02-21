@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Order;
 
-use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
-use App\Event\Transaction\Order\Header\BeforeOrderViewEvent;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Component\UI\Panel\Components\PanelContentController;
-use App\Service\Component\UI\Panel\Components\PanelHeaderController;
-use App\Service\Component\UI\Panel\PanelMainController;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderViewEvent;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
+use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

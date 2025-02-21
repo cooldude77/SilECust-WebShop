@@ -1,8 +1,8 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Order\Item\Grid;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Item\Grid;
 
-use App\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Component\UI\Panel\Session;
+namespace Silecust\WebShop\Service\Component\UI\Panel\Session;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 

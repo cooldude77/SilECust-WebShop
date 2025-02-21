@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Exception\Admin\Employee\FrameWork;
 
 class AdminUrlFunctionKeyParameterNull extends \Exception
 {

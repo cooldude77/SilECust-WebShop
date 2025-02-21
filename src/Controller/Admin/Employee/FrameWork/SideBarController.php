@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
-use App\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Admin\SideBar\Role\RoleBasedSideBarList;
-use App\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Service\Admin\SideBar\Role\RoleBasedSideBarList;
+use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

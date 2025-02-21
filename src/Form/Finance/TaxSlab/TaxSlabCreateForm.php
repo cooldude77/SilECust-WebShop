@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\Finance\TaxSlab;
+namespace Silecust\WebShop\Form\Finance\TaxSlab;
 
-use App\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
-use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
-use App\Form\MasterData\CustomFormType;
-use App\Form\MasterData\Product\ProductAutoCompleteField;
-use App\Form\TaxSlabAutoCompleteField;
+use Silecust\WebShop\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
+use Silecust\WebShop\Form\MasterData\Currency\CurrencyAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\CustomFormType;
+use Silecust\WebShop\Form\MasterData\Product\ProductAutoCompleteField;
+use Silecust\WebShop\Form\TaxSlabAutoCompleteField;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

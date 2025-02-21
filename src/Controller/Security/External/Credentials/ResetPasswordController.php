@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Security\External\Credentials;
+namespace Silecust\WebShop\Controller\Security\External\Credentials;
 
-use App\Entity\User;
-use App\Form\ChangePasswordFormType;
-use App\Form\ResetPasswordRequestFormType;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Form\ChangePasswordFormType;
+use Silecust\WebShop\Form\ResetPasswordRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\Common\File;
+namespace Silecust\WebShop\Tests\Controller\Common\File;
 
-use App\Service\Testing\AbstractDoctrineWithMigrationTestCase;
+use Silecust\WebShop\Service\Testing\AbstractDoctrineWithMigrationTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FileControllerTest extends WebTestCase

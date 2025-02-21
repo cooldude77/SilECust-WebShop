@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Location\Mapper\State;
+namespace Silecust\WebShop\Service\Location\Mapper\State;
 
-use App\Entity\State;
-use App\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use App\Repository\CountryRepository;
-use App\Repository\StateRepository;
+use Silecust\WebShop\Entity\State;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\StateRepository;
 
 class StateDTOMapper
 {

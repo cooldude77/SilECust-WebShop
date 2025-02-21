@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Module\WebShop\External\Cart\Session;
+namespace Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session;
 
 class ProductNotFoundInCart extends \Exception
 {

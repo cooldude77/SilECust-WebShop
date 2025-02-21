@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Component\UI\Search;
+namespace Silecust\WebShop\Service\Component\UI\Search;
 
 use Doctrine\Common\Collections\Criteria;
 

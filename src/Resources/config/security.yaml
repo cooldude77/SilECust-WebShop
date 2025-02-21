@@ -1,4 +1,4 @@
 services:
-  App\Security\UserProvider:
+  Silecust\WebShop\Security\UserProvider:
     arguments:
       - "@silecust_repository_user"

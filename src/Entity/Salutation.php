@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Silecust\WebShop\Entity;
 
-use App\Repository\SalutationRepository;
+use Silecust\WebShop\Repository\SalutationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

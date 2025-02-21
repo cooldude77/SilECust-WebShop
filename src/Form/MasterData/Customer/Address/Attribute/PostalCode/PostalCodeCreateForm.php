@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\PostalCode;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode;
 
-use App\Entity\PostalCode;
-use App\Form\MasterData\Customer\Address\Attribute\City\CityAutoCompleteField;
-use App\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
-use App\Repository\CityRepository;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\CityAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
+use Silecust\WebShop\Repository\CityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

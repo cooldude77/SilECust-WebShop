@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controller\Admin\Customer\Framework;
+namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
-use App\Controller\Module\WebShop\External\Shop\Components\FooterController;
-use App\Controller\Module\WebShop\External\Shop\Components\HeadController;
-use App\Service\Component\UI\Panel\Components\PanelContentController;
-use App\Service\Component\UI\Panel\Components\PanelFooterController;
-use App\Service\Component\UI\Panel\Components\PanelHeadController;
-use App\Service\Component\UI\Panel\Components\PanelHeaderController;
-use App\Service\Component\UI\Panel\Components\PanelSideBarController;
-use App\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\FooterController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeadController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
+use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

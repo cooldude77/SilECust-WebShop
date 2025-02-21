@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Tests\Controller\Admin\Employee\FrameWork;
 
-use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Fixtures\SuperAdminFixture;
-use App\Tests\Utility\AuthenticateTestEmployee;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\SuperAdminFixture;
+use Silecust\WebShop\Tests\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser as SymfonyBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

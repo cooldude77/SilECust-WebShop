@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Customer\Address;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Address;
 
-use App\Event\Component\UI\Panel\List\GridCreateLinkEvent;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 

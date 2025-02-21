@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Cart\Session\Mapper;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Mapper;
 
-use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class CartSessionToDTOMapper

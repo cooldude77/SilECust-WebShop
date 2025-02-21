@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\City;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City;
 
-use App\Entity\City;
+use Silecust\WebShop\Entity\City;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

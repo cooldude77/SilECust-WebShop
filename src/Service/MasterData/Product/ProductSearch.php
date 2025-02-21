@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\MasterData\Product;
+namespace Silecust\WebShop\Service\MasterData\Product;
 
-use App\Service\Component\UI\Search\SearchEntityInterface;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Doctrine\Common\Collections\Criteria;
 
 class ProductSearch implements SearchEntityInterface

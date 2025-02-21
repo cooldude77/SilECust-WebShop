@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\PriceProductTax;
-use App\Entity\Product;
-use App\Entity\TaxSlab;
+use Silecust\WebShop\Entity\PriceProductTax;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Entity\TaxSlab;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -59,7 +59,7 @@ class PriceProductTaxRepository extends ServiceEntityRepository
 
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT ppt FROM App\Entity\PriceProductTax ppt";
+        $dql = "SELECT ppt FROM Silecust\WebShop\Entity\PriceProductTax ppt";
         return $this->getEntityManager()->createQuery($dql);
 
     }

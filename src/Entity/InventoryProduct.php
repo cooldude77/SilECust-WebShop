@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Silecust\WebShop\Entity;
 
-use App\Repository\InventoryProductRepository;
+use Silecust\WebShop\Repository\InventoryProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryProductRepository::class)]

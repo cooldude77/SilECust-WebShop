@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Service\MasterData\Price;
+namespace Silecust\WebShop\Service\MasterData\Price;
 
-use App\Entity\Country;
-use App\Entity\Currency;
-use App\Entity\PriceProductBase;
-use App\Entity\PriceProductDiscount;
-use App\Entity\PriceProductTax;
-use App\Entity\Product;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Repository\PriceProductBaseRepository;
-use App\Repository\PriceProductDiscountRepository;
-use App\Repository\PriceProductTaxRepository;
-use App\Repository\TaxSlabRepository;
-use App\Service\Transaction\Order\PriceObject;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Entity\PriceProductDiscount;
+use Silecust\WebShop\Entity\PriceProductTax;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Repository\PriceProductBaseRepository;
+use Silecust\WebShop\Repository\PriceProductDiscountRepository;
+use Silecust\WebShop\Repository\PriceProductTaxRepository;
+use Silecust\WebShop\Repository\TaxSlabRepository;
+use Silecust\WebShop\Service\Transaction\Order\PriceObject;
 
 /**
  *
@@ -114,7 +114,7 @@ readonly class PriceCalculator
      * @return PriceProductTax
      * @throws PriceProductTaxNotFound
      */
-    public function getTaxRate(Product $product,Country $country): \App\Entity\PriceProductTax
+    public function getTaxRate(Product $product,Country $country): \Silecust\WebShop\Entity\PriceProductTax
     {
         $taxSlabs = $this->taxSlabRepository->findBy(['country' => $country]);
         $tax = $this->priceProductTaxRepository->findProductByTaxSlabs(

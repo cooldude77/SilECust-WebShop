@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Silecust\WebShop\Entity;
 
-use App\Repository\ProductImageRepository;
+use Silecust\WebShop\Repository\ProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

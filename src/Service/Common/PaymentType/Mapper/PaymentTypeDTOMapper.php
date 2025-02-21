@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Common\PaymentType\Mapper;
+namespace Silecust\WebShop\Service\Common\PaymentType\Mapper;
 
-use App\Entity\Category;
-use App\Entity\PaymentType;
-use App\Repository\PaymentTypeRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\PaymentType;
+use Silecust\WebShop\Repository\PaymentTypeRepository;
 use Symfony\Component\Form\FormInterface;
 
 class PaymentTypeDTOMapper

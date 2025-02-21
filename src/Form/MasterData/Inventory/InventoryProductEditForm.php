@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Inventory;
+namespace Silecust\WebShop\Form\MasterData\Inventory;
 
-use App\Form\CategoryAutoCompleteField;
-use App\Form\MasterData\Inventory\DTO\InventoryProductDTO;
+use Silecust\WebShop\Form\CategoryAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Inventory\DTO\InventoryProductDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

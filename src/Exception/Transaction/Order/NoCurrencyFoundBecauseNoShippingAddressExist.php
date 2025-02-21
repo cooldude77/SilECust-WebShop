@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Exception\Transaction\Order;
+namespace Silecust\WebShop\Exception\Transaction\Order;
 
-use App\Entity\Customer;
-use App\Entity\OrderHeader;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\OrderHeader;
 
 class NoCurrencyFoundBecauseNoShippingAddressExist extends \Exception
 {

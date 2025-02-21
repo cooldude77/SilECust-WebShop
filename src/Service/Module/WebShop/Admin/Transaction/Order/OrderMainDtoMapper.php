@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Module\WebShop\Admin\Transaction\Order;
+namespace Silecust\WebShop\Service\Module\WebShop\Admin\Transaction\Order;
 
 class OrderMainDtoMapper
 {

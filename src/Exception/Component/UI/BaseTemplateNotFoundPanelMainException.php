@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Component\UI;
+namespace Silecust\WebShop\Exception\Component\UI;
 
 class BaseTemplateNotFoundPanelMainException extends \Exception
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Service\MasterData\Price;
+namespace Silecust\WebShop\Service\MasterData\Price;
 
-use App\Entity\Currency;
-use App\Entity\OrderItem;
-use App\Exception\MasterData\Pricing\DefaultCountryNotSet;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Repository\CountryRepository;
-use App\Repository\CurrencyRepository;
-use App\Repository\ProductRepository;
-use App\Service\Transaction\Order\PriceObject;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Exception\MasterData\Pricing\DefaultCountryNotSet;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\CurrencyRepository;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Transaction\Order\PriceObject;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**

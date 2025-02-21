@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\Country;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country;
 
-use App\Entity\Category;
-use App\Entity\Country;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Country;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\PriceProductDiscount;
+use Silecust\WebShop\Entity\PriceProductDiscount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,7 +41,7 @@ class PriceProductDiscountRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function create(?\App\Entity\Product $product, ?\App\Entity\Currency $currency
+    public function create(?\Silecust\WebShop\Entity\Product $product, ?\Silecust\WebShop\Entity\Currency $currency
     ): PriceProductDiscount {
 
         $discount = new PriceProductDiscount();
@@ -53,7 +53,7 @@ class PriceProductDiscountRepository extends ServiceEntityRepository
 
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT ppd FROM App\Entity\PriceProductDiscount ppd";
+        $dql = "SELECT ppd FROM Silecust\WebShop\Entity\PriceProductDiscount ppd";
         return $this->getEntityManager()->createQuery($dql);
 
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests;
+namespace Silecust\WebShop\Tests;
 
 
-use App\SilecustWebShopBundle;
+use Silecust\WebShop\SilecustWebShopBundle;
 use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;

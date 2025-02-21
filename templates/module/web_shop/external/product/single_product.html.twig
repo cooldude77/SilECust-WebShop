@@ -18,6 +18,6 @@ Single product content fragment
 {% include 'master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id}%}
 
 <div id="cart-form">
-    {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',
+    {{ render(controller('Silecust\\WebShop\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',
         { 'id':product.id})) }}
 </div>

@@ -1,15 +1,15 @@
 <?php
 // src/Controller/PriceController.php
-namespace App\Controller\MasterData\Price\Base;
+namespace Silecust\WebShop\Controller\MasterData\Price\Base;
 
 // ...
-use App\Entity\PriceProductBase;
-use App\Form\MasterData\Price\DTO\PriceProductBaseDTO;
-use App\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper;
-use App\Form\MasterData\Price\PriceProductBaseCreateForm;
-use App\Form\MasterData\Price\PriceProductBaseEditForm;
-use App\Repository\PriceProductBaseRepository;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
+use Silecust\WebShop\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper;
+use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseCreateForm;
+use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseEditForm;
+use Silecust\WebShop\Repository\PriceProductBaseRepository;
+use Silecust\WebShop\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

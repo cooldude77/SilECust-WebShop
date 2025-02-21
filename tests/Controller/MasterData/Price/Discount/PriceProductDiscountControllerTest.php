@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests\Controller\MasterData\Price\Discount;
+namespace Silecust\WebShop\Tests\Controller\MasterData\Price\Discount;
 
-use App\Entity\PriceProductDiscount;
-use App\Tests\Fixtures\CurrencyFixture;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Fixtures\PriceFixture;
-use App\Tests\Fixtures\ProductFixture;
-use App\Tests\Utility\FindByCriteria;
-use App\Tests\Utility\SelectElement;
+use Silecust\WebShop\Entity\PriceProductDiscount;
+use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Fixtures\PriceFixture;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

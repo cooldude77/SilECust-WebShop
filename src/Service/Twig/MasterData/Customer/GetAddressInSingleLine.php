@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Twig\MasterData\Customer;
+namespace Silecust\WebShop\Service\Twig\MasterData\Customer;
 
-use App\Service\MasterData\Customer\Address\CustomerAddressQuery;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressQuery;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

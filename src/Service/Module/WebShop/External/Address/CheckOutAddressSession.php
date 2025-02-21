@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address;
 
-use App\Entity\CustomerAddress;
-use App\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CheckOutAddressSession

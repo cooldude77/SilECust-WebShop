@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Transaction\Order\Item\DTO;
+namespace Silecust\WebShop\Form\Transaction\Order\Item\DTO;
 
 class OrderItemDTO
 {

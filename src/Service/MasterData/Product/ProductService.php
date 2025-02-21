@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\MasterData\Product;
+namespace Silecust\WebShop\Service\MasterData\Product;
 
 class ProductService
 {

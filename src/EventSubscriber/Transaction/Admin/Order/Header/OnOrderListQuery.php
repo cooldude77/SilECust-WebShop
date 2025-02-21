@@ -1,13 +1,13 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Order\Header;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Header;
 
-use App\Event\Component\Database\ListQueryEvent;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Repository\OrderHeaderRepository;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Security\User\Employee\EmployeeFromUserFinder;
+use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 

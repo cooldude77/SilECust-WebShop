@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address;
 
-use App\Entity\CustomerAddress;
-use App\Service\MasterData\Customer\Address\CustomerAddressSave;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressSave;
 
 readonly class CheckOutAddressSave
 {

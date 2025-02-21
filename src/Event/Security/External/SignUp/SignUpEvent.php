@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Security\External\SignUp;
+namespace Silecust\WebShop\Event\Security\External\SignUp;
 
-use App\Entity\Customer;
+use Silecust\WebShop\Entity\Customer;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class SignUpEvent extends Event

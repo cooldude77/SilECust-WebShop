@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address\Existing;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Address\Existing;
 
-use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
 
-use App\Service\MasterData\Customer\Address\CustomerAddressQuery;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

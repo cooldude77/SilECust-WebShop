@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Security\User;
+namespace Silecust\WebShop\Exception\Security\User;
 
 use Doctrine\DBAL\Exception;
 use Throwable;

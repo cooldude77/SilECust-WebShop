@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Product;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Product;
 
 use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\Request;

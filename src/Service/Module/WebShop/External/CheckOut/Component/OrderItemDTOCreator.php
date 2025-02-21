@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Component;
+namespace Silecust\WebShop\Service\Module\WebShop\External\CheckOut\Component;
 
-use App\Service\Module\WebShop\External\Cart\Order\Mapper\CartToOrderObjectDTOMapper;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Order\Mapper\CartToOrderObjectDTOMapper;
 
 class OrderItemDTOCreator
 {

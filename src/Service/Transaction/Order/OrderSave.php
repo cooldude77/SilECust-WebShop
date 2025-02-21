@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Service\Transaction\Order;
+namespace Silecust\WebShop\Service\Transaction\Order;
 
-use App\Entity\Customer;
-use App\Entity\CustomerAddress;
-use App\Entity\OrderAddress;
-use App\Entity\OrderHeader;
-use App\Entity\OrderItem;
-use App\Entity\Product;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Repository\OrderAddressRepository;
-use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderItemPaymentPriceRepository;
-use App\Repository\OrderItemRepository;
-use App\Repository\OrderPaymentRepository;
-use App\Repository\OrderShippingRepository;
-use App\Repository\OrderStatusTypeRepository;
-use App\Service\Component\Database\DatabaseOperations;
-use App\Service\MasterData\Price\PriceByCountryCalculator;
-use App\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use App\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\OrderAddress;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Repository\OrderAddressRepository;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
+use Silecust\WebShop\Repository\OrderItemRepository;
+use Silecust\WebShop\Repository\OrderPaymentRepository;
+use Silecust\WebShop\Repository\OrderShippingRepository;
+use Silecust\WebShop\Repository\OrderStatusTypeRepository;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 
 /**
  *

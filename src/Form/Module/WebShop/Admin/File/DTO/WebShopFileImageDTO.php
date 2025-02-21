@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\File\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO;
 
-use App\Entity\WebShopFile;
-use App\Entity\WebShopImageType;
+use Silecust\WebShop\Entity\WebShopFile;
+use Silecust\WebShop\Entity\WebShopImageType;
 
 class WebShopFileImageDTO
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\UI\Panel\List;
+namespace Silecust\WebShop\Event\Component\UI\Panel\List;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;

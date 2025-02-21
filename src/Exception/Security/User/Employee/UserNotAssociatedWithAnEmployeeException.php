@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Security\User\Employee;
+namespace Silecust\WebShop\Exception\Security\User\Employee;
 
-use App\Entity\User;
+use Silecust\WebShop\Entity\User;
 use Exception;
 
 class UserNotAssociatedWithAnEmployeeException extends Exception

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address\Mapper\Existing;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing;
 
-use App\Entity\CustomerAddress;
-use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
-use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
 
 readonly class ChooseFromMultipleAddressDTOMapper
 {

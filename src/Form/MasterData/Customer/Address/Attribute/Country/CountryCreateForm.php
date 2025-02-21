@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\Country;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country;
 
-use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

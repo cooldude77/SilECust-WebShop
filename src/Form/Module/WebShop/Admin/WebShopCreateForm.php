@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin;
 
-use App\Form\Module\WebShop\Admin\DTO\WebShopDTO;
+use Silecust\WebShop\Form\Module\WebShop\Admin\DTO\WebShopDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

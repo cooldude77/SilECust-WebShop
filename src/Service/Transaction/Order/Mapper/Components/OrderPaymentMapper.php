@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Transaction\Order\Mapper\Components;
+namespace Silecust\WebShop\Service\Transaction\Order\Mapper\Components;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderPayment;
-use App\Repository\OrderPaymentRepository;
-use App\Service\Module\WebShop\External\Payment\PaymentService;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Repository\OrderPaymentRepository;
+use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentService;
 
 readonly class OrderPaymentMapper
 {

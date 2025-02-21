@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\Category;
-use App\Entity\Product;
-use App\Factory\CategoryFactory;
-use App\Factory\ProductFactory;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Factory\CategoryFactory;
+use Silecust\WebShop\Factory\ProductFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait ProductFixture

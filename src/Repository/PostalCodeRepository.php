@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\PostalCode;
+use Silecust\WebShop\Entity\PostalCode;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,7 +45,7 @@ class PostalCodeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\City $find): PostalCode
+    public function create(?\Silecust\WebShop\Entity\City $find): PostalCode
     {
 
         $postalCode = new PostalCode();
@@ -53,9 +53,9 @@ class PostalCodeRepository extends ServiceEntityRepository
         return $postalCode;
     }
 
-    public function getQueryForSelect(\App\Entity\City $city): \Doctrine\ORM\Query
+    public function getQueryForSelect(\Silecust\WebShop\Entity\City $city): \Doctrine\ORM\Query
     {
-        $dql = "SELECT pc FROM App\Entity\PostalCode pc where pc.city=:city";
+        $dql = "SELECT pc FROM Silecust\WebShop\Entity\PostalCode pc where pc.city=:city";
         return $this->getEntityManager()->createQuery($dql)->setParameter("city", $city);
 
     }

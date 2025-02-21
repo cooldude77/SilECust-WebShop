@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Product;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Product;
 
-use App\Entity\PriceProductBase;
-use App\Entity\Product;
-use App\Repository\CategoryRepository;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\Request;

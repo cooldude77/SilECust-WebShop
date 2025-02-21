@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\Currency;
-use App\Repository\CurrencyRepository;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Repository\CurrencyRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

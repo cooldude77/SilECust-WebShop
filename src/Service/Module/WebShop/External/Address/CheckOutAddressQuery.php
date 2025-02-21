@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address;
 
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Repository\CustomerAddressRepository;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**

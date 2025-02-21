@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\CheckOut\Address;
+namespace Silecust\WebShop\Form\Module\WebShop\External\CheckOut\Address;
 
-use App\Form\Module\WebShop\External\CheckOut\Address\DTO\AddressDTO;
-use App\Service\MasterData\Customer\Address\CustomerAddressSave;
+use Silecust\WebShop\Form\Module\WebShop\External\CheckOut\Address\DTO\AddressDTO;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressSave;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

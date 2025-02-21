@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;

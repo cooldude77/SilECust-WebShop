@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\Location;
+namespace Silecust\WebShop\Tests\Controller\Location;
 
-use App\Factory\CityFactory;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Utility\SelectElement;
+use Silecust\WebShop\Factory\CityFactory;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

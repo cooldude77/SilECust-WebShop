@@ -1,13 +1,13 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\MasterData\Product\Type;
+namespace Silecust\WebShop\Controller\MasterData\Product\Type;
 
 // ...
-use App\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
-use App\Form\MasterData\Product\Type\ProductTypeCreateForm;
-use App\Form\MasterData\Product\Type\ProductTypeUpdateForm;
-use App\Repository\ProductTypeRepository;
-use App\Service\MasterData\Product\Type\ProductTypeDTOMapper;
+use Silecust\WebShop\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
+use Silecust\WebShop\Form\MasterData\Product\Type\ProductTypeCreateForm;
+use Silecust\WebShop\Form\MasterData\Product\Type\ProductTypeUpdateForm;
+use Silecust\WebShop\Repository\ProductTypeRepository;
+use Silecust\WebShop\Service\MasterData\Product\Type\ProductTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

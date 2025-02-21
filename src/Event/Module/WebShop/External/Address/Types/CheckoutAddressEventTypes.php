@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Address\Types;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Address\Types;
 
 class CheckoutAddressEventTypes
 {

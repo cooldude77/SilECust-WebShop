@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Shop\Components;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

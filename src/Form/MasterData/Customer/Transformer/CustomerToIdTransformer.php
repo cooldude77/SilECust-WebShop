@@ -1,8 +1,8 @@
 <?php
 // src/Form/DataTransformer/CustomerToNumberTransformer.php
-namespace App\Form\MasterData\Customer\Transformer;
+namespace Silecust\WebShop\Form\MasterData\Customer\Transformer;
 
-use App\Entity\Customer;
+use Silecust\WebShop\Entity\Customer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

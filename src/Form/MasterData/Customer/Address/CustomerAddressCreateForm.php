@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address;
 
-use App\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeAutoCompleteField;
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

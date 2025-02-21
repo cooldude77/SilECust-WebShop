@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Testing;
+namespace Silecust\WebShop\Service\Testing;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

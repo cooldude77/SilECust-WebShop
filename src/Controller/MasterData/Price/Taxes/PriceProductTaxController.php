@@ -1,13 +1,13 @@
 <?php
 // src/Controller/PriceController.php
-namespace App\Controller\MasterData\Price\Taxes;
+namespace Silecust\WebShop\Controller\MasterData\Price\Taxes;
 
 // ...
-use App\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
-use App\Form\MasterData\Price\Tax\Mapper\PriceProductTaxDTOMapper;
-use App\Form\MasterData\Price\Tax\PriceProductTaxCreateForm;
-use App\Form\MasterData\Price\Tax\PriceProductTaxEditForm;
-use App\Repository\PriceProductTaxRepository;
+use Silecust\WebShop\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
+use Silecust\WebShop\Form\MasterData\Price\Tax\Mapper\PriceProductTaxDTOMapper;
+use Silecust\WebShop\Form\MasterData\Price\Tax\PriceProductTaxCreateForm;
+use Silecust\WebShop\Form\MasterData\Price\Tax\PriceProductTaxEditForm;
+use Silecust\WebShop\Repository\PriceProductTaxRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

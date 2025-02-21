@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderStatus;
-use App\Entity\OrderStatusType;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderStatus;
+use Silecust\WebShop\Entity\OrderStatusType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -53,7 +53,7 @@ class OrderStatusRepository extends ServiceEntityRepository
 
     }
 
-    public function isAnyOrderOpen(\App\Entity\Customer $customer): bool
+    public function isAnyOrderOpen(\Silecust\WebShop\Entity\Customer $customer): bool
     {
         $query = $this->getOpenOrderQuery($customer);
 
@@ -62,7 +62,7 @@ class OrderStatusRepository extends ServiceEntityRepository
 
     }
 
-    public function getOpenOrderQuery(\App\Entity\Customer $customer): \Doctrine\ORM\Query
+    public function getOpenOrderQuery(\Silecust\WebShop\Entity\Customer $customer): \Doctrine\ORM\Query
     {
         return $this->createQueryBuilder('os')
             ->join('os.orderHeader ', 'oh')
@@ -76,7 +76,7 @@ class OrderStatusRepository extends ServiceEntityRepository
 
     }
 
-    public function getOpenOrder(\App\Entity\Customer $customer): OrderHeader
+    public function getOpenOrder(\Silecust\WebShop\Entity\Customer $customer): OrderHeader
     {
         $query = $this->getOpenOrderQuery($customer);
 

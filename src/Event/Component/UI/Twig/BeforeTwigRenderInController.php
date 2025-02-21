@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Component\UI\Twig;
+namespace Silecust\WebShop\Event\Component\UI\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
 

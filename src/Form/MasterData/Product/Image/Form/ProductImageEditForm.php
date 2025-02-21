@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Product\Image\Form;
+namespace Silecust\WebShop\Form\MasterData\Product\Image\Form;
 
-use App\Form\Common\File\FileEditForm;
-use App\Form\MasterData\Product\Image\DTO\ProductImageDTO;
+use Silecust\WebShop\Form\Common\File\FileEditForm;
+use Silecust\WebShop\Form\MasterData\Product\Image\DTO\ProductImageDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;

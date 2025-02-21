@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\OrderItem;
-use App\Entity\Product;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,7 +47,7 @@ class OrderItemRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\App\Entity\OrderHeader $orderHeader,
+    public function create(\Silecust\WebShop\Entity\OrderHeader $orderHeader,
         Product $product,
         int $quantity
     ): OrderItem {
@@ -64,7 +64,7 @@ class OrderItemRepository extends ServiceEntityRepository
 
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT oi FROM App\Entity\OrderItem oi";
+        $dql = "SELECT oi FROM Silecust\WebShop\Entity\OrderItem oi";
         return $this->getEntityManager()->createQuery($dql);
 
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address\Mapper\New;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\New;
 
-use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
-use App\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 
 class CreateNewAndChooseDTOMapper
 {

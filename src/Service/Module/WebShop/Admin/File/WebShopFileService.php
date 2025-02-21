@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Module\WebShop\Admin\File;
+namespace Silecust\WebShop\Service\Module\WebShop\Admin\File;
 
-use App\Entity\WebShop;
-use App\Entity\WebShopFile;
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
-use App\Repository\WebShopFileRepository;
-use App\Repository\WebShopRepository;
-use App\Service\Common\File\FilePhysicalOperation;
+use Silecust\WebShop\Entity\WebShop;
+use Silecust\WebShop\Entity\WebShopFile;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
+use Silecust\WebShop\Repository\WebShopFileRepository;
+use Silecust\WebShop\Repository\WebShopRepository;
+use Silecust\WebShop\Service\Common\File\FilePhysicalOperation;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebShopFileService

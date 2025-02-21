@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\TaxSlab;
-use App\Repository\TaxSlabRepository;
+use Silecust\WebShop\Entity\TaxSlab;
+use Silecust\WebShop\Repository\TaxSlabRepository;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 use Zenstruck\Foundry\Persistence\Proxy;
 use Zenstruck\Foundry\Persistence\ProxyRepositoryDecorator;

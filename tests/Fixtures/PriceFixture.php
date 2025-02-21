@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\Currency;
-use App\Entity\PriceProductBase;
-use App\Entity\PriceProductDiscount;
-use App\Entity\PriceProductTax;
-use App\Entity\Product;
-use App\Entity\TaxSlab;
-use App\Factory\PriceProductBaseFactory;
-use App\Factory\PriceProductDiscountFactory;
-use App\Factory\PriceProductTaxFactory;
-use App\Factory\TaxSlabFactory;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Entity\PriceProductDiscount;
+use Silecust\WebShop\Entity\PriceProductTax;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Entity\TaxSlab;
+use Silecust\WebShop\Factory\PriceProductBaseFactory;
+use Silecust\WebShop\Factory\PriceProductDiscountFactory;
+use Silecust\WebShop\Factory\PriceProductTaxFactory;
+use Silecust\WebShop\Factory\TaxSlabFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait PriceFixture

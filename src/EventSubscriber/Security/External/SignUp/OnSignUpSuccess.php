@@ -1,10 +1,10 @@
 <?php
 
-namespace App\EventSubscriber\Security\External\SignUp;
+namespace Silecust\WebShop\EventSubscriber\Security\External\SignUp;
 
-use App\Event\Security\External\SignUp\SignUpEvent;
-use App\Event\Security\SecurityEventTypes;
-use App\Service\Common\Email\EmailService;
+use Silecust\WebShop\Event\Security\External\SignUp\SignUpEvent;
+use Silecust\WebShop\Event\Security\SecurityEventTypes;
+use Silecust\WebShop\Service\Common\Email\EmailService;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData;
+namespace Silecust\WebShop\Form\MasterData;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\AbstractType;

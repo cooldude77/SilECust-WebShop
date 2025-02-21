@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Command\Security\User;
+namespace Silecust\WebShop\Tests\Command\Security\User;
 
-use App\Command\Security\User\CustomerCreateCommand;
-use App\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Command\Security\User\CustomerCreateCommand;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;

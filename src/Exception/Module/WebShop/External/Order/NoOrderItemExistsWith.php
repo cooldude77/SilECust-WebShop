@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Exception\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Exception\Module\WebShop\External\Order;
 
-use App\Entity\Customer;
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\Product;
 use Exception;
 
 class NoOrderItemExistsWith extends Exception

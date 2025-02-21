@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\City;
-use App\Entity\Country;
-use App\Entity\PostalCode;
-use App\Entity\State;
-use App\Factory\CityFactory;
-use App\Factory\CountryFactory;
-use App\Factory\PostalCodeFactory;
-use App\Factory\StateFactory;
+use Silecust\WebShop\Entity\City;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Entity\State;
+use Silecust\WebShop\Factory\CityFactory;
+use Silecust\WebShop\Factory\CountryFactory;
+use Silecust\WebShop\Factory\PostalCodeFactory;
+use Silecust\WebShop\Factory\StateFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait LocationFixture

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Payment;
 
-use App\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderHeader;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PaymentStartEvent extends Event

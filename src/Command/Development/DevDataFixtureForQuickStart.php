@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Command\Development;
+namespace Silecust\WebShop\Command\Development;
 
-use App\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
+use Silecust\WebShop\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;

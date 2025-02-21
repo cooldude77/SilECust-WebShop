@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\MasterData\Category;
+namespace Silecust\WebShop\Tests\Controller\MasterData\Category;
 
-use App\Entity\Category;
-use App\Factory\CategoryFactory;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Utility\SelectElement;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Factory\CategoryFactory;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Utility\SelectElement;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;

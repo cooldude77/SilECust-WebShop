@@ -1,16 +1,16 @@
 <?php
 // src/Controller/FileController.php
-namespace App\Controller\Common\File;
+namespace Silecust\WebShop\Controller\Common\File;
 
 // ...
-use App\Entity\File;
-use App\Form\Common\File\DTO\FileDTO;
-use App\Form\Common\File\FileCreateForm;
-use App\Form\Common\File\FileEditForm;
-use App\Form\Common\File\Mapper\FileDTOMapper;
-use App\Repository\FileRepository;
-use App\Service\Common\File\FilePhysicalOperation;
-use App\Service\Common\File\Provider\FileDirectoryPathProvider;
+use Silecust\WebShop\Entity\File;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Form\Common\File\FileCreateForm;
+use Silecust\WebShop\Form\Common\File\FileEditForm;
+use Silecust\WebShop\Form\Common\File\Mapper\FileDTOMapper;
+use Silecust\WebShop\Repository\FileRepository;
+use Silecust\WebShop\Service\Common\File\FilePhysicalOperation;
+use Silecust\WebShop\Service\Common\File\Provider\FileDirectoryPathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

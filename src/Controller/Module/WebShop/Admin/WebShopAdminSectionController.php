@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller\Module\WebShop\Admin;
+namespace Silecust\WebShop\Controller\Module\WebShop\Admin;
 
 
-use App\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
-use App\Form\Module\WebShop\Admin\Section\Mapper\WebShopSectionDTOMapper;
-use App\Form\Module\WebShop\Admin\Section\WebShopSectionCreateForm;
+use Silecust\WebShop\Form\Module\WebShop\Admin\Section\DTO\WebShopSectionDTO;
+use Silecust\WebShop\Form\Module\WebShop\Admin\Section\Mapper\WebShopSectionDTOMapper;
+use Silecust\WebShop\Form\Module\WebShop\Admin\Section\WebShopSectionCreateForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

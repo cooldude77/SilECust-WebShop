@@ -1,18 +1,18 @@
 <?php
 // src/Controller/OrderItemController.php
-namespace App\Controller\Transaction\Order\Admin\Item;
+namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Item;
 
 // ...
-use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
-use App\Event\Component\UI\Panel\List\GridPropertyEvent;
-use App\Event\Transaction\Order\Item\OrderItemAddEvent;
-use App\Event\Transaction\Order\Item\OrderItemEditEvent;
-use App\Form\Transaction\Order\Item\DTO\OrderItemDTO;
-use App\Form\Transaction\Order\Item\OrderItemCreateForm;
-use App\Form\Transaction\Order\Item\OrderItemEditForm;
-use App\Repository\OrderItemRepository;
-use App\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
-use App\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
+use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParametersEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
+use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemEditEvent;
+use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
+use Silecust\WebShop\Form\Transaction\Order\Item\OrderItemCreateForm;
+use Silecust\WebShop\Form\Transaction\Order\Item\OrderItemEditForm;
+use Silecust\WebShop\Repository\OrderItemRepository;
+use Silecust\WebShop\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
+use Silecust\WebShop\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

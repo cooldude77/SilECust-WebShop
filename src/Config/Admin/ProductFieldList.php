@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Config\Admin;
+namespace Silecust\WebShop\Config\Admin;
 
-use App\Config\System\FieldListInterface;
+use Silecust\WebShop\Config\System\FieldListInterface;
 
 class ProductFieldList implements FieldListInterface
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Location\Mapper\City;
+namespace Silecust\WebShop\Service\Location\Mapper\City;
 
-use App\Entity\City;
-use App\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
-use App\Repository\CityRepository;
-use App\Repository\StateRepository;
+use Silecust\WebShop\Entity\City;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
+use Silecust\WebShop\Repository\CityRepository;
+use Silecust\WebShop\Repository\StateRepository;
 
 readonly class CityDTOMapper
 {

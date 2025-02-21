@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\File\Form;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\File\Form;
 
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
-use App\Form\Common\File\DTO\FileDTO;
-use App\Form\Common\File\FileCreateForm;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Form\Common\File\FileCreateForm;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

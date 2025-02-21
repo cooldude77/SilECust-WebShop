@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Transaction\Order\Object;
+namespace Silecust\WebShop\Service\Transaction\Order\Object;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderPayment;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderPayment;
 
 class OrderObject
 {

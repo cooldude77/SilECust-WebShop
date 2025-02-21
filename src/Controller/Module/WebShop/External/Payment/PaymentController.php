@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Payment;
 
-use App\Entity\OrderPayment;
-use App\Event\Component\UI\Twig\BeforeTwigRenderInController;
-use App\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
-use App\Event\Module\WebShop\External\Payment\PaymentStartEvent;
-use App\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
-use App\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
-use App\Service\Transaction\Order\OrderRead;
-use App\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
+use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Event\Component\UI\Twig\BeforeTwigRenderInController;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
+use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

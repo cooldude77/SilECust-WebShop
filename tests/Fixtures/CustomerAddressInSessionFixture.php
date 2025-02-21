@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\CustomerAddress;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Zenstruck\Foundry\Proxy;
 

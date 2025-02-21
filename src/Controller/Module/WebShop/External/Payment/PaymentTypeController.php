@@ -1,10 +1,10 @@
 <?php
 // src/Controller/PaymentTypeController.php
-namespace App\Controller\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Payment;
 
 // ...
-use App\Form\Module\WebShop\External\PaymentType\PaymentTypeChoiceForm;
-use App\Service\Module\WebShop\External\Payment\PaymentService;
+use Silecust\WebShop\Form\Module\WebShop\External\PaymentType\PaymentTypeChoiceForm;
+use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

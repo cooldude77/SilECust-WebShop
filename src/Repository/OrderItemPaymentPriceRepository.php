@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemPaymentPrice;
-use App\Service\Transaction\Order\PriceObject;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Entity\OrderItemPaymentPrice;
+use Silecust\WebShop\Service\Transaction\Order\PriceObject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

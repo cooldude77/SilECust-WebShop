@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Transaction\Order\Mapper\Components;
+namespace Silecust\WebShop\Service\Transaction\Order\Mapper\Components;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderStatusType;
-use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
-use App\Repository\CustomerRepository;
-use App\Repository\OrderHeaderRepository;
-use App\Repository\OrderStatusTypeRepository;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderStatusType;
+use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Repository\OrderStatusTypeRepository;
 
 class OrderHeaderDTOMapper
 {
@@ -17,7 +17,7 @@ class OrderHeaderDTOMapper
     ) {
     }
 
-    public function mapToEntityForCreate(OrderHeaderDTO $orderHeaderDTO): \App\Entity\OrderHeader
+    public function mapToEntityForCreate(OrderHeaderDTO $orderHeaderDTO): \Silecust\WebShop\Entity\OrderHeader
     {
         $customer = $this->customerRepository->findOneBy(['id' => $orderHeaderDTO->customerId]);
 

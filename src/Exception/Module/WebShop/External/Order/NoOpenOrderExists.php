@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Exception\Module\WebShop\External\Order;
 
-use App\Entity\Customer;
+use Silecust\WebShop\Entity\Customer;
 use Exception;
 
 class NoOpenOrderExists extends Exception

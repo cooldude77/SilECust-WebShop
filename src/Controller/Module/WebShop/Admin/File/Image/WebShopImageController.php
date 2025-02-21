@@ -1,12 +1,12 @@
 <?php
 // src/Controller/WebShopController.php
-namespace App\Controller\Module\WebShop\Admin\File\Image;
+namespace Silecust\WebShop\Controller\Module\WebShop\Admin\File\Image;
 
 // ...
 
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
-use App\Form\Module\WebShop\Admin\File\Form\WebShopFileImageCreateForm;
-use App\Service\Module\WebShop\Admin\File\WebShopFileImageService;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\Form\WebShopFileImageCreateForm;
+use Silecust\WebShop\Service\Module\WebShop\Admin\File\WebShopFileImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

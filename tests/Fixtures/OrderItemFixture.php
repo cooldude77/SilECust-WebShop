@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Entity\OrderItem;
-use App\Factory\OrderItemFactory;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Factory\OrderItemFactory;
 use Zenstruck\Foundry\Proxy;
 
 trait OrderItemFixture

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut;
+namespace Silecust\WebShop\Service\Module\WebShop\External\CheckOut;
 
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 
 class CheckOutService
 {

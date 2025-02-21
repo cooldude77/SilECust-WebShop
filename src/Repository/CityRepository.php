@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\City;
+use Silecust\WebShop\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,7 +45,7 @@ class CityRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(?\App\Entity\State $find)
+    public function create(?\Silecust\WebShop\Entity\State $find)
     {
         $city = new City();
         $city->setState($find);
@@ -53,9 +53,9 @@ class CityRepository extends ServiceEntityRepository
         return $city;
     }
 
-    public function getQueryForSelect(\App\Entity\State $state): \Doctrine\ORM\Query
+    public function getQueryForSelect(\Silecust\WebShop\Entity\State $state): \Doctrine\ORM\Query
     {
-        $dql = "SELECT s FROM App\Entity\City s where s.state=:state";
+        $dql = "SELECT s FROM Silecust\WebShop\Entity\City s where s.state=:state";
         return $this->getEntityManager()->createQuery($dql)->setParameter("state", $state);
 
     }

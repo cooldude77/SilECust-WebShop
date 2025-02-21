@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Security;
+namespace Silecust\WebShop\Event\Security;
 
 class SecurityEventTypes
 {

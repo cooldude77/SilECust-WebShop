@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\MasterData\Employee\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Employee\Mapper;
 
-use App\Entity\Employee;
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
-use App\Repository\EmployeeRepository;
-use App\Repository\SalutationRepository;
-use App\Security\Mapper\UserDTOMapper;
+use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
+use Silecust\WebShop\Repository\EmployeeRepository;
+use Silecust\WebShop\Repository\SalutationRepository;
+use Silecust\WebShop\Security\Mapper\UserDTOMapper;
 use Symfony\Component\String\ByteString;
 
 readonly class EmployeeDTOMapper

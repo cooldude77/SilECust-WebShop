@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Fixtures;
+namespace Silecust\WebShop\Tests\Fixtures;
 
-use App\Tests\Utility\MySessionFactory;
+use Silecust\WebShop\Tests\Utility\MySessionFactory;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Session\Session;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\SignUpOrLogin;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\SignUpOrLogin;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;

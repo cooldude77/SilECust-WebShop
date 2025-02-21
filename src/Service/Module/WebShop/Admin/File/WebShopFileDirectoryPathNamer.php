@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Module\WebShop\Admin\File;
+namespace Silecust\WebShop\Service\Module\WebShop\Admin\File;
 
 
-use App\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
-use App\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
+use Silecust\WebShop\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
+use Silecust\WebShop\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:

@@ -1,4 +1,4 @@
 services:
-  App\Command\Security\User\SuperUserCreateCommand: ~
-  App\Command\Security\User\CustomerCreateCommand: ~
-  App\Command\Development\DevDataFixtureForQuickStart: ~
+  Silecust\WebShop\Command\Security\User\SuperUserCreateCommand: ~
+  Silecust\WebShop\Command\Security\User\CustomerCreateCommand: ~
+  Silecust\WebShop\Command\Development\DevDataFixtureForQuickStart: ~

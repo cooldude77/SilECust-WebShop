@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address\Existing\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO;
 
 /**
  * For using the form when there are multiple billing/shipping addresses

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\DTO;
 
-use App\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
 
 class WebShopDTO
 {

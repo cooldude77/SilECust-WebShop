@@ -1,12 +1,12 @@
 <?php
 // src/Controller/LuckyController.php
-namespace App\Controller\Finance\Tax;
+namespace Silecust\WebShop\Controller\Finance\Tax;
 
-use App\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
-use App\Form\Finance\TaxSlab\TaxSlabCreateForm;
-use App\Form\Finance\TaxSlab\TaxSlabEditForm;
-use App\Repository\TaxSlabRepository;
-use App\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper;
+use Silecust\WebShop\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
+use Silecust\WebShop\Form\Finance\TaxSlab\TaxSlabCreateForm;
+use Silecust\WebShop\Form\Finance\TaxSlab\TaxSlabEditForm;
+use Silecust\WebShop\Repository\TaxSlabRepository;
+use Silecust\WebShop\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

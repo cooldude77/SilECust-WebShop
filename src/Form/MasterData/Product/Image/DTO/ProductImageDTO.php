@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Product\Image\DTO;
+namespace Silecust\WebShop\Form\MasterData\Product\Image\DTO;
 
-use App\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 

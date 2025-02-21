@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controller\Admin\Customer\Framework;
+namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
-use App\Controller\MasterData\Customer\Address\CustomerAddressController;
-use App\Controller\MasterData\Customer\CustomerController;
-use App\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
-use App\Controller\Transaction\Order\Admin\Item\OrderItemController;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
+use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
+use Silecust\WebShop\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
+use Silecust\WebShop\Controller\Transaction\Order\Admin\Item\OrderItemController;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

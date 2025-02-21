@@ -1,6 +1,6 @@
 {% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 {{
-render(controller(  'App\\Controller\\Location\\CityController::list',
+render(controller(  'Silecust\\WebShop\\Controller\\Location\\CityController::list',
     {'id':attribute(entity,"id"),'request':app.request}))
 }}
 

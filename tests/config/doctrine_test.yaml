@@ -13,20 +13,20 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            Silecust\WebShop:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                prefix: 'Silecust\WebShop\Entity'
+                alias: Silecust\WebShop
 
 
 
 doctrine_migrations:
     migrations_paths:
-        # namespace is arbitrary but should be different from App\Migrations
+        # namespace is arbitrary but should be different from Silecust\WebShop\Migrations
         # as migrations classes should NOT be autoloaded
-        'App\migrations': '%kernel.project_dir%/src/migrations'
+        'Silecust\WebShop\migrations': '%kernel.project_dir%/src/migrations'
     enable_profiler: false
 
 dama_doctrine_test:

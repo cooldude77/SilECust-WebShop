@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Transaction\Order\SnapShot;
+namespace Silecust\WebShop\Service\Transaction\Order\SnapShot;
 
 class SnapshotObject
 {

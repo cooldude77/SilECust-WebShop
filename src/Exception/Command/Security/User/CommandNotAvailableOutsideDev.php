@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Command\Security\User;
+namespace Silecust\WebShop\Exception\Command\Security\User;
 
 class CommandNotAvailableOutsideDev extends \Exception
 {

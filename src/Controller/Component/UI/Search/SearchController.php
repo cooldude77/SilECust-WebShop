@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Component\UI\Search;
+namespace Silecust\WebShop\Controller\Component\UI\Search;
 
-use App\Form\Common\UI\Search\SearchForm;
+use Silecust\WebShop\Form\Common\UI\Search\SearchForm;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

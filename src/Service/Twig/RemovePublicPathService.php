@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Twig;
+namespace Silecust\WebShop\Service\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

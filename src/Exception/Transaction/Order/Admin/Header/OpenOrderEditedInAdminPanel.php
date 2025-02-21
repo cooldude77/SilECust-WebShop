@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Transaction\Order\Admin\Header;
+namespace Silecust\WebShop\Exception\Transaction\Order\Admin\Header;
 
-use App\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderHeader;
 use Exception;
 
 class OpenOrderEditedInAdminPanel extends Exception

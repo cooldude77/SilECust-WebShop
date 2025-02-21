@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Category;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Category;
 
-use App\Entity\Category;
-use App\Repository\CategoryRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Repository\CategoryRepository;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

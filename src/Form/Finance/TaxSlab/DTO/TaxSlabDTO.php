@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Finance\TaxSlab\DTO;
+namespace Silecust\WebShop\Form\Finance\TaxSlab\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

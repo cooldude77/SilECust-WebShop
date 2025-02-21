@@ -1,14 +1,14 @@
 <?php
 // src/Controller/InventoryProductController.php
-namespace App\Controller\MasterData\Inventory;
+namespace Silecust\WebShop\Controller\MasterData\Inventory;
 
 // ...
-use App\Form\MasterData\Inventory\DTO\InventoryProductDTO;
-use App\Form\MasterData\Inventory\InventoryProductCreateForm;
-use App\Form\MasterData\Inventory\InventoryProductEditForm;
-use App\Repository\InventoryProductRepository;
-use App\Repository\ProductRepository;
-use App\Service\MasterData\Inventory\Mapper\InventoryProductDTOMapper;
+use Silecust\WebShop\Form\MasterData\Inventory\DTO\InventoryProductDTO;
+use Silecust\WebShop\Form\MasterData\Inventory\InventoryProductCreateForm;
+use Silecust\WebShop\Form\MasterData\Inventory\InventoryProductEditForm;
+use Silecust\WebShop\Repository\InventoryProductRepository;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\MasterData\Inventory\Mapper\InventoryProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;

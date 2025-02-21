@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\MasterData\Product;
+namespace Silecust\WebShop\Form\MasterData\Product;
 
-use App\Form\CategoryAutoCompleteField;
-use App\Form\MasterData\CustomFormType;
-use App\Form\MasterData\Product\DTO\ProductDTO;
+use Silecust\WebShop\Form\CategoryAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\CustomFormType;
+use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

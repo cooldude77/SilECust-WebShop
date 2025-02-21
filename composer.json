@@ -34,12 +34,12 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/"
+      "Silecust\\WebShop\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "App\\Tests\\": "tests/"
+      "Silecust\\WebShop\\Tests\\": "tests/"
     }
   },
   "require-dev": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\Order;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\Order;
 
-use App\Form\Module\WebShop\Admin\Order\DTO\OrderAddressDTO;
+use Silecust\WebShop\Form\Module\WebShop\Admin\Order\DTO\OrderAddressDTO;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

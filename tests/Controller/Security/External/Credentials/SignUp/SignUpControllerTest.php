@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Controller\Security\External\Credentials\SignUp;
+namespace Silecust\WebShop\Tests\Controller\Security\External\Credentials\SignUp;
 
-use App\Entity\Customer;
-use App\Entity\User;
-use App\Factory\CustomerFactory;
-use App\Factory\UserFactory;
-use App\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Factory\CustomerFactory;
+use Silecust\WebShop\Factory\UserFactory;
+use Silecust\WebShop\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Mailer\Test\InteractsWithMailer;

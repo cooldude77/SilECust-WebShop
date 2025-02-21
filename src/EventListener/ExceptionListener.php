@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace Silecust\WebShop\EventListener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

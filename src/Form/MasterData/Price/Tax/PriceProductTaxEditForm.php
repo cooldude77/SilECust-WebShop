@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Price\Tax;
+namespace Silecust\WebShop\Form\MasterData\Price\Tax;
 
-use App\Form\Finance\TaxSlab\TaxSlabAutoCompleteField;
-use App\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
-use App\Form\MasterData\Product\ProductAutoCompleteField;
-use App\Repository\ProductRepository;
-use App\Repository\TaxSlabRepository;
+use Silecust\WebShop\Form\Finance\TaxSlab\TaxSlabAutoCompleteField;
+use Silecust\WebShop\Form\MasterData\Price\Tax\DTO\PriceProductTaxDTO;
+use Silecust\WebShop\Form\MasterData\Product\ProductAutoCompleteField;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Repository\TaxSlabRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

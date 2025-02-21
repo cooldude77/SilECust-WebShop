@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\MasterData\Pricing\Item;
+namespace Silecust\WebShop\Exception\MasterData\Pricing\Item;
 
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Product;
 
 class PriceProductBaseNotFound extends \Exception
 {

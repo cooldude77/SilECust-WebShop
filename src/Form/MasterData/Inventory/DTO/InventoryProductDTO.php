@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Inventory\DTO;
+namespace Silecust\WebShop\Form\MasterData\Inventory\DTO;
 
 class InventoryProductDTO
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Transaction\Order\SnapShot;
+namespace Silecust\WebShop\Service\Transaction\Order\SnapShot;
 
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -14,7 +14,7 @@ class OrderSnapShotCreator
     }
 
 // should be called only after order object is ready
-    public function createSnapShot(\App\Entity\OrderHeader $orderHeader): SnapshotObject
+    public function createSnapShot(\Silecust\WebShop\Entity\OrderHeader $orderHeader): SnapshotObject
     {
 
         $snap = new SnapshotObject();

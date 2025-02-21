@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Country;
+use Silecust\WebShop\Entity\Country;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -53,7 +53,7 @@ class CountryRepository extends ServiceEntityRepository
     }
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT c FROM App\Entity\Country c";
+        $dql = "SELECT c FROM Silecust\WebShop\Entity\Country c";
         return $this->getEntityManager()->createQuery($dql);
 
     }

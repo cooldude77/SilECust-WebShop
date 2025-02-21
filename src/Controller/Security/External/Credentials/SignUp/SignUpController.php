@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller\Security\External\Credentials\SignUp;
+namespace Silecust\WebShop\Controller\Security\External\Credentials\SignUp;
 
-use App\Event\Security\External\SignUp\SignUpEvent;
-use App\Event\Security\SecurityEventTypes;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Form\Security\User\DTO\SignUpSimpleDTO;
-use App\Form\Security\User\SignUpAdvancedForm;
-use App\Form\Security\User\SignUpSimpleForm;
-use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
-use App\Service\Security\User\Customer\CustomerService;
-use App\Service\Security\User\Mapper\SignUpDTOMapper;
+use Silecust\WebShop\Event\Security\External\SignUp\SignUpEvent;
+use Silecust\WebShop\Event\Security\SecurityEventTypes;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Form\Security\User\DTO\SignUpSimpleDTO;
+use Silecust\WebShop\Form\Security\User\SignUpAdvancedForm;
+use Silecust\WebShop\Form\Security\User\SignUpSimpleForm;
+use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerService;
+use Silecust\WebShop\Service\Security\User\Mapper\SignUpDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

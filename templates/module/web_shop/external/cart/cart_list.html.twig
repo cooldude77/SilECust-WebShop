@@ -17,7 +17,7 @@
             <div class="row">
                 {# form_row does not work well. Shows label as indexes #}
                 <div class="col-sm-9">
-                    {{ render(controller('App\\Controller\\Module\\WebShop\\External\\Cart\\CartController::single',
+                    {{ render(controller('Silecust\\WebShop\\Controller\\Module\\WebShop\\External\\Cart\\CartController::single',
                         {'id': element.productId.vars.value } )) }}
                 </div>
                 <div class="col-sm-1">

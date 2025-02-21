@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\File\Base;
+namespace Silecust\WebShop\Service\Common\File\Base;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 

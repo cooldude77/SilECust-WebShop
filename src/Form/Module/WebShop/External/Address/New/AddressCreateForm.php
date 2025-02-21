@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Address\New;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Address\New;
 
-use App\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
-use App\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

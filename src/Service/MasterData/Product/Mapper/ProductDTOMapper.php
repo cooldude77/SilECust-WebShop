@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\MasterData\Product\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Product\Mapper;
 
-use App\Entity\Category;
-use App\Entity\Product;
-use App\Form\MasterData\Product\DTO\ProductDTO;
-use App\Repository\CategoryRepository;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
+use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Repository\ProductRepository;
 
 class ProductDTOMapper
 {

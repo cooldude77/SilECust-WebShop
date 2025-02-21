@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\Order;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Order;
 
-use App\Controller\Module\WebShop\External\Shop\Components\HeaderController;
-use App\Repository\OrderHeaderRepository;
-use App\Service\Component\UI\Panel\Components\PanelContentController;
-use App\Service\Component\UI\Panel\Components\PanelHeaderController;
-use App\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
+use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\ProductAttributeValue;
-use App\Repository\ProductAttributeValueRepository;
+use Silecust\WebShop\Entity\ProductAttributeValue;
+use Silecust\WebShop\Repository\ProductAttributeValueRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

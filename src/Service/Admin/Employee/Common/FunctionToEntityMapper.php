@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Admin\Employee\Common;
+namespace Silecust\WebShop\Service\Admin\Employee\Common;
 
-use App\Entity\Category;
-use App\Entity\Product;
-use App\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 
 class FunctionToEntityMapper
 {

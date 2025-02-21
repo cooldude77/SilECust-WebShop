@@ -1,15 +1,15 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Payment;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use App\Entity\OrderItem;
-use App\Event\Module\WebShop\External\Payment\PaymentStartEvent;
-use App\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use App\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use App\Service\MasterData\Price\PriceByCountryCalculator;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
-use App\Service\Transaction\Order\OrderRead;
-use App\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
+use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Transaction\Order\OrderRead;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnPaymentStart implements EventSubscriberInterface

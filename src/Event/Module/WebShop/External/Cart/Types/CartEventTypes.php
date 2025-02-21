@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Module\WebShop\External\Cart\Types;
+namespace Silecust\WebShop\Event\Module\WebShop\External\Cart\Types;
 
 class CartEventTypes
 {

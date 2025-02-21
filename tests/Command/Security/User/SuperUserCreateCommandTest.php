@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Command\Security\User;
+namespace Silecust\WebShop\Tests\Command\Security\User;
 
-use App\Tests\Fixtures\SuperAdminFixture;
+use Silecust\WebShop\Tests\Fixtures\SuperAdminFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Console\Test\InteractsWithConsole;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\File\Form;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\File\Form;
 
-use App\Entity\WebShopImageType;
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
-use App\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
+use Silecust\WebShop\Entity\WebShopImageType;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileDTO;
+use Silecust\WebShop\Form\Module\WebShop\Admin\File\DTO\WebShopFileImageDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

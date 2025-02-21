@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Address;
 
-use App\Entity\CustomerAddress;
-use App\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
-use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
-use App\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
-use App\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
 
 readonly class CheckoutAddressChooseParser
 {

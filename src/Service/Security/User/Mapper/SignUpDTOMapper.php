@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Security\User\Mapper;
+namespace Silecust\WebShop\Service\Security\User\Mapper;
 
-use App\Entity\User;
-use App\Form\Security\User\DTO\SignUpSimpleDTO;
-use App\Repository\UserRepository;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Form\Security\User\DTO\SignUpSimpleDTO;
+use Silecust\WebShop\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 readonly class SignUpDTOMapper

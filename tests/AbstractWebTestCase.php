@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests;
+namespace Silecust\WebShop\Tests;
 
-use App\Entity\CategoryImageType;
-use App\Entity\City;
-use App\Entity\Country;
-use App\Entity\Currency;
-use App\Entity\FileBaseType;
-use App\Entity\PostalCode;
-use App\Entity\ProductImageType;
-use App\Entity\Salutation;
-use App\Entity\State;
-use App\Entity\WebShopImageType;
-use App\Tests\Utility\TestDatabaseTruncate;
+use Silecust\WebShop\Entity\CategoryImageType;
+use Silecust\WebShop\Entity\City;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\FileBaseType;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Entity\ProductImageType;
+use Silecust\WebShop\Entity\Salutation;
+use Silecust\WebShop\Entity\State;
+use Silecust\WebShop\Entity\WebShopImageType;
+use Silecust\WebShop\Tests\Utility\TestDatabaseTruncate;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

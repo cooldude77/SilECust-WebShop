@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\MasterData\Category\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Category\Mapper;
 
-use App\Entity\Category;
-use App\Form\MasterData\Category\DTO\CategoryDTO;
-use App\Repository\CategoryRepository;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Form\MasterData\Category\DTO\CategoryDTO;
+use Silecust\WebShop\Repository\CategoryRepository;
 
 class CategoryDTOMapper
 {

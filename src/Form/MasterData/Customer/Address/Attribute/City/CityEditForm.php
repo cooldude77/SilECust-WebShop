@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Form\MasterData\Customer\Address\Attribute\City;
+namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City;
 
-use App\Entity\City;
-use App\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
-use App\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
-use App\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use App\Form\MasterData\Customer\Address\Attribute\State\StateAutoCompleteField;
-use App\Repository\StateRepository;
+use Silecust\WebShop\Entity\City;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateAutoCompleteField;
+use Silecust\WebShop\Repository\StateRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

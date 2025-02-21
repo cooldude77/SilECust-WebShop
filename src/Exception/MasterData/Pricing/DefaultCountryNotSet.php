@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\MasterData\Pricing;
+namespace Silecust\WebShop\Exception\MasterData\Pricing;
 
 class DefaultCountryNotSet extends  \Exception
 {

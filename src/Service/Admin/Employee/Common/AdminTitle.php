@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Admin\Employee\Common;
+namespace Silecust\WebShop\Service\Admin\Employee\Common;
 
-use App\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
-use App\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
-use App\Service\Admin\Employee\FrameWork\AdminRouteObject;
+use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
+use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
+use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRouteObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
 use Symfony\Component\String\UnicodeString;

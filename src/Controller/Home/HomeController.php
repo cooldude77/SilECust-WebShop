@@ -1,9 +1,9 @@
 <?php
 // src/Controller/CustomerController.php
-namespace App\Controller\Home;
+namespace Silecust\WebShop\Controller\Home;
 
 // ...
-use App\Controller\Module\WebShop\External\Shop\MainController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\MainController;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

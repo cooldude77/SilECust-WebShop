@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Service\Admin\Employee\FrameWork;
 
-use App\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
-use App\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
-use App\Exception\Admin\SideBar\Action\EmptyActionListMapException;
-use App\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
-use App\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
-use App\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
+use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
+use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
+use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
+use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;

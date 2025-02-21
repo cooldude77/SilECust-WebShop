@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Customer\DTO;
+namespace Silecust\WebShop\Form\MasterData\Customer\DTO;
 
-use App\Entity\Category;
-use App\Entity\Customer;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

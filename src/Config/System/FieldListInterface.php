@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config\System;
+namespace Silecust\WebShop\Config\System;
 
 interface FieldListInterface
 {

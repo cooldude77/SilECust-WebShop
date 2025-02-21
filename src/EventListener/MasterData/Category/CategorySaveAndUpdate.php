@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventListener\MasterData\Category;
+namespace Silecust\WebShop\EventListener\MasterData\Category;
 
-use App\Entity\Category;
-use App\Service\MasterData\Category\PathCalculator;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Service\MasterData\Category\PathCalculator;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;

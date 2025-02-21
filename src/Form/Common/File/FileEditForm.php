@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Common\File;
+namespace Silecust\WebShop\Form\Common\File;
 
-use App\Form\Common\File\DTO\FileDTO;
+use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;

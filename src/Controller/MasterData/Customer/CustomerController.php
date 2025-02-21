@@ -1,13 +1,13 @@
 <?php
 // src/controller/customerController.php
-namespace App\Controller\MasterData\Customer;
+namespace Silecust\WebShop\Controller\MasterData\Customer;
 
 // ...
-use App\Form\MasterData\Customer\CustomerCreateForm;
-use App\Form\MasterData\Customer\CustomerEditForm;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Repository\CustomerRepository;
-use App\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
+use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\CustomerEditForm;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

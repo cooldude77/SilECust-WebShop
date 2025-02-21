@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Transaction\Order\Header\DTO;
+namespace Silecust\WebShop\Form\Transaction\Order\Header\DTO;
 
 class OrderHeaderDTO
 {

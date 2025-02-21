@@ -1,12 +1,12 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Customer\Address;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Address;
 
-use App\Event\Component\Database\ListQueryEvent;
-use App\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use App\Exception\Security\User\UserNotLoggedInException;
-use App\Repository\CustomerAddressRepository;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 

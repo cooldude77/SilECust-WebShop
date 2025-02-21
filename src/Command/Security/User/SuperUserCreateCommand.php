@@ -1,11 +1,11 @@
 <?php
 /** @noinspection PhpArithmeticTypeCheckInspection */
 
-namespace App\Command\Security\User;
+namespace Silecust\WebShop\Command\Security\User;
 
-use App\Form\MasterData\Employee\DTO\EmployeeDTO;
-use App\Service\Component\Database\DatabaseOperations;
-use App\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
+use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;

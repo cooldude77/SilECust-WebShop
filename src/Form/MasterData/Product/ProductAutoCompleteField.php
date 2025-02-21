@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\MasterData\Product;
+namespace Silecust\WebShop\Form\MasterData\Product;
 
-use App\Entity\Product;
+use Silecust\WebShop\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

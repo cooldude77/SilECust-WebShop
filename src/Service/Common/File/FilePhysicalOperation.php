@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\File;
+namespace Silecust\WebShop\Service\Common\File;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Product\Attribute;
+namespace Silecust\WebShop\Form\MasterData\Product\Attribute;
 
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Repository\ProductAttributeTypeRepository;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
+use Silecust\WebShop\Repository\ProductAttributeTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

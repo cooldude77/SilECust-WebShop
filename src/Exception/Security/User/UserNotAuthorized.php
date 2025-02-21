@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exception\Security\User;
+namespace Silecust\WebShop\Exception\Security\User;
 
-use App\Entity\User;
+use Silecust\WebShop\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserNotAuthorized extends \Exception

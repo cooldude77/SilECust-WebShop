@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\CheckOut\Component;
+namespace Silecust\WebShop\Service\Module\WebShop\External\CheckOut\Component;
 
-use App\Repository\CustomerAddressRepository;
-use App\Repository\CustomerRepository;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Repository\CustomerRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class OrderAddressDTOCreator

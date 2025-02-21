@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Twig\Security;
+namespace Silecust\WebShop\Service\Twig\Security;
 
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

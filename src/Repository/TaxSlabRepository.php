@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Country;
-use App\Entity\TaxSlab;
+use Silecust\WebShop\Entity\Country;
+use Silecust\WebShop\Entity\TaxSlab;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

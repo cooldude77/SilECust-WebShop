@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\ProductAttribute;
-use App\Entity\ProductAttributeValue;
+use Silecust\WebShop\Entity\ProductAttribute;
+use Silecust\WebShop\Entity\ProductAttributeValue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

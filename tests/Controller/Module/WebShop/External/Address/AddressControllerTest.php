@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests\Controller\Module\WebShop\External\Address;
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Address;
 
-use App\Entity\CustomerAddress;
-use App\Entity\OrderAddress;
-use App\Factory\CustomerAddressFactory;
-use App\Service\Component\Routing\RoutingConstants;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressSession;
-use App\Tests\Fixtures\CustomerFixture;
-use App\Tests\Fixtures\LocationFixture;
-use App\Tests\Fixtures\OrderFixture;
-use App\Tests\Fixtures\SessionFactoryFixture;
-use App\Tests\Utility\FindByCriteria;
-use App\Tests\Utility\SelectElement;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\OrderAddress;
+use Silecust\WebShop\Factory\CustomerAddressFactory;
+use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
+use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
+use Silecust\WebShop\Tests\Fixtures\LocationFixture;
+use Silecust\WebShop\Tests\Fixtures\OrderFixture;
+use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;

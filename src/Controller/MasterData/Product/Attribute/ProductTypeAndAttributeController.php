@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\MasterData\Product\Attribute;
+namespace Silecust\WebShop\Controller\MasterData\Product\Attribute;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 

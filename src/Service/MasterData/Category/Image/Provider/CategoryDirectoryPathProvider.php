@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\MasterData\Category\Image\Provider;
+namespace Silecust\WebShop\Service\MasterData\Category\Image\Provider;
 
-use App\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
-use App\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
+use Silecust\WebShop\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
+use Silecust\WebShop\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
 
 /**
  *  Directory Structure:

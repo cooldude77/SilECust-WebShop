@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Product;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Product;
 
-use App\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
-use App\Service\Module\WebShop\External\Product\ProductListQueryBuilder;
+use Silecust\WebShop\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
+use Silecust\WebShop\Service\Module\WebShop\External\Product\ProductListQueryBuilder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class ProductListQuerySubscriber implements EventSubscriberInterface

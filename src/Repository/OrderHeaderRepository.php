@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\Customer;
-use App\Entity\OrderHeader;
-use App\Entity\OrderStatusType;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderStatusType;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,7 +49,7 @@ class OrderHeaderRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(Customer $customer): \App\Entity\OrderHeader
+    public function create(Customer $customer): \Silecust\WebShop\Entity\OrderHeader
     {
 
         $orderHeader = new OrderHeader();
@@ -71,14 +71,14 @@ class OrderHeaderRepository extends ServiceEntityRepository
 
     function getQueryForSelect(): Query
     {
-        $dql = "SELECT oh FROM App\Entity\OrderHeader oh";
+        $dql = "SELECT oh FROM Silecust\WebShop\Entity\OrderHeader oh";
         return $this->getEntityManager()->createQuery($dql);
 
     }
 
     function getQueryForSelectByCustomer(Customer $customer): Query
     {
-        $dql = "SELECT oh FROM App\Entity\OrderHeader oh where oh.customer=:customer";
+        $dql = "SELECT oh FROM Silecust\WebShop\Entity\OrderHeader oh where oh.customer=:customer";
         return $this->getEntityManager()->createQuery($dql)->setParameter('customer', $customer);
 
     }

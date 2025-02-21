@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\MasterData\Customer\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Customer\Mapper;
 
-use App\Entity\Category;
-use App\Entity\Customer;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Repository\CustomerRepository;
-use App\Repository\SalutationRepository;
-use App\Security\Mapper\UserDTOMapper;
+use Silecust\WebShop\Entity\Category;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Repository\SalutationRepository;
+use Silecust\WebShop\Security\Mapper\UserDTOMapper;
 use Symfony\Component\Form\FormInterface;
 
 class CustomerDTOMapper

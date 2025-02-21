@@ -1,13 +1,13 @@
 <?php
 
-namespace App\EventSubscriber\Module\WebShop\External\Order\Payment;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use App\Entity\OrderHeader;
-use App\Entity\OrderJournal;
-use App\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
-use App\Service\Transaction\Order\Journal\OrderJournalSnapShot;
-use App\Service\Transaction\Order\OrderSave;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderJournal;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
+use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentFailure implements EventSubscriberInterface

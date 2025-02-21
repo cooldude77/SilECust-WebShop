@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Cart;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Cart;
 
-use App\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

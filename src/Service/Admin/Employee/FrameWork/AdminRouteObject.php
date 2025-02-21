@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Service\Admin\Employee\FrameWork;
 
 class AdminRouteObject
 {

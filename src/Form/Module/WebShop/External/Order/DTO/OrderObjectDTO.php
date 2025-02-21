@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Module\WebShop\External\Order\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\External\Order\DTO;
 
-use App\Form\Module\WebShop\External\Order\DTO\Components\OrderHeaderDTO;
-use App\Form\Module\WebShop\External\Order\DTO\Components\OrderPaymentDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Order\DTO\Components\OrderHeaderDTO;
+use Silecust\WebShop\Form\Module\WebShop\External\Order\DTO\Components\OrderPaymentDTO;
 
 class OrderObjectDTO
 {
@@ -20,7 +20,7 @@ class OrderObjectDTO
         $this->orderPaymentDTO = new OrderPaymentDTO();
     }
 
-    public function add(\App\Form\Transaction\Order\Item\DTO\OrderItemDTO $orderItemDTO)
+    public function add(\Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO $orderItemDTO)
     {
         $orderItemDTO[] = $orderItemDTO;
     }

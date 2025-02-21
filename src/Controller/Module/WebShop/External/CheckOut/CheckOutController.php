@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller\Module\WebShop\External\CheckOut;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\CheckOut;
 
-use App\Service\Component\Routing\RoutingConstants;
-use App\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
-use App\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use App\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
+use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

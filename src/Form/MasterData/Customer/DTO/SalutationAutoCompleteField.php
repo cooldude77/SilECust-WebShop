@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\MasterData\Customer\DTO;
+namespace Silecust\WebShop\Form\MasterData\Customer\DTO;
 
-use App\Entity\PostalCode;
-use App\Entity\Salutation;
+use Silecust\WebShop\Entity\PostalCode;
+use Silecust\WebShop\Entity\Salutation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;

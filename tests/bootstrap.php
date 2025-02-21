@@ -14,7 +14,7 @@ if (class_exists(Deprecation::class)) {
 bootstrap();
 function bootstrap(): void
 {
-    $kernel = new \App\Tests\TestKernel('test', true);
+    $kernel = new \Silecust\WebShop\Tests\TestKernel('test', true);
     $kernel->boot();
 
     $application = new Application($kernel);

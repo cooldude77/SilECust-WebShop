@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\Order\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\Order\DTO;
 
 class OrderAddressDTO
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form\Transaction\Order\Header;
+namespace Silecust\WebShop\Form\Transaction\Order\Header;
 
-use App\Form\MasterData\Customer\DTO\CustomerAutoCompleteField;
-use App\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerAutoCompleteField;
+use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

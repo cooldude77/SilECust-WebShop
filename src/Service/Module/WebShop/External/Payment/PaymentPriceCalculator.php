@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Payment;
 
-use App\Entity\OrderItemPaymentPrice;
+use Silecust\WebShop\Entity\OrderItemPaymentPrice;
 
 class PaymentPriceCalculator
 {

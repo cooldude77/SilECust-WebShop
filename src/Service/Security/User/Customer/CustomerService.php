@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service\Security\User\Customer;
+namespace Silecust\WebShop\Service\Security\User\Customer;
 
-use App\Entity\Customer;
-use App\Entity\User;
-use App\Repository\CustomerRepository;
-use App\Service\Component\Database\DatabaseOperations;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\User;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 
 readonly class CustomerService
 {

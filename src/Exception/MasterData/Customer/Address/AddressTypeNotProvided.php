@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\MasterData\Customer\Address;
+namespace Silecust\WebShop\Exception\MasterData\Customer\Address;
 
 class AddressTypeNotProvided extends \Exception
 {

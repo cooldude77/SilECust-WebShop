@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Module\WebShop\Admin\Section\DTO;
+namespace Silecust\WebShop\Form\Module\WebShop\Admin\Section\DTO;
 
 class WebShopSectionDTO
 {

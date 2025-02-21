@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\CustomerAddress;
-use App\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

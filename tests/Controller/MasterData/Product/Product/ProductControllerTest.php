@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\MasterData\Product\Product;
+namespace Silecust\WebShop\Tests\Controller\MasterData\Product\Product;
 
-use App\Factory\CategoryFactory;
-use App\Factory\ProductFactory;
-use App\Tests\Fixtures\EmployeeFixture;
-use App\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Factory\CategoryFactory;
+use Silecust\WebShop\Factory\ProductFactory;
+use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

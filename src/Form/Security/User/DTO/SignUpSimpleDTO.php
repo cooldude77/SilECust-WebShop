@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Security\User\DTO;
+namespace Silecust\WebShop\Form\Security\User\DTO;
 
 class SignUpSimpleDTO
 {

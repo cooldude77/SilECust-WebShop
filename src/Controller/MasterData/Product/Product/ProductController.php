@@ -1,14 +1,14 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\MasterData\Product\Product;
+namespace Silecust\WebShop\Controller\MasterData\Product\Product;
 
 // ...
-use App\Form\MasterData\Product\DTO\ProductDTO;
-use App\Form\MasterData\Product\ProductCreateForm;
-use App\Form\MasterData\Product\ProductEditForm;
-use App\Repository\ProductRepository;
-use App\Service\Component\UI\Search\SearchEntityInterface;
-use App\Service\MasterData\Product\Mapper\ProductDTOMapper;
+use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
+use Silecust\WebShop\Form\MasterData\Product\ProductCreateForm;
+use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
+use Silecust\WebShop\Repository\ProductRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
+use Silecust\WebShop\Service\MasterData\Product\Mapper\ProductDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;

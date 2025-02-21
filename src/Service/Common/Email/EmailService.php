@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\Email;
+namespace Silecust\WebShop\Service\Common\Email;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;

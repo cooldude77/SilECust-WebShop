@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\MasterData\Product\Attribute\Value;
+namespace Silecust\WebShop\Service\MasterData\Product\Attribute\Value;
 
-use App\Entity\ProductAttribute;
-use App\Entity\ProductAttributeValue;
-use App\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
-use App\Repository\ProductAttributeRepository;
-use App\Repository\ProductAttributeValueRepository;
+use Silecust\WebShop\Entity\ProductAttribute;
+use Silecust\WebShop\Entity\ProductAttributeValue;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\Value\DTO\ProductAttributeValueDTO;
+use Silecust\WebShop\Repository\ProductAttributeRepository;
+use Silecust\WebShop\Repository\ProductAttributeValueRepository;
 
 readonly class ProductAttributeValueDTOMapper
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Factory;
+namespace Silecust\WebShop\Factory;
 
-use App\Entity\Employee;
-use App\Repository\EmployeeRepository;
+use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Repository\EmployeeRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;

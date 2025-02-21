@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\MasterData\Product\Image\Mapper;
+namespace Silecust\WebShop\Service\MasterData\Product\Image\Mapper;
 
-use App\Entity\ProductImage;
-use App\Form\Common\File\Mapper\FileDTOMapper;
-use App\Form\MasterData\Product\Image\DTO\ProductImageDTO;
-use App\Repository\ProductImageRepository;
-use App\Repository\ProductRepository;
+use Silecust\WebShop\Entity\ProductImage;
+use Silecust\WebShop\Form\Common\File\Mapper\FileDTOMapper;
+use Silecust\WebShop\Form\MasterData\Product\Image\DTO\ProductImageDTO;
+use Silecust\WebShop\Repository\ProductImageRepository;
+use Silecust\WebShop\Repository\ProductRepository;
 
 class ProductImageDTOMapper
 {

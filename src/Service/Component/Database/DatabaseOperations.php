@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Component\Database;
+namespace Silecust\WebShop\Service\Component\Database;
 
 use Doctrine\ORM\EntityManagerInterface;
 

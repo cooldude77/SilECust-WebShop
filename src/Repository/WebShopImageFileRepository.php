@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Silecust\WebShop\Repository;
 
-use App\Entity\WebShopImageFile;
-use App\Entity\WebShopImageType;
+use Silecust\WebShop\Entity\WebShopImageFile;
+use Silecust\WebShop\Entity\WebShopImageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,7 +47,7 @@ class WebShopImageFileRepository extends ServiceEntityRepository
     //        ;
     //    }
     public function create(
-        \App\Entity\WebShopFile $webShopFileEntity,
+        \Silecust\WebShop\Entity\WebShopFile $webShopFileEntity,
                            WebShopImageType $webShopImageType)
     {
 

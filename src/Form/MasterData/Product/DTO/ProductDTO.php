@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\MasterData\Product\DTO;
+namespace Silecust\WebShop\Form\MasterData\Product\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

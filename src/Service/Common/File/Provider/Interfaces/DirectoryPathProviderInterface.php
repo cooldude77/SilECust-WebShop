@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Common\File\Provider\Interfaces;
+namespace Silecust\WebShop\Service\Common\File\Provider\Interfaces;
 
 
 

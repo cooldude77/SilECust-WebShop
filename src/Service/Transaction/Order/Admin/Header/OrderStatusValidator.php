@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Transaction\Order\Admin\Header;
+namespace Silecust\WebShop\Service\Transaction\Order\Admin\Header;
 
-use App\Entity\OrderHeader;
-use App\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
-use App\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 
 class OrderStatusValidator
 {

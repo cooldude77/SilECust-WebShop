@@ -1,8 +1,8 @@
 <?php
 
-namespace App\EventSubscriber\Transaction\Admin\Order\Item\Display;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Item\Display;
 
-use App\Event\Component\UI\Panel\Display\DisplayParametersEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParametersEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

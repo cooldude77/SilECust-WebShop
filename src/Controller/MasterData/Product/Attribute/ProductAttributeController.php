@@ -1,13 +1,13 @@
 <?php
 // src/Controller/ProductController.php
-namespace App\Controller\MasterData\Product\Attribute;
+namespace Silecust\WebShop\Controller\MasterData\Product\Attribute;
 
 // ...
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Form\MasterData\Product\Attribute\ProductAttributeCreateForm;
-use App\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
-use App\Repository\ProductAttributeRepository;
-use App\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\ProductAttributeCreateForm;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
+use Silecust\WebShop\Repository\ProductAttributeRepository;
+use Silecust\WebShop\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;

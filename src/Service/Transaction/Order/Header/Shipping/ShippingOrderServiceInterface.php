@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Transaction\Order\Header\Shipping;
+namespace Silecust\WebShop\Service\Transaction\Order\Header\Shipping;
 
-use App\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderHeader;
 
 interface ShippingOrderServiceInterface
 {

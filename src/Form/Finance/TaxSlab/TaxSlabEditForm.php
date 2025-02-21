@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Finance\TaxSlab;
+namespace Silecust\WebShop\Form\Finance\TaxSlab;
 
-use App\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
-use App\Form\MasterData\Currency\CurrencyAutoCompleteField;
-use App\Repository\CountryRepository;
+use Silecust\WebShop\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
+use Silecust\WebShop\Form\MasterData\Currency\CurrencyAutoCompleteField;
+use Silecust\WebShop\Repository\CountryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

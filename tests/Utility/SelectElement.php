@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Utility;
+namespace Silecust\WebShop\Tests\Utility;
 
 use Zenstruck\Browser;
 

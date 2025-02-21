@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Form\MasterData\Customer;
+namespace Silecust\WebShop\Form\MasterData\Customer;
 
-use App\Entity\Customer;
-use App\Form\MasterData\Customer\DTO\CustomerDTO;
-use App\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
-use App\Repository\CustomerRepository;
-use App\Repository\SalutationRepository;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
+use Silecust\WebShop\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Repository\SalutationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

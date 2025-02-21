@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Service\Product\Category\File;
+namespace Silecust\WebShop\Tests\Service\Product\Category\File;
 
-use App\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
-use App\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
+use Silecust\WebShop\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertEquals;
 

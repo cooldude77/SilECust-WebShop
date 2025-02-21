@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\MasterData\Customer\Address;
+namespace Silecust\WebShop\Service\MasterData\Customer\Address;
 
-use App\Entity\Customer;
-use App\Entity\CustomerAddress;
-use App\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
-use App\Repository\CustomerAddressRepository;
-use App\Repository\CustomerRepository;
-use App\Repository\PostalCodeRepository;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
+use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Repository\PostalCodeRepository;
 
 readonly class CustomerAddressDTOMapper
 {

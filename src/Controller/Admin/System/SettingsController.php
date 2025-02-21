@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\System;
+namespace Silecust\WebShop\Controller\Admin\System;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
