@@ -1,4 +1,4 @@
-{% extends 'security/base/security_base.html.twig' %}
+{% extends '@SilecustWebShop/security/base/security_base.html.twig' %}
 {% block head %}
     <meta charset="UTF-8">
     <link rel="icon"
@@ -17,7 +17,7 @@
 
 {% block content %}
 
-    {% include 'security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
+    {% include '@SilecustWebShop/security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
 
    <a href="{{path('user_customer_sign_up') }}">Go to sign up</a>
    <a href="{{path('app_forgot_password_request') }}">Forgot Password</a>
