@@ -12,7 +12,7 @@ class FooterController extends EnhancedAbstractController
     public function header(Request $request): Response
     {
         return $this->render(
-            'admin/ui/panel/footer/footer.html.twig'
+            '@SilecustWebShop/common/ui/panel/footer/footer.html.twig'
         );
 
 

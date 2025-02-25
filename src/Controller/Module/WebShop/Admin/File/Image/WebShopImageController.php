@@ -43,7 +43,7 @@ class WebShopImageController extends EnhancedAbstractController
 
         }
 
-            return $this->render('module/web_shop/admin/file/image/create.html.twig', ['form' => $form]);
+            return $this->render('@SilecustWebShop/module/web_shop/admin/file/image/create.html.twig', ['form' => $form]);
     }
 
 

@@ -53,7 +53,7 @@ class CustomerController extends EnhancedAbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('master_data/customer/customer_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data/customer/customer_create.html.twig', ['form' => $form]);
     }
 
 
@@ -95,7 +95,7 @@ class CustomerController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('master_data/customer/customer_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/admin/customer/{id}/display', name: 'customer_display')]
@@ -116,7 +116,7 @@ class CustomerController extends EnhancedAbstractController
                                         'propertyName' => 'lastName'],]];
 
         return $this->render(
-            'master_data/customer/customer_display.html.twig',
+            '@SilecustWebShop/master_data/customer/customer_display.html.twig',
             ['entity' => $customer, 'params' => $displayParams]
         );
 
@@ -137,7 +137,7 @@ class CustomerController extends EnhancedAbstractController
 
         $customers = $customerRepository->findAll();
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request,'entities' => $customers, 'listGrid' => $listGrid]
         );
     }

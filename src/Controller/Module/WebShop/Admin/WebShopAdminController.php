@@ -52,7 +52,7 @@ class WebShopAdminController extends EnhancedAbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('module/web_shop/admin/web_shop/web_shop_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/module/web_shop/admin/web_shop/web_shop_create.html.twig', ['form' => $form]);
     }
 
 
@@ -96,7 +96,7 @@ class WebShopAdminController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('module/web_shop/admin/web_shop/web_shop_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/module/web_shop/admin/web_shop/web_shop_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/web-shop/{id}/display', name: 'web_shop_display')]
@@ -117,7 +117,7 @@ class WebShopAdminController extends EnhancedAbstractController
                                         'propertyName' => 'description'],]];
 
         return $this->render(
-            'module/web_shop/admin/web_shop/web_shop_display.html.twig',
+            '@SilecustWebShop/module/web_shop/admin/web_shop/web_shop_display.html.twig',
             ['entity' => $webShop, 'params' => $displayParams]
         );
 
@@ -146,7 +146,7 @@ class WebShopAdminController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid]
         );
     }

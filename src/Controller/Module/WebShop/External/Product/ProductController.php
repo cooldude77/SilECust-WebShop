@@ -44,7 +44,7 @@ class ProductController extends EnhancedAbstractController
         );
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/base/base.html.twig'
+            '@SilecustWebShop/module/web_shop/external/base/base.html.twig'
         );
 
         $request->query->set('name', $name);
@@ -59,7 +59,7 @@ class ProductController extends EnhancedAbstractController
 
         $product = $productRepository->findOneBy(['name' => $request->query->get('name')]);
         return $this->render(
-            'module/web_shop/external/product/single_product.html.twig',
+            '@SilecustWebShop/module/web_shop/external/product/single_product.html.twig',
             ['product' => $product]
         );
     }
@@ -99,7 +99,7 @@ class ProductController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'module/web_shop/external/product/product_list.html.twig',
+            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
             ['pagination' => $pagination,
                 'sortForm' => $sortForm]
         );
@@ -111,7 +111,7 @@ class ProductController extends EnhancedAbstractController
         $products = $productRepository->search($request->get('searchTerm'));
 
         return $this->render(
-            'module/web_shop/external/product/product_list.html.twig',
+            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
             ['products' => $products]
         );
 

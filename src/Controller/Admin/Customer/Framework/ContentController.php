@@ -24,7 +24,7 @@ class ContentController extends EnhancedAbstractController
     ): Response
     {
         return $this->render(
-            'admin/customer/dashboard/dashboard.html.twig',
+            '@SilecustWebShop/admin/customer/dashboard/dashboard.html.twig',
             ['request' => $request]
         );
 

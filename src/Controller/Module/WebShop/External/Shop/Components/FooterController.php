@@ -12,7 +12,7 @@ class FooterController extends EnhancedAbstractController
     public function header(Request $request): Response
     {
         return $this->render(
-            'module/web_shop/external/base/footer.html.twig'
+            '@SilecustWebShop/module/web_shop/external/base/footer.html.twig'
         );
 
 

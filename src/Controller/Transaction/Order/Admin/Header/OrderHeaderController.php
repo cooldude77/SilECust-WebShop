@@ -62,7 +62,7 @@ class OrderHeaderController extends EnhancedAbstractController
 
         }
 
-        return $this->render('transaction/admin/order/header/order_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/transaction/admin/order/header/order_create.html.twig', ['form' => $form]);
     }
 
     /**
@@ -112,7 +112,7 @@ class OrderHeaderController extends EnhancedAbstractController
                 );
             }
 
-            return $this->render('transaction/admin/order/header/order_edit.html.twig', ['form' => $form]);
+            return $this->render('@SilecustWebShop/transaction/admin/order/header/order_edit.html.twig', ['form' => $form]);
         } catch (OpenOrderEditedInAdminPanel $e) {
             return new Response($e->getMessage(), 409);
         }
@@ -169,7 +169,7 @@ class OrderHeaderController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

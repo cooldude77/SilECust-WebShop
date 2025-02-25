@@ -52,7 +52,7 @@ class CategoryController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/category/category_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/category/category_create.html.twig', ['form' => $form]
         );
     }
 
@@ -100,7 +100,7 @@ class CategoryController extends EnhancedAbstractController
             }
         }
         return $this->render(
-            'master_data/category/category_edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/category/category_edit.html.twig', ['form' => $form]
         );
     }
 
@@ -125,7 +125,7 @@ class CategoryController extends EnhancedAbstractController
                     'propertyName' => 'description'],]];
 
         return $this->render(
-            'master_data/category/category_display.html.twig',
+            '@SilecustWebShop/master_data/category/category_display.html.twig',
             ['request' => $request, 'entity' => $category, 'params' => $displayParams]
         );
 
@@ -148,7 +148,7 @@ class CategoryController extends EnhancedAbstractController
 
         $categories = $categoryRepository->findAll();
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
         );
     }

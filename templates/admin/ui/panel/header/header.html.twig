@@ -11,7 +11,7 @@ Also has a block to insert your function
         <div class="container-fluid">
             {% block brand %}
                 <nav class="navbar-brand">
-                    {% include 'admin/ui/panel/header/header_logo.html.twig' %}
+                    {% include '@SilecustWebShop/admin/ui/panel/header/header_logo.html.twig' %}
                 </nav>
             {% endblock %}
 
@@ -27,9 +27,9 @@ Also has a block to insert your function
                         {% endblock %}
                         <li class="nav-item">
                             {% if app.user is null %}
-                                {% include 'admin/ui/panel/header/header_login_link.html.twig' %}
+                                {% include '@SilecustWebShop/admin/ui/panel/header/header_login_link.html.twig' %}
                             {% else %}
-                                {% include 'admin/ui/panel/header/header_logout_link.html.twig' %}
+                                {% include '@SilecustWebShop/admin/ui/panel/header/header_logout_link.html.twig' %}
                             {% endif %}
                         </li>
                     {% endblock %}

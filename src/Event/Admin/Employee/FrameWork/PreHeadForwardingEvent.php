@@ -4,13 +4,11 @@ namespace Silecust\WebShop\Event\Admin\Employee\FrameWork;
 
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PreHeadForwardingEvent extends Event
 {
     const string PRE_HEAD_FORWARDING_EVENT = 'admin_panel.before_forwarding';
-
 
     /**
      * @param Request $request
@@ -26,7 +24,7 @@ class PreHeadForwardingEvent extends Event
 
     public function setPageTitle(string $pageTitle): void
     {
-        $this->session->set(PanelHeadController::PAGE_TITLE, $pageTitle);
+        $this->request->getSession()->set(PanelHeadController::PAGE_TITLE, $pageTitle);
     }
 
 

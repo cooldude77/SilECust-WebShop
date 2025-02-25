@@ -13,7 +13,7 @@ class ChangePasswordController extends EnhancedAbstractController
     public function changePassword(): Response
     {
         // todo
-        return $this->render('security/user/profile/profile_page.html.twig');
+        return $this->render('@SilecustWebShop/security/user/profile/profile_page.html.twig');
     }
 
 }

@@ -34,7 +34,7 @@
                         {{ product.description }}
                     </a>
                 </div>
-                {% include 'master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id} %}
+                {% include '@SilecustWebShop/master_dataprice/base_product/price_product_base_fetch.html.twig' with {'id':product.id} %}
 
             </div>
         {% endfor %}
@@ -42,7 +42,7 @@
     <div class="navigation">
         {{ knp_pagination_render(
             pagination,
-            'admin/ui/panel/section/content/list/sliding.html.twig'
+            '@SilecustWebShop/admin/ui/panel/section/content/list/sliding.html.twig'
         ) }}
     </div>
 {% else %}

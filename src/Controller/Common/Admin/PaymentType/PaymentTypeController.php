@@ -54,7 +54,7 @@ class PaymentTypeController extends EnhancedAbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('common/payment_type/payment_type_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/common/payment_type/payment_type_create.html.twig', ['form' => $form]);
     }
 
 
@@ -98,7 +98,7 @@ class PaymentTypeController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('common/payment_type/payment_type_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/common/payment_type/payment_type_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/payment_type/{id}/display', name: 'payment_type_display')]
@@ -150,7 +150,7 @@ class PaymentTypeController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid]
         );
     }

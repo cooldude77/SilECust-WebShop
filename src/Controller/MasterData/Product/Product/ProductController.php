@@ -63,7 +63,7 @@ class ProductController extends EnhancedAbstractController
                 );
             }
         }
-        return $this->render('master_data/product/product_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data/product/product_create.html.twig', ['form' => $form]);
     }
 
 
@@ -116,7 +116,7 @@ class ProductController extends EnhancedAbstractController
             }
         }
 
-        return $this->render('master_data/product/product_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data/product/product_edit.html.twig', ['form' => $form]);
     }
 
     #[Route('/admin/product/{id}/display', name: 'sc_admin_product_display')]
@@ -137,7 +137,7 @@ class ProductController extends EnhancedAbstractController
                     'propertyName' => 'description'],]];
 
         return $this->render(
-            'master_data/product/product_display.html.twig',
+            '@SilecustWebShop/master_data/product/product_display.html.twig',
             ['request' => $request, 'entity' => $product, 'params' => $displayParams]
         );
 
@@ -180,7 +180,7 @@ class ProductController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

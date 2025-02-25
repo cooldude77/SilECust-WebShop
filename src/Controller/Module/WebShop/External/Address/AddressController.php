@@ -78,7 +78,7 @@ class AddressController extends EnhancedAbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/address/page/address_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/address/page/address_page.html.twig'
         );
 
 
@@ -203,7 +203,7 @@ class AddressController extends EnhancedAbstractController
         }
         // if it is a form then just display it raw here
         return $this->render(
-            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '@SilecustWebShop/common/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
@@ -279,7 +279,7 @@ class AddressController extends EnhancedAbstractController
             $caption = 'Choose Billing Address';
         }
         return $this->render(
-            'module/web_shop/external/address/address_choose.html.twig',
+            '@SilecustWebShop/module/web_shop/external/address/address_choose.html.twig',
             ['form' => $form,
              'addressTypeCaption' => $caption]
         );

@@ -53,7 +53,7 @@ class PaymentTypeController extends EnhancedAbstractController
                 'web_shop_order_complete_details', ['id' => $orderObject->getHeader()->getId()]
             );
         }
-        return $this->render('common/payment_type/payment_type_create.html.twig', ['form' => $form]
+        return $this->render('@SilecustWebShop/common/payment_type/payment_type_create.html.twig', ['form' => $form]
         );
     }
 

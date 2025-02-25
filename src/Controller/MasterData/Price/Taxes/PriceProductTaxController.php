@@ -55,7 +55,7 @@ class PriceProductTaxController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/price/tax/price_product_tax_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/price/tax/price_product_tax_create.html.twig', ['form' => $form]
         );
     }
 
@@ -103,7 +103,7 @@ class PriceProductTaxController extends EnhancedAbstractController
             }
         }
         return $this->render(
-            'master_data/price/tax/price_product_tax_edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/price/tax/price_product_tax_edit.html.twig', ['form' => $form]
         );
     }
 
@@ -128,7 +128,7 @@ class PriceProductTaxController extends EnhancedAbstractController
                     'propertyName' => 'description'],]];
 
         return $this->render(
-            'master_data/price/tax/price_product_tax_display.html.twig',
+            '@SilecustWebShop/master_data/price/tax/price_product_tax_display.html.twig',
             ['request' => $request, 'entity' => $priceProductTax, 'params' => $displayParams]
         );
 
@@ -168,7 +168,7 @@ class PriceProductTaxController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

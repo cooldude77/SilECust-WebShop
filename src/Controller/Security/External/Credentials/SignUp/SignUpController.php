@@ -67,7 +67,7 @@ class SignUpController extends EnhancedAbstractController
             }
         }
 
-        return $this->render('security/external/user/sign_up/page/sign_up_page.html.twig', [
+        return $this->render('@SilecustWebShop/security/external/user/sign_up/page/sign_up_page.html.twig', [
             'form' => $form,
         ]);
     }

@@ -77,7 +77,7 @@ class MainController extends EnhancedAbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/shop/page/web_shop_home_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/shop/page/web_shop_home_page.html.twig'
         );
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);

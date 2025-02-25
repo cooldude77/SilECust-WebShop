@@ -12,7 +12,7 @@ class HeaderController extends EnhancedAbstractController
     {
 
         // for now common header
-        return $this->render('admin/employee/dashboard/header.html.twig');
+        return $this->render('@SilecustWebShop/admin/employee/dashboard/header.html.twig');
 
 
     }

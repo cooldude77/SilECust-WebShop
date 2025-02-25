@@ -58,7 +58,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/price/discount/price_product_discount_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/price/discount/price_product_discount_create.html.twig', ['form' => $form]
         );
 
 
@@ -100,7 +100,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/price/discount/price_product_discount_edit.html.twig',
+            '@SilecustWebShop/master_data/price/discount/price_product_discount_edit.html.twig',
             ['form' => $form]
         );
 
@@ -129,7 +129,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
         ];
 
         return $this->render(
-            'master_data/price/discount/price_product_discount_display.html.twig',
+            '@SilecustWebShop/master_data/price/discount/price_product_discount_display.html.twig',
             ['entity' => $priceProductDiscount, 'params' => $displayParams]
         );
 
@@ -169,7 +169,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

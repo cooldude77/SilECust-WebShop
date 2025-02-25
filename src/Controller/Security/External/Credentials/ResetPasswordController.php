@@ -55,7 +55,7 @@ class ResetPasswordController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('reset_password/request.html.twig', [
+        return $this->render('@SilecustWebShop/reset_password/request.html.twig', [
             'requestForm' => $form,
         ]);
     }
@@ -72,7 +72,7 @@ class ResetPasswordController extends EnhancedAbstractController
             $resetToken = $resetPasswordHelper->generateFakeResetToken();
         }
 
-        return $this->render('reset_password/check_email.html.twig', [
+        return $this->render('@SilecustWebShop/reset_password/check_email.html.twig', [
             'resetToken' => $resetToken,
         ]);
     }
@@ -139,7 +139,7 @@ class ResetPasswordController extends EnhancedAbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('reset_password/reset.html.twig', [
+        return $this->render('@SilecustWebShop/reset_password/reset.html.twig', [
             'resetForm' => $form,
         ]);
     }

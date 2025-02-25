@@ -1,4 +1,4 @@
-{% include 'admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
+{% include '@SilecustWebShop/admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 
 {{ render(controller( 'Silecust\\WebShop\\Controller\\Transaction\\Order\\Admin\\Item\\OrderItemController::list',
     {'id':attribute(entity,"id"),'request':app.request})) }}

@@ -55,7 +55,7 @@ class StateController extends EnhancedAbstractController
         }
 
         $formErrors = $form->getErrors(true);
-        return $this->render('location_data/admin/state/state_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/location_data/admin/state/state_create.html.twig', ['form' => $form]);
     }
 
 
@@ -100,7 +100,7 @@ class StateController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('location_data/admin/state/state_edit.html.twig', ['form' =>
+        return $this->render('@SilecustWebShop/location_data/admin/state/state_edit.html.twig', ['form' =>
             $form]);
     }
 
@@ -159,7 +159,7 @@ class StateController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }

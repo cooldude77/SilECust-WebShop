@@ -51,7 +51,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '@SilecustWebShop/common/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
@@ -93,7 +93,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/common/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
@@ -118,7 +118,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
             ['productAttribute' => $id]
         );
         return $this->render(
-            'admin/ui/panel/section/content/list/list.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
             ['request' => $request,'entities' => $productAttributeValues, 'listGrid' => $listGrid]
         );
     }

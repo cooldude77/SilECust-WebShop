@@ -38,7 +38,7 @@ class PanelFooterController extends EnhancedAbstractController
         else {
 
 
-            $response = $this->render(
+            $response = $this->@SilecustWebShop/admin/base/admin_base.html.twig
                 'common/ui/panel/footer/footer.html.twig',
             );
         }

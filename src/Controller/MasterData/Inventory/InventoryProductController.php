@@ -63,7 +63,7 @@ class InventoryProductController extends EnhancedAbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            'master_data/inventory/inventory_product_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/inventory/inventory_product_create.html.twig', ['form' => $form]
         );
     }
 
@@ -110,7 +110,7 @@ class InventoryProductController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'master_data/inventory/inventory_product_edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/master_data/inventory/inventory_product_edit.html.twig', ['form' => $form]
         );
     }
 
@@ -140,7 +140,7 @@ class InventoryProductController extends EnhancedAbstractController
                                         'propertyName' => 'quantity'],]];
 
         return $this->render(
-            'master_data/inventory/inventory_product_display.html.twig',
+            '@SilecustWebShop/master_data/inventory/inventory_product_display.html.twig',
             ['entity' => $inventoryObject, 'params' => $displayParams]
         );
 
@@ -172,7 +172,7 @@ class InventoryProductController extends EnhancedAbstractController
         );
 
         return $this->render(
-            'admin/ui/panel/section/content/list/list_paginated.html.twig',
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
       ['pagination' => $pagination, 'listGrid' => $listGrid,'request'=>$request]
         );
     }

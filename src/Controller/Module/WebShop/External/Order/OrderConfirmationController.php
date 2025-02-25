@@ -38,7 +38,7 @@ class OrderConfirmationController extends EnhancedAbstractController
 
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            'module/web_shop/external/order/page/order_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/order/page/order_page.html.twig'
         );
 
 
@@ -55,7 +55,7 @@ class OrderConfirmationController extends EnhancedAbstractController
         $orderHeader = $orderHeaderRepository->findOneBy(['generatedId'=>$request->query->get('generatedId')]);
 
         return $this->render(
-            'module/web_shop/external/order/thank_you_for_your_order.html.twig',
+            '@SilecustWebShop/module/web_shop/external/order/thank_you_for_your_order.html.twig',
             ['orderHeader' => $orderHeader]
         );
 

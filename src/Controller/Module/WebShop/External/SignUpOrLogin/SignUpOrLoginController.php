@@ -14,7 +14,7 @@ class SignUpOrLoginController extends EnhancedAbstractController
     public function SignUpOrLogin(): Response
     {
         return $this->render(
-            'module/web_shop/external/checkout/page/checkout_user_login_sign_up_options_page.html.twig'
+            '@SilecustWebShop/module/web_shop/external/checkout/page/checkout_user_login_sign_up_options_page.html.twig'
         );
     }
 }

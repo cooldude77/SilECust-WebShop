@@ -26,7 +26,7 @@ class MainController extends EnhancedAbstractController
     ): Response {
 
         $eventDispatcher->dispatch(
-            new PreHeadForwardingEvent($request, $request->getSession()),
+            new PreHeadForwardingEvent($request),
             PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
         );
 
@@ -76,7 +76,7 @@ class MainController extends EnhancedAbstractController
             'footer'
         );
 
-        $session->set(PanelMainController::BASE_TEMPLATE, 'admin/base/admin_base.html.twig');
+        $session->set(PanelMainController::BASE_TEMPLATE, '@SilecustWebShop/admin/base/admin_base.html.twig');
 
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
