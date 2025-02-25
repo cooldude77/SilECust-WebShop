@@ -15,12 +15,12 @@ class SystemImage
 
     public function getNoImageForProductPath(): string
     {
-        return $this->projectDirectory . '/src/Config/Images/' . 'no_image.png';
+        return $this->projectDirectory . '/vendor/silecust/web-shop/src/Config/Images/' . 'no_image.png';
 
     }
 
     public function getLogoPath():string
     {
-        return $this->projectDirectory . '/src/Config/Images/' . 'silecust_logo.png';
+        return $this->projectDirectory . '/vendor/silecust/web-shop/src/Config/Images/' . 'silecust_logo.png';
     }
 }

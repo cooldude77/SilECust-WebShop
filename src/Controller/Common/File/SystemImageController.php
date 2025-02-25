@@ -11,7 +11,7 @@ class SystemImageController extends EnhancedAbstractController
 {
 
 
-    #[Route('system/image/logo', name: 'system_image_load_logo')]
+    #[Route('sc/system/image/logo', name: 'silecust_system_image_load_logo')]
     public function getLogo(SystemImage $systemImage): BinaryFileResponse
     {
         $path = $systemImage->getLogoPath();
