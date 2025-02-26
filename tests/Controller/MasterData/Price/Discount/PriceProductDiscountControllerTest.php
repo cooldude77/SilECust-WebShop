@@ -13,15 +13,17 @@ use Silecust\WebShop\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class PriceProductDiscountControllerTest extends WebTestCase
 {
 
     use HasBrowser, ProductFixture, SelectElement, CurrencyFixture, LocationFixture,
-        PriceFixture, FindByCriteria,EmployeeFixture;
+        PriceFixture, FindByCriteria,EmployeeFixture, Factories;
 
     protected function setUp(): void
     {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
     protected function tearDown(): void

@@ -18,23 +18,33 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Proxy;
+use Zenstruck\Foundry\Test\Factories;
 
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
-        FindByCriteria, OrderFixture;
+        FindByCriteria, OrderFixture,Factories;
 
 
     private Proxy|CustomerAddress $shippingAddress;
     private Proxy|CustomerAddress $billingAddress;
 
-    public function testCreateAddressesWhenNoAddressesPresent()
+    protected function setUp(): void
     {
-        static::bootKernel();
-
+        $this->browser()->visit('/logout');
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
 
+    }
+
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
+
+    }
+
+    public function testCreateAddressesWhenNoAddressesPresent()
+    {
 
         $uri = "/checkout/addresses?" . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout';
         $this->browser()->use(callback: function (Browser $browser) {
@@ -91,9 +101,6 @@ class AddressControllerTest extends WebTestCase
 
     public function testCreateAddressShipping()
     {
-        $this->createCustomerFixtures();
-        $this->createLocationFixtures();
-
         $uri = "/checkout/address/create?type=shipping&"
             . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
         $this->browser()
@@ -151,8 +158,6 @@ class AddressControllerTest extends WebTestCase
 
     public function testCreateAddressBilling()
     {
-        $this->createCustomerFixtures();
-        $this->createLocationFixtures();
 
         $uri = "/checkout/address/create?type=billing&"
             . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
@@ -213,8 +218,6 @@ class AddressControllerTest extends WebTestCase
 
     public function testChooseAddressesFromMultipleShippingAddresses()
     {
-        $this->createCustomerFixtures();
-        $this->createLocationFixtures();
 
 
         // one address is created already

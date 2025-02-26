@@ -203,7 +203,7 @@ class AddressController extends EnhancedAbstractController
         }
         // if it is a form then just display it raw here
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }

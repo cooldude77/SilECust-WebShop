@@ -9,12 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class ProductImageControllerTest extends WebTestCase
 {
-    use HasBrowser,EmployeeFixture;
+    use HasBrowser,EmployeeFixture,Factories;
     protected function setUp(): void
     {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
     protected function tearDown(): void

@@ -48,7 +48,7 @@ class ProductTypeController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
@@ -88,7 +88,7 @@ class ProductTypeController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+            '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
 
     }
