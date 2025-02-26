@@ -1,7 +1,9 @@
 {% extends '@SilecustWebShop/application_base.html.twig' %}
 
     {% block javascripts %}
-        {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
+        {% if app.environment != 'test' %}
+            {% block importmap %}{{ importmap(['app','admin']) }}{% endblock %}
+        {% endif %}
     {% endblock %}
 {% block body %}
     <div id="wrapper" class="d-flex justify-content-center align-items-center">
