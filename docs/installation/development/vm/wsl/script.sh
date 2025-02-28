@@ -85,15 +85,16 @@ cp -r .env .env.local
 
 ## set root password
 echo "Please enter database name for this installation "
-read -r -p databaseName
+read  databaseName
 
-echo -e '\nDATABASE_URL="mysql://dbAdmin:dbPassword@127.0.0.1:3306/{$databaseName}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"' | tee -a .env.local
+echo -e "\nDATABASE_URL=\"mysql://dbAdmin:dbPassword@127.0.0.1:3306/${databaseName}?serverVersion=10.11.2-MariaDB&charset=utf8mb4\"" | tee -a .env.local
 
 # add a user symfony
 # Doctrine will complain if you use root user to create database
 composer install -vvv
 
+php bin/console doctrine:database:drop --force
 php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate --no-interaction
 # the site is ready for work @
 # http://localhost/silecust/public/index.php
