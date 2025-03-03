@@ -1,0 +1,10 @@
+#controllers:
+#    resource:
+#        path: ../src/Controller/
+#        namespace: App\Controller
+#    type: attribute
+silecust_web_shop:
+    resource:
+        path: '@SilecustWebShopBundle/src/Controller/'
+        namespace: Silecust\WebShop\Controller
+    type: attribute

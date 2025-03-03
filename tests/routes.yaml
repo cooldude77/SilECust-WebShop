@@ -1,7 +1,7 @@
 # config/routes/attributes.yaml
 controllers:
   resource:
-    path: /var/www/html/project/productized/bundles/silecust/src/Controller/
+    path: ../../src/Controller/
     namespace: Silecust\WebShop\Controller
   type: attribute
 
@@ -9,5 +9,5 @@ kernel:
   resource: Silecust\WebShop\Tests\TestKernel
   type: attribute
 ux_autocomplete:
-    resource: '@AutocompleteBundle/config/routes.php'
-    prefix: '/autocomplete'
+  resource: '@AutocompleteBundle/config/routes.php'
+  prefix: '/autocomplete'
