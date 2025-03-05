@@ -1,21 +1,63 @@
 # Common steps
 
+#
+
+Go to installation directory
+
+```
+cd /var/www/html/silecust
+cp vendor/silecust/web-shop/src/Resources/misc/security.yaml.dist config/packages/security.yaml
+cp vendor/silecust/web-shop/src/Resources/misc/twig.yaml.dist config/packages/twig.yaml
+cp vendor/silecust/web-shop/src/Resources/misc/services.yaml.dist config/services.yaml
+cp vendor/silecust/web-shop/src/Resources/misc/routes.yaml.dist config/routes.yaml
+cp vendor/silecust/web-shop/src/Resources/misc/.htaccess_dev .htaccess
+```
+
 # Set parameters ( required)
+
 In order for application to work
-in `.env.local`( for dev ) and in `.env.test.local` (for test)
+in `.env.dev.local`( for dev ) and in `.env.test.local` (for test)set your database like this ( choose your own
+database)
+
+````
+DATABASE_URL="mysql://dbAdmin:dbPassword@127.0.0.1:3306/app?charset=utf8mb4"
+````
 
 set these parameters
+
 ````
 SILECUST_SIGN_UP_EMAIL_FROM_ADDRESS="replace with your value"  
 SILECUST_SIGN_UP_EMAIL_HEADLINE="replace with your value"
 SILECUST_DEFAULT_COUNTRY=IN or "IN" ( any one of it for now)
 ````
 
-After installation is complete and  database has been created , you can follow these steps to start working on your development environment
+# install silecust package
 
-Go to installation directory
+In your composer.json
+set
+`
+"minimum-stability": "dev",
+`
 
-`cd /var/www/html/silecust`
+```
+composer require symfony/web-shop
+php bin/console doctrine:database:drop --force
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate --no-interaction
+php bin/console importmap:require tom-select/dist/css/tom-select.default.css
+``` 
+
+# How to see your website working
+
+On the prompt, use
+
+```
+symfony server:start -d --no-tls
+
+```
+
+Your website should be working at
+```http://localhost:8000```
 
 ## Create an employee with superuser privilege
 
@@ -39,6 +81,7 @@ sudo a2enconf adminer.conf
 sudo service apache2 restart
 ````
 
-## htaccess file 
+## htaccess file
+
 In dev environment to load css and js files,
 copy included .htaccess_dev to .htaccess in your project and follow the instructions in the file (TBD in the script)
