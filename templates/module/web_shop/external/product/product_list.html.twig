@@ -48,8 +48,9 @@
 {% else %}
     <div id="no-product-listed" class="row">
         <p>
-            No products are available to list at the moment. Start <a target="_blank"
-                                                                      href="{{ path("sc_admin_product_create") }}">
+            No products are available to list at the moment. Start <a
+                                                                      href="{{ path("admin_panel",{'_function' : "product",
+                                                                      "_type":"create"}) }}">
                 creating</a> them
         </p>
     </div>
