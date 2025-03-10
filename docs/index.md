@@ -18,4 +18,7 @@ You are interested in [technical documentation](technicals/technicals.md)
 ## Testing
 Understand how Silecust is [tested](testing/test.md)
 
+## Theming and Plugin development
+Coming soon
+
 Please note that the documentation is not upto date. I have been working on it and it will be updated more with time. 

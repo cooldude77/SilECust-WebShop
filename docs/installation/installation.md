@@ -3,8 +3,9 @@
 ### Virtual Machine
 #### VirtualBox
 Install **Silecust** on
-- [Oracle VirtualBox](development/vm/virtualbox/install.md)
 - [WSL](development/vm/wsl/install.md)
+- Linux system running  Ubuntu 22.04.5 LTS
+
 ## System requirements
 Silecust is tested on
 ### Ubuntu 

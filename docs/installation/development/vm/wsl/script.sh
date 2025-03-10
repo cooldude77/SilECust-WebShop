@@ -75,7 +75,7 @@ sudo chown -R symfony:www-data /var/www/html/silecust
 sudo setfacl -dRm u:symfony:rwX,g:www-data:rwX /var/www/html/silecust
 
 symfony new /var/www/html/silecust --version="7.2.x" --webapp
-
+composer require silecust/web-shop
 # shellcheck disable=SC2164
 #cd /var/www/html/silecust
 # clone repo
