@@ -48,7 +48,7 @@ their own.
 
 As of now **Silecust** should only be used in dev and test environment
 
-[Installation on WSL on Windows (tested)](https://cooldude77.github.io/SilECust-WebShop/docs/installation/wsl/install.md)
+[Installation on WSL on Windows (tested)](https://cooldude77.github.io/SilECust-WebShop/installation/development/vm/wsl/install.html)
 
 Installation stack is
 
