@@ -74,27 +74,29 @@ cd /var/www/html/silecust
 sudo chown -R symfony:www-data /var/www/html/silecust
 sudo setfacl -dRm u:symfony:rwX,g:www-data:rwX /var/www/html/silecust
 
+symfony new /var/www/html/silecust --version="7.2.x" --webapp
+composer require silecust/web-shop
 # shellcheck disable=SC2164
-cd /var/www/html/silecust
+#cd /var/www/html/silecust
 # clone repo
-git clone https://github.com/cooldude77/SilECust-WebShop .
+#git clone https://github.com/cooldude77/SilECust-WebShop .
 
 
 # copy environment file
-cp -r .env .env.local
+#cp -r .env .env.local
 
 ## set root password
-echo "Please enter database name for this installation "
-read  databaseName
+#echo "Please enter database name for this installation "
+#read  databaseName
 
-echo -e "\nDATABASE_URL=\"mysql://dbAdmin:dbPassword@127.0.0.1:3306/${databaseName}?serverVersion=10.11.2-MariaDB&charset=utf8mb4\"" | tee -a .env.local
+#echo -e "\nDATABASE_URL=\"mysql://dbAdmin:dbPassword@127.0.0.1:3306/${databaseName}?serverVersion=10.11.2-MariaDB&charset=utf8mb4\"" | tee -a .env.local
 
 # add a user symfony
 # Doctrine will complain if you use root user to create database
-composer install -vvv
+#composer install -vvv
 
-php bin/console doctrine:database:drop --force
-php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate --no-interaction
+#php bin/console doctrine:database:drop --force
+#php bin/console doctrine:database:create
+#php bin/console doctrine:migrations:migrate --no-interaction
 # the site is ready for work @
 # http://localhost/silecust/public/index.php
