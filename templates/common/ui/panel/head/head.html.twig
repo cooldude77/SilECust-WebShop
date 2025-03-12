@@ -1,7 +1,11 @@
-<title>
-    {% if page_title is defined and page_title is not null %}
-        {{ page_title }}
-    {% else %}
-        {{ 'This page doesn\'t have a title' }}
-    {% endif %}
-</title>
+{% block head %}
+{% endblock %}
+{% block page_title %}
+    <title>
+        {% if request.attributes.get('page_title') is defined %}
+            {{ request.attributes.get('page_title') }}
+        {% else %}
+            {{ 'This page doesn\'t have a title' }}
+        {% endif %}
+    </title>
+{% endblock %}

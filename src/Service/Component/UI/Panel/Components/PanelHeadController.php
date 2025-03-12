@@ -2,8 +2,10 @@
 
 namespace Silecust\WebShop\Service\Component\UI\Panel\Components;
 
-use Silecust\WebShop\Service\Component\UI\Panel\Session\SessionAndMethodChecker;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Event\Component\UI\Panel\Head\PreHeadForwardingEvent;
+use Silecust\WebShop\Service\Component\UI\Panel\Session\SessionAndMethodChecker;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,12 +15,16 @@ class PanelHeadController extends EnhancedAbstractController
     public const string HEAD_CONTROLLER_CLASS_NAME = 'HEAD_CONTROLLER_CLASS_NAME';
     public const string HEAD_CONTROLLER_CLASS_METHOD_NAME = 'HEAD_CONTROLLER_CLASS_METHOD_NAME';
 
-    public const string PAGE_TITLE = "pageTitle";
-
-
-    public function head(Request $request, SessionInterface $session,SessionAndMethodChecker $sessionAndMethodChecker): Response
+    public function head(Request                  $request,
+                         SessionInterface         $session,
+                         SessionAndMethodChecker  $sessionAndMethodChecker,
+                         EventDispatcherInterface $eventDispatcher): Response
     {
 
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request),
+            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
+        );
 
         if (
             $sessionAndMethodChecker->checkSessionVariablesAndMethod(
@@ -38,17 +44,8 @@ class PanelHeadController extends EnhancedAbstractController
             $session->set(self::HEAD_CONTROLLER_CLASS_METHOD_NAME, null);
 
         }
-        /*
         else {
-
-
-            $response = $this->render(
-                'common/ui/panel/head/head.html.twig',
-                ['page_title' => $session->get(PanelHeadController::PAGE_TITLE)]
-            );
-        }
-        */
-        else {
+         // To be on safe side
             $response = new Response();
         }
 

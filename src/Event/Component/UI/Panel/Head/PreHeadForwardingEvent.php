@@ -1,8 +1,7 @@
 <?php
 
-namespace Silecust\WebShop\Event\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Event\Component\UI\Panel\Head;
 
-use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -24,7 +23,7 @@ class PreHeadForwardingEvent extends Event
 
     public function setPageTitle(string $pageTitle): void
     {
-        $this->request->getSession()->set(PanelHeadController::PAGE_TITLE, $pageTitle);
+        $this->request->attributes->set('page_title', $pageTitle);
     }
 
 

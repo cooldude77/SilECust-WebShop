@@ -3,7 +3,8 @@
 
 namespace Silecust\WebShop\EventSubscriber\Admin\Common;
 
-use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
+use Psr\Log\LoggerInterface;
+use Silecust\WebShop\Event\Component\UI\Panel\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
@@ -13,14 +14,13 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\Common\AdminTitle;
 use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
 {
     public function __construct(private AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder,
         private AdminTitle $adminTitle,
-        private readonly LoggerInterface $logger
+        private LoggerInterface $logger
     ) {
     }
 

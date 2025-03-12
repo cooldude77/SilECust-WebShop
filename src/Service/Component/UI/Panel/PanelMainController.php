@@ -2,13 +2,13 @@
 
 namespace Silecust\WebShop\Service\Component\UI\Panel;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Exception\Component\UI\BaseTemplateNotFoundPanelMainException;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +16,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Twig\Environment;
 
 /**
- *  The panels logic will flow through this controller
- *  The main panel will display header, content, sidebar, footer
- *  The content panel will contain the actual route called
+ *  1. The panels logic will flow through this controller. The main panel will display header, content, sidebar, footer
+ *  2. The individual components header/footer etc. will need to extend their base templates
+ *  3. Inheritance will not work across complete page(other than on topmost level)  but on an individual component level
+ *      like you have header.html.twig extend base_header.html.twig
+ *  4. Since redirecting is not possible in twig, any redirecting instruction from a template will be handled here
  */
 class PanelMainController extends EnhancedAbstractController
 {
@@ -33,6 +35,8 @@ class PanelMainController extends EnhancedAbstractController
      *
      * The twig template has panels for header,content, sidebar and footer
      * @throws BaseTemplateNotFoundPanelMainException
+     *
+     *
      */
     public function main(Request $request, Environment $environment): Response
     {

@@ -2,17 +2,15 @@
 
 namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\FooterController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeadController;
-use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,14 +19,8 @@ class MainController extends EnhancedAbstractController
 {
 
     #[Route('/admin', name: 'admin_panel')]
-    public function admin(Request $request,
-        EventDispatcherInterface $eventDispatcher
+    public function admin(Request $request
     ): Response {
-
-        $eventDispatcher->dispatch(
-            new PreHeadForwardingEvent($request),
-            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
-        );
 
 
         $session = $request->getSession();

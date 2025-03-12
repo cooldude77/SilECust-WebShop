@@ -2,6 +2,7 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Shop;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\ContentController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\FooterController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeadController;
@@ -13,7 +14,6 @@ use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -80,6 +80,8 @@ class MainController extends EnhancedAbstractController
             '@SilecustWebShop/module/web_shop/external/shop/page/web_shop_home_page.html.twig'
         );
 
+        $request->attributes->set('page_title', 'Silecust Web Shop Home Page - Demo');
+        
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 
     }
