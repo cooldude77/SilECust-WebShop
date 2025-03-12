@@ -16,7 +16,8 @@ class MainControllerTest extends WebTestCase
         // visit home , not logged in
         $this->browser()
             ->visit('/')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertSeeIn('title', 'Silecust Web Shop Home Page - Demo');
 
         //    ->assertSeeElement('a#logo-home-link');
 
