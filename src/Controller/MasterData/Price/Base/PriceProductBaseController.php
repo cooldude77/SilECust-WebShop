@@ -3,16 +3,17 @@
 namespace Silecust\WebShop\Controller\MasterData\Price\Base;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\PriceProductBase;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use Silecust\WebShop\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper;
 use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseCreateForm;
 use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseEditForm;
 use Silecust\WebShop\Repository\PriceProductBaseRepository;
 use Silecust\WebShop\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -144,7 +145,7 @@ class PriceProductBaseController extends EnhancedAbstractController
 
         $listGrid = ['title' => 'Price',
             'link_id' => 'id-price',
-            'function'=>'price_product_base',
+            'function' => 'price_product_base',
             'columns' => [
                 ['label' => 'Price',
                     'propertyName' => 'price',
@@ -174,6 +175,9 @@ class PriceProductBaseController extends EnhancedAbstractController
         );
     }
 
+    /**
+     * @throws PriceProductBaseNotFound
+     */
     #[Route('/admin/price/product/base/{id}/fetch', name: 'price_product_base_fetch')]
     public function fetch(int                        $id, ProductRepository $productRepository,
                           PriceProductBaseRepository $priceProductBaseRepository
@@ -184,6 +188,9 @@ class PriceProductBaseController extends EnhancedAbstractController
         $product = $productRepository->find($id);
         /** @var PriceProductBase $price */
         $price = $priceProductBaseRepository->findOneBy(['product' => $product]);
+
+        if ($price == null)
+            throw new PriceProductBaseNotFound($product);
 
         return new JsonResponse(['price' => $price->getPrice(),
             'currency' => $price->getCurrency()

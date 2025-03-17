@@ -30,7 +30,8 @@
     "knplabs/knp-paginator-bundle": "^6.6",
     "symfony/form": "7.2.*",
     "symfony/ux-autocomplete": "^2.23",
-    "symfony/password-hasher": "7.2.*"
+    "symfony/password-hasher": "7.2.*",
+    "gglnx/twig-try-catch": "^1.0"
   },
   "autoload": {
     "psr-4": {
