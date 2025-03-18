@@ -1,9 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components;
+namespace Silecust\WebShop\Controller\Module\WebShop\External\Common\Components;
 
-use Silecust\WebShop\Form\Module\WebShop\External\Shop\HeaderSearchForm;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Form\Module\WebShop\External\Shop\HeaderSearchForm;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

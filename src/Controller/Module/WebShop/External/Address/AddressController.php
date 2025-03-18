@@ -2,7 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Address;
 
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
@@ -24,7 +25,6 @@ use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSave
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

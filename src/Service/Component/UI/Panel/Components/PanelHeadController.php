@@ -44,8 +44,16 @@ class PanelHeadController extends EnhancedAbstractController
             $session->set(self::HEAD_CONTROLLER_CLASS_METHOD_NAME, null);
 
         }
+       /*
         else {
-         // To be on safe side
+
+
+            $response = $this->render(
+                'common/ui/panel/head/head.html.twig'
+            );
+        }
+        */
+        else {
             $response = new Response();
         }
 
