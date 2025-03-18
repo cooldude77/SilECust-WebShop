@@ -2,15 +2,19 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Product;
 
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\SideBarController;
 use Silecust\WebShop\Event\Module\WebShop\External\Product\ProductListingQueryEvent;
 use Silecust\WebShop\Form\Module\WebShop\External\Product\WebShopProductSorter;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,11 +33,27 @@ class ProductController extends EnhancedAbstractController
         $session = $request->getSession();
 
         $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
+        );
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_METHOD_NAME,
+            'head'
+        );
+
+        $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
         );
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
+        );
+
+        $session->set(
+            PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_NAME, SideBarController::class
+        );
+        $session->set(
+            PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_METHOD_NAME,
+            'sideBar'
         );
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, self::class
@@ -44,7 +64,7 @@ class ProductController extends EnhancedAbstractController
         );
         $session->set(
             PanelMainController::BASE_TEMPLATE,
-            '@SilecustWebShop/module/web_shop/external/base/base.html.twig'
+            '@SilecustWebShop/module/web_shop/external/product/page/single_product_display_page.html.twig'
         );
 
         $request->query->set('name', $name);

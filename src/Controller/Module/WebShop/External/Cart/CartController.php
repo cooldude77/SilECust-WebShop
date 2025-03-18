@@ -2,7 +2,10 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Cart;
 
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
@@ -24,9 +27,6 @@ use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionPro
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-use Doctrine\Common\Collections\ArrayCollection;
-use Exception;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -3,7 +3,7 @@
 namespace Silecust\WebShop\Controller\Home;
 
 // ...
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\MainController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Shop\HomePageController;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class HomeController extends EnhancedAbstractController
     #[Route('/', name: 'home')]
     public function home( Request $request): Response
     {
-        return $this->forward(MainController::class.'::'.'shop',['request'=>$request]);
+        return $this->forward(HomePageController::class.'::'.'shop',['request'=>$request]);
     }
 
 }

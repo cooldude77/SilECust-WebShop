@@ -2,23 +2,24 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Shop;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\FooterController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\SideBarController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Product\ProductController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\ContentController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\FooterController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeadController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\SideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class MainController extends EnhancedAbstractController
+class HomePageController extends EnhancedAbstractController
 {
 
     /**
@@ -60,7 +61,7 @@ class MainController extends EnhancedAbstractController
         );
 
         $session->set(
-            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class
+            PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, static::class
         );
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
@@ -84,4 +85,16 @@ class MainController extends EnhancedAbstractController
 
     }
 
+    public function content(Request $request): Response
+    {
+
+        if ($request->query->get('searchTerm')) {
+            return $this->forward(ProductController::class . '::' . 'listBySearchTerm', ['request'
+                => $request]
+            );
+        } else {
+            return $this->forward(ProductController::class . '::' . 'list', ['request' => $request]
+            );
+        }
+    }
 }

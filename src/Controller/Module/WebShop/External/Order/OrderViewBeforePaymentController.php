@@ -2,7 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Order;
 
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\HeaderController;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderViewEvent;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -11,7 +12,6 @@ use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

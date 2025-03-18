@@ -2,20 +2,24 @@
 Single product content fragment
     Includes add to cart button
 #}
-<div id="product-name">
+
+<h1 id="product-name">
     {{ product.name }}
-</div>
-<div id="product-description">
+</h1>
+<h2 id="product-description">
     {{ product.description }}
-</div>
-<div><img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
-          alt="{{ product.description }}"/>
+</h2>
+<div class="row">
+    <div class="col-1">
+        <img src="{{ path( 'product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+             alt="{{ product.description }}"/>
+    </div>
 </div>
 <div>
     {{ product.longDescription }}
 </div>
 
-{% include '@SilecustWebShop/master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id}%}
+{% include '@SilecustWebShop/master_data/price/base_product/price_product_base_fetch.html.twig' with {'id':product.id} %}
 
 <div id="cart-form">
     {{ render(controller('Silecust\\WebShop\\Controller\\Module\\WebShop\\External\\Cart\\CartController::addToCart',
