@@ -7,6 +7,15 @@ Provides basic structure for the page
     {# head block  #}
     {% block head %}
     {% endblock %}
+    <title>
+        {% block page_title %}
+            {% if request.attributes.get('page_title') is defined %}
+                {{ request.attributes.get('page_title') }}
+            {% else %}
+                {{ 'This page doesn\'t have a title' }}
+            {% endif %}
+        {% endblock %}
+    </title>
 </head>
 <body class="vh-100">
 {# body #}

@@ -26,7 +26,7 @@ class ProductController extends EnhancedAbstractController
 
 
     #[Route('/product/{name}', name: 'web_shop_product_single_display')]
-    public function mainPage($name, Request $request):
+    public function mainPage($name, ProductRepository $productRepository, Request $request):
     Response
     {
 
@@ -67,7 +67,10 @@ class ProductController extends EnhancedAbstractController
             '@SilecustWebShop/module/web_shop/external/product/page/single_product_display_page.html.twig'
         );
 
-        $request->query->set('name', $name);
+        $request->attributes->set('product_name', $name);
+
+        $product = $productRepository->findOneBy(['name' => $name]);
+        $request->attributes->set('page_title', $product->getName());
 
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
 
@@ -77,7 +80,8 @@ class ProductController extends EnhancedAbstractController
     public function single(ProductRepository $productRepository, Request $request): Response
     {
 
-        $product = $productRepository->findOneBy(['name' => $request->query->get('name')]);
+        $product = $productRepository->findOneBy(['name' => $request->attributes->get('product_name')]);
+
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/product/single_product.html.twig',
             ['product' => $product]

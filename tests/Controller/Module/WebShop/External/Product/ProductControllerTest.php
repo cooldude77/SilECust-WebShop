@@ -12,7 +12,6 @@ use Silecust\WebShop\Tests\Fixtures\ProductFixture;
 use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
 use Silecust\WebShop\Tests\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 
@@ -29,9 +28,32 @@ class ProductControllerTest extends WebTestCase
         OrderFixture,
         SessionFactoryFixture,
         Factories;
+
     protected function setUp(): void
     {
         $this->browser()->visit('/logout');
+
+
+    }
+
+    public function testDisplaySingleProduct()
+    {
+        $this->createCustomerFixtures();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createOpenOrderFixtures($this->customer);
+        $uri = "/product/{$this->productA->getName()}";
+
+        // From the product page, click on add to cart button
+        $this->browser()
+            // don't allow cart when user is not logged in
+            // not logged-in
+            ->visit($uri)
+            ->assertSuccessful()
+            ->interceptRedirects()
+            ->assertSeeIn("title", $this->productA->getName());
 
 
     }
@@ -45,7 +67,7 @@ class ProductControllerTest extends WebTestCase
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
         $this->createOpenOrderFixtures($this->customer);
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductA = " / cart / product / " . $this->productA->getId() . '/add';
 
         // From the product page, click on add to cart button
         $this->browser()
