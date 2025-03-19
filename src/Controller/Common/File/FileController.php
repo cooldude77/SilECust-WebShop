@@ -34,7 +34,7 @@ class FileController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/file/create', name: 'file_create')]
+    #[Route('/file/create', name: 'sc_file_create')]
     public function create(EntityManagerInterface $entityManager, FileDTOMapper $fileDTOMapper,
         FilePhysicalOperation $filePhysicalOperation,
         FileDirectoryPathProvider $directoryPathProvider, Request $request
@@ -85,7 +85,7 @@ class FileController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/file/edit/{id}', name: 'file_edit')]
+    #[Route('/file/edit/{id}', name: 'sc_file_edit')]
     public function edit(int $id, EntityManagerInterface $entityManager,
         FileRepository $fileRepository, FileDTOMapper $fileDTOMapper,
         FilePhysicalOperation $filePhysicalOperation,
@@ -135,7 +135,7 @@ class FileController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/file/list', name: 'file_list')]
+    #[Route('/file/list', name: 'sc_file_list')]
     public function list(FileRepository $fileRepository): Response
     {
 
@@ -164,7 +164,7 @@ class FileController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/file/display/{id}', name: 'file_display')]
+    #[Route('/file/display/{id}', name: 'sc_file_display')]
     public function display(FileRepository $fileRepository, int $id): Response
     {
         $file = $fileRepository->find($id);
@@ -196,7 +196,7 @@ class FileController extends EnhancedAbstractController
      *
      * To be used to fetch image with just URL
      */
-    #[Route('/file/fetch/{id}', name: 'file_fetch')]
+    #[Route('/file/fetch/{id}', name: 'sc_file_fetch')]
     public function fetch(int $id, FileRepository $fileRepository,
         FileDirectoryPathProvider $directoryPathProvider, FilePhysicalOperation $fileService
     ): Response {
@@ -222,7 +222,7 @@ class FileController extends EnhancedAbstractController
      *
      * To be used in IMG tag (in display and edit templates)
      */
-    #[Route('/file/path/{id}', name: 'image_file_for_img_tag')]
+    #[Route('/file/path/{id}', name: 'sc_image_file_for_img_tag')]
     public function getFileContentsById(int $id, FileRepository $fileRepository,
         FileDirectoryPathProvider $directoryPathProvider
     ): Response {

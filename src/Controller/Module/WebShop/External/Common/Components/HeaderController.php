@@ -21,7 +21,7 @@ class HeaderController extends EnhancedAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $searchTerm = $form->get('searchTerm')->getData();
-            $redirectUrl = $this->generateUrl('home', ['searchTerm' => $searchTerm]);
+            $redirectUrl = $this->generateUrl('sc_home', ['searchTerm' => $searchTerm]);
 
             return new RedirectResponse($redirectUrl);
         }

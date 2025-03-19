@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends EnhancedAbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'sc_home')]
     public function home( Request $request): Response
     {
         return $this->forward(HomePageController::class.'::'.'shop',['request'=>$request]);

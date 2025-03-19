@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoryController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/category/create', 'sc_route_admin_category_create')]
+    #[Route('/admin/category/create', name: 'sc_route_admin_category_create')]
     public function create(CategoryDTOMapper      $categoryDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,

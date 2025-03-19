@@ -41,9 +41,9 @@ class AddressController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/checkout/addresses', name: 'web_shop_checkout_addresses')]
-    #[Route('/checkout/address/create', name: 'web_shop_checkout_address_create')]
-    #[Route('/checkout/addresses/choose', name: 'web_shop_checkout_choose_address_from_list')]
+    #[Route('/checkout/addresses', name: 'sc_web_shop_checkout_addresses')]
+    #[Route('/checkout/address/create', name: 'sc_web_shop_checkout_address_create')]
+    #[Route('/checkout/addresses/choose', name: 'sc_web_shop_checkout_choose_address_from_list')]
     public function main(Request $request, RouterInterface $router): Response
     {
         $session = $request->getSession();
@@ -61,13 +61,13 @@ class AddressController extends EnhancedAbstractController
 
         $route = $request->get('_route');
         switch ($route) {
-            case 'web_shop_checkout_addresses':
+            case 'sc_web_shop_checkout_addresses':
                 $method = "content";
                 break;
-            case 'web_shop_checkout_address_create':
+            case 'sc_web_shop_checkout_address_create':
                 $method = "create";
                 break;
-            case 'web_shop_checkout_choose_address_from_list':
+            case 'sc_web_shop_checkout_choose_address_from_list':
                 $method = "choose";
                 break;
         }
@@ -92,7 +92,7 @@ class AddressController extends EnhancedAbstractController
         Request $request
     ): \Symfony\Component\HttpFoundation\RedirectResponse {
 
-        $ownRoute = $this->generateUrl('web_shop_checkout_addresses');
+        $ownRoute = $this->generateUrl('sc_web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
@@ -100,10 +100,10 @@ class AddressController extends EnhancedAbstractController
 
         if ($addressesShipping == null) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_create',
+                'sc_web_shop_checkout_address_create',
                 ['type' => 'shipping',
                  RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'web_shop_checkout_addresses'
+                     'sc_web_shop_checkout_addresses'
                  )]
             );
         }
@@ -113,10 +113,10 @@ class AddressController extends EnhancedAbstractController
 
         if ($addressesBilling == null) {
             return $this->redirectToRoute(
-                'web_shop_checkout_address_create',
+                'sc_web_shop_checkout_address_create',
                 ['type' => 'billing',
                  RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'web_shop_checkout_addresses'
+                     'sc_web_shop_checkout_addresses'
                  )]
             );
         }
@@ -124,19 +124,19 @@ class AddressController extends EnhancedAbstractController
         // addresses exist but not yet chosen
         if (!$checkOutAddressQuery->isShippingAddressChosen()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_choose_address_from_list', [
+                'sc_web_shop_checkout_choose_address_from_list', [
                     'type' => 'shipping',
                     RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                        'web_shop_checkout_addresses'
+                        'sc_web_shop_checkout_addresses'
                     )]
             );
         }
         if (!$checkOutAddressQuery->isBillingAddressChosen()) {
             return $this->redirectToRoute(
-                'web_shop_checkout_choose_address_from_list',
+                'sc_web_shop_checkout_choose_address_from_list',
                 ['type' => 'billing',
                  RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'web_shop_checkout_addresses'
+                     'sc_web_shop_checkout_addresses'
                  )]
             );
         }
@@ -147,7 +147,7 @@ class AddressController extends EnhancedAbstractController
                 $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
             );
         } else {
-            return $this->redirectToRoute('web_shop_view_order');
+            return $this->redirectToRoute('sc_web_shop_view_order');
         }
 
 
@@ -256,7 +256,7 @@ class AddressController extends EnhancedAbstractController
             } catch (NoAddressChosenAtCheckout $e) {
 
                 $this->addFlash('error', 'Please choose at least one address');
-                return $this->redirectToRoute('web_shop_checkout_choose_address_from_list');
+                return $this->redirectToRoute('sc_web_shop_checkout_choose_address_from_list');
 
             }
 
@@ -269,7 +269,7 @@ class AddressController extends EnhancedAbstractController
 
             );
 
-            return $this->redirectToRoute('web_shop_checkout_addresses');
+            return $this->redirectToRoute('sc_web_shop_checkout_addresses');
 
         }
 

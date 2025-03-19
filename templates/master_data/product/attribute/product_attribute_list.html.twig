@@ -11,14 +11,14 @@
                     {{ item.description }}
                 </div>
                 <div class="product-type-action-update">
-                    <a href="{{ path('product_type_update', {'type':item.type}) }}">Update</a>
+                    <a href="{{ path('sc_product_type_update', {'type':item.type}) }}">Update</a>
                 </div>
                 <div class="product-type-attributes-action-list">
-                    <a href="{{ path('product_type_attributes-list', {'type':item.type}) }}">list</a>
+                    <a href="{{ path('sc_product_type_attributes-list', {'type':item.type}) }}">list</a>
                 </div>
 
                 <div class="product-type-attributes-action-delete">
-                    <a href="{{ path('product_type_delete', {'type':item.type}) }}">Delete</a>
+                    <a href="{{ path('sc_product_type_delete', {'type':item.type}) }}">Delete</a>
                 </div>
             </li>
 

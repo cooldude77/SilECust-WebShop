@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     <div id="login-link">
-        <a class="link" id="id-link-login" href="{{ path('app_login') }}">Login</a>
+        <a class="link" id="id-link-login" href="{{ path('sc_app_login') }}">Login</a>
     </div>
     <div>
         {{ render(controller('Silecust\\WebShop\\Controller\\Security\\External\\Customer\\CustomerSignUpController::signUpAdvanced')) }}

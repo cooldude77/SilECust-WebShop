@@ -29,15 +29,15 @@ class MainController extends EnhancedAbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/my/dashboard', name: 'my_dashboard')]
-    #[Route('/my', name: 'my')]
-    #[Route('/my/profile', name: 'my_profile')]
-    #[Route('/my/orders', name: 'my_orders')]
-    #[Route('/my/personal-info', name: 'my_personal_info')]
-    #[Route('/my/addresses', name: 'my_addresses')]
-    #[Route('/my/address/create', name: 'my_address_create')]
-    #[Route('/my/orders/{id}/display', name: 'my_order_display')]
-    #[Route('/my/orders/items/{id}/display', name: 'my_order_item_display')]
+    #[Route('/my/dashboard', name: 'sc_my_dashboard')]
+    #[Route('/my', name: 'sc_my')]
+    #[Route('/my/profile', name: 'sc_my_profile')]
+    #[Route('/my/orders', name: 'sc_my_orders')]
+    #[Route('/my/personal-info', name: 'sc_my_personal_info')]
+    #[Route('/my/addresses', name: 'sc_my_addresses')]
+    #[Route('/my/address/create', name: 'sc_my_address_create')]
+    #[Route('/my/orders/{id}/display', name: 'sc_my_order_display')]
+    #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, Request $request): Response
     {
         $session = $request->getSession();

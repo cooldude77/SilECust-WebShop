@@ -147,7 +147,7 @@ class CategoryImageController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/category/{id}/image/list', name: 'category_file_image_list')]
+    #[Route('/admin/category/{id}/image/list', name: 'sc_category_file_image_list')]
     public function list(int                     $id, CategoryRepository $categoryRepository,
                          CategoryImageRepository $categoryImageRepository,
                          Request                 $request
@@ -269,7 +269,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * To be displayed in img tag
      */
-    #[Route('category/image/img-tag/{id}', name: 'category_image_file_for_img_tag')]
+    #[Route('category/image/img-tag/{id}', name: 'sc_category_image_file_for_img_tag')]
     public function getFileContentsById(int                                $id, CategoryImageRepository $categoryImageRepository,
                                         CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
     ): Response

@@ -41,7 +41,7 @@ class  CartController extends EnhancedAbstractController
     /**
      * @throws Exception
      */
-    #[Route('/cart', name: 'module_web_shop_cart')]
+    #[Route('/cart', name: 'sc_module_web_shop_cart')]
     public function main(Request $request): Response
     {
 
@@ -105,7 +105,7 @@ class  CartController extends EnhancedAbstractController
             if ($form->get('checkout')->isClicked()) {
                 // todo : check cart empty
                 // todo: check cart not updated
-                return $this->redirectToRoute('web_shop_checkout');
+                return $this->redirectToRoute('sc_web_shop_checkout');
             }
 
             /** @var ArrayCollection $array */
@@ -162,7 +162,7 @@ class  CartController extends EnhancedAbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    #[Route('/cart/product/{id}/add', name: 'module_web_shop_cart_add_product')]
+    #[Route('/cart/product/{id}/add', name: 'sc_module_web_shop_cart_add_product')]
     public function addToCart($id, ProductRepository $productRepository,
         CartSessionProductService $cartService, Request $request,
         EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
@@ -173,7 +173,7 @@ class  CartController extends EnhancedAbstractController
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button
             if (!$customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('sc_app_login');
             }
         }
 
@@ -186,7 +186,7 @@ class  CartController extends EnhancedAbstractController
 
         $form = $this->createForm(
             CartSingleEntryForm::class, $cartProductDTO,
-            ['action' => $router->generate('module_web_shop_cart_add_product', ['id' => $id])]
+            ['action' => $router->generate('sc_module_web_shop_cart_add_product', ['id' => $id])]
         );
 
         $form->handleRequest($request);
@@ -222,7 +222,7 @@ class  CartController extends EnhancedAbstractController
             );
 
 
-            return $this->redirectToRoute('module_web_shop_cart');
+            return $this->redirectToRoute('sc_module_web_shop_cart');
 
         }
 
@@ -243,7 +243,7 @@ class  CartController extends EnhancedAbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    #[Route('/cart/product/{id}/delete', name: 'module_web_shop_cart_delete_product')]
+    #[Route('/cart/product/{id}/delete', name: 'sc_module_web_shop_cart_delete_product')]
     public function delete($id, ProductRepository $productRepository,
         EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartService
@@ -261,9 +261,9 @@ class  CartController extends EnhancedAbstractController
         );
 
         if ($cartService->hasItems()) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('sc_home');
         } else {
-            return $this->redirectToRoute('module_web_shop_cart');
+            return $this->redirectToRoute('sc_module_web_shop_cart');
         }
     }
 
@@ -277,7 +277,7 @@ class  CartController extends EnhancedAbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    #[Route('/cart/clear', name: 'module_web_shop_cart_clear')]
+    #[Route('/cart/clear', name: 'sc_module_web_shop_cart_clear')]
     public function clear(EventDispatcherInterface $eventDispatcher,
         CustomerFromUserFinder $customerFromUserFinder, CartSessionProductService $cartService
     ): Response {
@@ -291,7 +291,7 @@ class  CartController extends EnhancedAbstractController
         );
 
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('sc_home');
 
     }
 

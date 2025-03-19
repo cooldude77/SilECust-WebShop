@@ -30,7 +30,7 @@ class OrderViewBeforePaymentController extends EnhancedAbstractController
      *  Create Order after checkout and before payment.
      *  Payment info to be added later
      */
-    #[Route('/checkout/order/view', 'web_shop_view_order')]
+    #[Route('/checkout/order/view', name: 'sc_web_shop_view_order')]
     public function view(Request $request): Response
     {
 

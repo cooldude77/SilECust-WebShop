@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductTypeController extends EnhancedAbstractController
 {
-    #[Route('/admin/product/type/create', name: 'product_type_create')]
+    #[Route('/admin/product/type/create', name: 'sc_product_type_create')]
     public function create(ProductTypeDTOMapper $mapper, EntityManagerInterface $entityManager,
         Request $request
     ): Response {
@@ -54,7 +54,7 @@ class ProductTypeController extends EnhancedAbstractController
     }
 
 
-  #[Route('/admin/product/type/{id}/edit', name: 'product_type_edit')]
+  #[Route('/admin/product/type/{id}/edit', name: 'sc_product_type_edit')]
     public function edit(
         int $id,
         ProductTypeDTOMapper $mapper, EntityManagerInterface $entityManager,
@@ -94,7 +94,7 @@ class ProductTypeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/product/type/list', name: 'product_type_list')]
+    #[Route('/admin/product/type/list', name: 'sc_product_type_list')]
     public function list(ProductTypeRepository $productTypeRepository,Request $request): Response
     {
 

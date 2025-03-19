@@ -24,7 +24,7 @@ class CustomerAddressController extends EnhancedAbstractController
     /**
      * @throws AddressTypeNotProvided
      */
-    #[Route('/admin/customer/{id}/address/create', name: 'customer_address_create')]
+    #[Route('/admin/customer/{id}/address/create', name: 'sc_customer_address_create')]
     public function create(int                    $id, CustomerAddressDTOMapper $mapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
@@ -76,7 +76,7 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/address/{id}/edit', name: 'customer_address_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/address/{id}/edit', name: 'sc_customer_address_edit')]
     public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
                          EntityManagerInterface    $entityManager,
                          CustomerAddressRepository $customerAddressRepository, Request $request
@@ -122,7 +122,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/customer/address/{id}/display', name: 'customer_address_display')]
+    #[Route('/admin/customer/address/{id}/display', name: 'sc_customer_address_display')]
     public function display(CustomerAddressRepository $customerAddressRepository, int $id): Response
     {
         $customerAddress = $customerAddressRepository->find($id);
@@ -147,7 +147,7 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/customer/{id}/address/list', name: 'customer_address_list')]
+    #[Route('/admin/customer/{id}/address/list', name: 'sc_customer_address_list')]
     public function list(int                       $id,
                          CustomerAddressRepository $customerAddressRepository,
                          Request                   $request,

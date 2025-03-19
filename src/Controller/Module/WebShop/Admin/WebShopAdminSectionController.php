@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebShopAdminSectionController extends EnhancedAbstractController
 {
-    #[Route('/web-shop/section/create', name: 'module_web_shop_section_create')]
+    #[Route('/web-shop/section/create', name: 'sc_module_web_shop_section_create')]
     public function createWebShopSection(EntityManagerInterface $entityManager,
                                          WebShopSectionDTOMapper $webShopSectionDTOMapper,
                                   Request $request)

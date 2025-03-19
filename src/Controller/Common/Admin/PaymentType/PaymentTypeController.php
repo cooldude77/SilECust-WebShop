@@ -58,7 +58,7 @@ class PaymentTypeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/payment_type/{id}/edit', name: 'payment_type_edit')]
+    #[Route('/payment_type/{id}/edit', name: 'sc_payment_type_edit')]
     public function edit(EntityManagerInterface $entityManager,
         PaymentTypeRepository $paymentTypeRepository, PaymentTypeDTOMapper $paymentTypeDTOMapper, Request $request,
         int $id
@@ -101,7 +101,7 @@ class PaymentTypeController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/common/payment_type/payment_type_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/payment_type/{id}/display', name: 'payment_type_display')]
+    #[Route('/payment_type/{id}/display', name: 'sc_payment_type_display')]
     public function display(PaymentTypeRepository $paymentTypeRepository, int $id): Response
     {
         $paymentType = $paymentTypeRepository->find($id);
@@ -125,7 +125,7 @@ class PaymentTypeController extends EnhancedAbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/payment_type/list', name: 'payment_type_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/payment_type/list', name: 'sc_payment_type_list')]
     public function list(PaymentTypeRepository $paymentTypeRepository,PaginatorInterface $paginator,
     Request $request):
     Response

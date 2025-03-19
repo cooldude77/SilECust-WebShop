@@ -5,7 +5,7 @@
 
     {% if form.items is defined and form.items| length >0 %}
         <div class="row-flex mr-auto">
-            <a class="btn btn-link" href="{{ path('module_web_shop_cart_clear') }}">
+            <a class="btn btn-link" href="{{ path('sc_module_web_shop_cart_clear') }}">
                 <i class="bi bi-trash"></i>Clear Cart
             </a>
         </div>
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="{{ path('module_web_shop_cart_delete_product',{'id':element.productId.vars.value}) }}">
+                    <a href="{{ path('sc_module_web_shop_cart_delete_product',{'id':element.productId.vars.value}) }}">
                         <i class="bi bi-trash"></i>
                     </a>
                 </div>

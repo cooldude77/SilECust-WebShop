@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TaxSlabController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/tax-slab/create', 'sc_route_admin_tax_slab_create')]
+    #[Route('/admin/tax-slab/create', name: 'sc_route_admin_tax_slab_create')]
     public function create(TaxSlabDTOMapper      $taxSlabDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,

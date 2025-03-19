@@ -34,7 +34,7 @@ class HomePageController extends EnhancedAbstractController
     {
 
 
-        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'home');
+        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'sc_home');
 
         $session->set(
             PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_NAME, SideBarController::class

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class PaymentTypeController extends EnhancedAbstractController
 {
 
-    #[Route('/web_shop/payment', 'web_shop_payment')]
+    #[Route('/web_shop/payment',name:  'sc_web_shop_payment')]
     public function payment(EntityManagerInterface $entityManager, PaymentService $paymentService,
         Request $request
     ): Response {

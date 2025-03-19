@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CurrencyController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/currency/create', 'sc_route_admin_currency_create')]
+    #[Route('/admin/currency/create', name: 'sc_route_admin_currency_create')]
     public function create(
         CountryRepository $countryRepository,
         CurrencyDTOMapper      $currencyDTOMapper,

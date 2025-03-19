@@ -25,7 +25,7 @@ class ProductController extends EnhancedAbstractController
 {
 
 
-    #[Route('/product/{name}', name: 'web_shop_product_single_display')]
+    #[Route('/product/{name}', name: 'sc_web_shop_product_single_display')]
     public function mainPage($name, Request $request):
     Response
     {
@@ -115,7 +115,7 @@ class ProductController extends EnhancedAbstractController
 
             $queryParams = $this->mergeQueryParameters($request, $sortForm);
 
-            return $this->redirectToRoute('home', $queryParams);
+            return $this->redirectToRoute('sc_home', $queryParams);
         }
 
         return $this->render(

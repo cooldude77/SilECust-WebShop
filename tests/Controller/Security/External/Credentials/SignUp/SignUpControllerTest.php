@@ -56,7 +56,7 @@ class SignUpControllerTest extends WebTestCase
      */
     public function testSignUpAdvanced()
     {
-        $createUrl = '/signup/advanced?_redirect_after_success=home';
+        $createUrl = '/signup/advanced?_redirect_after_success=/';
 
 
         $this->browser()->visit($createUrl)

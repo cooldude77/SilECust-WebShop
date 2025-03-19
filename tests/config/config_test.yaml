@@ -40,7 +40,9 @@ services:
     class: Silecust\WebShop\Service\MasterData\Product\ProductSearch
   product.search:
     alias: product_search_service
-
+  Silecust\WebShop\EventListener\ExceptionListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
   twig_try_catch_extension:
     class: 'Gglnx\TwigTryCatch\Extension\TryCatchExtension'
     tags:

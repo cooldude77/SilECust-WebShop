@@ -30,7 +30,7 @@ class SignUpController extends EnhancedAbstractController
      *
      * To be called when user quickly wants to sign up
      */
-    #[Route('/signup', name: 'user_customer_sign_up')]
+    #[Route('/signup', name: 'sc_user_customer_sign_up')]
     public function signUp(Request $request,
         CustomerService $customerService,
         SignUpDTOMapper $signUpDTOMapper,
@@ -61,7 +61,7 @@ class SignUpController extends EnhancedAbstractController
 
             // do anything else you need here, like send an email
             if ($request->get('_redirect_after_success') == null) {
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('sc_home');
             } else {
                 return $this->redirectToRoute($request->get('_redirect_after_success'));
             }
@@ -82,7 +82,7 @@ class SignUpController extends EnhancedAbstractController
      *
      * To be called when user is willing to add extra details for example from a checkout form
      */
-    #[Route('/signup/advanced', name: 'user_customer_sign_up_advanced')]
+    #[Route('/signup/advanced', name: 'sc_user_customer_sign_up_advanced')]
     // Todo: Make redirect_after_success mandatory in route
     public function signUpAdvanced(CustomerDTOMapper $customerDTOMapper,
         EntityManagerInterface $entityManager, Request $request
@@ -113,7 +113,7 @@ class SignUpController extends EnhancedAbstractController
                 'success', "Sign Up Successful"
             );
 
-            return $this->redirectToRoute($request->get('_redirect_after_success'));
+            return $this->redirect($request->get('_redirect_after_success'));
 
         }
 

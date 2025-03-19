@@ -32,7 +32,7 @@ class ResetPasswordController extends EnhancedAbstractController
      * Display & process form to request a password reset.
      * @throws TransportExceptionInterface
      */
-    #[Route('', name: 'app_forgot_password_request')]
+    #[Route('', name: 'sc_app_forgot_password_request')]
     public function request(Request             $request,
                             #[Autowire(param: 'silecust.sign_up.email.email_from_address')]
                             string              $fromAddress,
@@ -63,7 +63,7 @@ class ResetPasswordController extends EnhancedAbstractController
     /**
      * Confirmation page after a user has requested a password reset.
      */
-    #[Route('/check-email', name: 'app_check_email')]
+    #[Route('/check-email', name: 'sc_app_check_email')]
     public function checkEmail(ResetPasswordHelperInterface $resetPasswordHelper): Response
     {
         // Generate a fake token if the user does not exist or someone hit this page directly.
@@ -80,7 +80,7 @@ class ResetPasswordController extends EnhancedAbstractController
     /**
      * Validates and process the reset URL that the user clicked in their email.
      */
-    #[Route('/reset/{token}', name: 'app_reset_password')]
+    #[Route('/reset/{token}', name: 'sc_app_reset_password')]
     public function reset(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
@@ -94,7 +94,7 @@ class ResetPasswordController extends EnhancedAbstractController
             // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
             $this->storeTokenInSession($token);
 
-            return $this->redirectToRoute('app_reset_password');
+            return $this->redirectToRoute('sc_app_reset_password');
         }
 
         $token = $this->getTokenFromSession();
@@ -113,7 +113,7 @@ class ResetPasswordController extends EnhancedAbstractController
                 $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
             ));
 
-            return $this->redirectToRoute('app_forgot_password_request');
+            return $this->redirectToRoute('sc_app_forgot_password_request');
         }
 
         // The token is valid; allow the user to change their password.
@@ -136,7 +136,7 @@ class ResetPasswordController extends EnhancedAbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('sc_home');
         }
 
         return $this->render('@SilecustWebShop/reset_password/reset.html.twig', [
@@ -161,7 +161,7 @@ class ResetPasswordController extends EnhancedAbstractController
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
-            return $this->redirectToRoute('app_check_email');
+            return $this->redirectToRoute('sc_app_check_email');
         }
 
         try {
@@ -177,7 +177,7 @@ class ResetPasswordController extends EnhancedAbstractController
             //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
             // ));
 
-            return $this->redirectToRoute('app_check_email');
+            return $this->redirectToRoute('sc_app_check_email');
         }
 
         $email = (new TemplatedEmail())
@@ -194,6 +194,6 @@ class ResetPasswordController extends EnhancedAbstractController
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);
 
-        return $this->redirectToRoute('app_check_email');
+        return $this->redirectToRoute('sc_app_check_email');
     }
 }

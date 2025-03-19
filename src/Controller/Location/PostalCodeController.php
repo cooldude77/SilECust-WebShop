@@ -126,7 +126,7 @@ class PostalCodeController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/postal_code/city/{id}/list', name: 'postal_code_list')]
+    #[Route('/admin/postal_code/city/{id}/list', name: 'sc_postal_code_list')]
     public function list(City $city, PostalCodeRepository $postalCodeRepository, Request $request, PaginatorInterface $paginator): Response
     {
 

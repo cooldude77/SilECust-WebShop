@@ -21,7 +21,7 @@ class PriceProductTaxController extends EnhancedAbstractController
 {
 
 
-    #[Route('/admin/tax-slab/create', 'sc_route_admin_price_product_tax_create')]
+    #[Route('/admin/tax-slab/create', name: 'sc_route_admin_price_product_tax_create')]
     public function create(PriceProductTaxDTOMapper $priceProductTaxDTOMapper,
                            EntityManagerInterface   $entityManager,
                            Request                  $request,

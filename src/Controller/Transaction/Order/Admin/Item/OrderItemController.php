@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderItemController extends EnhancedAbstractController
 {
-    #[Route('/order/{id}/item/create', name: 'order_item_create')]
+    #[Route('/order/{id}/item/create', name: 'sc_order_item_create')]
     public function create(int                         $id, EntityManagerInterface $entityManager,
                            OrderItemDTOMapper          $orderItemMapper,
                            OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
@@ -71,7 +71,7 @@ class OrderItemController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/order/item/{id}/edit', name: 'order_item_edit')]
+    #[Route('/order/item/{id}/edit', name: 'sc_order_item_edit')]
     public function edit(int                         $id,
                          OrderItemDTOMapper          $mapper,
                          EntityManagerInterface      $entityManager,
@@ -118,7 +118,7 @@ class OrderItemController extends EnhancedAbstractController
 
     }
 
-    #[Route('/order/item/{id}/display', name: 'order_item_display')]
+    #[Route('/order/item/{id}/display', name: 'sc_order_item_display')]
     public function display(OrderItemRepository $OrderItemRepository, int $id, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
@@ -138,7 +138,7 @@ class OrderItemController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/order/{id}/item/list', name: 'order_item_list')]
+    #[Route('/order/{id}/item/list', name: 'sc_order_item_list')]
     public function list(int                      $id,
                          EventDispatcherInterface $eventDispatcher,
                          PaginatorInterface       $paginator,

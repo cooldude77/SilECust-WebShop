@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CityController extends EnhancedAbstractController
 {
-    #[Route('/admin/city/state/{id}/create', 'sc_route_admin_city_create')]
+    #[Route('/admin/city/state/{id}/create', name: 'sc_route_admin_city_create')]
     public function create(State                  $state,
                            CityDTOMapper          $cityDTOMapper,
                            EntityManagerInterface $entityManager, Request $request

@@ -146,7 +146,7 @@ class ProductController extends EnhancedAbstractController
     /**
      * @throws QueryException
      */
-    #[Route('/admin/product/list', name: 'product_list')]
+    #[Route('/admin/product/list', name: 'sc_product_list')]
     public function list(ProductRepository     $productRepository,
                          PaginatorInterface    $paginator,
                          #[Autowire(service: 'product.search')]

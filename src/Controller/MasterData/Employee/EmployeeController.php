@@ -62,7 +62,7 @@ class EmployeeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/employee/{id}/edit', name: 'employee_edit')]
+    #[Route('/admin/employee/{id}/edit', name: 'sc_employee_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          EmployeeRepository     $employeeRepository,
                          EmployeeDTOMapper      $employeeDTOMapper,
@@ -113,7 +113,7 @@ class EmployeeController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/master_data/employee/employee_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/employee/{id}/display', name: 'employee_display')]
+    #[Route('/admin/employee/{id}/display', name: 'sc_employee_display')]
     public function display(EmployeeRepository $employeeRepository, int $id): Response
     {
         $employee = $employeeRepository->find($id);
@@ -137,7 +137,7 @@ class EmployeeController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/employee/list', name: 'employee_list')]
+    #[Route('/admin/employee/list', name: 'sc_employee_list')]
     public function list(EmployeeRepository $employeeRepository, Request $request): Response
     {
 

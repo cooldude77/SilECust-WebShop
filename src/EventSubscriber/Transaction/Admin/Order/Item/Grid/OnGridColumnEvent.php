@@ -44,7 +44,7 @@ class OnGridColumnEvent implements EventSubscriberInterface
                 if ($route['_route'] == 'my_order_display')
                     $column['value'] = $this->router->generate('my_order_item_display', ['id' => $entity->getId()]);
                 else
-                    $column['value'] = $this->router->generate('admin_panel', [
+                    $column['value'] = $this->router->generate('sc_admin_panel', [
                         '_function' => 'order_item',
                         '_type' => 'display',
                         'id' => $entity->getId()]);

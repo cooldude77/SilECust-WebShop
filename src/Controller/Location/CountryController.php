@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CountryController extends EnhancedAbstractController
 {
-    #[Route('/admin/country/create', 'sc_route_admin_country_create')]
+    #[Route('/admin/country/create', name: 'sc_route_admin_country_create')]
     public function create(CountryDTOMapper       $countryDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response

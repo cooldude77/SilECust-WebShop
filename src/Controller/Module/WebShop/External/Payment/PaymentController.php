@@ -27,7 +27,7 @@ class PaymentController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/payment/order/{generatedId}/start', 'web_shop_payment_start')]
+    #[Route('/payment/order/{generatedId}/start', name: 'sc_web_shop_payment_start')]
     public function startPayment(
         string                   $generatedId,
         EventDispatcherInterface $eventDispatcher,
@@ -56,7 +56,7 @@ class PaymentController extends EnhancedAbstractController
     }
 
 
-    #[Route('/payment/order/{generatedId}/success', 'web_shop_payment_success')]
+    #[Route('/payment/order/{generatedId}/success', name:'sc_web_shop_payment_success')]
     public function onPaymentSuccess(EventDispatcherInterface $eventDispatcher,
                                      string                   $generatedId,
                                      OrderRead                $orderRead,
@@ -77,7 +77,7 @@ class PaymentController extends EnhancedAbstractController
             $this->addFlash('success', 'Your payment was successful');
             $this->addFlash('success', 'Your order was created and is in under process');
 
-            return $this->redirectToRoute('module_web_shop_order_complete_details',
+            return $this->redirectToRoute('sc_module_web_shop_order_complete_details',
                 ['generatedId' => $orderHeader->getGeneratedId()]);
         } else {
             return new Response('There was an error in payment', 403);

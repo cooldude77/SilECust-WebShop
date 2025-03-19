@@ -14,7 +14,7 @@ class CheckOutController extends EnhancedAbstractController
 {
 
 
-    #[Route('/checkout', name: 'web_shop_checkout')]
+    #[Route('/checkout', name: 'sc_web_shop_checkout')]
     public function checkout(CustomerFromUserFinder $customerFromUserFinder,
         CartSessionProductService $cartSessionService, CheckOutAddressQuery $checkOutAddressQuery
     ): Response {
@@ -25,9 +25,9 @@ class CheckOutController extends EnhancedAbstractController
 
         if ($this->getUser() == null) {
             return $this->redirectToRoute(
-                'user_customer_sign_up',
+                'sc_user_customer_sign_up',
                 [RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                    'web_shop_checkout'
+                    'sc_web_shop_checkout'
                 )]
             );
         }
@@ -36,18 +36,18 @@ class CheckOutController extends EnhancedAbstractController
 
         if (!$cartSessionService->isInitialized() || !$cartSessionService->hasItems()) {
             // todo: add flash
-            return $this->redirectToRoute('module_web_shop_cart');
+            return $this->redirectToRoute('sc_module_web_shop_cart');
         }
 
 
         if (!$checkOutAddressQuery->isShippingAddressChosen()
             || !$checkOutAddressQuery->isBillingAddressChosen()
         ) {
-            return $this->redirectToRoute('web_shop_checkout_addresses');
+            return $this->redirectToRoute('sc_web_shop_checkout_addresses');
         }
 
 
-        return $this->redirectToRoute('web_shop_view_order');
+        return $this->redirectToRoute('sc_web_shop_view_order');
 
     }
 }

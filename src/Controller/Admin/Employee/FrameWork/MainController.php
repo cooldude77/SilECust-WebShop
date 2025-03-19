@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MainController extends EnhancedAbstractController
 {
 
-    #[Route('/admin', name: 'admin_panel')]
+    #[Route('/admin', name: 'sc_admin_panel')]
     public function admin(Request $request,
         EventDispatcherInterface $eventDispatcher
     ): Response {
@@ -33,7 +33,7 @@ class MainController extends EnhancedAbstractController
 
         $session = $request->getSession();
 
-        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'admin_panel');
+        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'sc_admin_panel');
 
         $session->set(
             PanelSideBarController::SIDE_BAR_CONTROLLER_CLASS_NAME, SideBarController::class

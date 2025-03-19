@@ -22,7 +22,7 @@
     <div class="row">
         Order Total = {{header_price_calculator.calculateOrderValue( orderObject.getOrderHeader()) }}
     </div>
-    <a class="btn btn-dark" href="{{ path('web_shop_payment_start',
+    <a class="btn btn-dark" href="{{ path('sc_web_shop_payment_start',
         {'generatedId': orderObject.getOrderHeader().getGeneratedId()}) }}">To Payment > </a>
 
 </div>

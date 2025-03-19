@@ -18,7 +18,7 @@ class CategoryController extends EnhancedAbstractController
      *
      * Sidebar hierarchy of categories
      */
-    #[Route('/shop/category/hierarchy/list', name: 'module_web_shop_category_hierarchy_list')]
+    #[Route('/shop/category/hierarchy/list', name: 'sc_module_web_shop_category_hierarchy_list')]
     public function list(CategoryRepository $categoryRepository, Request $request): Response
     {
 

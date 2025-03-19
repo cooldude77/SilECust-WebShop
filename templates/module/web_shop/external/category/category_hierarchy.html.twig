@@ -19,7 +19,7 @@
         {% for key,value in category %}
             {% if key == 'name' %}
                 <li>
-                    <a href="{{ path('home',{'category':value}) }}">{{ category.description }}</a>
+                    <a href="{{ path('sc_home',{'category':value}) }}">{{ category.description }}</a>
                 </li>
             {% elseif value is iterable %}
                 {{ _self.recursive(value) }}

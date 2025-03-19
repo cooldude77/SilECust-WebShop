@@ -18,7 +18,7 @@ class LoginManagementController extends EnhancedAbstractController
 {
 
 
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/login', name: 'sc_app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
@@ -34,7 +34,7 @@ class LoginManagementController extends EnhancedAbstractController
         );
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logout', name: 'sc_app_logout')]
     public function logout(): void
     {
         throw new LogicException(
@@ -47,7 +47,7 @@ class LoginManagementController extends EnhancedAbstractController
      * @throws UserNotAuthorized
      * @throws UserNotLoggedInException
      */
-    #[Route(path: '/where/to', name: 'user_where_to_go_after_login')]
+    #[Route(path: '/where/to', name: 'sc_user_where_to_go_after_login')]
     public function whereToAfterLogin(CustomerFromUserFinder $customerFromUserFinder,
         EmployeeFromUserFinder $employeeFromUserFinder,
     Security $security
@@ -58,9 +58,9 @@ class LoginManagementController extends EnhancedAbstractController
             throw new UserNotLoggedInException();
 
         if ($customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('sc_home');
         } elseif ($employeeFromUserFinder->isLoggedInUserAlsoAEmployee()) {
-            return $this->redirectToRoute('admin_panel', ['_function' => 'dashboard']);
+            return $this->redirectToRoute('sc_admin_panel', ['_function' => 'dashboard']);
         }
 
         throw new UserNotAuthorized($security->getUser());

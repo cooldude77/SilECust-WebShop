@@ -56,7 +56,7 @@ class WebShopAdminController extends EnhancedAbstractController
     }
 
 
-    #[Route('/web-shop/{id}/edit', name: 'web_shopedit')]
+    #[Route('/web-shop/{id}/edit', name: 'sc_web_shopedit')]
     public function edit(EntityManagerInterface $entityManager,
         WebShopRepository $webShopRepository, WebShopDTOMapper $webShopDTOMapper, Request $request,
         int $id
@@ -99,7 +99,7 @@ class WebShopAdminController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/module/web_shop/admin/web_shop/web_shop_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/web-shop/{id}/display', name: 'web_shop_display')]
+    #[Route('/web-shop/{id}/display', name: 'sc_web_shop_display')]
     public function display(WebShopRepository $webShopRepository, int $id): Response
     {
         $webShop = $webShopRepository->find($id);
@@ -123,7 +123,7 @@ class WebShopAdminController extends EnhancedAbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/web-shop/list', name: 'web_shop_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/web-shop/list', name: 'sc_web_shop_list')]
     public function list(WebShopRepository $webShopRepository, PaginatorInterface $paginator,
         Request $request
     ): Response {

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderConfirmationController extends EnhancedAbstractController
 {
-    #[Route('/order/{generatedId}/success', 'module_web_shop_order_complete_details')]
+    #[Route('/order/{generatedId}/success', name: 'sc_module_web_shop_order_complete_details')]
     public function view(Request $request,SessionInterface $session): Response
     {
 

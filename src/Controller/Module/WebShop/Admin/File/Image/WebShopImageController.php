@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebShopImageController extends EnhancedAbstractController
 {
-    #[Route('/shop/{id}/file/image/create', name: 'create_webShop_image')]
+    #[Route('/shop/{id}/file/image/create', name: 'sc_create_webShop_image')]
     public function createWebShopImage(EntityManagerInterface  $entityManager,
                                        WebShopFileImageService $webShopFileImageService,
                                        Request                 $request): Response
@@ -38,7 +38,7 @@ class WebShopImageController extends EnhancedAbstractController
 
             $entityManager->persist($webShopImageEntity);
             $entityManager->flush();
-            return $this->redirectToRoute('common/file/success_create.html.twig');
+            return $this->redirectToRoute('sc_common/file/success_create.html.twig');
 
 
         }

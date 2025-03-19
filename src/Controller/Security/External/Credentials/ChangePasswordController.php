@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ChangePasswordController extends EnhancedAbstractController
 {
 
-    #[Route(path: '/user/password/change', name: 'user_change_password')]
+    #[Route(path: '/user/password/change', name: 'sc_user_change_password')]
     public function changePassword(): Response
     {
         // todo
