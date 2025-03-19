@@ -60,7 +60,7 @@ class PostalCodeController extends EnhancedAbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            'location_data/admin/postal_code/postal_code_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/location_data/admin/postal_code/postal_code_create.html.twig', ['form' => $form]
         );
     }
 
@@ -120,7 +120,7 @@ class PostalCodeController extends EnhancedAbstractController
                 ,],]];
 
         return $this->render(
-            'location_data/admin/postal_code/postal_code_display.html.twig',
+            '@SilecustWebShop/location_data/admin/postal_code/postal_code_display.html.twig',
             ['request' => $request, 'entity' => $postalCode, 'params' => $displayParams]
         );
 

@@ -134,8 +134,8 @@ class PanelSideBarListMapBuilder
                         ],
                         // todo: implement
                         [
-                            'id' => 'finance-data',
-                            'header_text' => 'Finance Data',
+                            'id' => '@SilecustWebShop/finance-data',
+                            'header_text' => '@SilecustWebShop/finance Data',
                             'items' => [
                                 [
                                     'id' => 'currency-list',

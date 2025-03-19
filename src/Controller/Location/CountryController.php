@@ -118,7 +118,7 @@ class CountryController extends EnhancedAbstractController
                     'propertyName' => 'name'],]];
 
         return $this->render(
-            'location_data/admin/country/country_display.html.twig',
+            '@SilecustWebShop/location_data/admin/country/country_display.html.twig',
             ['request' => $request, 'entity' => $country, 'params' => $displayParams]
         );
 

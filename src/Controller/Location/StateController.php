@@ -122,7 +122,7 @@ class StateController extends EnhancedAbstractController
                     'propertyName' => 'name'],]];
 
         return $this->render(
-            'location_data/admin/state/state_display.html.twig',
+            '@SilecustWebShop/location_data/admin/state/state_display.html.twig',
             ['entity' => $state, 'params' => $displayParams]
         );
 

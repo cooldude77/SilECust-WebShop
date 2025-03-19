@@ -57,7 +57,7 @@ class CurrencyController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'finance/currency/currency_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/finance/currency/currency_create.html.twig', ['form' => $form]
         );
     }
 
@@ -98,7 +98,7 @@ class CurrencyController extends EnhancedAbstractController
             }
         }
         return $this->render(
-            'finance/currency/currency_edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/finance/currency/currency_edit.html.twig', ['form' => $form]
         );
     }
 
@@ -118,7 +118,7 @@ class CurrencyController extends EnhancedAbstractController
                     'propertyName' => 'symbol'],]];
 
         return $this->render(
-            'finance/currency/currency_display.html.twig',
+            '@SilecustWebShop/finance/currency/currency_display.html.twig',
             ['request' => $request, 'entity' => $currency, 'params' => $displayParams]
         );
 

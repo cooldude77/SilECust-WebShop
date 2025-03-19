@@ -51,7 +51,7 @@ class TaxSlabController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'finance/tax_slab/tax_slab_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/finance/tax_slab/tax_slab_create.html.twig', ['form' => $form]
         );
     }
 
@@ -99,7 +99,7 @@ class TaxSlabController extends EnhancedAbstractController
             }
         }
         return $this->render(
-            'finance/tax_slab/tax_slab_edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/finance/tax_slab/tax_slab_edit.html.twig', ['form' => $form]
         );
     }
 
@@ -124,7 +124,7 @@ class TaxSlabController extends EnhancedAbstractController
                     'propertyName' => 'description'],]];
 
         return $this->render(
-            'finance/tax_slab/tax_slab_display.html.twig',
+            '@SilecustWebShop/finance/tax_slab/tax_slab_display.html.twig',
             ['request' => $request, 'entity' => $taxSlab, 'params' => $displayParams]
         );
 

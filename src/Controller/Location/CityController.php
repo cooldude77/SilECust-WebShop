@@ -62,7 +62,7 @@ class CityController extends EnhancedAbstractController
 
         $formErrors = $form->getErrors(true);
         return $this->render(
-            'location_data/admin/city/city_create.html.twig', ['form' => $form]
+            '@SilecustWebShop/location_data/admin/city/city_create.html.twig', ['form' => $form]
         );
     }
 
@@ -131,7 +131,7 @@ class CityController extends EnhancedAbstractController
                     'propertyName' => 'name'],]];
 
         return $this->render(
-            'location_data/admin/city/city_display.html.twig',
+            '@SilecustWebShop/location_data/admin/city/city_display.html.twig',
             ['request' => $request, 'entity' => $city, 'params' => $displayParams]
         );
 
