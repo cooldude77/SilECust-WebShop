@@ -57,7 +57,7 @@ class CustomerController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/customer/{id}/edit', name: 'sc_customer_edit')]
+    #[Route('/admin/customer/{id}/edit', name: 'sc_admin_customer_edit')]
     public function edit(EntityManagerInterface $entityManager,
         CustomerRepository $customerRepository, CustomerDTOMapper $customerDTOMapper,
         Request $request, int $id
@@ -98,7 +98,7 @@ class CustomerController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/master_data/customer/customer_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/customer/{id}/display', name: 'sc_customer_display')]
+    #[Route('/admin/customer/{id}/display', name: 'sc_admin_customer_display')]
     public function display(CustomerRepository $customerRepository, int $id): Response
     {
         $customer = $customerRepository->find($id);
@@ -122,7 +122,7 @@ class CustomerController extends EnhancedAbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/list', name: 'sc_customer_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/list', name: 'sc_admin_customer_list')]
     public function list(CustomerRepository $customerRepository,Request $request): Response
     {
 

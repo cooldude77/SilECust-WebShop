@@ -21,7 +21,7 @@ class PriceProductTaxController extends EnhancedAbstractController
 {
 
 
-    #[Route('/admin/tax-slab/create', name: 'sc_route_admin_price_product_tax_create')]
+    #[Route('/admin/tax-slab/create', name: 'sc_admin_price_product_tax_create')]
     public function create(PriceProductTaxDTOMapper $priceProductTaxDTOMapper,
                            EntityManagerInterface   $entityManager,
                            Request                  $request,
@@ -60,7 +60,7 @@ class PriceProductTaxController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/tax-slab/{id}/edit', name: 'sc_route_admin_price_product_tax_edit')]
+    #[Route('/admin/tax-slab/{id}/edit', name: 'sc_admin_price_product_tax_edit')]
     public function edit(EntityManagerInterface    $entityManager,
                          PriceProductTaxRepository $priceProductTaxRepository,
                          PriceProductTaxDTOMapper  $priceProductTaxDTOMapper,
@@ -108,7 +108,7 @@ class PriceProductTaxController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/tax-slab/{id}/display', name: 'sc_route_admin_price_product_tax_display')]
+    #[Route('/admin/tax-slab/{id}/display', name: 'sc_admin_price_product_tax_display')]
     public function display(PriceProductTaxRepository $priceProductTaxRepository, int $id, Request $request): Response
     {
         $priceProductTax = $priceProductTaxRepository->find($id);
@@ -134,7 +134,7 @@ class PriceProductTaxController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/price/product/tax/list', name: 'sc_route_admin_price_product_tax_list')]
+    #[Route('/admin/price/product/tax/list', name: 'sc_admin_price_product_tax_list')]
     public function list(PriceProductTaxRepository $priceProductTaxRepository,
                          PaginatorInterface        $paginator,
                          Request                   $request

@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CityController extends EnhancedAbstractController
 {
-    #[Route('/admin/city/state/{id}/create', name: 'sc_route_admin_city_create')]
+    #[Route('/admin/city/state/{id}/create', name: 'sc_admin_city_create')]
     public function create(State                  $state,
                            CityDTOMapper          $cityDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
@@ -67,7 +67,7 @@ class CityController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/city/{id}/edit', name: 'sc_route_admin_city_edit')]
+    #[Route('/admin/city/{id}/edit', name: 'sc_admin_city_edit')]
     public function edit(City                   $city,
                          EntityManagerInterface $entityManager,
                          CityRepository         $cityRepository, CityDTOMapper $cityDTOMapper,
@@ -117,7 +117,7 @@ class CityController extends EnhancedAbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/city/{id}/display', name: 'sc_route_admin_city_display')]
+    #[Route('/admin/city/{id}/display', name: 'sc_admin_city_display')]
     public function display(City $city, Request $request): Response
     {
 
@@ -137,7 +137,7 @@ class CityController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/city/state/{id}/list', name: 'sc_route_admin_city_list')]
+    #[Route('/admin/city/state/{id}/list', name: 'sc_admin_city_list')]
     public function list(State $state, CityRepository $cityRepository, Request $request, PaginatorInterface $paginator): Response
     {
 

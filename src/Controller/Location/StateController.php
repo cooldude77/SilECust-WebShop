@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class StateController extends EnhancedAbstractController
 {
-    #[Route('/admin/state/country/{id}/create', 'sc_route_admin_state_create')]
+    #[Route('/admin/state/country/{id}/create', 'sc_admin_state_create')]
     public function create(Country                $country, StateDTOMapper $stateDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
@@ -59,7 +59,7 @@ class StateController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/state/{id}/edit', name: 'sc_route_admin_state_edit')]
+    #[Route('/admin/state/{id}/edit', name: 'sc_admin_state_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          StateRepository        $stateRepository, StateDTOMapper $stateDTOMapper,
                          Request                $request, int $id
@@ -104,7 +104,7 @@ class StateController extends EnhancedAbstractController
             $form]);
     }
 
-    #[Route('/admin/state/{id}/display', name: 'sc_route_admin_state_display')]
+    #[Route('/admin/state/{id}/display', name: 'sc_admin_state_display')]
     public function display(StateRepository $stateRepository, int $id): Response
     {
         $state = $stateRepository->find($id);
@@ -128,7 +128,7 @@ class StateController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/state/country/{id}/list', name: 'sc_route_admin_state_list')]
+    #[Route('/admin/state/country/{id}/list', name: 'sc_admin_state_list')]
     public function list(Country            $country,
                          StateRepository    $stateRepository,
                          Request            $request,

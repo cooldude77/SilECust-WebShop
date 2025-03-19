@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CurrencyController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/currency/create', name: 'sc_route_admin_currency_create')]
+    #[Route('/admin/currency/create', name: 'sc_admin_currency_create')]
     public function create(
         CountryRepository $countryRepository,
         CurrencyDTOMapper      $currencyDTOMapper,
@@ -62,7 +62,7 @@ class CurrencyController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/currency/{id}/edit', name: 'sc_route_admin_currency_edit')]
+    #[Route('/admin/currency/{id}/edit', name: 'sc_admin_currency_edit')]
     public function edit(
         Currency               $currency,
         EntityManagerInterface $entityManager,
@@ -103,7 +103,7 @@ class CurrencyController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/currency/{id}/display', name: 'sc_route_admin_currency_display')]
+    #[Route('/admin/currency/{id}/display', name: 'sc_admin_currency_display')]
     public function display(Currency $currency,
                             Request  $request): Response
     {
@@ -124,7 +124,7 @@ class CurrencyController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/currency/list', name: 'sc_route_admin_currency_list')]
+    #[Route('/admin/currency/list', name: 'sc_admin_currency_list')]
     public function list(CurrencyRepository $currencyRepository, Request $request): Response
     {
 

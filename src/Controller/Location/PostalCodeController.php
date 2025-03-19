@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PostalCodeController extends EnhancedAbstractController
 {
-    #[Route('/admin/postal_code/city/{id}/create', 'sc_route_admin_postal_code_create')]
+    #[Route('/admin/postal_code/city/{id}/create', 'sc_admin_postal_code_create')]
     public function create(City $city,
                            PostalCodeDTOMapper    $postalCodeDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
@@ -65,7 +65,7 @@ class PostalCodeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/postal_code/{id}/edit', name: 'sc_route_admin_postal_code_edit')]
+    #[Route('/admin/postal_code/{id}/edit', name: 'sc_admin_postal_code_edit')]
     public function edit(
         PostalCode             $postalCode,
         EntityManagerInterface $entityManager,
@@ -106,7 +106,7 @@ class PostalCodeController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/admin/postal_code/{id}/display', name: 'sc_route_admin_postal_code_display')]
+    #[Route('/admin/postal_code/{id}/display', name: 'sc_admin_postal_code_display')]
     public function display(PostalCode $postalCode, Request $request): Response
     {
 

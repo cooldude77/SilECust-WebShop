@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductAttributeValueController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/product/attribute/{id}/value/create', name: 'sc_product_attribute_value_create')]
+    #[Route('/admin/product/attribute/{id}/value/create', name: 'sc_admin_product_attribute_value_create')]
     public function create(int $id, ProductAttributeValueDTOMapper $mapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response {
@@ -57,7 +57,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/value/{id}/edit', name: 'sc_product_attribute_value_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/value/{id}/edit', name: 'sc_admin_product_attribute_value_edit')]
     public function edit(int $id, ProductAttributeValueDTOMapper $mapper,
         EntityManagerInterface $entityManager,
         ProductAttributeValueRepository $productAttributeValueRepository, Request $request
@@ -99,7 +99,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
     }
 
 
-    #[Route("/product/attribute/{id}/value/list", name: 'sc_product_attribute_value_list')]
+    #[Route("/product/attribute/{id}/value/list", name: 'sc_admin_product_attribute_value_list')]
     public function list(int $id, ProductAttributeValueRepository $productAttributeValueRepository,Request $request
     ): Response {
 

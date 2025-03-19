@@ -34,7 +34,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/admin/category/{id}/image/create', name: 'sc_route_admin_category_file_image_create')]
+    #[Route('/admin/category/{id}/image/create', name: 'sc_admin_category_file_image_create')]
     public function create(int                    $id, EntityManagerInterface $entityManager,
                            CategoryImageOperation $categoryImageOperation,
                            CategoryRepository     $categoryRepository,
@@ -96,7 +96,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * id is CategoryImage Id
      */
-    #[Route('/admin/category/image/{id}/edit', name: 'sc_route_admin_category_file_image_edit')]
+    #[Route('/admin/category/image/{id}/edit', name: 'sc_admin_category_file_image_edit')]
     public function edit(int                     $id, EntityManagerInterface $entityManager,
                          CategoryImageRepository $categoryImageRepository,
                          CategoryImageDTOMapper  $categoryImageDTOMapper,
@@ -147,7 +147,7 @@ class CategoryImageController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/category/{id}/image/list', name: 'sc_category_file_image_list')]
+    #[Route('/admin/category/{id}/image/list', name: 'sc_admin_category_file_image_list')]
     public function list(int                     $id, CategoryRepository $categoryRepository,
                          CategoryImageRepository $categoryImageRepository,
                          Request                 $request
@@ -202,7 +202,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/admin/category/image/{id}/fetch', name: 'sc_route_admin_category_file_image_fetch')]
+    #[Route('/admin/category/image/{id}/fetch', name: 'sc_admin_category_file_image_fetch')]
     public function fetch(int                                $id, CategoryImageRepository $categoryImageRepository,
                           CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
     ): Response
@@ -229,7 +229,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/admin/category/image/{$id}/display/', name: 'sc_route_admin_category_file_image_display')]
+    #[Route('/admin/category/image/{$id}/display/', name: 'sc_admin_category_file_image_display')]
     public function display(CategoryImageRepository $categoryImageRepository, int $id, Request $request): Response
     {
         $categoryImage = $categoryImageRepository->findOneBy(['id' => $id]);

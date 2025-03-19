@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TaxSlabController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/tax-slab/create', name: 'sc_route_admin_tax_slab_create')]
+    #[Route('/admin/tax-slab/create', name: 'sc_admin_tax_slab_create')]
     public function create(TaxSlabDTOMapper      $taxSlabDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
@@ -56,7 +56,7 @@ class TaxSlabController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/tax-slab/{id}/edit', name: 'sc_route_admin_tax_slab_edit')]
+    #[Route('/admin/tax-slab/{id}/edit', name: 'sc_admin_tax_slab_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          TaxSlabRepository     $taxSlabRepository,
                          TaxSlabDTOMapper      $taxSlabDTOMapper,
@@ -104,7 +104,7 @@ class TaxSlabController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/tax-slab/{id}/display', name: 'sc_route_admin_tax_slab_display')]
+    #[Route('/admin/tax-slab/{id}/display', name: 'sc_admin_tax_slab_display')]
     public function display(TaxSlabRepository $taxSlabRepository, int $id, Request $request): Response
     {
         $taxSlab = $taxSlabRepository->find($id);
@@ -130,7 +130,7 @@ class TaxSlabController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/tax-slab/list', name: 'sc_route_admin_tax_slab_list')]
+    #[Route('/admin/tax-slab/list', name: 'sc_admin_tax_slab_list')]
     public function list(TaxSlabRepository $taxSlabRepository, Request $request): Response
     {
 

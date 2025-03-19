@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoryController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/category/create', name: 'sc_route_admin_category_create')]
+    #[Route('/admin/category/create', name: 'sc_admin_category_create')]
     public function create(CategoryDTOMapper      $categoryDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
@@ -57,7 +57,7 @@ class CategoryController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/category/{id}/edit', name: 'sc_route_admin_category_edit')]
+    #[Route('/admin/category/{id}/edit', name: 'sc_admin_category_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CategoryRepository     $categoryRepository,
                          CategoryDTOMapper      $categoryDTOMapper,
@@ -105,7 +105,7 @@ class CategoryController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/category/{id}/display', name: 'sc_route_admin_category_display')]
+    #[Route('/admin/category/{id}/display', name: 'sc_admin_category_display')]
     public function display(CategoryRepository $categoryRepository, int $id, Request $request): Response
     {
         $category = $categoryRepository->find($id);
@@ -131,7 +131,7 @@ class CategoryController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/category/list', name: 'sc_route_admin_category_list')]
+    #[Route('/admin/category/list', name: 'sc_admin_category_list')]
     public function list(CategoryRepository $categoryRepository, Request $request): Response
     {
 

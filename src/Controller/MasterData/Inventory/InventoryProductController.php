@@ -68,7 +68,7 @@ class InventoryProductController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/inventory/{id}/edit', name: 'sc_inventory_product_edit')]
+    #[Route('/admin/inventory/{id}/edit', name: 'sc_admin_inventory_product_edit')]
     public function edit(EntityManagerInterface $entityManager,
         InventoryProductRepository $inventoryProductRepository,
         InventoryProductDTOMapper $inventoryDTOMapper, Request $request,
@@ -114,7 +114,7 @@ class InventoryProductController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/admin/inventory/{id}/display', name: 'sc_inventory_product_display')]
+    #[Route('/admin/inventory/{id}/display', name: 'sc_admin_inventory_product_display')]
     public function display(InventoryProductRepository $inventoryProductRepository, int $id
     ): Response {
         $inventory = $inventoryProductRepository->find($id);
@@ -146,7 +146,7 @@ class InventoryProductController extends EnhancedAbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/inventory/list', name: 'sc_inventory_product_list')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/inventory/list', name: 'sc_admin_inventory_product_list')]
     public function list(InventoryProductRepository $inventoryProductRepository,
         PaginatorInterface $paginator,
         Request $request

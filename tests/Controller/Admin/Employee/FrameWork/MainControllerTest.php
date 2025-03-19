@@ -50,29 +50,50 @@ class MainControllerTest extends WebTestCase
             })
             ->visit($uri)
             ->click('a#sidebar-link-category-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=category&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-product-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=product&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-product-base-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_base&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-discount-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_discount&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-tax-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_tax&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-customer-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=customer&_type=list'])
             ->visit($uri)
-            ->click('a#sidebar-link-settings')
-            ->assertOn('/admin', ['_function=settings&_type=list'])
+            ->click('a#sidebar-link-country-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=country&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-currency-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=currency&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-tax-slabs-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=tax_slab&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-order-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=order&_type=list'])
             ->visit($uri)
             ->click('a#link-dashboard')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=dashboard'])
             ->visit($uri)
+            // should not see this
             ->assertNotSee("a#sidebar-link-employees");
 
 
@@ -85,7 +106,7 @@ class MainControllerTest extends WebTestCase
     {
         // Unauthenticated entry
         $uri = '/admin?_function=dashboard';
-       $this->createCustomerFixtures();
+        $this->createCustomerFixtures();
 
         // authenticate before visit
         $this->browser()->use(function (Browser $browser) {
@@ -106,35 +127,56 @@ class MainControllerTest extends WebTestCase
         $this->createSuperAdmin();
 
         // authenticate before visit
-        $browser = $this->browser()->use(function (Browser $browser) {
+         $this->browser()->use(function (Browser $browser) {
             $browser->client()->loginUser($this->userForSuperAdmin->object());
         })
             ->visit($uri)
             ->click('a#sidebar-link-category-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=category&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-product-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=product&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-product-base-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_base&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-discount-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_discount&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-price-tax-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=price_product_tax&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-customer-list')
+            ->assertSuccessful()
             ->assertOn('/admin', ['_function=customer&_type=list'])
             ->visit($uri)
-            ->click('a#sidebar-link-settings')
-            ->assertOn('/admin', ['_function=settings&_type=list'])
+            ->click('a#sidebar-link-country-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=country&_type=list'])
             ->visit($uri)
-            ->click('a#link-dashboard')
-            ->assertOn('/admin', ['_function=dashboard'])
+            ->click('a#sidebar-link-currency-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=currency&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-tax-slabs-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=tax_slab&_type=list'])
+            ->visit($uri)
+            ->click('a#sidebar-link-order-list')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=order&_type=list'])
             ->visit($uri)
             ->click('a#sidebar-link-employee-list')
-            ->assertOn('/admin', ['_function = employee & type=>list']);
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=employee&_type=list'])
+            ->visit($uri)
+            ->click('a#link-dashboard')
+            ->assertSuccessful()
+            ->assertOn('/admin', ['_function=dashboard']);
     }
 }

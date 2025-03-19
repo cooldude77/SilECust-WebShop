@@ -35,7 +35,7 @@ class ProductImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[Route('/admin/product/{id}/image/create', name: 'sc_product_file_image_create')]
+    #[Route('/admin/product/{id}/image/create', name: 'sc_admin_product_file_image_create')]
     public function create(int                   $id, EntityManagerInterface $entityManager,
                            ProductImageOperation $productImageOperation,
                            ProductRepository     $productRepository,
@@ -97,7 +97,7 @@ class ProductImageController extends EnhancedAbstractController
      *
      * id is ProductImage Id
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{id}/edit', name: 'sc_product_file_image_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{id}/edit', name: 'sc_admin_product_file_image_edit')]
     public function edit(int                    $id, EntityManagerInterface $entityManager,
                          ProductImageRepository $productImageRepository,
                          ProductImageDTOMapper  $productImageDTOMapper,
@@ -148,7 +148,7 @@ class ProductImageController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/product/{id}/image/list', name: 'sc_product_create_file_image_list')]
+    #[Route('/admin/product/{id}/image/list', name: 'sc_admin_product_create_file_image_list')]
     public function list(int                    $id, ProductRepository $productRepository,
                          ProductImageRepository $productImageRepository,
                          Request                $request
@@ -203,7 +203,7 @@ class ProductImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{id}/fetch', name: 'sc_product_file_image_fetch')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{id}/fetch', name: 'sc_admin_product_file_image_fetch')]
     public function fetch(int                               $id, ProductImageRepository $productImageRepository,
                           ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
     ): Response
@@ -230,7 +230,7 @@ class ProductImageController extends EnhancedAbstractController
      *
      * @return Response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{$id}/display/', name: 'sc_product_file_image_display')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/image/{$id}/display/', name: 'sc_admin_product_file_image_display')]
     public function display(ProductImageRepository $productImageRepository, int $id, Request $request): Response
     {
         $productImage = $productImageRepository->findOneBy(['id' => $id]);

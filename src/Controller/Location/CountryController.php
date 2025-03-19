@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CountryController extends EnhancedAbstractController
 {
-    #[Route('/admin/country/create', name: 'sc_route_admin_country_create')]
+    #[Route('/admin/country/create', name: 'sc_admin_country_create')]
     public function create(CountryDTOMapper       $countryDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
@@ -57,7 +57,7 @@ class CountryController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/country/{id}/edit', name: 'sc_route_admin_country_edit')]
+    #[Route('/admin/country/{id}/edit', name: 'sc_admin_country_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CountryRepository      $countryRepository, CountryDTOMapper $countryDTOMapper,
                          Request                $request, int $id
@@ -100,7 +100,7 @@ class CountryController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/location_data/admin/country/country_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/country/{id}/display', name: 'sc_route_admin_country_display')]
+    #[Route('/admin/country/{id}/display', name: 'sc_admin_country_display')]
     public function display(CountryRepository $countryRepository, int $id, Request $request): Response
     {
         $country = $countryRepository->find($id);
@@ -124,7 +124,7 @@ class CountryController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/country/list', name: 'sc_route_admin_country_list')]
+    #[Route('/admin/country/list', name: 'sc_admin_country_list')]
     public function list(CountryRepository $countryRepository, Request $request,PaginatorInterface $paginator): Response
     {
 

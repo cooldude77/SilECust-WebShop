@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductAttributeController extends EnhancedAbstractController
 {
-    #[Route('/admin/product/attribute/create', name: 'sc_product_attribute_create')]
+    #[Route('/admin/product/attribute/create', name: 'sc_admin_product_attribute_create')]
     public function create(ProductAttributeDTOMapper $mapper, EntityManagerInterface $entityManager,
         Request $request
     ): Response {
@@ -56,7 +56,7 @@ class ProductAttributeController extends EnhancedAbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/{id}/edit', name: 'sc_product_attribute_edit')]
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/attribute/{id}/edit', name: 'sc_admin_product_attribute_edit')]
     public function edit(int $id, ProductAttributeDTOMapper $mapper,
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeRepository, Request $request
@@ -96,7 +96,7 @@ class ProductAttributeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/product/attribute/list', name: 'sc_product_attribute_list')]
+    #[Route('/admin/product/attribute/list', name: 'sc_admin_product_attribute_list')]
     public function list(ProductAttributeRepository $productAttributeRepository,Request $request): Response
     {
 
