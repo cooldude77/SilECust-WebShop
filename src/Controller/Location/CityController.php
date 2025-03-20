@@ -2,28 +2,37 @@
 
 namespace Silecust\WebShop\Controller\Location;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\City;
-use Silecust\WebShop\Entity\State;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\CityCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\CityEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\DTO\CityDTO;
 use Silecust\WebShop\Repository\CityRepository;
+use Silecust\WebShop\Repository\StateRepository;
 use Silecust\WebShop\Service\Location\Mapper\City\CityDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class CityController extends EnhancedAbstractController
 {
-    #[Route('/admin/city/state/{id}/create', name: 'sc_admin_city_create')]
-    public function create(State                  $state,
+    #[Route('/admin/state/{code}/city/create', name: 'sc_admin_city_create')]
+    public function create(StateRepository        $stateRepository,
                            CityDTOMapper          $cityDTOMapper,
-                           EntityManagerInterface $entityManager, Request $request
+                           EntityManagerInterface $entityManager,
+                           Request                $request,
+                           string                 $code
     ): Response
     {
+        $state = $stateRepository->findOneBy(['code' => $code]);
+
+        if (!$state) {
+            throw $this->createNotFoundException('No State found for code ' . $code);
+        }
+
+
         $cityDTO = new CityDTO();
         $cityDTO->stateId = $state->getId();
 
@@ -67,13 +76,21 @@ class CityController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/city/{id}/edit', name: 'sc_admin_city_edit')]
-    public function edit(City                   $city,
-                         EntityManagerInterface $entityManager,
-                         CityRepository         $cityRepository, CityDTOMapper $cityDTOMapper,
-                         Request                $request, int $id
+    #[Route('/admin/city/{code}/edit', name: 'sc_admin_city_edit')]
+    public function edit(
+        EntityManagerInterface $entityManager,
+        CityRepository         $cityRepository,
+        CityDTOMapper          $cityDTOMapper,
+        Request                $request,
+        int                    $code
     ): Response
     {
+
+        $city = $cityRepository->findOneBy(['code' => $code]);
+
+        if (!$city) {
+            throw $this->createNotFoundException('No City found for code ' . $code);
+        }
 
         $cityDTO = $cityDTOMapper->mapToDTOForEdit($city);
 
@@ -117,9 +134,19 @@ class CityController extends EnhancedAbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/city/{id}/display', name: 'sc_admin_city_display')]
-    public function display(City $city, Request $request): Response
+    #[Route('/admin/city/{code}/display', name: 'sc_admin_city_display')]
+    public function display(
+        CityRepository $cityRepository,
+        Request        $request,
+        int            $code): Response
     {
+
+        $city = $cityRepository->findOneBy(['code' => $code]);
+
+        if (!$city) {
+            throw $this->createNotFoundException('No City found for code ' . $code);
+        }
+
 
         $displayParams = ['title' => 'City',
             'link_id' => 'id-city',
@@ -137,14 +164,21 @@ class CityController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/city/state/{id}/list', name: 'sc_admin_city_list')]
-    public function list(State $state, CityRepository $cityRepository, Request $request, PaginatorInterface $paginator): Response
+    #[Route('/admin/state/{code}/list', name: 'sc_admin_city_list')]
+    public function list(int            $code, StateRepository $stateRepository,
+                         CityRepository $cityRepository,
+                         Request        $request, PaginatorInterface $paginator): Response
     {
+        $state = $stateRepository->findOneBy(['code' => $code]);
+
+        if (!$state) {
+            throw $this->createNotFoundException('No State found for code ' . $code);
+        }
 
         $listGrid = ['title' => 'City',
             'link_id' => 'id-city',
             'function' => 'city',
-            'edit_link_allowed'=>true,
+            'edit_link_allowed' => true,
             'columns' => [['label' => 'Code',
                 'propertyName' => 'code',
                 'action' => 'display',],

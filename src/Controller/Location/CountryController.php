@@ -2,14 +2,14 @@
 
 namespace Silecust\WebShop\Controller\Location;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\CountryCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\CountryEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\DTO\CountryDTO;
 use Silecust\WebShop\Repository\CountryRepository;
 use Silecust\WebShop\Service\Location\Mapper\Country\CountryDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -57,17 +57,16 @@ class CountryController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/country/{id}/edit', name: 'sc_admin_country_edit')]
+    #[Route('/admin/country/{code}/edit', name: 'sc_admin_country_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CountryRepository      $countryRepository, CountryDTOMapper $countryDTOMapper,
-                         Request                $request, int $id
+                         Request                $request, int $code
     ): Response
     {
-        $country = $countryRepository->find($id);
-
+        $country = $countryRepository->findOneBy(['code' => $code]);
 
         if (!$country) {
-            throw $this->createNotFoundException('No Country found for id ' . $id);
+            throw $this->createNotFoundException('No Country found for code ' . $code);
         }
 
         $countryDTO = $countryDTOMapper->mapToDTOForEdit($country);
@@ -100,12 +99,12 @@ class CountryController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/location_data/admin/country/country_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/country/{id}/display', name: 'sc_admin_country_display')]
-    public function display(CountryRepository $countryRepository, int $id, Request $request): Response
+    #[Route('/admin/country/{code}/display', name: 'sc_admin_country_display')]
+    public function display(CountryRepository $countryRepository, int $code, Request $request): Response
     {
-        $country = $countryRepository->find($id);
+        $country = $countryRepository->findOneBy(['code'=>$code]);
         if (!$country) {
-            throw $this->createNotFoundException('No country found for id ' . $id);
+            throw $this->createNotFoundException('No country found for code ' . $code);
         }
 
         $displayParams = ['title' => 'Country',
@@ -125,12 +124,12 @@ class CountryController extends EnhancedAbstractController
     }
 
     #[Route('/admin/country/list', name: 'sc_admin_country_list')]
-    public function list(CountryRepository $countryRepository, Request $request,PaginatorInterface $paginator): Response
+    public function list(CountryRepository $countryRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
         $listGrid = ['title' => 'Country',
             'link_id' => 'id-country',
-            'edit_link_allowed'=>true,
+            'edit_link_allowed' => true,
             'columns' => [['label' => 'Name',
                 'propertyName' => 'name',
                 'action' => 'display',],

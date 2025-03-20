@@ -2,28 +2,36 @@
 
 namespace Silecust\WebShop\Controller\Location;
 
-use Silecust\WebShop\Entity\Country;
-use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateCreateForm;
-use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateEditForm;
-use Silecust\WebShop\Repository\StateRepository;
-use Silecust\WebShop\Service\Location\Mapper\State\StateDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateEditForm;
+use Silecust\WebShop\Repository\CountryRepository;
+use Silecust\WebShop\Repository\StateRepository;
+use Silecust\WebShop\Service\Location\Mapper\State\StateDTOMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class StateController extends EnhancedAbstractController
 {
-    #[Route('/admin/state/country/{id}/create', 'sc_admin_state_create')]
-    public function create(Country                $country, StateDTOMapper $stateDTOMapper,
-                           EntityManagerInterface $entityManager, Request $request
+    #[Route('/admin/country/{code}/state/create', 'sc_admin_state_create')]
+    public function create(CountryRepository      $countryRepository,
+                           StateDTOMapper         $stateDTOMapper,
+                           EntityManagerInterface $entityManager,
+                           Request                $request,
+                           string                 $code
     ): Response
     {
+        $country = $countryRepository->findOneBy(['code' => $code]);
+        if (!$country)
+            throw $this->createNotFoundException('No country found for code ' . $code);
+
         $stateDTO = new StateDTO();
         $stateDTO->countryId = $country->getId();
+
         $form = $this->createForm(
             StateCreateForm::class, $stateDTO
         );
@@ -59,17 +67,18 @@ class StateController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/state/{id}/edit', name: 'sc_admin_state_edit')]
+    #[Route('/admin/state/{code}/edit', name: 'sc_admin_state_edit')]
     public function edit(EntityManagerInterface $entityManager,
-                         StateRepository        $stateRepository, StateDTOMapper $stateDTOMapper,
-                         Request                $request, int $id
+                         StateRepository        $stateRepository,
+                         StateDTOMapper         $stateDTOMapper,
+                         Request                $request,
+                         string                 $code
     ): Response
     {
-        $state = $stateRepository->find($id);
-
+        $state = $stateRepository->findOneBy(['code' => $code]);
 
         if (!$state) {
-            throw $this->createNotFoundException('No State found for id ' . $id);
+            throw $this->createNotFoundException('No State found for code ' . $code);
         }
 
         $stateDTO = $stateDTOMapper->mapToDTOForEdit($state);
@@ -104,13 +113,17 @@ class StateController extends EnhancedAbstractController
             $form]);
     }
 
-    #[Route('/admin/state/{id}/display', name: 'sc_admin_state_display')]
-    public function display(StateRepository $stateRepository, int $id): Response
+    #[Route('/admin/state/{code}/display', name: 'sc_admin_state_display')]
+    public function display(StateRepository $stateRepository,
+                            string          $code
+    ): Response
     {
-        $state = $stateRepository->find($id);
+        $state = $stateRepository->findOneBy(['code' => $code]);
+
         if (!$state) {
-            throw $this->createNotFoundException('No state found for id ' . $id);
+            throw $this->createNotFoundException('No State found for code ' . $code);
         }
+
 
         $displayParams = ['title' => 'State',
             'link_id' => 'id-state',
@@ -128,16 +141,20 @@ class StateController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/state/country/{id}/list', name: 'sc_admin_state_list')]
-    public function list(Country            $country,
+    #[Route('/admin/country/{code}/state/list', name: 'sc_admin_state_list')]
+    public function list(CountryRepository  $countryRepository,
                          StateRepository    $stateRepository,
                          Request            $request,
-                         PaginatorInterface $paginator): Response
+                         PaginatorInterface $paginator,
+                         string             $code): Response
     {
+        $country = $countryRepository->findOneBy(['code' => $code]);
+        if (!$country)
+            throw $this->createNotFoundException('No country found for code ' . $code);
 
         $listGrid = ['title' => 'State',
             'link_id' => 'id-state',
-            'edit_link_allowed'=>true,
+            'edit_link_allowed' => true,
             'function' => 'state',
             'columns' => [['label' => 'State',
                 'propertyName' => 'code',
@@ -145,7 +162,7 @@ class StateController extends EnhancedAbstractController
             ],
             'createButtonConfig' => [
                 'link_id' => ' id-create-state',
-                'id'=>$country->getId(),
+                'id' => $country->getId(),
                 'function' => 'state',
                 'anchorText' => 'create State']];
 
