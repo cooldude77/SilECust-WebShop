@@ -53,7 +53,7 @@ final class PostalCodeFactory extends PersistentProxyObjectFactory
         return [
             'city' => CityFactory::new(),
             'name' => self::faker()->text(255),
-            'postalCode' => self::faker()->text(255),
+            'code' => self::faker()->text(255),
         ];
     }
 
@@ -63,7 +63,7 @@ final class PostalCodeFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(PostalCode $postalCode): void {})
+            // ->afterInstantiate(function(PostalCode $code): void {})
         ;
     }
 }

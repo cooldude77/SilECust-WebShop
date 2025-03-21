@@ -25,7 +25,7 @@ class PostalCodeCreateForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
 
-        $builder->add('postalCode',TextType::class);
+        $builder->add('code',TextType::class);
         $builder->add('name',TextType::class);
         $builder->add('city', CityAutoCompleteField::class,['mapped'=>false]);
 

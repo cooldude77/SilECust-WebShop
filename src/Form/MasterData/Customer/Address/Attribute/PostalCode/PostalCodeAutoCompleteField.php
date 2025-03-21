@@ -16,7 +16,7 @@ class PostalCodeAutoCompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => PostalCode::class,
             'placeholder' => 'Choose a Pin Code',
-            'choice_label' => 'postalCode',
+            'choice_label' => 'code',
             'choice_value' => 'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);

@@ -125,7 +125,7 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
+                'address_create_and_choose_form[address][code]', $this->postalCode->getId()
             )
             ->fillField(
                 'address_create_and_choose_form[address][addressType]', 'shipping'
@@ -183,7 +183,7 @@ class AddressControllerTest extends WebTestCase
                 'address_create_and_choose_form[address][line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
+                'address_create_and_choose_form[address][code]', $this->postalCode->getId()
             )
             ->fillField(
                 'address_create_and_choose_form[address][addressType]', 'billing'

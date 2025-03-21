@@ -34,7 +34,7 @@ class OrderAddressForm extends AbstractType
         $builder->add('orderId', NumberType::class);
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
-        $builder->add('postalCode', TextType::class);
+        $builder->add('code', TextType::class);
         $builder->add('city', TextType::class);
         $builder->add('state', TextType::class);
         $builder->add('country', TextType::class);

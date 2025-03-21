@@ -20,7 +20,7 @@ class PostalCodeDTOMapper
 
         $postalCode->setCity($this->cityRepository->find($postalCodeDTO->cityId));
         $postalCode->setName($postalCodeDTO->name);
-        $postalCode->setPostalCode($postalCodeDTO->postalCode);
+        $postalCode->setCode($postalCodeDTO->code);
 
         return $postalCode;
     }
@@ -39,7 +39,7 @@ class PostalCodeDTOMapper
         $postalCodeDTO = new PostalCodeDTO();
         $postalCodeDTO->id = $postalCode->getId();
         $postalCodeDTO->name = $postalCode->getName();
-        $postalCodeDTO->postalCode = $postalCode->getPostalCode();
+        $postalCodeDTO->postalCode = $postalCode->getCode();
         $postalCodeDTO->cityId = $postalCode->getCity()->getId();
 
         return $postalCodeDTO;

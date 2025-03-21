@@ -22,7 +22,7 @@ class CustomerAddressQuery
             . $customerAddress->getPostalCode()->getCity()->getName() . "\n"
             . $customerAddress->getPostalCode()->getCity()->getState()->getName() . "\n"
             . $customerAddress->getPostalCode()->getCity()->getState()->getCountry()->getName() . "\n"
-            . $customerAddress->getPostalCode()->getPostalCode() . "\n";
+            . $customerAddress->getPostalCode()->getCode() . "\n";
 
 
     }

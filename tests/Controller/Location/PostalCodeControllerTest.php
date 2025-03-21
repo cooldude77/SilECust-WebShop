@@ -51,14 +51,14 @@ class PostalCodeControllerTest extends WebTestCase
                 $this->addOption($browser, 'select', $city->getId());
             })
             ->fillField(
-                'postal_code_create_form[postalCode]', '560001'
+                'postal_code_create_form[code]', '560001'
             )->fillField(
                 'postal_code_create_form[name]', 'M G Road'
             )
             ->click('Save')
             ->assertSuccessful();
 
-        $created = PostalCodeFactory::find(array('postalCode' => '560001'));
+        $created = PostalCodeFactory::find(array('code' => '560001'));
 
         $this->assertEquals("M G Road", $created->getName());
 
@@ -74,10 +74,10 @@ class PostalCodeControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
-        $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
+        $postalCode = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
 
-        $uri = "/admin/postal_code/{$postalCode->getPostalCode()}/display";
+        $uri = "/admin/postal_code/{$postalCode->getCode()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -95,9 +95,9 @@ class PostalCodeControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
-        $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
+        $postalCode = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
-        $uri = "/admin/postal_code/{$postalCode->getPostalCode()}/edit";
+        $uri = "/admin/postal_code/{$postalCode->getCode()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -110,7 +110,7 @@ class PostalCodeControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $postalCode = PostalCodeFactory::find(array('postalCode' => '560001'));
+        $postalCode = PostalCodeFactory::find(array('code' => '560001'));
 
         $this->assertEquals("MG Road Main", $postalCode->getName());
 
@@ -125,8 +125,8 @@ class PostalCodeControllerTest extends WebTestCase
         $city1 = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state1]);
         $city2 = CityFactory::createOne(['code' => 'JPR', 'name' => 'Jaipur', 'state' => $state2]);
 
-        $postalCode1 = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city1]);
-        $postalCode2 = PostalCodeFactory::createOne(['postalCode' => '302001', 'name' => 'Main Road', 'city' => $city2]);
+        $postalCode1 = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city1]);
+        $postalCode2 = PostalCodeFactory::createOne(['code' => '302001', 'name' => 'Main Road', 'city' => $city2]);
 
         $uri = "/admin/postal_code/city/{$city1->getCode()}/list";
 

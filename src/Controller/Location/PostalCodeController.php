@@ -81,7 +81,7 @@ class PostalCodeController extends EnhancedAbstractController
         Request                $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
+        $postalCode = $postalCodeRepository->findOneBy(['code' => $code]);
 
         if (!$postalCode) {
             throw $this->createNotFoundException('No PostalCode found for code ' . $code);
@@ -126,7 +126,7 @@ class PostalCodeController extends EnhancedAbstractController
         Request              $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
+        $postalCode = $postalCodeRepository->findOneBy(['code' => $code]);
 
         if (!$postalCode) {
             throw $this->createNotFoundException('No PostalCode found for code ' . $code);
@@ -134,11 +134,11 @@ class PostalCodeController extends EnhancedAbstractController
 
 
         $displayParams = ['title' => 'PostalCode',
-            'link_id' => 'id-postalCode',
+            'link_id' => 'id-code',
             'editButtonLinkText' => 'Edit',
             'fields' => [['label' => 'Postal Code',
-                'propertyName' => 'postalCode',
-                'link_id' => 'id-display-postalCode'], ['label' => 'Name',
+                'propertyName' => 'code',
+                'link_id' => 'id-display-code'], ['label' => 'Name',
                 'propertyName' => 'name'
                 ,],]];
 
@@ -164,19 +164,19 @@ class PostalCodeController extends EnhancedAbstractController
         }
 
         $listGrid = ['title' => 'PostalCode',
-            'link_id' => 'id-postalCode',
+            'link_id' => 'id-code',
             'function' => 'postal_code',
             'edit_link_allowed' => true,
             'id' => $city->getId(),
             'columns' => [
                 ['label' => 'Postal Code',
-                    'propertyName' => 'postalCode',
+                    'propertyName' => 'code',
                     'action' => 'display',],
                 ['label' => 'Name',
                     'propertyName' => 'name'
                     ,],
             ],
-            'createButtonConfig' => ['link_id' => ' id-create-postalCode',
+            'createButtonConfig' => ['link_id' => ' id-create-code',
                 'id' => $city->getId(),
 
                 'function' => 'postal_code',

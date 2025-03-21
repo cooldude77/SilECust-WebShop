@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode
 class PostalCodeDTO
 {
     public ?int $id = null;
-    public ?string $postalCode = null;
+    public ?string $code = null;
     public ?string $name = null;
-    public ?string $cityId=null;
+    public ?string $cityId = null;
 }

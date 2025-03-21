@@ -28,7 +28,7 @@ class CustomerAddressCreateForm extends AbstractType
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('postalCode', PostalCodeAutoCompleteField::class, ['mapped' => false]);
+        $builder->add('code', PostalCodeAutoCompleteField::class, ['mapped' => false]);
         $builder->add(
             'addressType', ChoiceType::class,
             [
@@ -50,7 +50,7 @@ class CustomerAddressCreateForm extends AbstractType
             FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
             $form = $formEvent->getForm();
             $data = $formEvent->getData();
-            $data['postalCodeId'] = $data['postalCode'];
+            $data['postalCodeId'] = $data['code'];
 
             $formEvent->setData($data);
         }

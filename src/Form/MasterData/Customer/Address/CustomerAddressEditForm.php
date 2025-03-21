@@ -27,7 +27,7 @@ class CustomerAddressEditForm extends AbstractType
         $builder->add('line1',TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('postalCode', PostalCodeAutoCompleteField::class,['mapped' => false]);
+        $builder->add('code', PostalCodeAutoCompleteField::class,['mapped' => false]);
         $builder->add(
             'addressType', ChoiceType::class,
             [
