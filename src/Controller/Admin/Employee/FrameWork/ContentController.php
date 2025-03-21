@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
+use Exception;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
@@ -9,8 +11,6 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
 use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
-use Exception;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -22,8 +22,8 @@ class ContentController extends EnhancedAbstractController
 {
 
     /**
-     * @param Request                   $request
-     * @param RouterInterface           $router
+     * @param Request $request
+     * @param RouterInterface $router
      * @param PanelActionListMapBuilder $builder
      *
      * @return Response
@@ -33,10 +33,11 @@ class ContentController extends EnhancedAbstractController
      * @throws FunctionNotFoundInMap
      * @throws TypeNotFoundInMap
      */
-    public function content(Request $request, RouterInterface $router,
-        PanelActionListMapBuilder $builder,
-        AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
-    ): Response {
+    public function content(Request                       $request, RouterInterface $router,
+                            PanelActionListMapBuilder     $builder,
+                            AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
+    ): Response
+    {
 
         // todo: check context route
         // todo: make a class for getting system session variables ?
@@ -63,12 +64,16 @@ class ContentController extends EnhancedAbstractController
         try {
             // if the content is a twig template, unserialize will throw exception
             $unserialized = unserialize($content);
-
+            $success_url = '';
             if (!empty($unserialized['id'])) {
                 $success_url = $request->get('_redirect_upon_success_url') . "&id="
                     . $unserialized['id'];
-                return $this->redirect($success_url);
+            } else if (!empty($unserialized['code'])) {
+                $success_url = $request->get('_redirect_upon_success_url') . "&code="
+                    . $unserialized['code'];
             }
+            return $this->redirect($success_url);
+
         } catch (Exception $e) {
             // do nothing
         }
