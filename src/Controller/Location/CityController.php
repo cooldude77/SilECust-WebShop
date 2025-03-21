@@ -82,7 +82,7 @@ class CityController extends EnhancedAbstractController
         CityRepository         $cityRepository,
         CityDTOMapper          $cityDTOMapper,
         Request                $request,
-        int                    $code
+        string                    $code
     ): Response
     {
 
@@ -130,7 +130,7 @@ class CityController extends EnhancedAbstractController
     /**
      * @param City $city
      * @param CityRepository $cityRepository
-     * @param int $id
+     * @param string $id
      * @param Request $request
      * @return Response
      */
@@ -138,7 +138,7 @@ class CityController extends EnhancedAbstractController
     public function display(
         CityRepository $cityRepository,
         Request        $request,
-        int            $code): Response
+        string            $code): Response
     {
 
         $city = $cityRepository->findOneBy(['code' => $code]);
@@ -164,8 +164,8 @@ class CityController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/state/{code}/list', name: 'sc_admin_city_list')]
-    public function list(int            $code, StateRepository $stateRepository,
+    #[Route('/admin/state/{code}/city/list', name: 'sc_admin_city_list')]
+    public function list(string            $code, StateRepository $stateRepository,
                          CityRepository $cityRepository,
                          Request        $request, PaginatorInterface $paginator): Response
     {

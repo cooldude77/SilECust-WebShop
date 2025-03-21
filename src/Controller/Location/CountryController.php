@@ -60,7 +60,7 @@ class CountryController extends EnhancedAbstractController
     #[Route('/admin/country/{code}/edit', name: 'sc_admin_country_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CountryRepository      $countryRepository, CountryDTOMapper $countryDTOMapper,
-                         Request                $request, int $code
+                         Request                $request, string $code
     ): Response
     {
         $country = $countryRepository->findOneBy(['code' => $code]);
@@ -100,7 +100,7 @@ class CountryController extends EnhancedAbstractController
     }
 
     #[Route('/admin/country/{code}/display', name: 'sc_admin_country_display')]
-    public function display(CountryRepository $countryRepository, int $code, Request $request): Response
+    public function display(CountryRepository $countryRepository, string $code, Request $request): Response
     {
         $country = $countryRepository->findOneBy(['code'=>$code]);
         if (!$country) {

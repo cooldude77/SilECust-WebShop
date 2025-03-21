@@ -36,7 +36,7 @@ class StateControllerTest extends WebTestCase
     {
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
 
-        $uri = "/admin/state/country/{$country->getId()}/create";
+        $uri = "/admin/state/country/{$country->getCode()}/create";
 
         $visit = $this->browser()->visit($uri)
             ->assertNotAuthenticated()
@@ -69,9 +69,11 @@ class StateControllerTest extends WebTestCase
     public function testDisplay()
     {
 
+        $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
+        $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
-        $id = $this->state->getId();
-        $uri = "/admin/state/$id/display";
+
+        $uri = "/admin/state/{$state->getCode()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -89,8 +91,7 @@ class StateControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
-        $id = $country->getId();
-        $uri = "/admin/state/{$state->getId()}/edit";
+        $uri = "/admin/state/{$state->getCode()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -103,7 +104,7 @@ class StateControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $state = StateFactory::find(array('code' => 'IN'));
+        $state = StateFactory::find(array('code' => 'KA'));
 
         $this->assertEquals("Karnataka State", $state->getName());
 
@@ -116,7 +117,7 @@ class StateControllerTest extends WebTestCase
         StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         StateFactory::createOne(['code' => 'RJ', 'name' => 'Rajasthan', 'country' => $country]);
 
-        $uri = "/admin/country/{$country->getCode()}/list";
+        $uri = "/admin/state/country/{$country->getCode()}/list";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {

@@ -1,6 +1,6 @@
 {% include '@SilecustWebShop/admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 {{
 render(controller(  'Silecust\\WebShop\\Controller\\Location\\PostalCodeController::list',
-    {'id':attribute(entity,"id"),'request':app.request}))
+    {'code':attribute(entity,"code"),'request':app.request}))
 }}
 

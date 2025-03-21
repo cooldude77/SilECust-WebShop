@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PostalCodeController extends EnhancedAbstractController
 {
-    #[Route('/admin/city/{code}/postal_code//create', 'sc_admin_postal_code_create')]
+    #[Route('/admin/postal_code/city/{code}/create', 'sc_admin_postal_code_create')]
     public function create(
         string                 $code,
         CityRepository         $cityRepository,
@@ -81,7 +81,7 @@ class PostalCodeController extends EnhancedAbstractController
         Request                $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['code' => $code]);
+        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
 
         if (!$postalCode) {
             throw $this->createNotFoundException('No PostalCode found for code ' . $code);
@@ -126,7 +126,7 @@ class PostalCodeController extends EnhancedAbstractController
         Request              $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['code' => $code]);
+        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
 
         if (!$postalCode) {
             throw $this->createNotFoundException('No PostalCode found for code ' . $code);
@@ -149,7 +149,7 @@ class PostalCodeController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/city/{code}/postal_code/list', name: 'sc_postal_code_list')]
+    #[Route('/admin/postal_code/city/{code}/list', name: 'sc_postal_code_list')]
     public function list(
         string               $code,
         CityRepository       $cityRepository,

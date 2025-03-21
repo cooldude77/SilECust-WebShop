@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class StateController extends EnhancedAbstractController
 {
-    #[Route('/admin/country/{code}/state/create', 'sc_admin_state_create')]
+    #[Route('/admin/state/country/{code}/create', 'sc_admin_state_create')]
     public function create(CountryRepository      $countryRepository,
                            StateDTOMapper         $stateDTOMapper,
                            EntityManagerInterface $entityManager,
@@ -141,7 +141,7 @@ class StateController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/country/{code}/state/list', name: 'sc_admin_state_list')]
+    #[Route('/admin/state/country/{code}/list', name: 'sc_admin_state_list')]
     public function list(CountryRepository  $countryRepository,
                          StateRepository    $stateRepository,
                          Request            $request,

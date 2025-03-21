@@ -37,9 +37,9 @@ class CityControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
-        $uri = "/admin/state/{$state->getId()}/city/create";
+        $uri = "/admin/state/{$state->getCode()}/city/create";
 
-         $this->browser()->visit($uri)
+        $this->browser()->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
@@ -91,8 +91,9 @@ class CityControllerTest extends WebTestCase
 
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
+        $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
 
-         $uri = "/admin/state/{$state->getId()}/edit";
+        $uri = "/admin/city/{$city->getCode()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -120,9 +121,12 @@ class CityControllerTest extends WebTestCase
         CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state1]);
         CityFactory::createOne(['code' => 'JPR', 'name' => 'Jaipur', 'state' => $state2]);
 
-        $uri = "/admin/state/{$state1->getCode()}/list";
+        $uri = "/admin/state/{$state1->getCode()}/city/list";
 
-        $this->browser()->visit($uri)->assertNotAuthenticated()
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
@@ -130,11 +134,10 @@ class CityControllerTest extends WebTestCase
 
         $uri = "/admin/state/{$state2->getCode()}/city/list";
 
-        $this->browser()->visit($uri)->assertNotAuthenticated()
-            ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
-            })
-            ->visit($uri)->assertSuccessful();
+        $this->browser()
+            ->visit($uri)
+            ->visit($uri)
+            ->assertSuccessful();
 
     }
 

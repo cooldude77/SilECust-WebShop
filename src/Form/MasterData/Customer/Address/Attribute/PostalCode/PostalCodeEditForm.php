@@ -5,7 +5,6 @@ namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\City\CityAutoCompleteField;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\DTO\PostalCodeDTO;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\StateAutoCompleteField;
 use Silecust\WebShop\Repository\CityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostalCodeEditForm extends AbstractType
 {
-    public function __construct( private readonly CityRepository $cityRepository)
+    public function __construct(private readonly CityRepository $cityRepository)
     {
     }
 
@@ -26,8 +25,8 @@ class PostalCodeEditForm extends AbstractType
     {
 
         $builder->add('id', HiddenType::class);
-        $builder->add('postalCode', TextType::class);
-        $builder->add('city', CityAutoCompleteField::class,['mapped'=>false]);
+        $builder->add('name', TextType::class);
+        $builder->add('city', CityAutoCompleteField::class, ['mapped' => false]);
         $builder->add('save', SubmitType::class);
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
 
@@ -53,6 +52,7 @@ class PostalCodeEditForm extends AbstractType
     {
         $resolver->setDefaults(['data_class', [PostalCodeDTO::class]]);
     }
+
     public function getBlockPrefix(): string
     {
         return 'postal_code_edit_form';
