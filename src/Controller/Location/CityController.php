@@ -18,18 +18,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CityController extends EnhancedAbstractController
 {
-    #[Route('/admin/state/{code}/city/create', name: 'sc_admin_city_create')]
+    #[Route('/admin/state/{id}/city/create', name: 'sc_admin_city_create')]
     public function create(StateRepository        $stateRepository,
                            CityDTOMapper          $cityDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
-                           string                 $code
+                           int                    $id
     ): Response
     {
-        $state = $stateRepository->findOneBy(['code' => $code]);
+        $state = $stateRepository->find($id);
 
         if (!$state) {
-            throw $this->createNotFoundException('No State found for code ' . $code);
+            throw $this->createNotFoundException('No State found for id ' . $id);
         }
 
 
@@ -76,20 +76,20 @@ class CityController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/city/{code}/edit', name: 'sc_admin_city_edit')]
+    #[Route('/admin/city/{id}/edit', name: 'sc_admin_city_edit')]
     public function edit(
         EntityManagerInterface $entityManager,
         CityRepository         $cityRepository,
         CityDTOMapper          $cityDTOMapper,
         Request                $request,
-        string                    $code
+        int                    $id
     ): Response
     {
 
-        $city = $cityRepository->findOneBy(['code' => $code]);
+        $city = $cityRepository->find($id);
 
         if (!$city) {
-            throw $this->createNotFoundException('No City found for code ' . $code);
+            throw $this->createNotFoundException('No City found for id ' . $id);
         }
 
         $cityDTO = $cityDTOMapper->mapToDTOForEdit($city);
@@ -134,17 +134,17 @@ class CityController extends EnhancedAbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/city/{code}/display', name: 'sc_admin_city_display')]
+    #[Route('/admin/city/{id}/display', name: 'sc_admin_city_display')]
     public function display(
         CityRepository $cityRepository,
         Request        $request,
-        string            $code): Response
+        int $id): Response
     {
 
-        $city = $cityRepository->findOneBy(['code' => $code]);
+        $city = $cityRepository->find($id);
 
         if (!$city) {
-            throw $this->createNotFoundException('No City found for code ' . $code);
+            throw $this->createNotFoundException('No City found for id ' . $id);
         }
 
 
@@ -164,15 +164,15 @@ class CityController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/state/{code}/city/list', name: 'sc_admin_city_list')]
-    public function list(string            $code, StateRepository $stateRepository,
+    #[Route('/admin/state/{id}/city/list', name: 'sc_admin_city_list')]
+    public function list(int $id, StateRepository $stateRepository,
                          CityRepository $cityRepository,
                          Request        $request, PaginatorInterface $paginator): Response
     {
-        $state = $stateRepository->findOneBy(['code' => $code]);
+        $state = $stateRepository->find($id);
 
         if (!$state) {
-            throw $this->createNotFoundException('No State found for code ' . $code);
+            throw $this->createNotFoundException('No State found for id ' . $id);
         }
 
         $listGrid = ['title' => 'City',

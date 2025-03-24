@@ -65,7 +65,7 @@ class CountryControllerTest extends WebTestCase
 
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
 
-        $uri = "/admin/country/{$country->getCode()}/display";
+        $uri = "/admin/country/{$country->getId()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -86,7 +86,7 @@ class CountryControllerTest extends WebTestCase
 
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
 
-        $uri = "/admin/country/{$country->getCode()}/edit";
+        $uri = "/admin/country/{$country->getId()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {

@@ -18,18 +18,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PostalCodeController extends EnhancedAbstractController
 {
-    #[Route('/admin/postal_code/city/{code}/create', 'sc_admin_postal_code_create')]
+    #[Route('/admin/postal_code/city/{id}/create', 'sc_admin_postal_code_create')]
     public function create(
-        string                 $code,
+        int                    $id,
         CityRepository         $cityRepository,
         PostalCodeDTOMapper    $postalCodeDTOMapper,
         EntityManagerInterface $entityManager, Request $request
     ): Response
     {
-        $city = $cityRepository->findOneBy(['code' => $code]);
+        $city = $cityRepository->find($id);
 
         if (!$city) {
-            throw $this->createNotFoundException('No City found for code ' . $code);
+            throw $this->createNotFoundException('No City found for id ' . $id);
         }
 
         $postalCodeDTO = new PostalCodeDTO();
@@ -72,19 +72,19 @@ class PostalCodeController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/postal_code/{code}/edit', name: 'sc_admin_postal_code_edit')]
+    #[Route('/admin/postal_code/{id}/edit', name: 'sc_admin_postal_code_edit')]
     public function edit(
-        string                 $code,
+        int                    $id,
         PostalCodeRepository   $postalCodeRepository,
         EntityManagerInterface $entityManager,
         PostalCodeDTOMapper    $postalCodeDTOMapper,
         Request                $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
+        $postalCode = $postalCodeRepository->find($id);
 
         if (!$postalCode) {
-            throw $this->createNotFoundException('No PostalCode found for code ' . $code);
+            throw $this->createNotFoundException('No PostalCode found for id ' . $id);
         }
 
         $postalCodeDTO = $postalCodeDTOMapper->mapToDTOForEdit($postalCode);
@@ -119,17 +119,17 @@ class PostalCodeController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/admin/postal_code/{code}/display', name: 'sc_admin_postal_code_display')]
+    #[Route('/admin/postal_code/{id}/display', name: 'sc_admin_postal_code_display')]
     public function display(
-        string               $code,
+        int                  $id,
         PostalCodeRepository $postalCodeRepository,
         Request              $request,
     ): Response
     {
-        $postalCode = $postalCodeRepository->findOneBy(['postalCode' => $code]);
+        $postalCode = $postalCodeRepository->find($id);
 
         if (!$postalCode) {
-            throw $this->createNotFoundException('No PostalCode found for code ' . $code);
+            throw $this->createNotFoundException('No PostalCode found for id ' . $id);
         }
 
 
@@ -149,18 +149,18 @@ class PostalCodeController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/postal_code/city/{code}/list', name: 'sc_postal_code_list')]
+    #[Route('/admin/postal_code/city/{id}/list', name: 'sc_postal_code_list')]
     public function list(
-        string               $code,
+        int                  $id,
         CityRepository       $cityRepository,
         PostalCodeRepository $postalCodeRepository,
         Request              $request,
         PaginatorInterface   $paginator): Response
     {
-        $city = $cityRepository->findOneBy(['code' => $code]);
+        $city = $cityRepository->find($id);
 
         if (!$city) {
-            throw $this->createNotFoundException('No City found for code ' . $code);
+            throw $this->createNotFoundException('No City found for id ' . $id);
         }
 
         $listGrid = ['title' => 'PostalCode',

@@ -36,7 +36,7 @@ class StateControllerTest extends WebTestCase
     {
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
 
-        $uri = "/admin/state/country/{$country->getCode()}/create";
+        $uri = "/admin/state/country/{$country->getId()}/create";
 
         $visit = $this->browser()->visit($uri)
             ->assertNotAuthenticated()
@@ -73,7 +73,7 @@ class StateControllerTest extends WebTestCase
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
 
-        $uri = "/admin/state/{$state->getCode()}/display";
+        $uri = "/admin/state/{$state->getId()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -91,7 +91,7 @@ class StateControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
-        $uri = "/admin/state/{$state->getCode()}/edit";
+        $uri = "/admin/state/{$state->getId()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -117,7 +117,7 @@ class StateControllerTest extends WebTestCase
         StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         StateFactory::createOne(['code' => 'RJ', 'name' => 'Rajasthan', 'country' => $country]);
 
-        $uri = "/admin/state/country/{$country->getCode()}/list";
+        $uri = "/admin/state/country/{$country->getId()}/list";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {

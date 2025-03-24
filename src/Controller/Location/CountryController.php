@@ -57,16 +57,16 @@ class CountryController extends EnhancedAbstractController
     }
 
 
-    #[Route('/admin/country/{code}/edit', name: 'sc_admin_country_edit')]
+    #[Route('/admin/country/{id}/edit', name: 'sc_admin_country_edit')]
     public function edit(EntityManagerInterface $entityManager,
                          CountryRepository      $countryRepository, CountryDTOMapper $countryDTOMapper,
-                         Request                $request, string $code
+                         Request                $request, int $id
     ): Response
     {
-        $country = $countryRepository->findOneBy(['code' => $code]);
+        $country = $countryRepository->find($id);
 
         if (!$country) {
-            throw $this->createNotFoundException('No Country found for code ' . $code);
+            throw $this->createNotFoundException('No Country found for id ' . $id);
         }
 
         $countryDTO = $countryDTOMapper->mapToDTOForEdit($country);
@@ -99,12 +99,12 @@ class CountryController extends EnhancedAbstractController
         return $this->render('@SilecustWebShop/location_data/admin/country/country_edit.html.twig', ['form' => $form]);
     }
 
-    #[Route('/admin/country/{code}/display', name: 'sc_admin_country_display')]
-    public function display(CountryRepository $countryRepository, string $code, Request $request): Response
+    #[Route('/admin/country/{id}/display', name: 'sc_admin_country_display')]
+    public function display(CountryRepository $countryRepository, int $id, Request $request): Response
     {
-        $country = $countryRepository->findOneBy(['code'=>$code]);
+        $country = $countryRepository->find($id);
         if (!$country) {
-            throw $this->createNotFoundException('No country found for code ' . $code);
+            throw $this->createNotFoundException('No country found for id ' . $id);
         }
 
         $displayParams = ['title' => 'Country',

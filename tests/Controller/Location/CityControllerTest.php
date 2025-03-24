@@ -37,7 +37,7 @@ class CityControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
 
-        $uri = "/admin/state/{$state->getCode()}/city/create";
+        $uri = "/admin/state/{$state->getId()}/city/create";
 
         $this->browser()->visit($uri)
             ->assertNotAuthenticated()
@@ -74,7 +74,7 @@ class CityControllerTest extends WebTestCase
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
 
 
-        $uri = "/admin/city/{$city->getCode()}/display";
+        $uri = "/admin/city/{$city->getId()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -93,7 +93,7 @@ class CityControllerTest extends WebTestCase
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
 
-        $uri = "/admin/city/{$city->getCode()}/edit";
+        $uri = "/admin/city/{$city->getId()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -121,7 +121,7 @@ class CityControllerTest extends WebTestCase
         CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state1]);
         CityFactory::createOne(['code' => 'JPR', 'name' => 'Jaipur', 'state' => $state2]);
 
-        $uri = "/admin/state/{$state1->getCode()}/city/list";
+        $uri = "/admin/state/{$state1->getId()}/city/list";
 
         $this
             ->browser()
@@ -132,7 +132,7 @@ class CityControllerTest extends WebTestCase
             })
             ->visit($uri)->assertSuccessful();
 
-        $uri = "/admin/state/{$state2->getCode()}/city/list";
+        $uri = "/admin/state/{$state2->getId()}/city/list";
 
         $this->browser()
             ->visit($uri)

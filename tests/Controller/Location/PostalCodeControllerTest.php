@@ -39,7 +39,7 @@ class PostalCodeControllerTest extends WebTestCase
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
 
-        $uri = "/admin/postal_code/city/{$city->getCode()}/create";
+        $uri = "/admin/postal_code/city/{$city->getId()}/create";
 
         $visit = $this->browser()->visit($uri)
             ->assertNotAuthenticated()
@@ -77,7 +77,7 @@ class PostalCodeControllerTest extends WebTestCase
         $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
 
-        $uri = "/admin/postal_code/{$postalCode->getPostalCode()}/display";
+        $uri = "/admin/postal_code/{$postalCode->getId()}/display";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -97,7 +97,7 @@ class PostalCodeControllerTest extends WebTestCase
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
         $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
-        $uri = "/admin/postal_code/{$postalCode->getPostalCode()}/edit";
+        $uri = "/admin/postal_code/{$postalCode->getId()}/edit";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -128,7 +128,7 @@ class PostalCodeControllerTest extends WebTestCase
         $postalCode1 = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city1]);
         $postalCode2 = PostalCodeFactory::createOne(['postalCode' => '302001', 'name' => 'Main Road', 'city' => $city2]);
 
-        $uri = "/admin/postal_code/city/{$city1->getCode()}/list";
+        $uri = "/admin/postal_code/city/{$city1->getId()}/list";
 
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
@@ -136,7 +136,7 @@ class PostalCodeControllerTest extends WebTestCase
             })
             ->visit($uri)->assertSuccessful();
 
-        $uri = "/admin/postal_code/city/{$city2->getCode()}/list";
+        $uri = "/admin/postal_code/city/{$city2->getId()}/list";
 
         $this->browser()
             ->visit($uri)
