@@ -15,7 +15,7 @@ class PostalCode
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $postalCode = null;
+    private ?string $code = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -34,14 +34,14 @@ class PostalCode
         return $this->id;
     }
 
-    public function getPostalCode(): ?string
+    public function getCode(): ?string
     {
-        return $this->postalCode;
+        return $this->code;
     }
 
-    public function setPostalCode(string $postalCode): static
+    public function setCode(string $code): static
     {
-        $this->postalCode = $postalCode;
+        $this->code = $code;
 
         return $this;
     }

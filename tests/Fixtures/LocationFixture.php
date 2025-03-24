@@ -28,7 +28,7 @@ trait LocationFixture
             'code'=>'KA','name'=>'Karnataka']);
         $this->city = CityFactory::createOne(['state' => $this->state,
             'code'=>'BLR','name'=>'Bangalore']);
-        $this->postalCode = PostalCodeFactory::createOne(['city' => $this->city,'postalCode'=>'560001','name'=>'Bangalore PO']);
+        $this->postalCode = PostalCodeFactory::createOne(['city' => $this->city,'code'=>'560001','name'=>'Bangalore PO']);
 
     }
 }

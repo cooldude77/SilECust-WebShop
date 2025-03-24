@@ -13,6 +13,7 @@ use Silecust\WebShop\Tests\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class OrderHeaderControllerTest extends WebTestCase
 {
@@ -25,7 +26,8 @@ class OrderHeaderControllerTest extends WebTestCase
         LocationFixture,
         CurrencyFixture,
         OrderFixture,
-        OrderItemFixture;
+        OrderItemFixture,
+        Factories;
 
     protected function setUp(): void
     {
