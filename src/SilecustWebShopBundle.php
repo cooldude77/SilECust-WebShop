@@ -18,6 +18,7 @@ class SilecustWebShopBundle extends AbstractBundle
         // prepend config from a file
         $container->import(__DIR__ . '/Resources/config/services.yaml');
         $container->import(__DIR__ . '/Resources/config/doctrine_migrations.yaml');
+        $container->import(__DIR__ . '/Resources/config/twig.yaml');
         //  $container->import(__DIR__ . '/Resources/config/routes.yaml');
     }
 

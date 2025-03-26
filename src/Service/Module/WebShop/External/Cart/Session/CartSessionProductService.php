@@ -8,6 +8,7 @@ use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSes
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Handling product functionality in cart
@@ -22,7 +23,7 @@ class CartSessionProductService
     /**
      * @var Session
      */
-    private Session $session;
+    private SessionInterface $session;
 
     /**
      * @param RequestStack      $requestStack

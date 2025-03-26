@@ -21,3 +21,24 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    item_price_calculator:
+        class: Silecust\WebShop\Service\Transaction\Order\Item\ItemPriceCalculator
+
+    price_by_country_code:
+        class: Silecust\WebShop\Service\MasterData\Pricing\PriceByCountryCalculator
+
+    Silecust\WebShop\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+
+    Silecust\WebShop\Twig\Security\IsUserACustomer:
+        tags:
+            -{ name: twig.extension }
+
+    Silecust\WebShop\Twig\EventDispatcher\GridColumnEventDispatcher:
+        tags:
+            -{ name: twig.extension }
+    Silecust\WebShop\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
+        tags:
+            -{ name: twig.extension }
