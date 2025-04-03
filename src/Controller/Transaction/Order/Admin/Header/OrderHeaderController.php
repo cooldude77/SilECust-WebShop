@@ -3,21 +3,22 @@
 namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Header;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
+use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OrderHeaderNotFound;
 use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderEditForm;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 use Silecust\WebShop\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
 use Silecust\WebShop\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -66,21 +67,32 @@ class OrderHeaderController extends EnhancedAbstractController
     }
 
     /**
-     * @throws \HttpException
+     * @param OrderHeader $orderHeader
+     * @param OrderHeaderDTOMapper $mapper
+     * @param OrderStatusValidator $orderStatusValidator
+     * @param EntityManagerInterface $entityManager
+     * @param OrderHeaderRepository $orderHeaderRepository
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param Request $request
+     * @return Response
      */
     #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_route_order_edit')]
-    public function edit(OrderHeader              $orderHeader,
-                         OrderHeaderDTOMapper     $mapper,
-                         OrderStatusValidator     $orderStatusValidator,
-                         EntityManagerInterface   $entityManager,
-                         OrderHeaderRepository    $orderHeaderRepository,
-                         EventDispatcherInterface $eventDispatcher,
-                         Request                  $request
+    public function edit(
+        string                   $generatedId,
+        OrderHeaderDTOMapper     $mapper,
+        OrderStatusValidator     $orderStatusValidator,
+        EntityManagerInterface   $entityManager,
+        OrderHeaderRepository    $orderHeaderRepository,
+        EventDispatcherInterface $eventDispatcher,
+        Request                  $request
     ): Response
     {
 
-
         try {
+            $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
+
+            if ($orderHeader == null)
+                throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
             $orderHeaderDTO = new OrderHeaderDTO();
@@ -115,14 +127,21 @@ class OrderHeaderController extends EnhancedAbstractController
             return $this->render('@SilecustWebShop/transaction/admin/order/header/order_edit.html.twig', ['form' => $form]);
         } catch (OpenOrderEditedInAdminPanel $e) {
             return new Response($e->getMessage(), 409);
+        } catch (OrderHeaderNotFound $e) {
+            return new Response($e->getMessage(), 404);
         }
 
     }
 
     #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_route_order_display')]
-    public function display(OrderHeader $orderHeader, OrderStatusValidator $orderStatusValidator, Request $request): Response
+    public function display(string $generatedId, OrderHeaderRepository $orderHeaderRepository, OrderStatusValidator $orderStatusValidator, Request $request): Response
     {
+
         try {
+            $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
+
+            if ($orderHeader == null)
+                throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
             $displayParams = ['title' => 'Price',
@@ -137,8 +156,9 @@ class OrderHeaderController extends EnhancedAbstractController
             );
         } catch (OpenOrderEditedInAdminPanel $e) {
             return new Response($e->getMessage(), 409);
+        } catch (OrderHeaderNotFound $e) {
+            return new Response($e->getMessage(), 404);
         }
-
     }
 
     #[Route('/admin/order/list', name: 'sc_admin_route_order_list')]
