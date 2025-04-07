@@ -5,6 +5,9 @@
   "license": "proprietary",
   "minimum-stability": "dev",
   "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
   "require": {
     "php": ">=8.3",
     "symfony/framework-bundle": "7.2.*",
