@@ -1,14 +1,12 @@
 {% extends '@SilecustWebShop/security/base/security_base.html.twig' %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block content %}
 
     <h2>Sign Up for Great Deals</h2>
 
     {{ form(form) }}
-
-
     <a href="{{path('sc_app_login') }}">Login</a>
 
 {% endblock %}
