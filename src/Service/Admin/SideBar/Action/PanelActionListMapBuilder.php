@@ -199,13 +199,13 @@ class PanelActionListMapBuilder
                             'list' => 'sc_admin_web_shop_list'
                         ]
                     ],
-                    'my_orders' => [
+                    'sc_my_orders' => [
                         'routes' => [
                             'list' => 'sc_admin_my_order_list',
                             'display' => 'sc_admin_web_shop_display',
                         ]
                     ],
-                    'my_addresses' => [
+                    'sc_my_addresses' => [
                         'routes' => [
                             'list' => 'sc_admin_my_address_list',
                             'display' => 'sc_admin_my_address_display',

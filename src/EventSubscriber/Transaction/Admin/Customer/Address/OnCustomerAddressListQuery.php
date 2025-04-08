@@ -36,7 +36,7 @@ readonly class OnCustomerAddressListQuery implements EventSubscriberInterface
 
         $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
 
-        if ($route['_route'] != 'my_addresses')
+        if ($route['_route'] != 'sc_my_addresses')
             return;
 
         if ($this->customerFromUserFinder->isLoggedInUserAlsoACustomer())

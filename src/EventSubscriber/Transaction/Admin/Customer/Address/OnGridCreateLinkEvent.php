@@ -27,7 +27,7 @@ class OnGridCreateLinkEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
-        if (!in_array($route['_route'], ['my_addresses', 'customer_addresses']))
+        if (!in_array($route['_route'], ['sc_my_addresses', 'customer_addresses']))
             return;
 
         $data = $event->getData();
@@ -35,8 +35,8 @@ class OnGridCreateLinkEvent implements EventSubscriberInterface
 
         $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
-        if ($route['_route'] ==  'my_addresses')
-            $data['linkValue'] = ($this->router->generate('my_address_create'));
+        if ($route['_route'] ==  'sc_my_addresses')
+            $data['linkValue'] = ($this->router->generate('sc_my_address_create'));
 
         // to do : what employee should see
 
