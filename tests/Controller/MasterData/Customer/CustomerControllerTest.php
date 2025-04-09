@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Tests\Controller\MasterData\Customer;
 use Silecust\WebShop\Factory\CustomerFactory;
 use Silecust\WebShop\Factory\SalutationFactory;
 use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -14,7 +14,7 @@ use Zenstruck\Foundry\Test\Factories;
 class CustomerControllerTest extends WebTestCase
 {
 
-    use HasBrowser, EmployeeFixture, CustomerFixture, Factories;
+    use HasBrowser, CustomerFixture, CustomerFixture, Factories;
 
     protected function tearDown(): void
     {
@@ -31,14 +31,14 @@ class CustomerControllerTest extends WebTestCase
 
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
             'description' => 'Mister...']);
-        $this->createEmployeeFixtures();
+        $this->createCustomerFixtures();
 
         $this
             ->browser()
             ->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->fillField(
@@ -67,7 +67,7 @@ class CustomerControllerTest extends WebTestCase
         $salutation = SalutationFactory::createOne(['name' => 'Mr.',
             'description' => 'Mister...']);
 
-        $this->createEmployeeFixtures();
+        $this->createCustomerFixtures();
         $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
@@ -77,7 +77,7 @@ class CustomerControllerTest extends WebTestCase
         $visit = $this->browser()->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->fillField(
@@ -106,7 +106,7 @@ class CustomerControllerTest extends WebTestCase
     public function testDisplay()
     {
 
-        $this->createEmployeeFixtures();
+        $this->createCustomerFixtures();
         $this->createCustomerFixtures();
 
         $id = $this->customer->getId();
@@ -116,7 +116,7 @@ class CustomerControllerTest extends WebTestCase
             ->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->assertSuccessful();
@@ -127,11 +127,11 @@ class CustomerControllerTest extends WebTestCase
 
     public function testList()
     {
-        $this->createEmployeeFixtures();
+        $this->createCustomerFixtures();
         $uri = '/admin/customer/list';
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForEmployee->object());
+                $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
             ->assertSuccessful();
