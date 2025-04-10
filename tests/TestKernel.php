@@ -34,6 +34,7 @@ class TestKernel extends Kernel
 
         yield new FrameworkBundle();
         yield new SecurityBundle();
+
         yield new DoctrineBundle();
         yield new DoctrineMigrationsBundle();
         yield new MonologBundle();

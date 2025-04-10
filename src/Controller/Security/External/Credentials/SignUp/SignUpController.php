@@ -13,10 +13,13 @@ use Silecust\WebShop\Form\Security\User\SignUpSimpleForm;
 use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerService;
 use Silecust\WebShop\Service\Security\User\Mapper\SignUpDTOMapper;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
 class SignUpController extends EnhancedAbstractController
 {
@@ -31,10 +34,13 @@ class SignUpController extends EnhancedAbstractController
      * To be called when user quickly wants to sign up
      */
     #[Route('/signup', name: 'sc_user_customer_sign_up')]
-    public function signUp(Request                  $request,
-                           CustomerService          $customerService,
-                           SignUpDTOMapper          $signUpDTOMapper,
-                           EventDispatcherInterface $eventDispatcher
+    public function signUp(Request                    $request,
+                           CustomerService            $customerService,
+                           SignUpDTOMapper            $signUpDTOMapper,
+                           EventDispatcherInterface   $eventDispatcher,
+                           UserAuthenticatorInterface $authenticatorManager,
+                           #[Autowire(service: 'security.authenticator.form_login.main')]
+                           FormLoginAuthenticator     $formLoginAuthenticator
 
     ): Response
     {
@@ -59,6 +65,8 @@ class SignUpController extends EnhancedAbstractController
             $event->setCustomer($customer);
 
             $eventDispatcher->dispatch($event, SecurityEventTypes::POST_CUSTOMER_SIGN_UP_SUCCESS);
+
+            $authenticatorManager->authenticateUser($customer->getUser(), $formLoginAuthenticator, $request);
 
             // do anything else you need here, like send an email
             if ($request->get('_redirect_after_success') == null) {

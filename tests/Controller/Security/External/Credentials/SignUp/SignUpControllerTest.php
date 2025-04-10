@@ -31,6 +31,7 @@ class SignUpControllerTest extends WebTestCase
             ->fillField('sign_up_simple_form[agreeTerms]', true)
             ->interceptRedirects()
             ->click('Sign Up')
+            ->assertAuthenticated()
             ->assertRedirectedTo('/')
             ->use(function () {
                 $user = $this->findOneBy(User::class, ['login' => 'x@y.com']);
