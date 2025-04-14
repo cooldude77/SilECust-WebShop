@@ -57,4 +57,34 @@ class MainControllerTest extends WebTestCase
 
 
     }
+
+
+    /**
+     * @return void
+     */
+    public function testMyUrlsWithoutLogin()
+    {
+
+        $this->createCustomerFixtures();
+
+        $this
+            ->browser()
+            ->visit('/my/dashboard')
+            ->assertNotAuthenticated()
+            ->visit('/my')
+            ->assertNotAuthenticated()
+            ->visit('/my/profile')
+            ->assertNotAuthenticated()
+            ->visit('/my/orders')
+            ->assertNotAuthenticated()
+            ->visit('/my/addresses')
+            ->assertNotAuthenticated()
+            ->visit('/my/address/create')
+            ->assertNotAuthenticated()
+            ->visit('/my/orders/1/display')
+            ->assertNotAuthenticated()
+            ->visit('/my/orders/items/1/display')
+            ->assertNotAuthenticated();
+
+    }
 }
