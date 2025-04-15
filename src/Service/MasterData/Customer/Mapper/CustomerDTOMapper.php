@@ -2,21 +2,20 @@
 
 namespace Silecust\WebShop\Service\MasterData\Customer\Mapper;
 
-use Silecust\WebShop\Entity\Category;
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
 use Silecust\WebShop\Repository\CustomerRepository;
 use Silecust\WebShop\Repository\SalutationRepository;
 use Silecust\WebShop\Security\Mapper\UserDTOMapper;
-use Symfony\Component\Form\FormInterface;
 
 class CustomerDTOMapper
 {
 
-    public function __construct(private readonly CustomerRepository $customerRepository,
-        private readonly SalutationRepository $salutationRepository,
-        private readonly UserDTOMapper $userMapper
-    ) {
+    public function __construct(private readonly CustomerRepository   $customerRepository,
+                                private readonly SalutationRepository $salutationRepository,
+                                private readonly UserDTOMapper        $userMapper
+    )
+    {
     }
 
     public function mapToEntityForCreate(CustomerDTO $customerDTO): Customer
@@ -36,15 +35,14 @@ class CustomerDTOMapper
     }
 
 
-    public function mapToEntityForEdit(FormInterface $form, Customer $customer): Customer
+    public function mapToEntityForEdit(CustomerDTO $customerDTO, Customer $customer): Customer
     {
-
-        $customerDTO = $form->getData();
 
         $customer->setFirstName($customerDTO->firstName);
         $customer->setMiddleName($customerDTO->middleName);
         $customer->setLastName($customerDTO->lastName);
         $customer->setGivenName($customerDTO->givenName);
+        $customer->setEmail($customerDTO->email);
 
         return $customer;
 

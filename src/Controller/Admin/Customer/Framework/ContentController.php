@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Common\Identification\CommonIdentificationConstants;
 use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
 use Silecust\WebShop\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
@@ -10,8 +12,7 @@ use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACust
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -45,9 +46,12 @@ class ContentController extends EnhancedAbstractController
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
 
-        return $this->forward(CustomerController::class . '::edit', [
-            'id' => $customer->getId(),
-            'request' => $request]);
+        return
+            $this->render(
+                '@SilecustWebShop/admin/customer/dashboard/dashboard.html.twig',
+                ['request' => $request,
+                    'id' => $customer->getId()
+                ]);
 
     }
 
@@ -123,8 +127,23 @@ class ContentController extends EnhancedAbstractController
     public function personalInfo(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
     {
 
+        $request->attributes->set(
+            CommonIdentificationConstants::UI_TABLE_HEADING, 'Edit your personal information');
+
         $customer = $customerFromUserFinder->getLoggedInCustomer();
-        return $this->forward(CustomerController::class . '::edit', ['request' => $request, 'id' => $customer->getId()]);
+
+
+        $formResponse = $this->forward(CustomerController::class . '::edit', [
+            'request' => $request, 'id' => $customer->getId()]);
+
+        if ($formResponse instanceof JsonResponse)
+            return $this->redirect($this->generateUrl('sc_my_personal_info'));
+
+        return $this->render(
+            '@SilecustWebShop/admin/customer/my_personal_info.html.twig',
+            [
+                'content' => $formResponse->getContent()
+            ]);
 
     }
 

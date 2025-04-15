@@ -21,6 +21,7 @@ class CustomerControllerTest extends WebTestCase
         $this->browser()->visit('/logout');
 
     }
+
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      * or Symfony\Bundle\FrameworkBundle\Test\WebTestCase.
@@ -40,11 +41,15 @@ class CustomerControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
+            // Fill only email, leave rest
             ->visit($uri)
-            ->fillField(
-                'customer_create_form[firstName]', 'First Name'
-            )->fillField('customer_create_form[lastName]', 'Last Name'
-            )->fillField('customer_create_form[email]', 'x@y.com')
+            ->fillField('customer_create_form[plainPassword]', '4534geget355$%^')
+            ->fillField('customer_create_form[email]', 'x@y.com')
+            ->click('Save')
+            ->assertSuccessful()
+            ->fillField('customer_create_form[firstName]', 'First Name')
+            ->fillField('customer_create_form[lastName]', 'Last Name')
+            ->fillField('customer_create_form[email]', 'x@y.com')
             ->fillField('customer_create_form[phoneNumber]', '+91999999999')
             ->fillField('customer_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
@@ -79,6 +84,10 @@ class CustomerControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
+            // Fill only email, leave rest
+            ->visit($uri)
+            ->fillField('customer_edit_form[email]', 'x@y.com')
+            ->click('Save')
             ->visit($uri)
             ->fillField(
                 'customer_edit_form[firstName]', 'New First Name'

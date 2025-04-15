@@ -13,7 +13,14 @@
                 {% endblock %}
             </div>
             <div id="content-wrapper" class="col-sm mt-2">
-                {% block content %}{% endblock %}
+                {% block flash_messages %}
+                    {% include '@SilecustWebShop/admin/ui/flash/flash_messages.html.twig' %}
+                {% endblock %}
+                {% block content_heading %}
+                    {% include '@SilecustWebShop/admin/ui/content/heading.html.twig' with {'request':request} %}
+                {% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
         <div class="row">

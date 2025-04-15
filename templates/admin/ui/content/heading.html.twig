@@ -1,0 +1,5 @@
+{% set constant = constant('Silecust\\WebShop\\Controller\\Common\\Identification\\CommonIdentificationConstants::UI_TABLE_HEADING') %}
+
+{% if (request.attributes.get(constant) !=null) %}
+    <h2>{{ request.attributes.get(constant) }}</h2>
+{% endif %}
