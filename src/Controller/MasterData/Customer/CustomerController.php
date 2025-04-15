@@ -5,7 +5,6 @@ namespace Silecust\WebShop\Controller\MasterData\Customer;
 // ...
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Controller\Component\Http\FormBasedRedirectionTrait;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
@@ -15,27 +14,24 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerController extends EnhancedAbstractController
 {
 
-    use FormBasedRedirectionTrait;
 
     public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct($eventDispatcher);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/create', 'customer_create')]
+    #[Route('/admin/customer/create', 'customer_create')]
     public function create(CustomerDTOMapper      $customerDTOMapper,
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
         $customerDTO = new CustomerDTO();
-        $form = $this->createForm(
-            CustomerCreateForm::class, $customerDTO
-        );
+        $form = $this->createForm(CustomerCreateForm::class, $customerDTO);
 
         $form->handleRequest($request);
 
@@ -129,7 +125,7 @@ class CustomerController extends EnhancedAbstractController
 
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/list', name: 'sc_admin_customer_list')]
+    #[Route('/admin/customer/list', name: 'sc_admin_customer_list')]
     public function list(CustomerRepository $customerRepository, Request $request): Response
     {
 

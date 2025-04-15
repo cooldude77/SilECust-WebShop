@@ -30,9 +30,7 @@ class CustomerControllerTest extends WebTestCase
     {
         $uri = '/admin/customer/create';
 
-        $salutation = SalutationFactory::createOne(['name' => 'Mr.',
-            'description' => 'Mister...']);
-        $this->createEmployeeFixtures();
+       $this->createEmployeeFixtures();
 
         $this
             ->browser()
@@ -47,9 +45,11 @@ class CustomerControllerTest extends WebTestCase
             ->fillField('customer_create_form[email]', 'x@y.com')
             ->click('Save')
             ->assertSuccessful()
+            // fill all remaining fields too
+            ->visit($uri)
             ->fillField('customer_create_form[firstName]', 'First Name')
             ->fillField('customer_create_form[lastName]', 'Last Name')
-            ->fillField('customer_create_form[email]', 'x@y.com')
+            ->fillField('customer_create_form[email]', 'x@new.com')
             ->fillField('customer_create_form[phoneNumber]', '+91999999999')
             ->fillField('customer_create_form[plainPassword]', '4534geget355$%^')
             ->click('Save')
