@@ -79,6 +79,7 @@ class ContentController extends EnhancedAbstractController
     {
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
+
         return $this->forward(CustomerAddressController::class . '::list',
             ['request' => $request, 'id' => $customer->getId()]);
 
@@ -95,8 +96,22 @@ class ContentController extends EnhancedAbstractController
     {
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
-        return $this->forward(CustomerAddressController::class . '::create',
+
+        $request->attributes->set(
+            CommonIdentificationConstants::UI_TABLE_HEADING, 'Create new address');
+
+        $formResponse =$this->forward(CustomerAddressController::class . '::create',
             ['request' => $request, 'id' => $customer->getId()]);
+
+
+        if ($formResponse instanceof JsonResponse)
+            return $this->redirect($this->generateUrl('sc_my_addresses'));
+
+        return $this->render(
+            '@SilecustWebShop/admin/customer/my_generic_content.html.twig',
+            [
+                'content' => $formResponse->getContent()
+            ]);
 
     }
 
@@ -140,7 +155,7 @@ class ContentController extends EnhancedAbstractController
             return $this->redirect($this->generateUrl('sc_my_personal_info'));
 
         return $this->render(
-            '@SilecustWebShop/admin/customer/my_personal_info.html.twig',
+            '@SilecustWebShop/admin/customer/my_generic_content.html.twig',
             [
                 'content' => $formResponse->getContent()
             ]);
