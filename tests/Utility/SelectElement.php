@@ -8,8 +8,8 @@ trait SelectElement
 {
     /**
      * @param Browser $browser
-     * @param string  $filter
-     * @param int     $chosenValue
+     * @param string $filter
+     * @param int $chosenValue
      *
      * @return void
      *
@@ -24,10 +24,12 @@ trait SelectElement
 
     public function addOption(Browser $browser, string $filter, int $chosenValue): void
     {
+
         $domDocument = $browser->crawler()->getNode(0)?->parentNode;
 
         $option = $domDocument->createElement('option');
         $option->setAttribute('value', $chosenValue);
+        $option->setAttribute('selected', 'selected');
 
         $selectElement = $browser->crawler()->filter($filter)->getNode(0);
         $selectElement->appendChild($option);

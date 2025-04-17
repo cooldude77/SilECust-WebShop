@@ -4,6 +4,7 @@ namespace Silecust\WebShop\Form\MasterData\Customer\Address;
 
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\PostalCodeAutoCompleteField;
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
+use Silecust\WebShop\Repository\PostalCodeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CustomerAddressCreateForm extends AbstractType
 {
 
-    public function __construct()
+    public function __construct(private readonly PostalCodeRepository $postalCodeRepository)
     {
     }
 
@@ -41,14 +42,13 @@ class CustomerAddressCreateForm extends AbstractType
             ]
         );
         $builder->add('isDefault', CheckboxType::class, ['label' => 'Use as default address']);
-        $builder->add('postalCodeId', HiddenType::class);
-
         $builder->add('save', SubmitType::class);
 
 
         $builder->addEventListener(
             FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
-            $form = $formEvent->getForm();
+            $formEvent->getForm()->add('postalCodeId', HiddenType::class);
+
             $data = $formEvent->getData();
             $data['postalCodeId'] = $data['postalCode'];
 
@@ -61,12 +61,18 @@ class CustomerAddressCreateForm extends AbstractType
 
             /** @var CustomerAddressDTO $data */
             $data = $formEvent->getData();
+            $form = $formEvent->getForm();
+
             $data->addressType = $options['addressType'];
+
+
+            $form->get('postalCode')->setData($this->postalCodeRepository->findOneBy(['id' => $data->postalCodeId]));
+
         }
         );
 
-
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

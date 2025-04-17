@@ -3,6 +3,9 @@
 namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
@@ -10,13 +13,11 @@ use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerAddressController extends EnhancedAbstractController
 {
@@ -76,7 +77,7 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
+    #[Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
     public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
                          EntityManagerInterface    $entityManager,
                          CustomerAddressRepository $customerAddressRepository, Request $request
@@ -146,6 +147,19 @@ class CustomerAddressController extends EnhancedAbstractController
 
     }
 
+    #[Route('/admin/customer/address/{id}/delete', name: 'sc_admin_customer_address_delete')]
+    public function delete(CustomerAddressRepository $customerAddressRepository, int $id): Response
+    {
+        $customerAddress = $customerAddressRepository->find($id);
+        if (!$customerAddress) {
+            throw $this->createNotFoundException('No Customer found for id ' . $id);
+        }
+
+        $customerAddressRepository->remove($customerAddress);
+
+        return new JsonResponse(['id' => $id, 'message' => "Customer Address Delete"]);
+    }
+
 
     #[Route('/admin/customer/{id}/address/list', name: 'sc_admin_customer_address_list')]
     public function list(int                       $id,
@@ -157,8 +171,9 @@ class CustomerAddressController extends EnhancedAbstractController
     ): Response
     {
 
-        $listGrid = ['title' => 'Customer Address',
-            'function'=>'customer_address',
+        $listGrid = [
+            'title' => 'Customer Address',
+            'function' => 'customer_address',
             'link_id' => 'id-customer-address',
             'columns' => [
                 ['label' => 'Address Line 1',
@@ -166,6 +181,8 @@ class CustomerAddressController extends EnhancedAbstractController
                     'action' => 'display'
                 ]
                 ,],
+            'editButtonLinkText' => 'Edit',
+            'edit_link_allowed' => true,
             'createButtonConfig' => [
                 'link_id' => 'id-create-customer-address',
                 'function' => 'customer_address',

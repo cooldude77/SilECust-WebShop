@@ -2,9 +2,9 @@
 
 namespace Silecust\WebShop\Repository;
 
-use Silecust\WebShop\Entity\CustomerAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\CustomerAddress;
 
 /**
  * @extends ServiceEntityRepository<CustomerAddress>
@@ -55,7 +55,15 @@ class CustomerAddressRepository extends ServiceEntityRepository
     public function getQueryForSelectByCustomer(\Silecust\WebShop\Entity\Customer $customer): \Doctrine\ORM\Query
     {
         $dql = "SELECT ca FROM Silecust\WebShop\Entity\CustomerAddress ca where ca.customer=:customer";
-        return $this->getEntityManager()->createQuery($dql)->setParameter('customer',$customer);
+        return $this->getEntityManager()->createQuery($dql)->setParameter('customer', $customer);
+
+    }
+
+    public function remove(CustomerAddress $customerAddress): void
+    {
+
+        $this->getEntityManager()->remove($customerAddress);
+        $this->getEntityManager()->flush();
 
     }
 }
