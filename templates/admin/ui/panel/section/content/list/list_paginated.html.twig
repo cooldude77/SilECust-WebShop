@@ -31,60 +31,10 @@
     </div>
 
     {# Pagination starts #}
-        {% if pagination is not null and pagination|length > 0 %}
-            {% for entity in pagination %}
-                <div class="row py-2 fs-6">
-                {# columns of the grid #}
-                {% for column in listGrid.columns %}
-                    {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',
-                        {"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
-
-                    {% if column.action is defined and column.action == 'display' %}
-
-                        <div class="col">
-
-                            {% set column = attribute(event.getData(),'column') %}
-                            {% if column.value is defined %}
-                                <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
-                            {% else %}
-                                {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
-                                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                                    'name':attribute(entity, column.propertyName),
-                                    'id':attribute(entity, 'id'),
-                                    'link_id':listGrid.link_id} %}
-                            {% endif %}
-
-                        </div>
-
-                    {% else %}
-
-                        <div class="col">
-
-                            {% set column = attribute(event.getData(),'column') %}
-
-                            {% if column.value is defined %}
-                                {{ column.value }}
-                            {% else %}
-                                {{ attribute(entity, column.propertyName) }}
-                            {% endif %}
-
-                        </div>
-                    {% endif %}
-                {% endfor %}
-
-                <div class="col">
-
-                    {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
-
-                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/edit_link.html.twig' with {
-                            'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                            'id':attribute(entity, 'id'),
-                            'link_id':listGrid.link_id} %}
-
-                    {% endif %}
-
-                </div>
-            </div>
+    {% if pagination is not null and pagination|length > 0 %}
+        {% for entity in pagination %}
+            {% include '@SilecustWebShop/admin/ui/panel/section/content/list/row/row.html.twig' with
+                {"request":request,'listGrid':listGrid,'entity':entity} %}
         {% endfor %}
         <div class="navigation">
             {{ knp_pagination_render(
@@ -98,8 +48,6 @@
         </div>
     {% else %}
         <h2>No records found</h2>
-
     {% endif %}
-
 </div>
 
