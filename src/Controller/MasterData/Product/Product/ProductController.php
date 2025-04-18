@@ -13,7 +13,6 @@ use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Mapper\ProductDTOMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -167,10 +166,7 @@ class ProductController extends EnhancedAbstractController
             'createButtonConfig' => ['link_id' => ' id-create-product',
                 'anchorText' => 'Create Product']
         ];
-        if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'), ['name', 'description']);
-
-        $query = $productRepository->getQueryForSelect($searchCriteria ?? null);
+        $query = $searchEntity->getQueryForSelect($request, $productRepository, ['name', 'description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -183,4 +179,6 @@ class ProductController extends EnhancedAbstractController
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
+
+
 }
