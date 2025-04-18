@@ -3,7 +3,8 @@
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\UI\Panel\List;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridRowDataEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridRowHeaderEvent;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -26,7 +27,7 @@ readonly class OnGridRowDataEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridCreateLinkEvent::EVENT_NAME => 'beforeDisplay'
+            GridRowDataEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }
@@ -35,11 +36,11 @@ readonly class OnGridRowDataEvent implements EventSubscriberInterface
      * @param GridColumnEvent $event
      * @return void
      */
-    public function beforeDisplay(GridCreateLinkEvent $event): void
+    public function beforeDisplay(GridRowDataEvent $event): void
     {
 
         if ($this->employeeFromUserFinder->isLoggedInUserAlsoAEmployee()) {
-            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
+            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/row/row_data.html.twig');
         }
 
     }

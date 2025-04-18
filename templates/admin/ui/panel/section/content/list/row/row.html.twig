@@ -1,7 +1,0 @@
-<div class="row py-2 fs-6">
-    {# columns of the grid #}
-    {% for column in listGrid.columns %}
-        {% include '@SilecustWebShop/admin/ui/panel/section/content/list/column/column.html.twig' with
-            {"request":request,'column':column,'entity':entity} %}
-    {% endfor %}
-</div>

@@ -3,7 +3,7 @@
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\UI\Panel\List;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPaginationEvent;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -26,7 +26,7 @@ readonly class OnGridPaginationEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridCreateLinkEvent::EVENT_NAME => 'beforeDisplay'
+            GridPaginationEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }
@@ -35,11 +35,12 @@ readonly class OnGridPaginationEvent implements EventSubscriberInterface
      * @param GridColumnEvent $event
      * @return void
      */
-    public function beforeDisplay(GridCreateLinkEvent $event): void
+    public function beforeDisplay(GridPaginationEvent $event): void
     {
 
         if ($this->employeeFromUserFinder->isLoggedInUserAlsoAEmployee()) {
-            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
+            $event->setTemplate(
+                '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/pagination/pagination.html.twig');
         }
 
     }

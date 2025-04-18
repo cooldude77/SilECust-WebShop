@@ -3,7 +3,6 @@
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\UI\Panel\List;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -26,7 +25,7 @@ readonly class OnGridcolumnEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridCreateLinkEvent::EVENT_NAME => 'beforeDisplay'
+            GridColumnEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }

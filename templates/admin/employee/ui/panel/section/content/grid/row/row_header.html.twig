@@ -1,0 +1,11 @@
+{# -- row header -- #}
+<div class="row font-weight-bold py-2 bg-light">
+    {% for column in listGrid.columns %}
+        <div class="col p-2">
+            {{ column.label }}
+        </div>
+    {% endfor %}
+    <div class="col p-2">
+        {# for edit column #}
+    </div>
+</div>
