@@ -3,16 +3,16 @@
 namespace Silecust\WebShop\Controller\MasterData\Product\Product;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
 use Silecust\WebShop\Form\MasterData\Product\ProductCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Mapper\ProductDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\QueryException;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -149,7 +149,6 @@ class ProductController extends EnhancedAbstractController
     #[Route('/admin/product/list', name: 'sc_admin_product_list')]
     public function list(ProductRepository     $productRepository,
                          PaginatorInterface    $paginator,
-                         #[Autowire(service: 'product.search')]
                          SearchEntityInterface $searchEntity,
                          Request               $request):
     Response
@@ -169,7 +168,7 @@ class ProductController extends EnhancedAbstractController
                 'anchorText' => 'Create Product']
         ];
         if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
+            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'), ['name', 'description']);
 
         $query = $productRepository->getQueryForSelect($searchCriteria ?? null);
 
