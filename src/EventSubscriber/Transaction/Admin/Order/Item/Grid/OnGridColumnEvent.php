@@ -17,7 +17,7 @@ class OnGridColumnEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridColumnEvent::BEFORE_GRID_COLUMN_DISPLAY => 'beforeDisplay'
+            GridColumnEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }

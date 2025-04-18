@@ -10,6 +10,7 @@ class GridPaginationEvent extends Event
     const string EVENT_NAME = 'panel.grid.pagination';
 
     private mixed $data;
+    private string $output;
 
     public function getData(): mixed
     {
@@ -19,6 +20,16 @@ class GridPaginationEvent extends Event
     public function setData(mixed $data): void
     {
         $this->data = $data;
+    }
+
+    public function getOutput(): string
+    {
+        return $this->output;
+    }
+
+    public function setOutput(string $output): void
+    {
+        $this->output = $output;
     }
 
 

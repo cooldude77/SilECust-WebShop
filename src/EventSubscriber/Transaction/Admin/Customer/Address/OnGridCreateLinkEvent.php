@@ -17,7 +17,7 @@ class OnGridCreateLinkEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridCreateLinkEvent::BEFORE_GRID_CREATE_LINK => 'beforeCreate'
+            GridCreateLinkEvent::EVENT_NAME => 'beforeCreate'
         ];
 
     }
@@ -36,7 +36,7 @@ class OnGridCreateLinkEvent implements EventSubscriberInterface
         $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
         if ($route['_route'] ==  'sc_my_addresses')
-            $data['linkValue'] = ($this->router->generate('sc_my_address_create'));
+            $data['template'] = ($this->router->generate('sc_my_address_create'));
 
         // to do : what employee should see
 

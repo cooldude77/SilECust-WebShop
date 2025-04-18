@@ -10,6 +10,7 @@ class GridRowHeaderEvent extends Event
      const string EVENT_NAME = 'panel.grid.display_row_header';
 
     private mixed $data;
+    private string $template;
 
     public function getData(): mixed
     {
@@ -19,6 +20,16 @@ class GridRowHeaderEvent extends Event
     public function setData(mixed $data): void
     {
         $this->data = $data;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(string $template): void
+    {
+        $this->template = $template;
     }
 
 

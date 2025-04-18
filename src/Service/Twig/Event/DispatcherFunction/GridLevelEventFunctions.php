@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\Service\Twig\Event\DispatcherFunction;
 
-use Silecust\WebShop\Service\Twig\Event\Provider\GridEvent;
+use Silecust\WebShop\Service\Twig\Event\Provider\GridEventProvider;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 class GridLevelEventFunctions extends AbstractExtension
 {
     public function __construct(
-        private readonly GridEvent                $gridEventProvider,
+        private readonly GridEventProvider        $gridEventProvider,
         private readonly EventDispatcherInterface $eventDispatcher)
     {
     }
@@ -18,18 +18,48 @@ class GridLevelEventFunctions extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('dispatchGridColumnEvent', [$this, 'dispatchGridEvent']),
-            new TwigFunction('dispatchGridCreateLinkEvent', [$this, 'dispatchGridEvent']),
-            new TwigFunction('dispatchGridRowDataEvent', [$this, 'dispatchGridEvent']),
-            new TwigFunction('dispatchGridRowHeaderEvent', [$this, 'dispatchGridEvent']),
-            new TwigFunction('dispatchGridPaginationEvent', [$this, 'dispatchGridEvent']),
+            new TwigFunction('dispatchGridColumnEvent', [$this, 'dispatchGridColumnEvent']),
+            new TwigFunction('dispatchGridCreateLinkEvent', [$this, 'dispatchGridCreateLinkEvent']),
+            new TwigFunction('dispatchGridRowDataEvent', [$this, 'dispatchGridRowDataEvent']),
+            new TwigFunction('dispatchGridRowHeaderEvent', [$this, 'dispatchGridRowHeaderEvent']),
+            new TwigFunction('dispatchGridPaginationEvent', [$this, 'dispatchGridPaginationEvent']),
         ];
     }
 
-    public function dispatchGridEvent(string $eventName, mixed $data): mixed
+    public function dispatchGridColumnEvent(mixed $data): mixed
     {
         $event = $this->gridEventProvider->provideGridColumnEvent();
         $event->setData($data);
-        return $this->eventDispatcher->dispatch($event, $eventName);
+        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
     }
+
+    public function dispatchGridCreateLinkEvent(mixed $data): mixed
+    {
+        $event = $this->gridEventProvider->provideGridCreateLinkEvent();
+        $event->setData($data);
+        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
+    }
+
+    public function dispatchGridRowDataEvent(mixed $data): mixed
+    {
+        $event = $this->gridEventProvider->provideGridRowDataEvent();
+        $event->setData($data);
+        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
+    }
+
+    public function dispatchGridRowHeaderEvent(mixed $data): mixed
+    {
+        $event = $this->gridEventProvider->provideGridRowHeaderEvent();
+        $event->setData($data);
+        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
+    }
+
+    public function dispatchGridPaginationEvent(mixed $data): mixed
+    {
+        $event = $this->gridEventProvider->provideGridPaginationEvent();
+        $event->setData($data);
+        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
+    }
+
+
 }

@@ -7,10 +7,12 @@ use Symfony\Contracts\EventDispatcher\Event;
 class GridColumnEvent extends Event
 {
 
-    private  bool $dataChanged = false;
-    const string BEFORE_GRID_COLUMN_DISPLAY = 'panel.grid.before_column_display';
+    private bool $dataChanged = false;
+    const string EVENT_NAME = 'panel.grid.before_column_display';
 
     private mixed $data;
+
+    private string $template;
 
     public function getData(): mixed
     {
@@ -22,7 +24,14 @@ class GridColumnEvent extends Event
         $this->data = $data;
     }
 
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
 
-
+    public function setTemplate(string $output): void
+    {
+        $this->template = $output;
+    }
 
 }

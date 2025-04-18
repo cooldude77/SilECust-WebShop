@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class GridPropertyEvent extends Event
 {
-    public const string LIST_GRID_PROPERTY_FOR_ORDERS = 'transaction.list_grid.property';
+    public const string EVENT_NAME = 'transaction.list_grid.property';
     private ?array $data;
     private Request $request;
 

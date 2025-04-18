@@ -171,7 +171,7 @@ class OrderHeaderController extends EnhancedAbstractController
 
         /** @var GridPropertyEvent $listEvent */
         $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
-            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS
+            GridPropertyEvent::EVENT_NAME
         );
 
         $listGrid = $listEvent->getListGridProperties();

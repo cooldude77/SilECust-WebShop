@@ -21,7 +21,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS => 'setProperty'
+            GridPropertyEvent::EVENT_NAME => 'setProperty'
         ];
 
     }
