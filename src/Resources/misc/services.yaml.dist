@@ -24,10 +24,6 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
 
-  product_search_service:
-    class: Silecust\WebShop\Service\MasterData\Product\ProductSearch
-  product.search:
-    alias: product_search_service
   twig_try_catch_extension:
     class: 'Gglnx\TwigTryCatch\Extension\TryCatchExtension'
     tags:
