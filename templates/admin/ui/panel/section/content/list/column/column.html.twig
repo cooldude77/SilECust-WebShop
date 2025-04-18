@@ -9,7 +9,7 @@
         {% if data_column.value is defined %}
             <a href="{{ data_column.value }}"> {{ attribute(entity, data_column.propertyName) }}</a>
         {% else %}
-            {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
+            {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/admin/display_link.html.twig' with {
                 'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
                 'name':attribute(entity, column.propertyName),
                 'id':attribute(entity, 'id'),

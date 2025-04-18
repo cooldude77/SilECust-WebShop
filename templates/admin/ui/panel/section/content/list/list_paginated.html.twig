@@ -1,50 +1,58 @@
-<div class="container">
-    <div class="flex-row d-flex justify-right">
-        <div class="col-3">
-            {# Create new button if defined in config #}
-            {% if listGrid.createButtonConfig is defined or
-                (listGrid.create_button_allowed is defined and listGrid.create_button_allowed== true) %}
-                <div class="row py-2">
-                    <div class="col m-0">
-                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/top_level/create_link.html.twig'
-                            with
-                            {config: listGrid.createButtonConfig} %}
-                    </div>
-                </div>
-            {% endif %}
+{# -- Page For Grid level pagination --  #}
 
-        </div>
+<div class="container">
+    {# -- Create Link -- #}
+    <div class="flex-row d-flex justify-right">
+        {% set event = dispatchHeaderCreateLinkEvent('panel.grid.display_create_link',{
+            "request":request,
+            'column':column,
+            'listGrid':listGrid,
+            'entity':entity
+        }) %}
+        {% event.getHtml %}
+
         <div class="col-3 p-2 ">
             {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
         </div>
     </div>
-    <div class="row font-weight-bold py-2 bg-light">
-        {% for column in listGrid.columns %}
-            <div class="col p-2">
-                {{ column.label }}
-            </div>
-        {% endfor %}
-        <div class="col p-2">
-            {# for edit column #}
+    {# -- Create Row Header -- #}
+    {% if listGrid.page_heading is defined %}
+        <div>
+            <h2> listGrid.page_heading</h2>
         </div>
-
+    {% endif %}
+    <div class="row font-weight-bold py-2 bg-light">
+        {% set event = dispatchHeaderRowEvent('panel.grid.display_row_header',{
+            "request":request,
+            'column':column,
+            'listGrid':listGrid,
+            'entity':entity
+        }) %}
+        {% event.getHtml %}
     </div>
 
-    {# Pagination starts #}
+    {# -- Pagination starts -- #}
     {% if pagination is not null and pagination|length > 0 %}
         {% for entity in pagination %}
-            {% include '@SilecustWebShop/admin/ui/panel/section/content/list/row/row.html.twig' with
-                {"request":request,'listGrid':listGrid,'entity':entity} %}
+            {# -- Row level --  #}
+            {% set event = dispatchGridDataRowEvent('panel.grid.display_row_data',{
+                "request":request,
+                'column':column,
+                'listGrid':listGrid,
+                'entity':entity
+            }) %}
+            {% event.getHtml %}
+
         {% endfor %}
         <div class="navigation">
-            {{ knp_pagination_render(
-                pagination,
-                '@SilecustWebShop/admin/ui/panel/section/content/list/sliding.html.twig',
-                {
-                    '_function': listGrid.function is defined ? listGrid.function:request.get('_function'),
-                    '_type': listGrid.function is defined ? listGrid.function:request.get('_type')
-                }
-            ) }}
+            {# -- Pagination --  #}
+            {% set event = dispatchPaginationForGridRowEvent('panel.grid.display_pagination',{
+                "request":request,
+                'column':column,
+                'listGrid':listGrid,
+                'entity':entity
+            }) %}
+            {% event.getHtml %}
         </div>
     {% else %}
         <h2>No records found</h2>

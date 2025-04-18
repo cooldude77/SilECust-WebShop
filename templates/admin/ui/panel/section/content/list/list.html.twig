@@ -21,7 +21,7 @@
             {% for column in listGrid.columns %}
                 {% if column.action is defined and column.action == 'display' %}
                     <div class="col">
-                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
+                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/admin/display_link.html.twig' with {
                             'function':listGrid.function is defined ? listGrid.function: app.request.get('_function'),
                             'name':attribute(entity, column.propertyName),
                             'id':attribute(entity, 'id'),

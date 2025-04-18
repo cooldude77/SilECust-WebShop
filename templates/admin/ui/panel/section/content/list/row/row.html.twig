@@ -5,5 +5,17 @@
         {% include '@SilecustWebShop/admin/ui/panel/section/content/list/column/column.html.twig' with
             {"request":request,'column':column,'entity':entity} %}
 
+        <div class="col">
+
+            {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
+
+                {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/edit_link.html.twig' with {
+                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                    'id':attribute(entity, 'id'),
+                    'link_id':listGrid.link_id} %}
+
+            {% endif %}
+
+        </div>
     {% endfor %}
 </div>
