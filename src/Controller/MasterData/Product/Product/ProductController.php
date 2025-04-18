@@ -156,7 +156,7 @@ class ProductController extends EnhancedAbstractController
     {
 
         $listGrid = [
-            'title' => 'Product',
+            'grid_heading' => 'Product List',
             'link_id' => 'id-product',
             'function' => 'product',
             'columns' => [
