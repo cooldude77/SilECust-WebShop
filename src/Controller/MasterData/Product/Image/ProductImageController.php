@@ -2,6 +2,7 @@
 
 namespace Silecust\WebShop\Controller\MasterData\Product\Image;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
 use Silecust\WebShop\Controller\MasterData\Product\Image\ListObject\ProductImageObject;
 use Silecust\WebShop\Entity\ProductImage;
@@ -11,6 +12,7 @@ use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageEditForm;
 use Silecust\WebShop\Repository\ProductImageRepository;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Common\Image\SystemImage;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
 use Silecust\WebShop\Service\MasterData\Product\Image\ProductImageOperation;
 use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
@@ -148,31 +150,17 @@ class ProductImageController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/product/{id}/image/list', name: 'sc_admin_product_create_file_image_list')]
-    public function list(int                    $id, ProductRepository $productRepository,
+
+    #[\Symfony\Component\Routing\Attribute\Route('/admin/product/{id}/image/list', name: 'sc_admin_product_file_image_list')]
+    public function list(int                     $id,
                          ProductImageRepository $productImageRepository,
-                         Request                $request
+                         PaginatorInterface      $paginator,
+                         SearchEntityInterface   $searchEntity,
+                         Request                 $request
     ):
     Response
     {
 
-
-        $productImages = $productImageRepository->findBy(['product' => $productRepository->find
-        (
-            $id
-        )]);
-
-        $entities = [];
-        if ($productImages != null) {
-            /** @var ProductImage $productImage */
-            foreach ($productImages as $productImage) {
-                $f = new ProductImageObject();
-                $f->id = $productImage->getId();
-                $f->yourFileName = $productImage->getFile()->getYourFileName();
-                $f->name = $productImage->getFile()->getName();
-                $entities[] = $f;
-            }
-        }
 
         $listGrid = ['title' => "Product Files",
             'function' => 'product_file_image',
@@ -186,13 +174,19 @@ class ProductImageController extends EnhancedAbstractController
                 'id' => $id,
                 'anchorText' => 'Product File']];
 
-        return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
+        $query = $searchEntity->getQueryForSelect($request, $productImageRepository, ['yourFileName', 'name']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
         );
 
+        return $this->render(
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+        );
     }
-
     /**
      *
      * Fetch is to display image standalone ( call by URL at the top )

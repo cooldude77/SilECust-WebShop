@@ -3,22 +3,24 @@
 namespace Silecust\WebShop\Controller\MasterData\Product\Product;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
 use Silecust\WebShop\Form\MasterData\Product\ProductCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Mapper\ProductDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\QueryException;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Todo : Write tests for lists
+ */
 class ProductController extends EnhancedAbstractController
 {
 
@@ -149,7 +151,6 @@ class ProductController extends EnhancedAbstractController
     #[Route('/admin/product/list', name: 'sc_admin_product_list')]
     public function list(ProductRepository     $productRepository,
                          PaginatorInterface    $paginator,
-                         #[Autowire(service: 'product.search')]
                          SearchEntityInterface $searchEntity,
                          Request               $request):
     Response
@@ -168,10 +169,8 @@ class ProductController extends EnhancedAbstractController
             'createButtonConfig' => ['link_id' => ' id-create-product',
                 'anchorText' => 'Create Product']
         ];
-        if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
-
-        $query = $productRepository->getQueryForSelect($searchCriteria ?? null);
+        $query = $searchEntity->getQueryForSelect($request, $productRepository,
+            ['name', 'description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -184,4 +183,6 @@ class ProductController extends EnhancedAbstractController
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
+
+
 }

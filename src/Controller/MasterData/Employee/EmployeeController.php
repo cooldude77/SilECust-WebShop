@@ -3,10 +3,12 @@
 namespace Silecust\WebShop\Controller\MasterData\Employee;
 
 // ...
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
 use Silecust\WebShop\Form\MasterData\Employee\EmployeeCreateForm;
 use Silecust\WebShop\Form\MasterData\Employee\EmployeeEditForm;
 use Silecust\WebShop\Repository\EmployeeRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -138,7 +140,10 @@ class EmployeeController extends EnhancedAbstractController
     }
 
     #[Route('/admin/employee/list', name: 'sc_admin_employee_list')]
-    public function list(EmployeeRepository $employeeRepository, Request $request): Response
+    public function list(EmployeeRepository $employeeRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'Employee',
@@ -151,10 +156,17 @@ class EmployeeController extends EnhancedAbstractController
                 'function' => 'employee',
                 'anchorText' => 'create Employee']];
 
-        $employees = $employeeRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $productRepository);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $employees, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

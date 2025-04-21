@@ -2,9 +2,14 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
 use Silecust\WebShop\Entity\Currency;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<Currency>
@@ -14,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Currency[]    findAll()
  * @method Currency[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CurrencyRepository extends ServiceEntityRepository
+class CurrencyRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -51,5 +56,21 @@ class CurrencyRepository extends ServiceEntityRepository
         $currency->setCountry($find);
 
         return $currency;
+    }
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('c')
+            ->from(Currency::class, 'c');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
     }
 }

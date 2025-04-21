@@ -2,19 +2,21 @@
 
 namespace Silecust\WebShop\Controller\MasterData\Category\Image;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
-use Silecust\WebShop\Controller\MasterData\Category\Image\ListObject\CategoryImageObject;
 use Silecust\WebShop\Entity\CategoryImage;
 use Silecust\WebShop\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
 use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageCreateForm;
 use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageEditForm;
 use Silecust\WebShop\Repository\CategoryImageRepository;
 use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation;
 use Silecust\WebShop\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
 use Silecust\WebShop\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -148,30 +150,16 @@ class CategoryImageController extends EnhancedAbstractController
     }
 
     #[Route('/admin/category/{id}/image/list', name: 'sc_admin_category_file_image_list')]
-    public function list(int                     $id, CategoryRepository $categoryRepository,
+    public function list(int                     $id,
+                         CategoryRepository      $categoryRepository,
                          CategoryImageRepository $categoryImageRepository,
+                         PaginatorInterface      $paginator,
+                         SearchEntityInterface   $searchEntity,
                          Request                 $request
     ):
     Response
     {
-
-
-        $categoryImages = $categoryImageRepository->findBy(['category' => $categoryRepository->find
-        (
-            $id
-        )]);
-
-        $entities = [];
-        if ($categoryImages != null) {
-            /** @var CategoryImage $categoryImage */
-            foreach ($categoryImages as $categoryImage) {
-                $f = new CategoryImageObject();
-                $f->id = $categoryImage->getId();
-                $f->yourFileName = $categoryImage->getFile()->getYourFileName();
-                $f->name = $categoryImage->getFile()->getName();
-                $entities[] = $f;
-            }
-        }
+        $category = $categoryRepository->find($id);
 
         $listGrid = ['title' => "Category Files",
             'function' => 'category_file_image',
@@ -185,11 +173,19 @@ class CategoryImageController extends EnhancedAbstractController
                 'id' => $id,
                 'anchorText' => 'Category File']];
 
-        return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $entities, 'listGrid' => $listGrid]
+        $query = $searchEntity->getQueryForSelect($request, $categoryImageRepository, ['yourFileName', 'name'],
+            Criteria::create()->where(Criteria::expr()->eq('category', $category)));
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
         );
 
+        return $this->render(
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+        );
     }
 
     /**

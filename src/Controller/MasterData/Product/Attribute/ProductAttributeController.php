@@ -3,10 +3,12 @@
 namespace Silecust\WebShop\Controller\MasterData\Product\Attribute;
 
 // ...
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Form\MasterData\Product\Attribute\DTO\ProductAttributeDTO;
 use Silecust\WebShop\Form\MasterData\Product\Attribute\ProductAttributeCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\Attribute\ProductAttributeEditForm;
 use Silecust\WebShop\Repository\ProductAttributeRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Attribute\ProductAttributeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -97,7 +99,10 @@ class ProductAttributeController extends EnhancedAbstractController
 
 
     #[Route('/admin/product/attribute/list', name: 'sc_admin_product_attribute_list')]
-    public function list(ProductAttributeRepository $productAttributeRepository,Request $request): Response
+    public function list(ProductAttributeRepository $productAttributeRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'Product Attribute',
@@ -111,10 +116,18 @@ class ProductAttributeController extends EnhancedAbstractController
                                               'function' => 'product_attribute',
                                               'anchorText' => 'Create Product Attribute']];
 
-        $productAttributes = $productAttributeRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $productAttributeRepository,
+            ['name', 'description']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request,'entities' => $productAttributes, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

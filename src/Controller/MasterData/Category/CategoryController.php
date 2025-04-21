@@ -2,10 +2,12 @@
 // src/Controller/LuckyController.php
 namespace Silecust\WebShop\Controller\MasterData\Category;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Form\MasterData\Category\CategoryCreateForm;
 use Silecust\WebShop\Form\MasterData\Category\CategoryEditForm;
 use Silecust\WebShop\Form\MasterData\Category\DTO\CategoryDTO;
 use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Category\Mapper\CategoryDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -132,7 +134,10 @@ class CategoryController extends EnhancedAbstractController
     }
 
     #[Route('/admin/category/list', name: 'sc_admin_category_list')]
-    public function list(CategoryRepository $categoryRepository, Request $request): Response
+    public function list(CategoryRepository $categoryRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'Category',
@@ -146,10 +151,18 @@ class CategoryController extends EnhancedAbstractController
                 'function' => 'category',
                 'anchorText' => 'Create Category']];
 
-        $categories = $categoryRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $categoryRepository,
+            ['name', 'description']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }
