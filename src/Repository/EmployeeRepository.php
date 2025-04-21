@@ -2,10 +2,15 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
 use Silecust\WebShop\Entity\Employee;
+use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<Employee>
@@ -15,7 +20,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Employee[]    findAll()
  * @method Employee[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EmployeeRepository extends ServiceEntityRepository
+class EmployeeRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -53,5 +58,21 @@ class EmployeeRepository extends ServiceEntityRepository
 
         $employee->setUser($user);
         return $employee;
+    }
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('er')
+            ->from(Employee::class, 'er');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
     }
 }

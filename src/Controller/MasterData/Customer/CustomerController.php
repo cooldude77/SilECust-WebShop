@@ -4,11 +4,13 @@ namespace Silecust\WebShop\Controller\MasterData\Customer;
 
 // ...
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
 use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -126,7 +128,10 @@ class CustomerController extends EnhancedAbstractController
     }
 
     #[Route('/admin/customer/list', name: 'sc_admin_customer_list')]
-    public function list(CustomerRepository $customerRepository, Request $request): Response
+    public function list(CustomerRepository $customerRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'Customer',
@@ -138,10 +143,18 @@ class CustomerController extends EnhancedAbstractController
                 'function' => 'customer',
                 'anchorText' => 'create Customer']];
 
-        $customers = $customerRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $customerRepository,
+            ['firstName', 'middleName','lastName','givenName']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $customers, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

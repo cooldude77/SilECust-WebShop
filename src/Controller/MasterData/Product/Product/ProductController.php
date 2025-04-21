@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Todo : Write tests for lists
+ */
 class ProductController extends EnhancedAbstractController
 {
 
@@ -166,7 +169,8 @@ class ProductController extends EnhancedAbstractController
             'createButtonConfig' => ['link_id' => ' id-create-product',
                 'anchorText' => 'Create Product']
         ];
-        $query = $searchEntity->getQueryForSelect($request, $productRepository, ['name', 'description']);
+        $query = $searchEntity->getQueryForSelect($request, $productRepository,
+            ['name', 'description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

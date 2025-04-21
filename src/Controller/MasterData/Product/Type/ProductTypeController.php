@@ -3,10 +3,12 @@
 namespace Silecust\WebShop\Controller\MasterData\Product\Type;
 
 // ...
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Form\MasterData\Product\Type\DTO\ProductTypeDTO;
 use Silecust\WebShop\Form\MasterData\Product\Type\ProductTypeCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\Type\ProductTypeUpdateForm;
 use Silecust\WebShop\Repository\ProductTypeRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Type\ProductTypeDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -95,7 +97,10 @@ class ProductTypeController extends EnhancedAbstractController
 
 
     #[Route('/admin/product/type/list', name: 'sc_admin_product_type_list')]
-    public function list(ProductTypeRepository $productTypeRepository,Request $request): Response
+    public function list(ProductTypeRepository $productTypeRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'ProductType',
@@ -110,10 +115,17 @@ class ProductTypeController extends EnhancedAbstractController
                          'function' => 'productType',
                                               'anchorText' => 'Create ProductType']];
 
-        $productTypes = $productTypeRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $productTypeRepository);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request,'entities' => $productTypes, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

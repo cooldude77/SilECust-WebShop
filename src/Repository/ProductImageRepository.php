@@ -2,16 +2,20 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Entity\ProductImage;
 use Silecust\WebShop\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<ProductImage>
  */
-class ProductImageRepository extends ServiceEntityRepository
+class ProductImageRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -49,6 +53,22 @@ class ProductImageRepository extends ServiceEntityRepository
         $productImage->setFile($file);
 
         return $productImage;
+
+    }
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('pi')
+            ->from(ProductImage::class, 'pi');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
 
     }
 }

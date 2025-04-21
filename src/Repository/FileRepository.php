@@ -2,9 +2,12 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Silecust\WebShop\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<File>
@@ -14,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method File[]    findAll()
  * @method File[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FileRepository extends ServiceEntityRepository
+class FileRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -51,4 +54,18 @@ class FileRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('f')
+            ->from(File::class, 'f');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
+    }
 }

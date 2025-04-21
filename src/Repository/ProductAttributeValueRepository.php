@@ -2,10 +2,14 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
+use Doctrine\Persistence\ManagerRegistry;
 use Silecust\WebShop\Entity\ProductAttribute;
 use Silecust\WebShop\Entity\ProductAttributeValue;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<ProductAttributeValue>
@@ -15,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProductAttributeValue[]    findAll()
  * @method ProductAttributeValue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductAttributeValueRepository extends ServiceEntityRepository
+class ProductAttributeValueRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -52,5 +56,22 @@ class ProductAttributeValueRepository extends ServiceEntityRepository
         $productAttributeValue = new ProductAttributeValue();
         $productAttributeValue->setProductAttribute($productAttribute);
         return $productAttributeValue;
+    }
+
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('pav')
+            ->from(ProductAttributeValue::class, 'pav');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
     }
 }

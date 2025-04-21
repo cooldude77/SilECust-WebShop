@@ -5,7 +5,6 @@ namespace Silecust\WebShop\Service\Component;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\QueryException;
-use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +23,25 @@ class SearchEntityWithFields implements SearchEntityInterface
     }
 
     /**
-     * @param Request $request
-     * @param SearchEntityInterface $searchEntity
-     * @param ProductRepository $productRepository
-     * @return Query
      * @throws QueryException
      */
-    public function getQueryForSelect(Request $request, SearchableRepository $repository, $fields): Query
+    public function getQueryForSelect(
+        Request              $request,
+        SearchableRepository $repository,
+        array                $fields,
+        Criteria             $additionalCriteria = null
+    ): Query
     {
-        if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $this->searchByTerm($request->query->get('searchTerm'), ['name', 'description']);
 
-        $query = $repository->getQueryForSelect($searchCriteria ?? null);
-        return $query;
+        $criteria = Criteria::create();
+
+        if ($request->query->get('searchTerm') != null) {
+            $searchCriteria = $this->searchByTerm($request->query->get('searchTerm'), $fields);
+            $criteria->andWhere($searchCriteria->getWhereExpression());
+        }
+        if ($additionalCriteria != null)
+            $criteria->andWhere($additionalCriteria->getWhereExpression());
+
+        return $repository->getQueryForSelect($criteria->getWhereExpression() != null ? $criteria : null);
     }
 }
