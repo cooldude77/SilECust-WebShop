@@ -1,16 +1,16 @@
 <?php
 
-namespace Silecust\WebShop\Service\Twig\Event\DispatcherFunction;
+namespace Silecust\WebShop\Service\Twig\Event\DispatcherFunction\Grid;
 
-use Silecust\WebShop\Service\Twig\Event\Provider\GridEventProvider;
+use Silecust\WebShop\Service\Twig\Event\Provider\Grid\EventProvider;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class GridLevelEventFunctions extends AbstractExtension
+class EventFunctions extends AbstractExtension
 {
     public function __construct(
-        private readonly GridEventProvider        $gridEventProvider,
+        private readonly EventProvider            $gridEventProvider,
         private readonly EventDispatcherInterface $eventDispatcher)
     {
     }

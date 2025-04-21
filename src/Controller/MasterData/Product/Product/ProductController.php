@@ -129,14 +129,20 @@ class ProductController extends EnhancedAbstractController
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Product',
+        $displayParams = [
+            'title' => 'Product',
             'link_id' => 'id-product',
             'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'Name',
-                'propertyName' => 'name',
-                'link_id' => 'id-display-product'],
-                ['label' => 'Description',
-                    'propertyName' => 'description'],]];
+            'fields' => [
+                [
+                    'label' => 'Name',
+                    'propertyName' => 'name',
+                    'link_id' => 'id-display-product'],
+                [
+                    'label' => 'Description',
+                    'propertyName' => 'description'],
+            ]
+        ];
 
         return $this->render(
             '@SilecustWebShop/master_data/product/product_display.html.twig',

@@ -1,9 +1,11 @@
 <div class="row py-2 fs-6">
+    <div class="row font-weight-bold py-2 bg-light">
 
-    {% for column in listGrid.columns %}
-        <div class="row font-weight-bold py-2 bg-light">
-            {% include '@SilecustWebShop/admin/ui/panel/section/content/list/column/column.html.twig' with
+        {% for column in listGrid.columns %}
+            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/column.html.twig' with
                 {"request":request,'column':column,'entity':entity} %}
-        </div>
-    {% endfor %}
+
+        {% endfor %}
+
+    </div>
 </div>

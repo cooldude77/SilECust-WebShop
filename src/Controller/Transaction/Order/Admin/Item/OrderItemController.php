@@ -3,7 +3,7 @@
 namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Item;
 
 // ...
-use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParametersEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\TopLevel\DisplayParametersEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemEditEvent;

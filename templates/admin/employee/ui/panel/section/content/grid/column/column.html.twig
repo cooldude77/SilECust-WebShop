@@ -1,10 +1,9 @@
 {% if column.action is defined and column.action == 'display' %}
-    <div class="col">
-        {% set data_column = attribute(data,'column') %}
-        {% if data_column.value is defined %}
-            <a href="{{ data_column.value }}"> {{ attribute(entity, data_column.propertyName) }}</a>
+    <div class="col-3">
+        {% if column.value is defined %}
+            <a href="{{ column.value }}"> {{ attribute(entity, data_column.propertyName) }}</a>
         {% else %}
-            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/action/grid/column/action/display_link.html.twig' with {
+            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/action/display_link.html.twig' with {
                 'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
                 'name':attribute(entity, column.propertyName),
                 'id':attribute(entity, 'id'),
@@ -14,12 +13,11 @@
     </div>
 
 {% else %}
-    <div class="col">
-        {% set data_column = attribute(data,'column') %}
-        {% if data_column.value is defined %}
-            {{ data_column.value }}
+    <div class="col-3">
+        {% if column.value is defined %}
+            {{ column.value }}
         {% else %}
-            {{ attribute(entity, data_column.propertyName) }}
+            {{ attribute(entity, column.propertyName) }}
         {% endif %}
     </div>
 {% endif %}

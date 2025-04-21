@@ -1,14 +1,13 @@
 <?php
 
-namespace Silecust\WebShop\Event\Component\UI\Panel\List;
+namespace Silecust\WebShop\Event\Component\UI\Panel\TopLevel;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class GridColumnEvent extends Event
+class DisplayLinkEvent extends Event
 {
 
-    private bool $dataChanged = false;
-    const string EVENT_NAME = 'panel.grid.before_column_display';
+    const string EVENT_NAME = 'panel.edit.on_display_link';
 
     private mixed $data;
 
