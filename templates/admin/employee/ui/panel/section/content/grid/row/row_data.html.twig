@@ -7,6 +7,14 @@
 
 
         {% endfor %}
+        <div class="col">
 
+            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/action/edit_link.html.twig' with {
+                'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                'id':attribute(entity, 'id'),
+                'link_id':listGrid.link_id} %}
+
+
+        </div>
     </div>
 </div>
