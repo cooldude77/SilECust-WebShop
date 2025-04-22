@@ -3,7 +3,7 @@
 
         {% for column in listGrid.columns %}
             {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
-            {% include event.getTemplate with  {"request":request,'column':column,'entity':entity} %}
+            {% include event.getTemplate with  {"request":request,'column':event.getData.column,'entity':entity} %}
 
 
         {% endfor %}
