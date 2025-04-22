@@ -1,13 +1,13 @@
 <?php
 
-namespace Silecust\WebShop\Event\Component\UI\Panel\TopLevel;
+namespace Silecust\WebShop\Event\Component\UI\Panel\Display;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class DisplayLinkEvent extends Event
+class DisplayEditLinkEvent extends Event
 {
 
-    const string EVENT_NAME = 'panel.edit.on_display_link';
+    const string EVENT_NAME = 'panel.display.edit_link';
 
     private mixed $data;
 

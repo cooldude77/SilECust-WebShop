@@ -1,13 +1,13 @@
 <?php
 
-namespace Silecust\WebShop\Event\Component\UI\Panel\TopLevel;
+namespace Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
 class TopLevelEditLinkEvent extends Event
 {
 
-    const string EVENT_NAME = 'panel.display.on_edit_link';
+    const string EVENT_NAME = 'panel.grid.top_level.on_edit_link';
 
     private mixed $data;
 

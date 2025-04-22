@@ -104,7 +104,7 @@ class CustomerController extends EnhancedAbstractController
     }
 
     #[Route('/admin/customer/{id}/display', name: 'sc_admin_customer_display')]
-    public function display(CustomerRepository $customerRepository, int $id): Response
+    public function display(CustomerRepository $customerRepository, int $id, Request $request): Response
     {
         $customer = $customerRepository->find($id);
         if (!$customer) {
@@ -122,13 +122,13 @@ class CustomerController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/master_data/customer/customer_display.html.twig',
-            ['entity' => $customer, 'params' => $displayParams]
+            ['entity' => $customer, 'params' => $displayParams, 'request' => $request]
         );
 
     }
 
     #[Route('/admin/customer/list', name: 'sc_admin_customer_list')]
-    public function list(CustomerRepository $customerRepository,
+    public function list(CustomerRepository    $customerRepository,
                          PaginatorInterface    $paginator,
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
@@ -144,7 +144,7 @@ class CustomerController extends EnhancedAbstractController
                 'anchorText' => 'create Customer']];
 
         $query = $searchEntity->getQueryForSelect($request, $customerRepository,
-            ['firstName', 'middleName','lastName','givenName']);
+            ['firstName', 'middleName', 'lastName', 'givenName']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

@@ -2,8 +2,9 @@
     <div class="row font-weight-bold py-2 bg-light">
 
         {% for column in listGrid.columns %}
-            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/column.html.twig' with
-                {"request":request,'column':column,'entity':entity} %}
+            {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
+            {% include event.getTemplate with  {"request":request,'column':column,'entity':entity} %}
+
 
         {% endfor %}
 

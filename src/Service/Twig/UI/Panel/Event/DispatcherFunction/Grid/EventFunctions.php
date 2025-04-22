@@ -1,8 +1,8 @@
 <?php
 
-namespace Silecust\WebShop\Service\Twig\Event\DispatcherFunction\Grid;
+namespace Silecust\WebShop\Service\Twig\UI\Panel\Event\DispatcherFunction\Grid;
 
-use Silecust\WebShop\Service\Twig\Event\Provider\Grid\EventProvider;
+use Silecust\WebShop\Service\Twig\UI\Panel\Event\Provider\Grid\EventProvider;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

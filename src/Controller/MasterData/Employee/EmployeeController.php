@@ -3,15 +3,15 @@
 namespace Silecust\WebShop\Controller\MasterData\Employee;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Employee\DTO\EmployeeDTO;
 use Silecust\WebShop\Form\MasterData\Employee\EmployeeCreateForm;
 use Silecust\WebShop\Form\MasterData\Employee\EmployeeEditForm;
 use Silecust\WebShop\Repository\EmployeeRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Employee\Mapper\EmployeeDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -116,14 +116,15 @@ class EmployeeController extends EnhancedAbstractController
     }
 
     #[Route('/admin/employee/{id}/display', name: 'sc_admin_employee_display')]
-    public function display(EmployeeRepository $employeeRepository, int $id): Response
+    public function display(EmployeeRepository $employeeRepository, int $id, Request $request): Response
     {
         $employee = $employeeRepository->find($id);
         if (!$employee) {
             throw $this->createNotFoundException('No Employee found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Employee',
+        $displayParams = [
+            'title' => 'Employee',
             'link_id' => 'id-employee',
             'editButtonLinkText' => 'Edit',
             'fields' => [['label' => 'First Name',
@@ -134,13 +135,13 @@ class EmployeeController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/master_data/employee/employee_display.html.twig',
-            ['entity' => $employee, 'params' => $displayParams]
+            ['entity' => $employee, 'params' => $displayParams, 'request' => $request]
         );
 
     }
 
     #[Route('/admin/employee/list', name: 'sc_admin_employee_list')]
-    public function list(EmployeeRepository $employeeRepository,
+    public function list(EmployeeRepository    $employeeRepository,
                          PaginatorInterface    $paginator,
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
@@ -156,7 +157,7 @@ class EmployeeController extends EnhancedAbstractController
                 'function' => 'employee',
                 'anchorText' => 'create Employee']];
 
-        $query = $searchEntity->getQueryForSelect($request, $productRepository);
+        $query = $searchEntity->getQueryForSelect($request, $employeeRepository, ['name']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

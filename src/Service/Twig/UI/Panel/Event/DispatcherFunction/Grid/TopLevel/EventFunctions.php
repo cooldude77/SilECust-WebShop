@@ -1,8 +1,8 @@
 <?php
 
-namespace Silecust\WebShop\Service\Twig\Event\DispatcherFunction\TopLevel;
+namespace Silecust\WebShop\Service\Twig\UI\Panel\Event\DispatcherFunction\Grid\TopLevel;
 
-use Silecust\WebShop\Service\Twig\Event\Provider\TopLevel\EventProvider;
+use Silecust\WebShop\Service\Twig\UI\Panel\Event\Provider\Grid\TopLevel\EventProvider;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -20,19 +20,12 @@ class EventFunctions extends AbstractExtension
         return [
             new TwigFunction('dispatchTopLevelEditLinkEvent', [$this, 'dispatchTopLevelEditLinkEvent']),
             new TwigFunction('dispatchDisplayLinkEvent', [$this, 'dispatchDisplayLinkEvent']),
-             ];
+        ];
     }
 
     public function dispatchTopLevelEditLinkEvent(mixed $data): mixed
     {
         $event = $this->topLevelLinkEventProvider->provideTopLevelEditLinkEvent();
-        $event->setData($data);
-        return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
-    }
-
-    public function dispatchDisplayLinkEvent(mixed $data): mixed
-    {
-        $event = $this->topLevelLinkEventProvider->provideDisplayLinkEvent();
         $event->setData($data);
         return $this->eventDispatcher->dispatch($event, $event::EVENT_NAME);
     }

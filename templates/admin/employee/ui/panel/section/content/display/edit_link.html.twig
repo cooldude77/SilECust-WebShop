@@ -1,4 +1,6 @@
-{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+{% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+{% set function =  app.request.get('_function') %}
+{% set  id = app.request.get('id') %}
 {% set after =  path(context_route,
     {
         '_function':function,
@@ -11,4 +13,4 @@
         '_type':'edit',
         'id':id,
         '_redirect_upon_success_url': after
-    }) }}" id="{{ link_id ~"-edit-"~id}}" >Edit </a>
+    }) }}" id="{{ params.link_id ~"-edit-"~id }}">Edit </a>

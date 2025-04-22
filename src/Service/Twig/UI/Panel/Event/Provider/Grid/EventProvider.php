@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Service\Twig\Event\Provider\Grid;
+namespace Silecust\WebShop\Service\Twig\UI\Panel\Event\Provider\Grid;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;

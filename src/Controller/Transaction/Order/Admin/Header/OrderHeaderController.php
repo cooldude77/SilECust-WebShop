@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
@@ -67,7 +66,7 @@ class OrderHeaderController extends EnhancedAbstractController
     }
 
     /**
-     * @param OrderHeader $orderHeader
+     * @param string $generatedId
      * @param OrderHeaderDTOMapper $mapper
      * @param OrderStatusValidator $orderStatusValidator
      * @param EntityManagerInterface $entityManager
@@ -144,11 +143,17 @@ class OrderHeaderController extends EnhancedAbstractController
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-            $displayParams = ['title' => 'Price',
-                'link_id' => 'id-price',
+            $displayParams = [
+                'title' => 'Order',
+                'link_id' => 'id-order-header',
                 'editButtonLinkText' => 'Edit',
-                'fields' => [['label' => 'id',
-                    'propertyName' => 'id',],]];
+                'fields' => [
+                    [
+                        'label' => 'id',
+                        'propertyName' => 'id',
+                    ],
+                ]
+            ];
 
             return $this->render(
                 'transaction/admin/order/header/order_display.html.twig',
@@ -162,13 +167,12 @@ class OrderHeaderController extends EnhancedAbstractController
     }
 
     #[Route('/admin/order/list', name: 'sc_admin_route_order_list')]
-    public function list(OrderHeaderRepository    $orderRepository,
-                         PaginatorInterface       $paginator,
-                         EventDispatcherInterface $eventDispatcher,
-                         Request                  $request
+    public function list(
+        PaginatorInterface       $paginator,
+        EventDispatcherInterface $eventDispatcher,
+        Request                  $request
     ): Response
     {
-
         /** @var GridPropertyEvent $listEvent */
         $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
             GridPropertyEvent::EVENT_NAME
@@ -179,8 +183,6 @@ class OrderHeaderController extends EnhancedAbstractController
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);
 
         $query = $listQueryEvent->getQuery();
-
-        // $query = $orderRepository->getQueryForSelect();
 
         // todo : to bring price ( calculated field on the list) 
         $pagination = $paginator->paginate(

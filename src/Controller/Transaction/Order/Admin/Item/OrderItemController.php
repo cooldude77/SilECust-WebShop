@@ -3,8 +3,11 @@
 namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Item;
 
 // ...
-use Silecust\WebShop\Event\Component\UI\Panel\TopLevel\DisplayParametersEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemEditEvent;
 use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
@@ -13,9 +16,6 @@ use Silecust\WebShop\Form\Transaction\Order\Item\OrderItemEditForm;
 use Silecust\WebShop\Repository\OrderItemRepository;
 use Silecust\WebShop\Service\Transaction\Order\Item\Mapper\OrderItemDTOMapper;
 use Silecust\WebShop\Service\Transaction\Order\Item\Mapper\OrderItemPaymentPriceMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +46,7 @@ class OrderItemController extends EnhancedAbstractController
             $entityManager->persist($orderItem);
             $entityManager->persist($orderItemPaymentPrice);
 
-            $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem),OrderItemAddEvent::ORDER_ITEM_ADDED);
+            $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem), OrderItemAddEvent::ORDER_ITEM_ADDED);
 
             $entityManager->flush();
 
@@ -100,7 +100,7 @@ class OrderItemController extends EnhancedAbstractController
             $entityManager->persist($orderItemPaymentPrice);
 
             $entityManager->flush();
-            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem),OrderItemEditEvent::ORDER_ITEM_EDITED);
+            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem), OrderItemEditEvent::ORDER_ITEM_EDITED);
 
             $this->addFlash(
                 'success', "Order Item updated successfully"
@@ -155,10 +155,7 @@ class OrderItemController extends EnhancedAbstractController
 
         $listGrid = $listEvent->getListGridProperties();
 
-
         $query = $orderItemRepository->getQueryForSelect();
-
-        // $query = $orderRepository->getQueryForSelect();
 
         // todo : to bring price ( calculated field on the list)
         $pagination = $paginator->paginate(
