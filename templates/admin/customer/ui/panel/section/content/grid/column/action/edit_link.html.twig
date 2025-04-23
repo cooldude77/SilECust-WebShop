@@ -1,7 +1,10 @@
-{% set after =  path(listGrid.config.display_link.redirect_upon_success_route) %}
-{% set href =  path(listGrid.config.display_link.route,{'id':id}) %}
-<div class="d-flex flex mb-1 ml-0 ">
-    <a class="link-primary" id="{{ link_id ~"-display-"~id}}" href="{{ href }}">
-        {{ name }}
-    </a>
-</div>
+{% if listGrid.config.create_link.edit_link_allowed is defined
+    and listGrid.config.create_link.edit_link_allowed == false %}
+    {% set id  = attribute(entity, 'id') %}
+    {% set href =  path( listGrid.config.edit_link.route,{'id':id}) %}
+    <div class="d-flex flex mb-1 ml-0 ">
+        <a class="link-primary" id="{{ listGrid.config.edit_link.link_id ~"-edit-"~id }}" href="{{ href }}">
+            Edit
+        </a>
+    </div>
+{% endif %}

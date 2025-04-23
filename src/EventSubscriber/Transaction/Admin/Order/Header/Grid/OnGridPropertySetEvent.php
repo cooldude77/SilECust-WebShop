@@ -73,7 +73,6 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     'function' => 'order',
                     'title' => 'My Orders',
                     'link_id' => 'id-order',
-                    'edit_link_allowed' => false,
                     'columns' => [
                         [
                             'label' => 'Order Id',
@@ -93,7 +92,22 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                             'label' => 'Order Value',
                             'propertyName' => 'orderValue'
                         ],
-                    ]
+                    ],
+                    'config' => [
+                        'create_link' => [
+                            'create_link_allowed'=>false,
+                        ],
+                        'edit_link' => [
+                            'edit_link_allowed=>false'
+                        ],
+                        'display_link' => [
+                            'link_id' => ' id-display-order',
+                            'route' => 'sc_my_order_display',
+                            'anchorText' => 'Display Order',
+                            'redirect_upon_success_route' => 'sc_my_orders'
+                        ]
+                    ],
+
                 ]);
             }
         }
