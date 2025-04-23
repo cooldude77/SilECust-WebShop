@@ -1,0 +1,20 @@
+<div class="row py-2 fs-6">
+    <div class="row font-weight-bold py-2 bg-light">
+
+        {% for column in listGrid.columns %}
+            {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
+            {% include event.getTemplate with  {"request":request,'column':event.getData.column,'entity':entity} %}
+
+
+        {% endfor %}
+        <div class="col">
+
+            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/action/edit_link.html.twig' with {
+                'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
+                'id':attribute(entity, 'id'),
+                'link_id':listGrid.link_id} %}
+
+
+        </div>
+    </div>
+</div>

@@ -76,8 +76,8 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     'edit_link_allowed' => false,
                     'columns' => [
                         [
-                            'label' => 'Id',
-                            'propertyName' => 'id',
+                            'label' => 'Order Id',
+                            'propertyName' => 'generatedId',
                             'action' => 'display',
                         ],
                         [

@@ -43,14 +43,14 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
             )
                 return;
 
-        if ($this->customerFromUserFinder->isLoggedInUserAlsoACustomer())
+        if ($this->customerFromUserFinder->isLoggedInUserACustomer())
             try {
                 $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelectByCustomer($this->customerFromUserFinder->getLoggedInCustomer()));
             } catch (UserNotAssociatedWithACustomerException $e) {
 
             }
 
-        if ($this->employeeFromUserFinder->isLoggedInUserAlsoAEmployee())
+        if ($this->employeeFromUserFinder->isLoggedInUserAnEmployee())
             $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelectAllButOpenOrders());
 
     }

@@ -1,0 +1,18 @@
+{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+{% set after =  path(context_route,
+    {
+        '_function':function,
+        '_type':'display',
+        'id':id}) %}
+{% set href = path(context_route,
+    {
+        '_function': function,
+        '_type':'display',
+        'id':id,
+        '_redirect_upon_success_url': after
+    }) %}
+<div class="d-flex flex mb-1 ml-0">
+    <a class="link-primary" id="{{ config.link_id ~"-"~id}}" href="{{ href }}">
+        {{ Display }}
+    </a>
+</div>

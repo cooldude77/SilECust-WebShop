@@ -100,7 +100,7 @@ class ContentController extends EnhancedAbstractController
         $request->attributes->set(
             CommonIdentificationConstants::UI_TABLE_HEADING, 'Create new address');
 
-        $formResponse =$this->forward(CustomerAddressController::class . '::create',
+        $formResponse = $this->forward(CustomerAddressController::class . '::create',
             ['request' => $request, 'id' => $customer->getId()]);
 
 
@@ -108,7 +108,7 @@ class ContentController extends EnhancedAbstractController
             return $this->redirect($this->generateUrl('sc_my_addresses'));
 
         return $this->render(
-            '@SilecustWebShop/admin/customer/my_generic_content.html.twig',
+            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
             [
                 'content' => $formResponse->getContent()
             ]);
@@ -119,9 +119,9 @@ class ContentController extends EnhancedAbstractController
     {
 
         $routeParams = $request->attributes->get('_route_params');
-        $id = $routeParams['id'];
 
-        return $this->forward(OrderHeaderController::class . '::display', ['request' => $request, 'id' => $id]);
+        return $this->forward(OrderHeaderController::class . '::display', ['request' => $request,
+            'generatedId' => $request->attributes->get('generatedId')]);
 
     }
 
@@ -129,9 +129,9 @@ class ContentController extends EnhancedAbstractController
     {
 
         $routeParams = $request->attributes->get('_route_params');
-        $id = $routeParams['id'];
 
-        return $this->forward(OrderItemController::class . '::display', ['request' => $request, 'id' => $id]);
+
+        return $this->forward(OrderItemController::class . '::display', ['request' => $request]);
 
     }
 
@@ -155,7 +155,7 @@ class ContentController extends EnhancedAbstractController
             return $this->redirect($this->generateUrl('sc_my_personal_info'));
 
         return $this->render(
-            '@SilecustWebShop/admin/customer/my_generic_content.html.twig',
+            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
             [
                 'content' => $formResponse->getContent()
             ]);

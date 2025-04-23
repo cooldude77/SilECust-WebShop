@@ -156,7 +156,7 @@ class OrderHeaderController extends EnhancedAbstractController
             ];
 
             return $this->render(
-                'transaction/admin/order/header/order_display.html.twig',
+                '@SilecustWebShop/transaction/admin/order/header/order_display.html.twig',
                 ['entity' => $orderHeader, 'params' => $displayParams, 'request' => $request]
             );
         } catch (OpenOrderEditedInAdminPanel $e) {

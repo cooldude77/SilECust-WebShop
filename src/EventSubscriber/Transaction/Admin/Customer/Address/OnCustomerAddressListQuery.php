@@ -39,7 +39,7 @@ readonly class OnCustomerAddressListQuery implements EventSubscriberInterface
         if ($route['_route'] != 'sc_my_addresses')
             return;
 
-        if ($this->customerFromUserFinder->isLoggedInUserAlsoACustomer())
+        if ($this->customerFromUserFinder->isLoggedInUserACustomer())
             try {
                 $listQueryEvent->setQuery($this->customerAddressRepository->getQueryForSelectByCustomer($this->customerFromUserFinder->getLoggedInCustomer()));
             } catch (UserNotAssociatedWithACustomerException $e) {
