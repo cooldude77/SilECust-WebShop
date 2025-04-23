@@ -74,6 +74,7 @@ class MainController extends EnhancedAbstractController
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressCreate'
                 );
+                break;
              case 'sc_my_address_display':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,

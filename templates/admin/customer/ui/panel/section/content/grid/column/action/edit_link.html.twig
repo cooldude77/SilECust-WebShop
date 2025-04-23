@@ -1,8 +1,7 @@
-{% set after =  path(listGrid.config.edit_link.redirect_upon_success_route) %}
-{% set id  = attribute(entity, 'id') %}
-{% set href =  path(listGrid.config.edit_link.route,{'id':id}) %}
+{% set after =  path(listGrid.config.display_link.redirect_upon_success_route) %}
+{% set href =  path(listGrid.config.display_link.route,{'id':id}) %}
 <div class="d-flex flex mb-1 ml-0 ">
-    <a class="link-primary" id="{{listGrid.link_id ~"-edit-"~id}}" href="{{ href }}">
-        Edit
+    <a class="link-primary" id="{{ link_id ~"-display-"~id}}" href="{{ href }}">
+        {{ name }}
     </a>
 </div>

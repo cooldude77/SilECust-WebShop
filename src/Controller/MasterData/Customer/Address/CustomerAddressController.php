@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
@@ -125,25 +126,32 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
     #[Route('/admin/customer/address/{id}/display', name: 'sc_admin_customer_address_display')]
-    public function display(CustomerAddressRepository $customerAddressRepository, int $id): Response
+    public function display(
+        CustomerAddressRepository $customerAddressRepository,
+        int                       $id,
+        Request                   $request,
+        EventDispatcherInterface  $eventDispatcher): Response
     {
         $customerAddress = $customerAddressRepository->find($id);
         if (!$customerAddress) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
-
-        $displayParams = ['title' => 'Customer Address',
-            'link_id' => 'id-customer-address',
-            'editButtonLinkText' => 'Edit',
-            'fields' => [
-                ['label' => 'line 1',
-                    'propertyName' => 'line-1',
-                    'link_id' => 'id-display-customer-address'],
-            ]];
-
+        $displayParamEvent = $eventDispatcher->dispatch(
+            new DisplayParamPropertyEvent($request),
+            DisplayParamPropertyEvent::EVENT_NAME);
+        /*
+                $displayParams = ['title' => 'Customer Address',
+                    'link_id' => 'id-customer-address',
+                    'editButtonLinkText' => 'Edit',
+                    'fields' => [
+                        ['label' => 'line 1',
+                            'propertyName' => 'line1',
+                            'link_id' => 'id-display-customer-address'],
+                    ]];
+        */
         return $this->render(
             '@SilecustWebShop/master_data/customer/customer_display.html.twig',
-            ['entity' => $customerAddress, 'params' => $displayParams]
+            ['entity' => $customerAddress, 'params' => $displayParamEvent->getDisplayParamProperties(), 'request' => $request]
         );
 
     }
