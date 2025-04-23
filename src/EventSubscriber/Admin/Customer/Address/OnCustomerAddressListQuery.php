@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Address;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Address;
 
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;

@@ -3,7 +3,7 @@
         {% if column.value is defined %}
             <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
         {% else %}
-            {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/action/display_link.html.twig' with {
+            {% include '@SilecustWebShop/admin/customer/ui/panel/section/content/grid/column/action/display_link.html.twig' with {
                 'name':attribute(entity, column.propertyName),
                 'id':attribute(entity, 'id'),
                 'link_id':listGrid.link_id} %}

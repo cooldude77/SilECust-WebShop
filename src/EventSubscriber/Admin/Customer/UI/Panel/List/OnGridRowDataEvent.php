@@ -4,7 +4,6 @@ namespace Silecust\WebShop\EventSubscriber\Admin\Customer\UI\Panel\List;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridRowDataEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridRowHeaderEvent;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -38,7 +37,6 @@ readonly class OnGridRowDataEvent implements EventSubscriberInterface
      */
     public function beforeDisplay(GridRowDataEvent $event): void
     {
-
         if ($this->customerFromUserFinder->isLoggedInUserACustomer()) {
             $event->setTemplate('@SilecustWebShop/admin/customer/ui/panel/section/content/grid/row/row_data.html.twig');
         }

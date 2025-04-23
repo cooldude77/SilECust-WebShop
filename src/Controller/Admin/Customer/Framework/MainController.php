@@ -36,6 +36,7 @@ class MainController extends EnhancedAbstractController
     #[Route('/my/personal-info', name: 'sc_my_personal_info')]
     #[Route('/my/addresses', name: 'sc_my_addresses')]
     #[Route('/my/address/create', name: 'sc_my_address_create')]
+    #[Route('/my/address/{id}/display', name: 'sc_my_address_display')]
     #[Route('/my/orders/{generatedId}/display', name: 'sc_my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, Request $request): Response

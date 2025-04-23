@@ -1,32 +1,6 @@
-{#
-Issue: A
-Session cannot be used in testing as test will not have the same container as app container
-ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-session-in-functional-test
-    and
-    https://github.com/liip/LiipFunctionalTestBundle/issues/414 --> no solution
-    Thus this check and setting of context_route for unit testing when url is not called from admin_panel
-#}
-
-
-
-{% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
-    {# /Issue: A #}
-{% set after =  path(context_route,
-    {
-        '_function':config.function is defined ? config.function: app.request.get('_function'),
-        '_type':'display'
-    }) %}
-
-   {% set parameterList = {
-       '_function':config.function is defined ? config.function: app.request.get('_function'),
-       '_type':'create'
-   } %}
-   {% if config.id is defined %}
-       {% set parameterList = parameterList|merge({'id':config.id}) %}
-   {% endif %}
-    {% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
-
-    {% set href = path(context_route,parameterList) %}
+{% set after =  path(listGrid.config.create_link.redirect_upon_success_route) %}
+{% set parameterList = {'_redirect_upon_success_url': after} %}
+{% set href = path(listGrid.config.create_link.route,parameterList) %}
 
 <div class="d-flex flex mb-1 ml-0">
     <a class="link-primary" href="{{ href }}">

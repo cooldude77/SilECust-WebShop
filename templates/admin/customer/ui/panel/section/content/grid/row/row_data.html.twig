@@ -2,8 +2,9 @@
     <div class="row font-weight-bold py-2 bg-light">
 
         {% for column in listGrid.columns %}
-            {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
-            {% include event.getTemplate with  {"request":request,'column':event.getData.column,'entity':entity} %}
+            {% set event = dispatchGridColumnEvent({"request":request,'listGrid':listGrid,'entity':entity}) %}
+            {% include event.getTemplate with  {
+                "request":request,'listGrid':listGrid,'entity':entity} %}
 
 
         {% endfor %}

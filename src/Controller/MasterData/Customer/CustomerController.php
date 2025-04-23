@@ -134,14 +134,18 @@ class CustomerController extends EnhancedAbstractController
                          Request               $request): Response
     {
 
-        $listGrid = ['title' => 'Customer',
+        $listGrid = [
+            'title' => 'Customer',
             'link_id' => 'id-customer',
             'columns' => [['label' => 'Name',
                 'propertyName' => 'firstName',
                 'action' => 'display',],],
-            'createButtonConfig' => ['link_id' => ' id-create-Customer',
+            'createButtonConfig' => [
+                'link_id' => ' id-create-Customer',
                 'function' => 'customer',
-                'anchorText' => 'create Customer']];
+                'anchorText' => 'create Customer'
+            ]
+        ];
 
         $query = $searchEntity->getQueryForSelect($request, $customerRepository,
             ['firstName', 'middleName', 'lastName', 'givenName']);

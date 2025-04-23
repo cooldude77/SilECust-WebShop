@@ -1,4 +1,7 @@
 {# -- Page For Grid level pagination --  #}
+{#  do some dumping  #}
+
+{% dump request ,listGrid %}
 
 <div class="container">
     {# -- Create Link -- #}
@@ -7,7 +10,8 @@
             "request":request,
             'listGrid':listGrid
         }) %}
-        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+        {% include event.getTemplate with {
+            "request":request,'listGrid':listGrid} %}
 
 
         <div class="col-3 p-2 ">

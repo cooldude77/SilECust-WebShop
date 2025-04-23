@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
@@ -170,26 +171,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
     ): Response
     {
-
-        $listGrid = [
-            'title' => 'Customer Address',
-            'function' => 'customer_address',
-            'link_id' => 'id-customer-address',
-            'columns' => [
-                ['label' => 'Address Line 1',
-                    'propertyName' => 'line1',
-                    'action' => 'display'
-                ]
-                ,],
-            'editButtonLinkText' => 'Edit',
-            'edit_link_allowed' => true,
-            'createButtonConfig' => [
-                'link_id' => 'id-create-customer-address',
-                'function' => 'customer_address',
-                'anchorText' => 'Create Customer Address'
-            ]
-        ];
-
+        $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
 
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);
 
@@ -202,7 +184,7 @@ class CustomerAddressController extends EnhancedAbstractController
         );
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+            ['pagination' => $pagination, 'listGrid' => $listGridEvent->getListGridProperties(), 'request' => $request]
         );
     }
 
