@@ -115,6 +115,36 @@ class ContentController extends EnhancedAbstractController
 
     }
 
+    /**
+     * @param Request $request
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @return Response
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function addressDisplay(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+
+        $request->attributes->set(
+            CommonIdentificationConstants::UI_TABLE_HEADING, 'Create new address');
+
+        $formResponse = $this->forward(CustomerAddressController::class . '::display',
+            ['request' => $request, 'id' => $customer->getId()]);
+
+
+        if ($formResponse instanceof JsonResponse)
+            return $this->redirect($this->generateUrl('sc_my_addresses'));
+
+        return $this->render(
+            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
+            [
+                'content' => $formResponse->getContent()
+            ]);
+
+    }
+
     public function orderDisplay(Request $request): Response
     {
 

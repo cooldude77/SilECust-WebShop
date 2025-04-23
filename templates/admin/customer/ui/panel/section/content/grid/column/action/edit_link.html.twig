@@ -1,14 +1,8 @@
-{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
-{% set after =  path(context_route,
-    {
-        '_function':function,
-        '_type':'display',
-        'id':id}) %}
-
-<a href="{{ path(context_route,
-    {
-        '_function': function,
-        '_type':'edit',
-        'id':id,
-        '_redirect_upon_success_url': after
-    }) }}" id="{{ link_id ~"-edit-"~id}}" >Edit </a>
+{% set after =  path(listGrid.config.edit_link.redirect_upon_success_route) %}
+{% set id  = attribute(entity, 'id') %}
+{% set href =  path(listGrid.config.edit_link.route,{'id':id}) %}
+<div class="d-flex flex mb-1 ml-0 ">
+    <a class="link-primary" id="{{listGrid.link_id ~"-edit-"~id}}" href="{{ href }}">
+        Edit
+    </a>
+</div>
