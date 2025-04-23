@@ -120,7 +120,7 @@ class CustomerAddressController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }

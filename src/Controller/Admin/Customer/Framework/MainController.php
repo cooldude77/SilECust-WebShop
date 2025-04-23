@@ -81,6 +81,12 @@ class MainController extends EnhancedAbstractController
                     'addressDisplay'
                 );
                 break;
+            case 'sc_my_address_edit':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressEdit'
+                );
+                break;
             case 'sc_my_orders':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
