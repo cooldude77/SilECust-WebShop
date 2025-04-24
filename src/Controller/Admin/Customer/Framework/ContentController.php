@@ -3,7 +3,6 @@
 namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Controller\Common\Identification\CommonIdentificationConstants;
 use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
 use Silecust\WebShop\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
@@ -97,8 +96,7 @@ class ContentController extends EnhancedAbstractController
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
-        $request->attributes->set(
-            CommonIdentificationConstants::UI_TABLE_HEADING, 'Create new address');
+        $this->setContentHeading($request, 'Create new address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::create',
             ['request' => $request, 'id' => $customer->getId()]);
@@ -127,8 +125,7 @@ class ContentController extends EnhancedAbstractController
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
-        $request->attributes->set(
-            CommonIdentificationConstants::UI_TABLE_HEADING, 'Create new address');
+        $this->setContentHeading($request, 'Create new address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::display',
             ['request' => $request, 'id' => $customer->getId()]);
@@ -144,7 +141,8 @@ class ContentController extends EnhancedAbstractController
             ]);
 
     }
-/**
+
+    /**
      * @param Request $request
      * @param CustomerFromUserFinder $customerFromUserFinder
      * @return Response
@@ -156,8 +154,7 @@ class ContentController extends EnhancedAbstractController
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
-        $request->attributes->set(
-            CommonIdentificationConstants::UI_TABLE_HEADING, 'Edit address');
+        $this->setContentHeading($request, 'Edit address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::edit',
             ['request' => $request, 'id' => $customer->getId()]);
@@ -201,8 +198,7 @@ class ContentController extends EnhancedAbstractController
     public function personalInfo(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
     {
 
-        $request->attributes->set(
-            CommonIdentificationConstants::UI_TABLE_HEADING, 'Edit your personal information');
+        $this->setContentHeading($request, 'Edit your personal information');
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 

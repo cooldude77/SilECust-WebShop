@@ -1,36 +1,35 @@
 {# -- Page For Grid level pagination --  #}
 {#  do some dumping  #}
 
-<div class="container">
     {# -- Create Link -- #}
-    <div class="flex-row d-flex justify-right">
-        {% set event = dispatchGridCreateLinkEvent({
-            "request":request,
-            'listGrid':listGrid
-        }) %}
-        {% include event.getTemplate with {
-            "request":request,'listGrid':listGrid} %}
+<div class="flex-row d-flex justify-right">
+    {% set event = dispatchGridCreateLinkEvent({
+        "request":request,
+        'listGrid':listGrid
+    }) %}
+    {% include event.getTemplate with {
+        "request":request,'listGrid':listGrid} %}
 
 
-        <div class="col-3 p-2 ">
-            {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-        </div>
+    <div class="col-3 p-2 ">
+        {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
     </div>
-    {# -- Create Row Header -- #}
+</div>
+{# -- Create Row Header -- #}
     {% if listGrid.grid_heading is defined %}
         <div>
             <h2> {{ listGrid.grid_heading }}</h2>
         </div>
     {% endif %}
-    <div class="row font-weight-bold py-2 bg-light">
-        {% set event = dispatchGridRowHeaderEvent({
-            "request":request,
-            'listGrid':listGrid
-        }) %}
-        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-    </div>
+<div class="row font-weight-bold py-2 bg-light">
+    {% set event = dispatchGridRowHeaderEvent({
+        "request":request,
+        'listGrid':listGrid
+    }) %}
+    {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+</div>
 
-    {# -- Pagination starts -- #}
+{# -- Pagination starts -- #}
     {% if pagination is not null and pagination|length > 0 %}
         {% for entity in pagination %}
             {# -- Row level --  #}
@@ -52,5 +51,4 @@
     {% else %}
         <h2>No records found</h2>
     {% endif %}
-</div>
 
