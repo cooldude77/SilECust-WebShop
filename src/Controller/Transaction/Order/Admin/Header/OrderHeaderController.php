@@ -146,13 +146,16 @@ class OrderHeaderController extends EnhancedAbstractController
             $displayParams = [
                 'title' => 'Order',
                 'link_id' => 'id-order-header',
-                'editButtonLinkText' => 'Edit',
                 'fields' => [
                     [
                         'label' => 'id',
                         'propertyName' => 'id',
                     ],
-                ]
+                ],
+                'config' => [
+                    'edit_link' => [
+                        'edit_link_allowed' => false]
+                ],
             ];
 
             return $this->render(

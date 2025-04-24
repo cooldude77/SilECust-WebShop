@@ -39,7 +39,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
             $listGrid = ['title' => 'Order Items',
                 'link_id' => 'id-order-items',
                 'function' => 'order_item',
-                'edit_link_allowed'=>true,
+                'edit_link_allowed' => true,
                 'columns' => [
                     [
                         'label' => 'Id',
@@ -118,7 +118,19 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                         ],
 
                     ],
-                    'create_button_allowed' => false,];
+                    'config' => [
+                        'create_link' => [
+                            'create_link_allowed' => false,
+                        ],
+                        'edit_link' => [
+                            'edit_link_allowed=>false'
+                        ],
+                        'display_link' => [
+                            'link_id' => ' id-order-item',
+                            'route' => 'sc_my_order_item_display',
+                            'anchorText' => 'Display Order Item'
+                        ]
+                    ]];
             }
         }
 
