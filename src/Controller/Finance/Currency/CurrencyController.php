@@ -2,8 +2,9 @@
 // src/Controller/LuckyController.php
 namespace Silecust\WebShop\Controller\Finance\Currency;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Silecust\WebShop\Entity\Country;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\Currency;
 use Silecust\WebShop\Form\Finance\Currency\CurrencyCreateForm;
 use Silecust\WebShop\Form\Finance\Currency\CurrencyEditForm;
@@ -12,8 +13,6 @@ use Silecust\WebShop\Repository\CountryRepository;
 use Silecust\WebShop\Repository\CurrencyRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\Finance\Currency\Mapper\CurrencyDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +23,7 @@ class CurrencyController extends EnhancedAbstractController
 
     #[Route('/admin/currency/create', name: 'sc_admin_currency_create')]
     public function create(
-        CountryRepository $countryRepository,
+        CountryRepository      $countryRepository,
         CurrencyDTOMapper      $currencyDTOMapper,
         EntityManagerInterface $entityManager,
         Request                $request,
@@ -127,7 +126,7 @@ class CurrencyController extends EnhancedAbstractController
     }
 
     #[Route('/admin/currency/list', name: 'sc_admin_currency_list')]
-    public function list(CurrencyRepository $currencyRepository,
+    public function list(CurrencyRepository    $currencyRepository,
                          PaginatorInterface    $paginator,
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
@@ -144,7 +143,7 @@ class CurrencyController extends EnhancedAbstractController
                 'function' => 'currency',
                 'anchorText' => 'Create Currency']];
 
-        $query = $searchEntity->getQueryForSelect($request, $productRepository);
+        $query = $searchEntity->getQueryForSelect($request, $currencyRepository, ['code','description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

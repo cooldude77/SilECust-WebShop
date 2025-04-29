@@ -23,8 +23,7 @@ class CurrencyCreateForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $builder->add('code', TextType::class);
-        $builder->add('code', TextType::class);
+         $builder->add('code', TextType::class);
         $builder->add('description', TextType::class);
         $builder->add('symbol', TextType::class);
         $builder->add('country', CountryAutoCompleteField::class, ['mapped' => false]);
