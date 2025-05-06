@@ -159,6 +159,8 @@ class CategoryImageController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Category Images');
+
         $category = $categoryRepository->find($id);
 
         $listGrid = ['title' => "Category Files",

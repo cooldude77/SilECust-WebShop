@@ -104,6 +104,7 @@ class ProductAttributeController extends EnhancedAbstractController
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+        $this->setContentHeading($request, 'Product Attributes');
 
         $listGrid = ['title' => 'Product Attribute',
                      'link_id' => 'id-product-attribute',

@@ -1,4 +1,6 @@
 {% set constant = constant('Silecust\\Framework\\Service\\Twig\\TwigConstants::UI_CONTENT_HEADING') %}
 {% if (request.attributes.get(constant) !=null) %}
-    <h2>{{ request.attributes.get(constant) }}</h2>
+    <div id="silecust-admin-content-heading">
+        <h2>{{ request.attributes.get(constant) }}</h2>
+    </div>
 {% endif %}

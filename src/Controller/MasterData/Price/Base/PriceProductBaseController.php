@@ -142,6 +142,7 @@ class PriceProductBaseController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Base Prices');
 
         $listGrid = ['title' => 'Price',
             'link_id' => 'id-price',

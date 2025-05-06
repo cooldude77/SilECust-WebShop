@@ -141,6 +141,8 @@ class PriceProductTaxController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Taxes');
+
         $listGrid = ['title' => 'Tax',
             'link_id' => 'id-price-tax',
             'function' => 'price_product_tax',

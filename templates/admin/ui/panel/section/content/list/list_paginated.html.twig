@@ -1,8 +1,11 @@
 {# -- Page For Grid level pagination --  #}
 {#  do some dumping  #}
+ {# -- Create Link -- #}
 
-    {# -- Create Link -- #}
-<div class="flex-row d-flex justify-right">
+<div id="silecust-admin-search-box" class="row">
+    {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
+</div>
+<div id="silecust-admin-create-link" >
     {% set event = dispatchGridCreateLinkEvent({
         "request":request,
         'listGrid':listGrid
@@ -11,9 +14,6 @@
         "request":request,'listGrid':listGrid} %}
 
 
-    <div class="col-3 p-2 ">
-        {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-    </div>
 </div>
 {# -- Create Row Header -- #}
     {% if listGrid.grid_heading is defined %}
@@ -51,4 +51,14 @@
     {% else %}
         <h2>No records found</h2>
     {% endif %}
-
+<script type="module">
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        console.log("ready!");
+        var a = $("#silecust-admin-create-link");
+        var b = $("#silecust-admin-search-box")
+        var c = $("#silecust-admin-content-heading h2");
+        c.after(a);
+      //  c.after(a);
+    });
+</script>

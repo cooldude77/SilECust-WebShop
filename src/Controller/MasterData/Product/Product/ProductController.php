@@ -161,9 +161,9 @@ class ProductController extends EnhancedAbstractController
                          Request               $request):
     Response
     {
+        $this->setContentHeading($request, 'Products');
 
         $listGrid = [
-            'grid_heading' => 'Product List',
             'link_id' => 'id-product',
             'function' => 'product',
             'columns' => [

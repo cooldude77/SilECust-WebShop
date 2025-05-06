@@ -111,6 +111,7 @@ class ProductAttributeValueController extends EnhancedAbstractController
                          Request                         $request
     ): Response
     {
+        $this->setContentHeading($request, 'Product Attribute Values');
 
         $listGrid = ['title' => 'Product Attribute Values',
             'link_id' => 'id-product-attribute-value',

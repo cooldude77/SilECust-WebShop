@@ -133,6 +133,7 @@ class CustomerController extends EnhancedAbstractController
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+        $this->setContentHeading($request, 'Customers');
 
         $listGrid = [
             'title' => 'Customer',

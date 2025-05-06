@@ -179,6 +179,8 @@ class CustomerAddressController extends EnhancedAbstractController
 
     ): Response
     {
+        $this->setContentHeading($request, 'Addresses');
+
         $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
 
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);

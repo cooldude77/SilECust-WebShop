@@ -102,6 +102,7 @@ class ProductTypeController extends EnhancedAbstractController
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+        $this->setContentHeading($request, 'Product Types');
 
         $listGrid = ['title' => 'ProductType',
                      'link_id'=>'id-product-type',
@@ -115,7 +116,7 @@ class ProductTypeController extends EnhancedAbstractController
                          'function' => 'productType',
                                               'anchorText' => 'Create ProductType']];
 
-        $query = $searchEntity->getQueryForSelect($request, $productTypeRepository);
+        $query = $searchEntity->getQueryForSelect($request, $productTypeRepository,['name','description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */

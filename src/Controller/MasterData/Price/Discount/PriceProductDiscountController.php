@@ -142,6 +142,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Discounts');
 
         $listGrid = ['title' => 'Price',
             'link_id' => 'id-price',

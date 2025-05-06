@@ -146,6 +146,7 @@ class EmployeeController extends EnhancedAbstractController
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+        $this->setContentHeading($request, 'Employees');
 
         $listGrid = ['title' => 'Employee',
             'link_id' => 'id-employee',

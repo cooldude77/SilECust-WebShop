@@ -160,6 +160,7 @@ class ProductImageController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Files');
 
 
         $listGrid = ['title' => "Product Files",
