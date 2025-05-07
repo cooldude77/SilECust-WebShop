@@ -51,7 +51,7 @@
             {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
         </div>
     {% else %}
-        <h2>No records found</h2>
+        <p id="no-records-found">No records found</p>
     {% endif %}
 </div>
 <script type="module">
