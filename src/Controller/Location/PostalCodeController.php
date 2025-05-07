@@ -157,6 +157,8 @@ class PostalCodeController extends EnhancedAbstractController
         Request              $request,
         PaginatorInterface   $paginator): Response
     {
+        $this->setContentHeading($request, 'Postal Code');
+
         $city = $cityRepository->find($id);
 
         if (!$city) {

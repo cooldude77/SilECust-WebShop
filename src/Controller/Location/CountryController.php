@@ -21,6 +21,8 @@ class CountryController extends EnhancedAbstractController
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
+        $this->setContentHeading($request, 'Create Country');
+
         $countryDTO = new CountryDTO();
         $form = $this->createForm(
             CountryCreateForm::class, $countryDTO
@@ -63,6 +65,8 @@ class CountryController extends EnhancedAbstractController
                          Request                $request, int $id
     ): Response
     {
+        $this->setContentHeading($request, 'Edit Country');
+
         $country = $countryRepository->find($id);
 
         if (!$country) {
@@ -102,6 +106,8 @@ class CountryController extends EnhancedAbstractController
     #[Route('/admin/country/{id}/display', name: 'sc_admin_country_display')]
     public function display(CountryRepository $countryRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display Country');
+
         $country = $countryRepository->find($id);
         if (!$country) {
             throw $this->createNotFoundException('No country found for id ' . $id);
@@ -126,6 +132,7 @@ class CountryController extends EnhancedAbstractController
     #[Route('/admin/country/list', name: 'sc_admin_country_list')]
     public function list(CountryRepository $countryRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $this->setContentHeading($request, 'Country');
 
         $listGrid = ['title' => 'Country',
             'link_id' => 'id-country',

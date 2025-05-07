@@ -30,6 +30,8 @@ class CurrencyController extends EnhancedAbstractController
         ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Display Country');
+
         $currencyDTO = new CurrencyDTO();
 
         $form = $this->createForm(CurrencyCreateForm::class, $currencyDTO);
@@ -71,7 +73,8 @@ class CurrencyController extends EnhancedAbstractController
         Request                $request,
         ValidatorInterface     $validator
     ): Response
-    {
+    {$this->setContentHeading($request, 'Edit Country');
+
         $currencyDTO = $currencyDTOMapper->mapToDtoFromEntity($currency);
 
         $form = $this->createForm(CurrencyEditForm::class, $currencyDTO);
@@ -108,6 +111,9 @@ class CurrencyController extends EnhancedAbstractController
     public function display(Currency $currency,
                             Request  $request): Response
     {
+        $this->setContentHeading($request, 'Display Country');
+
+        $this->setContentHeading($request, 'Currency');
 
         $displayParams = ['title' => 'Currency',
             'editButtonLinkText' => 'Edit',
@@ -120,7 +126,7 @@ class CurrencyController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/finance/currency/currency_display.html.twig',
-            ['request' => $request, 'entity' => $currency, 'params' => $displayParams]
+            [ 'entity' => $currency, 'request' => $request,'params' => $displayParams]
         );
 
     }
@@ -131,6 +137,7 @@ class CurrencyController extends EnhancedAbstractController
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+        $this->setContentHeading($request, 'Currencies');
 
         $listGrid = ['title' => 'Currency',
             'link_id' => 'id-currency',

@@ -127,7 +127,7 @@ class TaxSlabController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/finance/tax_slab/tax_slab_display.html.twig',
-            ['request' => $request, 'entity' => $taxSlab, 'params' => $displayParams]
+            ['entity' => $taxSlab,'request' => $request, 'params' => $displayParams]
         );
 
     }

@@ -149,6 +149,8 @@ class StateController extends EnhancedAbstractController
                          PaginatorInterface $paginator,
                          int                $id): Response
     {
+        $this->setContentHeading($request, 'State');
+
         $country = $countryRepository->find($id);
         if (!$country)
             throw $this->createNotFoundException('No country found for id ' . $id);

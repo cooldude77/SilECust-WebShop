@@ -59,10 +59,11 @@
     $(document).ready(function () {
         console.log("ready!");
         let a = $("#silecust-admin-create-link");
-
+        a.hide();
         let b = $("#silecust-admin-search-box")
         let c = $("#silecust-admin-content-heading h2");
         c.after(a);
+        a.show();
 
     });
 </script>
