@@ -1,13 +1,15 @@
-<div class="row py-2 fs-6">
-    <div class="row font-weight-bold py-2 bg-light">
+<div class="sc-admin-row-data row py-2 fs-6">
+    <div class="row">
 
         {% for column in listGrid.columns %}
-            {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
-            {% include event.getTemplate with  {"request":request,'column':event.getData.column,'entity':entity} %}
+            <div class="col-3">
 
+                {% set event = dispatchGridColumnEvent({"request":request,'column':column,'entity':entity}) %}
+                {% include event.getTemplate with  {"request":request,'column':event.getData.column,'entity':entity} %}
 
+            </div>
         {% endfor %}
-        <div class="col">
+        <div class="col-3">
 
             {% include '@SilecustWebShop/admin/employee/ui/panel/section/content/grid/column/action/edit_link.html.twig' with {
                 'function':listGrid.function is defined ? listGrid.function: request.get('_function'),

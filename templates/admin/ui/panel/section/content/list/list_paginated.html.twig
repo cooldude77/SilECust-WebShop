@@ -5,7 +5,7 @@
 <div id="silecust-admin-search-box" class="row">
     {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
 </div>
-<div id="silecust-admin-create-link" >
+<div id="silecust-admin-create-link">
     {% set event = dispatchGridCreateLinkEvent({
         "request":request,
         'listGrid':listGrid
@@ -15,21 +15,23 @@
 
 
 </div>
-{# -- Create Row Header -- #}
+<div id="silecust-admin-grid" class="p-2 border-2 border-secondary">
+    {# -- Create Row Header -- #}
     {% if listGrid.grid_heading is defined %}
         <div>
             <h2> {{ listGrid.grid_heading }}</h2>
         </div>
     {% endif %}
-<div class="row font-weight-bold py-2 bg-light">
-    {% set event = dispatchGridRowHeaderEvent({
-        "request":request,
-        'listGrid':listGrid
-    }) %}
-    {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-</div>
 
-{# -- Pagination starts -- #}
+    <div id="silecust-admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
+        {% set event = dispatchGridRowHeaderEvent({
+            "request":request,
+            'listGrid':listGrid
+        }) %}
+        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+    </div>
+
+    {# -- Pagination starts -- #}
     {% if pagination is not null and pagination|length > 0 %}
         {% for entity in pagination %}
             {# -- Row level --  #}
@@ -51,14 +53,16 @@
     {% else %}
         <h2>No records found</h2>
     {% endif %}
+</div>
 <script type="module">
     // A $( document ).ready() block.
     $(document).ready(function () {
         console.log("ready!");
-        var a = $("#silecust-admin-create-link");
-        var b = $("#silecust-admin-search-box")
-        var c = $("#silecust-admin-content-heading h2");
+        let a = $("#silecust-admin-create-link");
+
+        let b = $("#silecust-admin-search-box")
+        let c = $("#silecust-admin-content-heading h2");
         c.after(a);
-      //  c.after(a);
+
     });
 </script>

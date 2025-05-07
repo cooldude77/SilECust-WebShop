@@ -26,6 +26,8 @@ class CategoryController extends EnhancedAbstractController
                            ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Create Category');
+
         $categoryDTO = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
@@ -67,6 +69,8 @@ class CategoryController extends EnhancedAbstractController
                          ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Edit Category');
+
         $category = $categoryRepository->find($id);
 
 
@@ -110,6 +114,8 @@ class CategoryController extends EnhancedAbstractController
     #[Route('/admin/category/{id}/display', name: 'sc_admin_category_display')]
     public function display(CategoryRepository $categoryRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display Category');
+
         $category = $categoryRepository->find($id);
         if (!$category) {
             throw $this->createNotFoundException(

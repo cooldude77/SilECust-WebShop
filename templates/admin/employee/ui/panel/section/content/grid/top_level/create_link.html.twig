@@ -27,8 +27,8 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
 
     {% set href = path(context_route,parameterList) %}
 
-<div >
-    <a class="active" href="{{ href }}">
+<div>
+    <a class="btn active" href="{{ href }}">
         <i class="bi bi-plus-circle-fill"></i>{{ app.request.get('_function') }}</a>
 </div>
 

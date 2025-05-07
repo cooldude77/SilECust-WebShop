@@ -32,6 +32,8 @@ class ProductController extends EnhancedAbstractController
                            ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Create Product');
+
         $productDTO = new ProductDTO();
         $form = $this->createForm(
             ProductCreateForm::class, $productDTO
@@ -77,6 +79,8 @@ class ProductController extends EnhancedAbstractController
                          ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Edit Product');
+
         $product = $productRepository->find($id);
 
 
@@ -124,6 +128,8 @@ class ProductController extends EnhancedAbstractController
     #[Route('/admin/product/{id}/display', name: 'sc_admin_product_display')]
     public function display(ProductRepository $productRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display Product');
+
         $product = $productRepository->find($id);
         if (!$product) {
             throw $this->createNotFoundException('No product found for id ' . $id);
