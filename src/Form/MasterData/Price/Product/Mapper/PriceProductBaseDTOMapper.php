@@ -1,9 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\Form\MasterData\Price\Mapper;
+namespace Silecust\WebShop\Form\MasterData\Price\Product\Mapper;
 
 use Silecust\WebShop\Entity\PriceProductBase;
-use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
+use Silecust\WebShop\Form\MasterData\Price\Product\DTO\PriceProductBaseDTO;
 use Silecust\WebShop\Repository\CurrencyRepository;
 use Silecust\WebShop\Repository\PriceProductBaseRepository;
 use Silecust\WebShop\Repository\ProductRepository;

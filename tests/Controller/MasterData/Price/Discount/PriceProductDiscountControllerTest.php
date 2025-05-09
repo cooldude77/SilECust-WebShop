@@ -39,7 +39,6 @@ class PriceProductDiscountControllerTest extends WebTestCase
     {
 
         $this->createProductFixtures();
-
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
 
@@ -65,7 +64,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
 
             })->fillField('price_product_discount_create_form[product]', $this->productA->getId())
             ->fillField('price_product_discount_create_form[currency]', $this->currency->getId())
-            ->fillField('price_product_discount_create_form[value]', 500)
+            ->fillField('price_product_discount_create_form[value]', 10)
             ->click('Save')
             ->assertSuccessful();
 
@@ -73,7 +72,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
                                                                            $this->productA->object(
                                                                            )));
 
-        $this->assertEquals(500, $created->getValue());
+        $this->assertEquals(10, $created->getValue());
 
 
     }
@@ -121,7 +120,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
             ->fillField(
                 'price_product_discount_edit_form[currency]', $this->currency->getId()
             )
-            ->fillField('price_product_discount_edit_form[value]', 200)
+            ->fillField('price_product_discount_edit_form[value]', 20)
             ->click('Save')
             ->assertSuccessful();
 
@@ -129,7 +128,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
         $edited = $this->findOneBy(
             PriceProductDiscount::class, ['product' => $this->productA->object()]
         );
-        $this->assertEquals(200, $edited->getValue());
+        $this->assertEquals(20, $edited->getValue());
 
 
     }

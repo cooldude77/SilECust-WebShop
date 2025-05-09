@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Form\MasterData\Price\DTO;
+namespace Silecust\WebShop\Form\MasterData\Price\Product\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +16,6 @@ class PriceProductBaseDTO
      * @var float
      */
     #[Assert\GreaterThan(
-
         value: 0
     )]
     public float $price = 0;

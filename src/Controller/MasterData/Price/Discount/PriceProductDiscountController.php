@@ -57,6 +57,8 @@ class PriceProductDiscountController extends EnhancedAbstractController
             );
         }
 
+
+
         return $this->render(
             '@SilecustWebShop/master_data/price/discount/price_product_discount_create.html.twig', ['form' => $form]
         );

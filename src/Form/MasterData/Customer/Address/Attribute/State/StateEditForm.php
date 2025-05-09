@@ -4,9 +4,7 @@ namespace Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State;
 
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\Country\CountryAutoCompleteField;
 use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\State\DTO\StateDTO;
-use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
 use Silecust\WebShop\Repository\CountryRepository;
-use Silecust\WebShop\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
