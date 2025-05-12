@@ -53,6 +53,7 @@ class ProductDTOMapper
         $productDTO->name = $product->getName();
         $productDTO->description = $product->getDescription();
         $productDTO->categoryId = $product->getCategory()->getId();
+        $productDTO->isActive = $product->isIsActive();
 
         return $productDTO;
 

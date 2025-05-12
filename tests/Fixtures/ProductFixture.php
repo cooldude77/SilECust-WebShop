@@ -17,12 +17,17 @@ trait ProductFixture
     public Category|Proxy $categoryB;
 
     public Product|Proxy $productB;
+  public Product|Proxy $productInactive;
 
     public string $productAName = 'Prod name A';
     public string $productBName = 'Prod name B';
 
+    public string|Proxy $productInactiveName = 'Inactive Product Name';
+
     public string $productADescription = 'Product description A';
     public string $productBDescription = 'Product description B';
+
+    public string|Proxy $productInactiveDescription = 'Inactive Product Description';
 
 
     public string $categoryAName = 'Cat A';
@@ -54,7 +59,13 @@ trait ProductFixture
         $this->productB = ProductFactory::createOne(['category' => $this->categoryB,
             'name' => $this->productBName,
             'description' => $this->productBDescription,
-            'isActive' => true]);
+            'isActive' => true]);     
+        
+        
+        $this->productInactive = ProductFactory::createOne(['category' => $this->categoryA,
+            'name' => $this->productInactiveName,
+            'description' => $this->productInactiveDescription,
+            'isActive' => false]);
     }
 
 }

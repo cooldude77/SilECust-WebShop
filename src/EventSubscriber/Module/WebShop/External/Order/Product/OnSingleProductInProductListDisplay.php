@@ -7,7 +7,7 @@ use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Event\Module\WebShop\External\Product\Twig\SingleProductInProductListDisplayEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class SingleProductInProductListDisplaySubscriber implements EventSubscriberInterface
+readonly class OnSingleProductInProductListDisplay implements EventSubscriberInterface
 {
     public function __construct()
     {

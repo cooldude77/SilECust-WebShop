@@ -6,7 +6,7 @@ use Silecust\WebShop\Event\Module\WebShop\External\Product\ProductListingQueryEv
 use Silecust\WebShop\Service\Module\WebShop\External\Product\ProductListQueryBuilder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class ProductListQuerySubscriber implements EventSubscriberInterface
+readonly class OnProductListQuery implements EventSubscriberInterface
 {
     public function __construct(private ProductListQueryBuilder $queryBuilder)
     {

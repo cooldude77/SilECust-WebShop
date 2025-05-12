@@ -2,11 +2,11 @@
 
 namespace Silecust\WebShop\Service\Module\WebShop\External\Product;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Silecust\WebShop\Entity\PriceProductBase;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\Request;
 
 readonly class ProductListQueryBuilder
@@ -20,6 +20,8 @@ readonly class ProductListQueryBuilder
     public function getQuery(Request $request): Query
     {
 
+        $builder = $this->buildBaseQuery($request);
+
         if ($request->query->get('sort_by') != null) {
             // order by has to be present and valid
             // or finally it will be descending
@@ -32,8 +34,6 @@ readonly class ProductListQueryBuilder
         }
         if (!isset($orderBy))
             $orderBy = 'ASC';
-
-        $builder = $this->buildBaseQuery($request);
 
         if ($request->query->get('sort_by') == 'price') {
             $builder = $this->getBuilderForPriceQuery($builder, $orderBy);
@@ -85,6 +85,8 @@ readonly class ProductListQueryBuilder
 
             $builder = $this->getBuilderForAllProductQuery();
         }
+        $builder->andWhere('p.isActive = true');
+
         return $builder;
     }
 
@@ -100,7 +102,7 @@ readonly class ProductListQueryBuilder
             ->from(PriceProductBase::class, 'pbp')
             ->join('pbp.product', 'product')
             // Important: DQL strips parameters so this will throw error
-                // if there are parameters attached to builder
+            // if there are parameters attached to builder
             ->where($builder->expr()->in('product', $builder->getDQL()))
             // do this to add back the parameters that we lost
             ->setParameters($builder->getParameters())

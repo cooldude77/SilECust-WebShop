@@ -29,20 +29,36 @@ class ProductControllerTest extends WebTestCase
         OrderFixture,
         SessionFactoryFixture,
         Factories;
+
     protected function setUp(): void
     {
         $this->browser()->visit('/logout');
-
-
-    }
-
-    public function testAddToCart()
-    {
         $this->createCustomerFixtures();
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+
+    }
+
+    public function testListOfProducts()
+    {
+        $uri = '/';
+
+        $this->browser()
+            // don't allow cart when user is not logged in
+            // not logged-in
+            ->visit($uri)
+            ->assertSee($this->productA->getDescription())
+            ->assertSee($this->productB->getDescription())
+            ->assertSee($this->priceProductBaseA->getPrice())
+            ->assertSee($this->priceProductBaseB->getPrice())
+            ->assertNotSee($this->productInactive->getDescription());
+
+    }
+
+    public function testAddToCart()
+    {
         $this->createOpenOrderFixtures($this->customer);
 
         $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
