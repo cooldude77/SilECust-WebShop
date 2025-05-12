@@ -34,10 +34,11 @@ class ProductDTO
         groups: ['edit']
     )]
     public ?int $id = 0;
-    public bool $isActive = false;
+    public bool $isActive;
 
     #[Assert\GreaterThan(
         value: 0
     )]
+    #[Assert\NotNull]
     public ?int $categoryId = 0;
 }

@@ -21,7 +21,6 @@ trait ProductFixture
     public string $productAName = 'Prod name A';
     public string $productBName = 'Prod name B';
 
-
     public string $productADescription = 'Product description A';
     public string $productBDescription = 'Product description B';
 
@@ -40,7 +39,8 @@ trait ProductFixture
                 'description' => $this->categoryADescription]
         );
 
-        $this->productA = ProductFactory::createOne(['category' => $this->categoryA,
+        $this->productA = ProductFactory::createOne([
+            'category' => $this->categoryA,
             'name' => $this->productAName,
             'description' => $this->productADescription,
             'isActive' => true]);

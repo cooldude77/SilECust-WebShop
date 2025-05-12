@@ -6,7 +6,9 @@ use Silecust\WebShop\Factory\CategoryFactory;
 use Silecust\WebShop\Factory\ProductFactory;
 use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Tests\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
@@ -14,10 +16,11 @@ use Zenstruck\Foundry\Test\Factories;
 class ProductControllerTest extends WebTestCase
 {
 
-    use HasBrowser, ProductFixture, EmployeeFixture, Factories;
+    use HasBrowser, ProductFixture, EmployeeFixture, Factories, SelectElement;
 
     protected function setUp(): void
-    { $this->browser()->visit('/logout');
+    {
+        $this->browser()->visit('/logout');
         $this->createEmployeeFixtures();
     }
 
@@ -37,27 +40,36 @@ class ProductControllerTest extends WebTestCase
         $this->createProductFixtures();
         $uri = '/admin/product/create';
 
-        $this->browser()->visit($uri)
+        $this->browser()
+            ->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
-            ->post($uri,
-                [
-                    'body' => [
-                        'product_create_form' => [
-                            'name' => 'Prod1',
-                            'description' => 'Product 1',
-                            'category' => $this->categoryA->getId()
-                        ],
-                    ],
-                ])
+            ->visit($uri)
+            // do not fill category
+            ->fillField('product_create_form[name]', 'Prod1')
+            ->fillField('product_create_form[description]', 'Product 1')
+            ->click('Save')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            // fill all
+            ->use(function (Browser $browser) {
+                $this->addOption(
+                    $browser,
+                    'select[name="product_create_form[category]"]',
+                    $this->categoryA->getId()
+                );
+            })
+            ->fillField('product_create_form[name]', 'Prod1')
+            ->fillField('product_create_form[description]', 'Product 1')
+            ->click('Save')
             ->assertSuccessful();
 
         $created = ProductFactory::find(array('name' => "Prod1"));
 
         $this->assertEquals("Prod1", $created->getName());
         $this->assertEquals("Product 1", $created->getDescription());
+        $this->assertTrue($created->isIsActive());
 
 
     }
@@ -73,21 +85,25 @@ class ProductControllerTest extends WebTestCase
         $uri = "/admin/product/{$this->productA->getId()}/edit";
 
         $visit = $this->browser()
+            ->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
-            ->post($uri,
-                [
-                    'body' => [
-                        'product_edit_form' => [
-                            'id' => $this->productA->getId(),
-                            'name' => 'Prod11',
-                            'description' => 'Product 11',
-                            'category' => $this->categoryB->getId()
-                        ],
-                    ],
-                ])
+            // fill all
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption(
+                    $browser,
+                    'select[name="product_edit_form[category]"]',
+                    $this->categoryB->getId()
+                );
+            })
+            ->fillField('product_edit_form[name]', 'Prod11')
+            ->fillField('product_edit_form[description]', 'Product 11')
+            ->fillField('product_edit_form[category]', $this->categoryB->getId())
+            ->uncheckField('product_edit_form[isActive]')
+            ->click('Save')
             ->assertSuccessful();
 
         $edited = ProductFactory::find($this->productA->getId());
@@ -95,7 +111,7 @@ class ProductControllerTest extends WebTestCase
         $this->assertEquals("Prod11", $edited->getName());
         $this->assertEquals("Product 11", $edited->getDescription());
         $this->assertEquals($this->categoryB->getId(), $edited->getCategory()->getId());
-
+        $this->assertFalse($edited->isIsActive());
 
     }
 

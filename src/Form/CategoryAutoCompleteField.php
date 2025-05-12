@@ -3,8 +3,6 @@
 namespace Silecust\WebShop\Form;
 
 use Silecust\WebShop\Entity\Category;
-use Silecust\WebShop\Repository\CategoryRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
@@ -19,7 +17,7 @@ class CategoryAutoCompleteField extends AbstractType
             'class' => Category::class,
             'placeholder' => 'Choose a Category',
             'choice_label' => 'description',
-            'choice_value'=>'id',
+            'choice_value'=> 'id',
             // 'security' => 'ROLE_SOMETHING',
         ]);
     }

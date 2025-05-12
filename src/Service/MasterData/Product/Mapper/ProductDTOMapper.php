@@ -23,6 +23,7 @@ class ProductDTOMapper
 
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
+        $product->setIsActive($productDTO->isActive == true);
 
         return $product;
     }
@@ -36,6 +37,7 @@ class ProductDTOMapper
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
         $product->setCategory($this->categoryRepository->find($productDTO->categoryId));
+        $product->setIsActive($productDTO->isActive);
 
         return $product;
 
