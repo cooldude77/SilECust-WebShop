@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Utility;
+namespace Silecust\WebShop\Service\Testing\Utility;
 
 use Doctrine\DBAL\Connection;
 

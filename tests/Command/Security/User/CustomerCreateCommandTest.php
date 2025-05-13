@@ -2,9 +2,7 @@
 
 namespace Silecust\WebShop\Tests\Command\Security\User;
 
-use Silecust\WebShop\Command\Security\User\CustomerCreateCommand;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use PHPUnit\Framework\TestCase;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Console\Test\InteractsWithConsole;

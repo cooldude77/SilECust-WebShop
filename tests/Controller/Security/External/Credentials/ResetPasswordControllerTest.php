@@ -1,11 +1,11 @@
 <?php
 
-namespace Silecust\WebShop\Tests;
+namespace Silecust\WebShop\Tests\Controller\Security\External\Credentials;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Silecust\WebShop\Factory\UserFactory;
 use Silecust\WebShop\Repository\UserRepository;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Doctrine\ORM\EntityManagerInterface;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;

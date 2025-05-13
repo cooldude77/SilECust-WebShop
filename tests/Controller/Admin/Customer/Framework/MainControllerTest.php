@@ -3,10 +3,10 @@
 namespace Silecust\WebShop\Tests\Controller\Admin\Customer\Framework;
 
 use Silecust\WebShop\Factory\CustomerFactory;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Fixtures\SuperAdminFixture;
-use Silecust\WebShop\Tests\Utility\AuthenticateTestEmployee;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\SuperAdminFixture;
+use Silecust\WebShop\Service\Testing\Utility\AuthenticateTestEmployee;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser as SymfonyBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;

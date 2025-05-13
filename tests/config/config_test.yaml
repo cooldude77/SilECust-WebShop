@@ -29,12 +29,12 @@ services:
   #   alias: product.search
 
   session.storage.factory.mock_file:
-    class: Silecust\WebShop\Tests\Utility\MyOwnMockFileSessionStorageFactory
+    class: Silecust\WebShop\Service\Testing\Utility\MyOwnMockFileSessionStorageFactory
   session.factory:
-    class: Silecust\WebShop\Tests\Utility\MySessionFactory
+    class: Silecust\WebShop\Service\Testing\Utility\MySessionFactory
     arguments:
       $requestStack: '@request_stack'
-      $storageFactory: '@session.storage.factory'
+      $storageFactory: '@session.storage.factory.mock_file'
       $usageReporter: [ '@session_listener','onSessionUsage' ]
   product_search_service:
     class: Silecust\WebShop\Service\MasterData\Product\ProductSearch

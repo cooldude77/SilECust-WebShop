@@ -6,7 +6,7 @@ use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\User;
 use Silecust\WebShop\Factory\CustomerFactory;
 use Silecust\WebShop\Factory\UserFactory;
-use Silecust\WebShop\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;

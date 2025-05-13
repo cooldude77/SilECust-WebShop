@@ -2,12 +2,11 @@
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\CheckOut;
 
-use Silecust\WebShop\Factory\CustomerAddressFactory;
-use Silecust\WebShop\Tests\Fixtures\CartFixture;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Fixtures\ProductFixture;
-use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;

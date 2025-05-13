@@ -45,7 +45,7 @@ class DevDataFixtureForQuickStart extends Command
 
         }
 
-        $filePath = $this->projectDir . '/tests/Utility/quick_sql_for_dev.sql';
+        $filePath = $this->projectDir . '/src/Service/Testing/Utility/quick_sql_for_dev.sql';
 
         $sql = file_get_contents($filePath);
 

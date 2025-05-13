@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Silecust\WebShop\Tests\Utility;
+namespace Silecust\WebShop\Service\Testing\Utility;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -31,7 +31,7 @@ class MySessionFactory implements SessionFactoryInterface
     static ?Session $session = null;
 
     public function __construct(RequestStack $requestStack,
-        SessionStorageFactoryInterface $storageFactory, ?callable $usageReporter = null
+        MyOwnMockFileSessionStorageFactory $storageFactory, ?callable $usageReporter = null
     ) {
         $this->requestStack = $requestStack;
         $this->storageFactory = $storageFactory;

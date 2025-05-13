@@ -4,8 +4,8 @@ namespace Silecust\WebShop\Tests\Controller\MasterData\Customer;
 
 use Silecust\WebShop\Factory\CustomerFactory;
 use Silecust\WebShop\Factory\SalutationFactory;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

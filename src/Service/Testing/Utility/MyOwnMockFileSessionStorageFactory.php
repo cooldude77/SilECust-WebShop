@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Silecust\WebShop\Tests\Utility;
+namespace Silecust\WebShop\Service\Testing\Utility;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;

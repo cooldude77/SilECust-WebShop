@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Fixtures;
+namespace Silecust\WebShop\Service\Testing\Fixtures;
 
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\User;

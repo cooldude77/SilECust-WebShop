@@ -1,10 +1,10 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Fixtures;
+namespace Silecust\WebShop\Service\Testing\Fixtures;
 
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
-use Silecust\WebShop\Tests\Utility\MySessionFactory;
+use Silecust\WebShop\Service\Testing\Utility\MySessionFactory;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Zenstruck\Foundry\Proxy;
 

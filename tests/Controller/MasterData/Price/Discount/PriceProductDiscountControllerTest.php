@@ -3,13 +3,13 @@
 namespace Silecust\WebShop\Tests\Controller\MasterData\Price\Discount;
 
 use Silecust\WebShop\Entity\PriceProductDiscount;
-use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Fixtures\PriceFixture;
-use Silecust\WebShop\Tests\Fixtures\ProductFixture;
-use Silecust\WebShop\Tests\Utility\FindByCriteria;
-use Silecust\WebShop\Tests\Utility\SelectElement;
+use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
+use Silecust\WebShop\Service\Testing\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

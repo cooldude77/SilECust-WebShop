@@ -4,9 +4,9 @@ namespace Silecust\WebShop\Tests\Controller\MasterData\Product\Product;
 
 use Silecust\WebShop\Factory\CategoryFactory;
 use Silecust\WebShop\Factory\ProductFactory;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Fixtures\ProductFixture;
-use Silecust\WebShop\Tests\Utility\SelectElement;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Testing\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Browser;

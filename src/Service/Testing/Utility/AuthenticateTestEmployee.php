@@ -1,8 +1,7 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Utility;
+namespace Silecust\WebShop\Service\Testing\Utility;
 
-use Silecust\WebShop\Entity\Employee;
 use Silecust\WebShop\Factory\EmployeeFactory;
 use Zenstruck\Foundry\Proxy;
 
