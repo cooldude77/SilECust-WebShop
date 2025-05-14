@@ -45,3 +45,13 @@ services:
     Silecust\WebShop\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
         tags:
             -{ name: twig.extension }
+when@test:
+    services:
+        session.storage.factory.mock_file:
+            class: Silecust\WebShop\Service\Testing\Utility\MyOwnMockFileSessionStorageFactory
+        session.factory:
+            class: Silecust\WebShop\Service\Testing\Utility\MySessionFactory
+            arguments:
+                $requestStack: '@request_stack'
+                $storageFactory: '@session.storage.factory.mock_file'
+                $usageReporter: [ '@session_listener','onSessionUsage' ]

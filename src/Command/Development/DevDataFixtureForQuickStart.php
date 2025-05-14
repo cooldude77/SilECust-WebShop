@@ -2,9 +2,9 @@
 
 namespace Silecust\WebShop\Command\Development;
 
-use Silecust\WebShop\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Silecust\WebShop\Exception\Command\Security\User\CommandNotAvailableOutsideDev;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,11 +18,15 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 )]
 class DevDataFixtureForQuickStart extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager,
-        #[Autowire('%env(APP_ENV)%')] private readonly string $environment,
-        #[Autowire('%kernel.project_dir%')] private readonly string $projectDir,
+    public function __construct(
+        private readonly EntityManagerInterface                             $entityManager,
+        #[Autowire('%env(APP_ENV)%')] private readonly string               $environment,
+        // To be set in phpunit.xml.dist variable -> APP_TEST_SQL_LOCATION
+        #[Autowire('%env(APP_TEST_SQL_LOCATION)%')] private readonly string $sqlScriptLocation,
+        #[Autowire('%kernel.project_dir%')] private readonly string         $projectDir,
 
-    ) {
+    )
+    {
         parent::__construct();
     }
 
@@ -45,7 +49,7 @@ class DevDataFixtureForQuickStart extends Command
 
         }
 
-        $filePath = $this->projectDir . '/src/Service/Testing/Utility/quick_sql_for_dev.sql';
+        $filePath = $this->projectDir . $this->sqlScriptLocation;
 
         $sql = file_get_contents($filePath);
 

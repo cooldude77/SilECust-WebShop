@@ -2,11 +2,11 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\CheckOut;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,9 +15,12 @@ class CheckOutController extends EnhancedAbstractController
 
 
     #[Route('/checkout', name: 'sc_web_shop_checkout')]
-    public function checkout(CustomerFromUserFinder $customerFromUserFinder,
-        CartSessionProductService $cartSessionService, CheckOutAddressQuery $checkOutAddressQuery
-    ): Response {
+    public function checkout(
+        CustomerFromUserFinder    $customerFromUserFinder,
+        CartSessionProductService $cartSessionService,
+        CheckOutAddressQuery      $checkOutAddressQuery
+    ): Response
+    {
 
         // The checkout page will display appropriate twig templates
         // after following processes, the control should come back to this method

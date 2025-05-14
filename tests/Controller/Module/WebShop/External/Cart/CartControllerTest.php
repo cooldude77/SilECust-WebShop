@@ -318,6 +318,7 @@ class CartControllerTest extends WebTestCase
         $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
 
         $browser = $this->browser()
+            ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());
@@ -348,7 +349,9 @@ class CartControllerTest extends WebTestCase
         $uri = "/cart/product/" . $this->productA->getId() . '/add';
 
 
-        $browser = $this->browser()
+        $browser = $this
+            ->browser()
+            ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
                 $browser->client()->loginUser($this->userForCustomer->object());

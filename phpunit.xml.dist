@@ -15,6 +15,7 @@
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;max[direct]=0"/>
         <server name="APP_ENV" value="test" force="true" />
         <server name="APP_DEBUG" value="true" force="true" />
+        <server name="APP_TEST_SQL_LOCATION" value="/src/Service/Testing/Utility/quick_sql_for_dev.sql"/>
     </php>
 
     <testsuites>

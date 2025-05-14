@@ -33,6 +33,7 @@ class CartSessionProductService
         // Accessing the session in the constructor is *NOT* recommended, since
         // it might not be accessible yet or lead to unwanted side-effects
         // $this->session = $requestStack->getSession();
+        $x=0;
     }
 
     /**
@@ -117,7 +118,7 @@ class CartSessionProductService
      */
     public function initialize(): void
     {
-        $this->session = $this->requestStack->getSession();
+        $this->session = $this->requestStack->getMainRequest()->getSession();
 
         if (empty($this->session->get(self::CART_SESSION_KEY))) {
             $this->setCartArrayInSession();
@@ -133,6 +134,7 @@ class CartSessionProductService
     {
         // always serialize
         $this->session->set(self::CART_SESSION_KEY, $array);
+        $this->session->save();
     }
 
     /**
@@ -140,7 +142,7 @@ class CartSessionProductService
      */
     public function isInitialized(): bool
     {
-        $this->session = $this->requestStack->getSession();
+        $this->session =  $this->requestStack->getMainRequest()->getSession();
 
         return !empty($this->session->get(self::CART_SESSION_KEY));
 
@@ -154,6 +156,7 @@ class CartSessionProductService
         $this->initialize();
         $this->setCartArrayInSession([]);
         $this->session->remove(self::CART_SESSION_KEY);
+        $this->session->save();
 
     }
 

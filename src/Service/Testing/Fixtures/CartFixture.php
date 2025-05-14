@@ -22,6 +22,7 @@ trait CartFixture
         $existing = $session->get(CartSessionProductService::CART_SESSION_KEY);
 
         $session->set(CartSessionProductService::CART_SESSION_KEY, $existing + $array);
+        $session->save();
     }
 
 

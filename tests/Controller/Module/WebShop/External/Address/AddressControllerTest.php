@@ -23,7 +23,7 @@ use Zenstruck\Foundry\Test\Factories;
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
-        FindByCriteria, OrderFixture,Factories;
+        FindByCriteria, OrderFixture, Factories;
 
 
     private Proxy|CustomerAddress $shippingAddress;
@@ -80,16 +80,17 @@ class AddressControllerTest extends WebTestCase
             )->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
-                $this->session->set(
+                $this->saveToSession(
                     CheckOutAddressSession::SHIPPING_ADDRESS_ID, $this->shippingAddress->getId()
                 );
+
 
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
             )->use(callback: function (KernelBrowser $browser) {
 
-                $this->session->set(
+                $this->saveToSession(
                     CheckOutAddressSession::BILLING_ADDRESS_ID, $this->billingAddress->getId()
                 );
 

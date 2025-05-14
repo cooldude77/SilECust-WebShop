@@ -32,7 +32,12 @@ trait SessionFactoryFixture
         /** @var MySessionFactory $factory */
         $factory = $kernelBrowser->getContainer()->get('session.factory');
 
-        $this->session = $factory->createSession();
+        $this->session = $kernelBrowser->getRequest()->getSession() != null ? $kernelBrowser->getRequest()->getSession() : $factory->createSession();
+    }
 
+    public function saveToSession($key, $value): void
+    {
+        $this->session->set($key, $value);
+        $this->session->save();
     }
 }
