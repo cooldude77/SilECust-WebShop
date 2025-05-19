@@ -2,10 +2,14 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query\QueryException;
 use Silecust\WebShop\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\Product;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -15,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class CategoryRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -141,5 +145,20 @@ SELECT cp.id,cp.name,cp.parent_id,cp.description
         return $result;
     }
 
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
 
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('c')
+            ->from(Category::class, 'c');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
+    }
 }

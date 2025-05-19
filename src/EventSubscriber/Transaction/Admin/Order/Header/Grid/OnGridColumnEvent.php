@@ -27,7 +27,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridColumnEvent::BEFORE_GRID_COLUMN_DISPLAY => 'beforeDisplay'
+            GridColumnEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }
@@ -41,7 +41,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
-        if (!in_array($route['_route'], ['my_orders', 'sc_admin_route_order_list']))
+        if (!in_array($route['_route'], ['sc_my_orders', 'sc_admin_route_order_list']))
             if (!($event->getData()['request']->query->get('_function') == 'order'
                 && $event->getData()['request']->query->get('_type') == 'list')
             )
@@ -55,8 +55,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         switch ($column['propertyName']) {
             case 'generatedId':
-                if ($route['_route'] == 'my_orders')
-                    $column['value'] = $this->router->generate('my_order_display', ['generatedId' => $entity->getGeneratedId()]);
+                if ($route['_route'] == 'sc_my_orders')
+                    $column['value'] = $this->router->generate('sc_my_order_display', ['generatedId' => $entity->getGeneratedId()]);
                 else
                     $column['value'] = $this->router->generate('sc_admin_panel', [
                         '_function' => 'order',
@@ -79,9 +79,6 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 $column['value'] = $this->orderPriceValueCalculator->calculateOrderValue($entity);
                 $data['column'] = $column;
                 break;
-            default:
-                $column['value'] = "";
-                $data['column'] = $column;
 
         }
 

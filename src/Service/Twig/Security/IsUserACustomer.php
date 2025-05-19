@@ -21,6 +21,6 @@ class IsUserACustomer extends AbstractExtension
 
     public function isLoggedInUserAlsoACustomer(): bool
     {
-        return $this->customerFromUserFinder->isLoggedInUserAlsoACustomer();
+        return $this->customerFromUserFinder->isLoggedInUserACustomer();
     }
 }

@@ -24,12 +24,12 @@ class CustomerEditForm extends AbstractType
        // $builder->add('salutationId',ChoiceType::class, [// validation message if the data
                                                          // transformer fails
          //                                                'choices' => $this->fill()]);
-        $builder->add('firstName', TextType::class);
-        $builder->add('middleName', TextType::class);
-        $builder->add('lastName', TextType::class);
-        $builder->add('givenName', TextType::class);
-        $builder->add('email',TextType::class);
-        $builder->add('phoneNumber',TextType::class);
+        $builder->add('firstName', TextType::class,['required'=>false]);
+        $builder->add('middleName', TextType::class,['required'=>false]);
+        $builder->add('lastName', TextType::class,['required'=>false]);
+        $builder->add('givenName', TextType::class,['required'=>false]);
+        $builder->add('email',TextType::class,);
+        $builder->add('phoneNumber',TextType::class,['required'=>false]);
 
         $builder->add('save', SubmitType::class);
 

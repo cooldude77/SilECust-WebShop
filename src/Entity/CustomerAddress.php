@@ -94,7 +94,7 @@ class CustomerAddress
         $this->line3 = $line3;
     }
 
-    public function getPostalCode(): ?PostalCode
+    public function getCode(): ?PostalCode
     {
         return $this->postalCode;
     }

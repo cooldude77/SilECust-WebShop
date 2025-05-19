@@ -7,10 +7,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 class GridCreateLinkEvent extends Event
 {
 
-    const string BEFORE_GRID_CREATE_LINK = 'panel.grid.before_create_link';
+    const string EVENT_NAME = 'panel.grid.before_create_link';
 
     private mixed $data;
-    private string $linkValue;
+    private string $template;
 
     public function getData(): mixed
     {
@@ -22,14 +22,14 @@ class GridCreateLinkEvent extends Event
         $this->data = $data;
     }
 
-    public function setLinkValue(string $linkValue): void
+    public function setTemplate(string $template): void
     {
-        $this->linkValue = $linkValue;
+        $this->template = $template;
     }
 
-    public function getLinkValue(): string
+    public function getTemplate(): string
     {
-        return $this->linkValue;
+        return $this->template;
     }
 
 

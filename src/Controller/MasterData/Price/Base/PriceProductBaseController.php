@@ -8,10 +8,10 @@ use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\PriceProductBase;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
-use Silecust\WebShop\Form\MasterData\Price\Mapper\PriceProductBaseDTOMapper;
 use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseCreateForm;
 use Silecust\WebShop\Form\MasterData\Price\PriceProductBaseEditForm;
+use Silecust\WebShop\Form\MasterData\Price\Product\DTO\PriceProductBaseDTO;
+use Silecust\WebShop\Form\MasterData\Price\Product\Mapper\PriceProductBaseDTOMapper;
 use Silecust\WebShop\Repository\PriceProductBaseRepository;
 use Silecust\WebShop\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -142,6 +142,7 @@ class PriceProductBaseController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Base Prices');
 
         $listGrid = ['title' => 'Price',
             'link_id' => 'id-price',

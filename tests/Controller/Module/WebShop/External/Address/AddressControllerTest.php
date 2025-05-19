@@ -7,12 +7,12 @@ use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Factory\CustomerAddressFactory;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Fixtures\OrderFixture;
-use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
-use Silecust\WebShop\Tests\Utility\FindByCriteria;
-use Silecust\WebShop\Tests\Utility\SelectElement;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
+use Silecust\WebShop\Service\Testing\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
@@ -23,7 +23,7 @@ use Zenstruck\Foundry\Test\Factories;
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
-        FindByCriteria, OrderFixture,Factories;
+        FindByCriteria, OrderFixture, Factories;
 
 
     private Proxy|CustomerAddress $shippingAddress;
@@ -80,16 +80,17 @@ class AddressControllerTest extends WebTestCase
             )->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
-                $this->session->set(
+                $this->saveToSession(
                     CheckOutAddressSession::SHIPPING_ADDRESS_ID, $this->shippingAddress->getId()
                 );
+
 
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
             )->use(callback: function (KernelBrowser $browser) {
 
-                $this->session->set(
+                $this->saveToSession(
                     CheckOutAddressSession::BILLING_ADDRESS_ID, $this->billingAddress->getId()
                 );
 

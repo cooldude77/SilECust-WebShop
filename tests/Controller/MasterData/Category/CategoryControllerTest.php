@@ -2,13 +2,11 @@
 
 namespace Silecust\WebShop\Tests\Controller\MasterData\Category;
 
-use Silecust\WebShop\Entity\Category;
-use Silecust\WebShop\Factory\CategoryFactory;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Utility\SelectElement;
 use Doctrine\ORM\EntityManager;
+use Silecust\WebShop\Factory\CategoryFactory;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;

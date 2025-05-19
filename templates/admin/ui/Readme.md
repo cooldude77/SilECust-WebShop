@@ -1,0 +1,2 @@
+The UI component for admin (once you are logged in either as customer or employee ) uses a number of events in paginated list and display sections. The employee implementation is under
+'templates/admin/employee/'

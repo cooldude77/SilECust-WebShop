@@ -2,11 +2,11 @@
 
 namespace Silecust\WebShop\Controller\Security\External\Credentials;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\User;
 use Silecust\WebShop\Form\ChangePasswordFormType;
 use Silecust\WebShop\Form\ResetPasswordRequestFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,13 +33,13 @@ class ResetPasswordController extends EnhancedAbstractController
      * @throws TransportExceptionInterface
      */
     #[Route('', name: 'sc_app_forgot_password_request')]
-    public function request(Request             $request,
+    public function request(Request                      $request,
                             #[Autowire(param: 'silecust.sign_up.email.email_from_address')]
-                            string              $fromAddress,
-                            MailerInterface     $mailer,
+                            string                       $fromAddress,
+                            MailerInterface              $mailer,
                             ResetPasswordHelperInterface $resetPasswordHelper,
-                            EntityManagerInterface $entityManager,
-                            TranslatorInterface $translator): Response
+                            EntityManagerInterface       $entityManager,
+                            TranslatorInterface          $translator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -82,12 +82,12 @@ class ResetPasswordController extends EnhancedAbstractController
      */
     #[Route('/reset/{token}', name: 'sc_app_reset_password')]
     public function reset(
-        Request $request,
-        UserPasswordHasherInterface $passwordHasher,
+        Request                      $request,
+        UserPasswordHasherInterface  $passwordHasher,
         ResetPasswordHelperInterface $resetPasswordHelper,
-        TranslatorInterface $translator,
-        EntityManagerInterface $entityManager,
-        ?string $token = null): Response
+        TranslatorInterface          $translator,
+        EntityManagerInterface       $entityManager,
+        ?string                      $token = null): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
@@ -152,7 +152,7 @@ class ResetPasswordController extends EnhancedAbstractController
         string                       $fromAddress,
         MailerInterface              $mailer,
         ResetPasswordHelperInterface $resetPasswordHelper,
-        EntityManagerInterface $entityManager,
+        EntityManagerInterface       $entityManager,
         TranslatorInterface          $translator): RedirectResponse
     {
         $user = $entityManager->getRepository(User::class)->findOneBy([
@@ -184,7 +184,7 @@ class ResetPasswordController extends EnhancedAbstractController
             ->from(new Address($fromAddress, 'Password Reset'))
             ->to($user->getLogin())
             ->subject('Your password reset request')
-            ->htmlTemplate('reset_password/email.html.twig')
+            ->htmlTemplate('@SilecustWebShop/reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
             ]);

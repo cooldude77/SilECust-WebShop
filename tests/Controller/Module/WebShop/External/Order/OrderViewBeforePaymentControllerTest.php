@@ -2,17 +2,16 @@
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Order;
 
-use Silecust\WebShop\Tests\Fixtures\CartFixture;
-use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Fixtures\OrderFixture;
-use Silecust\WebShop\Tests\Fixtures\OrderItemFixture;
-use Silecust\WebShop\Tests\Fixtures\PriceFixture;
-use Silecust\WebShop\Tests\Fixtures\ProductFixture;
-use Silecust\WebShop\Tests\Fixtures\SessionFactoryFixture;
-use Silecust\WebShop\Tests\Utility\FindByCriteria;
-use PHPUnit\Framework\TestCase;
+use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
+use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;

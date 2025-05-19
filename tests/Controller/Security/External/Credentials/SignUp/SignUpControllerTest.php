@@ -6,14 +6,15 @@ use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\User;
 use Silecust\WebShop\Factory\CustomerFactory;
 use Silecust\WebShop\Factory\UserFactory;
-use Silecust\WebShop\Tests\Utility\FindByCriteria;
+use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
 
 class SignUpControllerTest extends WebTestCase
 {
-    use HasBrowser, FindByCriteria, InteractsWithMailer;
+    use HasBrowser, FindByCriteria, InteractsWithMailer,Factories;
 
     public function testSignUp()
     {
@@ -31,6 +32,7 @@ class SignUpControllerTest extends WebTestCase
             ->fillField('sign_up_simple_form[agreeTerms]', true)
             ->interceptRedirects()
             ->click('Sign Up')
+            ->assertAuthenticated()
             ->assertRedirectedTo('/')
             ->use(function () {
                 $user = $this->findOneBy(User::class, ['login' => 'x@y.com']);
@@ -81,6 +83,12 @@ class SignUpControllerTest extends WebTestCase
         $this->assertTrue(in_array('ROLE_CUSTOMER', $created->getRoles()));
         $this->assertNotNull($customer);
 
+
+    }
+
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
 
     }
 }

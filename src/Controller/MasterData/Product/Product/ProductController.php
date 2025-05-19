@@ -3,22 +3,24 @@
 namespace Silecust\WebShop\Controller\MasterData\Product\Product;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
 use Silecust\WebShop\Form\MasterData\Product\ProductCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Mapper\ProductDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\QueryException;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Todo : Write tests for lists
+ */
 class ProductController extends EnhancedAbstractController
 {
 
@@ -30,6 +32,8 @@ class ProductController extends EnhancedAbstractController
                            ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Create Product');
+
         $productDTO = new ProductDTO();
         $form = $this->createForm(
             ProductCreateForm::class, $productDTO
@@ -75,6 +79,8 @@ class ProductController extends EnhancedAbstractController
                          ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Edit Product');
+
         $product = $productRepository->find($id);
 
 
@@ -122,19 +128,27 @@ class ProductController extends EnhancedAbstractController
     #[Route('/admin/product/{id}/display', name: 'sc_admin_product_display')]
     public function display(ProductRepository $productRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display Product');
+
         $product = $productRepository->find($id);
         if (!$product) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Product',
+        $displayParams = [
+            'title' => 'Product',
             'link_id' => 'id-product',
             'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'Name',
-                'propertyName' => 'name',
-                'link_id' => 'id-display-product'],
-                ['label' => 'Description',
-                    'propertyName' => 'description'],]];
+            'fields' => [
+                [
+                    'label' => 'Name',
+                    'propertyName' => 'name',
+                    'link_id' => 'id-display-product'],
+                [
+                    'label' => 'Description',
+                    'propertyName' => 'description'],
+            ]
+        ];
 
         return $this->render(
             '@SilecustWebShop/master_data/product/product_display.html.twig',
@@ -149,14 +163,13 @@ class ProductController extends EnhancedAbstractController
     #[Route('/admin/product/list', name: 'sc_admin_product_list')]
     public function list(ProductRepository     $productRepository,
                          PaginatorInterface    $paginator,
-                         #[Autowire(service: 'product.search')]
                          SearchEntityInterface $searchEntity,
                          Request               $request):
     Response
     {
+        $this->setContentHeading($request, 'Products');
 
         $listGrid = [
-            'title' => 'Product',
             'link_id' => 'id-product',
             'function' => 'product',
             'columns' => [
@@ -168,10 +181,8 @@ class ProductController extends EnhancedAbstractController
             'createButtonConfig' => ['link_id' => ' id-create-product',
                 'anchorText' => 'Create Product']
         ];
-        if ($request->query->get('searchTerm') != null)
-            $searchCriteria = $searchEntity->searchByTerm($request->query->get('searchTerm'));
-
-        $query = $productRepository->getQueryForSelect($searchCriteria ?? null);
+        $query = $searchEntity->getQueryForSelect($request, $productRepository,
+            ['name', 'description']);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -184,4 +195,6 @@ class ProductController extends EnhancedAbstractController
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
+
+
 }

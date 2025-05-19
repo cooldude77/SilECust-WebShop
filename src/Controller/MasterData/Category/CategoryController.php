@@ -2,13 +2,15 @@
 // src/Controller/LuckyController.php
 namespace Silecust\WebShop\Controller\MasterData\Category;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Form\MasterData\Category\CategoryCreateForm;
 use Silecust\WebShop\Form\MasterData\Category\CategoryEditForm;
 use Silecust\WebShop\Form\MasterData\Category\DTO\CategoryDTO;
 use Silecust\WebShop\Repository\CategoryRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Category\Mapper\CategoryDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,9 +23,11 @@ class CategoryController extends EnhancedAbstractController
     public function create(CategoryDTOMapper      $categoryDTOMapper,
                            EntityManagerInterface $entityManager,
                            Request                $request,
-                           ValidatorInterface              $validator
+                           ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Create Category');
+
         $categoryDTO = new CategoryDTO();
         $form = $this->createForm(CategoryCreateForm::class, $categoryDTO);
 
@@ -35,7 +39,7 @@ class CategoryController extends EnhancedAbstractController
             $categoryEntity = $categoryDTOMapper->mapToEntityForCreate($form->getData());
 
             // todo:
-            $errors = $validator->validate( $categoryEntity);
+            $errors = $validator->validate($categoryEntity);
 
             if (count($errors) == 0) {
                 // perform some action...
@@ -65,6 +69,8 @@ class CategoryController extends EnhancedAbstractController
                          ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Edit Category');
+
         $category = $categoryRepository->find($id);
 
 
@@ -108,6 +114,8 @@ class CategoryController extends EnhancedAbstractController
     #[Route('/admin/category/{id}/display', name: 'sc_admin_category_display')]
     public function display(CategoryRepository $categoryRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display Category');
+
         $category = $categoryRepository->find($id);
         if (!$category) {
             throw $this->createNotFoundException(
@@ -132,9 +140,13 @@ class CategoryController extends EnhancedAbstractController
     }
 
     #[Route('/admin/category/list', name: 'sc_admin_category_list')]
-    public function list(CategoryRepository $categoryRepository, Request $request): Response
+    public function list(CategoryRepository    $categoryRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
+        $this->setContentHeading($request, 'Categories');
         $listGrid = ['title' => 'Category',
             'link_id' => 'id-category',
             'columns' => [['label' => 'Name',
@@ -146,10 +158,18 @@ class CategoryController extends EnhancedAbstractController
                 'function' => 'category',
                 'anchorText' => 'Create Category']];
 
-        $categories = $categoryRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $categoryRepository,
+            ['name', 'description']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

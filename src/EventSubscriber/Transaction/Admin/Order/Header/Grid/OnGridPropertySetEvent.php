@@ -21,7 +21,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS => 'setProperty'
+            GridPropertyEvent::EVENT_NAME => 'setProperty'
         ];
 
     }
@@ -31,7 +31,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['my_orders', 'sc_admin_route_order_list']))
+        if (!in_array($route['_route'], ['sc_my_orders', 'sc_admin_route_order_list']))
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'list')
             ) return;
@@ -73,11 +73,10 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     'function' => 'order',
                     'title' => 'My Orders',
                     'link_id' => 'id-order',
-                    'edit_link_allowed' => false,
                     'columns' => [
                         [
-                            'label' => 'Id',
-                            'propertyName' => 'id',
+                            'label' => 'Order Id',
+                            'propertyName' => 'generatedId',
                             'action' => 'display',
                         ],
                         [
@@ -93,7 +92,22 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                             'label' => 'Order Value',
                             'propertyName' => 'orderValue'
                         ],
-                    ]
+                    ],
+                    'config' => [
+                        'create_link' => [
+                            'create_link_allowed'=>false,
+                        ],
+                        'edit_link' => [
+                            'edit_link_allowed=>false'
+                        ],
+                        'display_link' => [
+                            'link_id' => ' id-display-order',
+                            'route' => 'sc_my_order_display',
+                            'anchorText' => 'Display Order',
+                            'redirect_upon_success_route' => 'sc_my_orders'
+                        ]
+                    ],
+
                 ]);
             }
         }

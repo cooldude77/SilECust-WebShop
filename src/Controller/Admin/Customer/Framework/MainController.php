@@ -36,7 +36,9 @@ class MainController extends EnhancedAbstractController
     #[Route('/my/personal-info', name: 'sc_my_personal_info')]
     #[Route('/my/addresses', name: 'sc_my_addresses')]
     #[Route('/my/address/create', name: 'sc_my_address_create')]
-    #[Route('/my/orders/{id}/display', name: 'sc_my_order_display')]
+    #[Route('/my/address/{id}/edit', name: 'sc_my_address_edit')]
+    #[Route('/my/address/{id}/display', name: 'sc_my_address_display')]
+    #[Route('/my/orders/{generatedId}/display', name: 'sc_my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, Request $request): Response
     {
@@ -48,51 +50,63 @@ class MainController extends EnhancedAbstractController
 
         switch ($matches['_route']) {
 
-            case 'my':
-            case 'my_dashboard':
+            case 'sc_my':
+            case 'sc_my_dashboard':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'dashboard'
                 );
                 break;
-            case 'my_profile':
+            case 'sc_my_profile':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'profile'
                 );
                 break;
-            case 'my_addresses':
+            case 'sc_my_addresses':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addresses'
                 );
                 break;
-            case 'my_address_create':
+            case 'sc_my_address_create':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressCreate'
                 );
                 break;
-            case 'my_orders':
+             case 'sc_my_address_display':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressDisplay'
+                );
+                break;
+            case 'sc_my_address_edit':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressEdit'
+                );
+                break;
+            case 'sc_my_orders':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'orders'
                 );
                 break;
-            case 'my_order_display':
+            case 'sc_my_order_display':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'orderDisplay'
                 );
                 break;
-            case 'my_order_item_display':
+            case 'sc_my_order_item_display':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'orderItemDisplay'
                 );
                 break;
 
-            case 'my_personal_info':
+            case 'sc_my_personal_info':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'personalInfo'
@@ -113,7 +127,7 @@ class MainController extends EnhancedAbstractController
     ): void
     {
 
-        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'my');
+        $session->set(PanelMainController::CONTEXT_ROUTE_SESSION_KEY, 'sc_my');
 
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, ContentController::class

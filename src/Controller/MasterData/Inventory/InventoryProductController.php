@@ -152,6 +152,7 @@ class InventoryProductController extends EnhancedAbstractController
         Request $request
     ):
     Response {
+        $this->setContentHeading($request, 'Inventories');
 
         $listGrid = ['title' => 'Inventory',
                      'link_id' => 'id-inventory',

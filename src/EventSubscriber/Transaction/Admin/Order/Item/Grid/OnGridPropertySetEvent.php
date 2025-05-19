@@ -21,7 +21,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridPropertyEvent::LIST_GRID_PROPERTY_FOR_ORDERS => 'setProperty'
+            GridPropertyEvent::EVENT_NAME => 'setProperty'
         ];
 
     }
@@ -29,7 +29,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public function setProperty(GridPropertyEvent $event): void
     {
         $route = $this->router->match($event->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['my_order_display', 'sc_admin_route_order_display']))
+        if (!in_array($route['_route'], ['sc_my_order_display', 'sc_admin_route_order_display']))
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'display')
             )
@@ -39,7 +39,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
             $listGrid = ['title' => 'Order Items',
                 'link_id' => 'id-order-items',
                 'function' => 'order_item',
-                'edit_link_allowed'=>true,
+                'edit_link_allowed' => true,
                 'columns' => [
                     [
                         'label' => 'Id',
@@ -118,7 +118,19 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                         ],
 
                     ],
-                    'create_button_allowed' => false,];
+                    'config' => [
+                        'create_link' => [
+                            'create_link_allowed' => false,
+                        ],
+                        'edit_link' => [
+                            'edit_link_allowed=>false'
+                        ],
+                        'display_link' => [
+                            'link_id' => ' id-order-item',
+                            'route' => 'sc_my_order_item_display',
+                            'anchorText' => 'Display Order Item'
+                        ]
+                    ]];
             }
         }
 

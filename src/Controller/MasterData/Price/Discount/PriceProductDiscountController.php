@@ -3,6 +3,9 @@
 namespace Silecust\WebShop\Controller\MasterData\Price\Discount;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\PriceProductDiscount;
 use Silecust\WebShop\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
 use Silecust\WebShop\Form\MasterData\Price\Discount\Mapper\PriceProductDiscountDTOMapper;
@@ -10,9 +13,6 @@ use Silecust\WebShop\Form\MasterData\Price\Discount\PriceProductDiscountCreateFo
 use Silecust\WebShop\Form\MasterData\Price\Discount\PriceProductDiscountEditForm;
 use Silecust\WebShop\Repository\PriceProductDiscountRepository;
 use Silecust\WebShop\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,6 +56,8 @@ class PriceProductDiscountController extends EnhancedAbstractController
                 ), 200
             );
         }
+
+
 
         return $this->render(
             '@SilecustWebShop/master_data/price/discount/price_product_discount_create.html.twig', ['form' => $form]
@@ -108,7 +110,8 @@ class PriceProductDiscountController extends EnhancedAbstractController
     }
 
     #[Route('/admin/price/product/discount/{id}/display', name: 'sc_admin_price_product_discount_display')]
-    public function display(PriceProductDiscountRepository $priceProductDiscountRepository, int $id
+    public function display(PriceProductDiscountRepository $priceProductDiscountRepository, Request $request,
+                            int                            $id
     ): Response
     {
         $priceProductDiscount = $priceProductDiscountRepository->find($id);
@@ -130,7 +133,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/master_data/price/discount/price_product_discount_display.html.twig',
-            ['entity' => $priceProductDiscount, 'params' => $displayParams]
+            ['entity' => $priceProductDiscount, 'request' => $request, 'params' => $displayParams]
         );
 
     }
@@ -142,6 +145,7 @@ class PriceProductDiscountController extends EnhancedAbstractController
     ):
     Response
     {
+        $this->setContentHeading($request, 'Product Discounts');
 
         $listGrid = ['title' => 'Price',
             'link_id' => 'id-price',

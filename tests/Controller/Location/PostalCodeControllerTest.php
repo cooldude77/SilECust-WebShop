@@ -6,9 +6,9 @@ use Silecust\WebShop\Factory\CityFactory;
 use Silecust\WebShop\Factory\CountryFactory;
 use Silecust\WebShop\Factory\PostalCodeFactory;
 use Silecust\WebShop\Factory\StateFactory;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Utility\SelectElement;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Utility\SelectElement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -58,7 +58,7 @@ class PostalCodeControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = PostalCodeFactory::find(array('postalCode' => '560001'));
+        $created = PostalCodeFactory::find(array('code' => '560001'));
 
         $this->assertEquals("M G Road", $created->getName());
 
@@ -74,7 +74,7 @@ class PostalCodeControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
-        $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
+        $postalCode = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
 
         $uri = "/admin/postal_code/{$postalCode->getId()}/display";
@@ -95,7 +95,7 @@ class PostalCodeControllerTest extends WebTestCase
         $country = CountryFactory::createOne(['code' => 'IN', 'name' => 'India']);
         $state = StateFactory::createOne(['code' => 'KA', 'name' => 'Karnataka', 'country' => $country]);
         $city = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state]);
-        $postalCode = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city]);
+        $postalCode = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city]);
 
         $uri = "/admin/postal_code/{$postalCode->getId()}/edit";
 
@@ -110,7 +110,7 @@ class PostalCodeControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $postalCode = PostalCodeFactory::find(array('postalCode' => '560001'));
+        $postalCode = PostalCodeFactory::find(array('code' => '560001'));
 
         $this->assertEquals("MG Road Main", $postalCode->getName());
 
@@ -125,8 +125,8 @@ class PostalCodeControllerTest extends WebTestCase
         $city1 = CityFactory::createOne(['code' => 'BLR', 'name' => 'Bangalore', 'state' => $state1]);
         $city2 = CityFactory::createOne(['code' => 'JPR', 'name' => 'Jaipur', 'state' => $state2]);
 
-        $postalCode1 = PostalCodeFactory::createOne(['postalCode' => '560001', 'name' => 'M G Road', 'city' => $city1]);
-        $postalCode2 = PostalCodeFactory::createOne(['postalCode' => '302001', 'name' => 'Main Road', 'city' => $city2]);
+        $postalCode1 = PostalCodeFactory::createOne(['code' => '560001', 'name' => 'M G Road', 'city' => $city1]);
+        $postalCode2 = PostalCodeFactory::createOne(['code' => '302001', 'name' => 'Main Road', 'city' => $city2]);
 
         $uri = "/admin/postal_code/city/{$city1->getId()}/list";
 

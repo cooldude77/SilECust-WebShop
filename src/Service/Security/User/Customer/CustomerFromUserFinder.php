@@ -40,7 +40,7 @@ readonly class CustomerFromUserFinder
         return $customer;
     }
 
-    public function isLoggedInUserAlsoACustomer(): bool
+    public function isLoggedInUserACustomer(): bool
     {
         if ($this->security->getUser() == null) {
 

@@ -3,6 +3,7 @@
 namespace Silecust\WebShop\Controller\Common\File;
 
 // ...
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Entity\File;
 use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
 use Silecust\WebShop\Form\Common\File\FileCreateForm;
@@ -13,6 +14,7 @@ use Silecust\WebShop\Service\Common\File\FilePhysicalOperation;
 use Silecust\WebShop\Service\Common\File\Provider\FileDirectoryPathProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -136,7 +138,10 @@ class FileController extends EnhancedAbstractController
      * @return Response
      */
     #[Route('/file/list', name: 'sc_file_list')]
-    public function list(FileRepository $fileRepository): Response
+    public function list(FileRepository $fileRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $files = $fileRepository->findAll();
@@ -152,9 +157,18 @@ class FileController extends EnhancedAbstractController
                                               'anchorText' => 'File',
                                               'link_id' => 'id-file']];
 
+        $query = $searchEntity->getQueryForSelect($request, $fileRepository,
+        ['name']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['entities' => $files, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 

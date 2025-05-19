@@ -4,7 +4,7 @@ namespace Silecust\WebShop\Tests\Controller\MasterData\Product\Image;
 
 use Silecust\WebShop\Factory\ProductFactory;
 use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser;

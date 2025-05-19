@@ -1,105 +1,69 @@
-<div class="container">
-    <div class="flex-row d-flex justify-right">
-        <div class="col-3">
-            {# Create new button if defined in config #}
-            {% if listGrid.createButtonConfig is defined or
-                (listGrid.create_button_allowed is defined and listGrid.create_button_allowed== true) %}
-                <div class="row py-2">
-                    <div class="col m-0">
-                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/top_level/create_link.html.twig'
-                            with
-                            {config: listGrid.createButtonConfig} %}
-                    </div>
-                </div>
-            {% endif %}
+{# -- Page For Grid level pagination --  #}
+{#  do some dumping  #}
+ {# -- Create Link -- #}
 
-        </div>
-        <div class="col-3 p-2 ">
-            {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-        </div>
-    </div>
-    <div class="row font-weight-bold py-2 bg-light">
-        {% for column in listGrid.columns %}
-            <div class="col p-2">
-                {{ column.label }}
-            </div>
-        {% endfor %}
-        <div class="col p-2">
-            {# for edit column #}
-        </div>
+<div id="silecust-admin-search-box" class="row">
+    {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
+</div>
+<div id="silecust-admin-create-link">
+    {% set event = dispatchGridCreateLinkEvent({
+        "request":request,
+        'listGrid':listGrid
+    }) %}
+    {% include event.getTemplate with {
+        "request":request,'listGrid':listGrid} %}
 
-    </div>
-
-    {# Pagination starts #}
-        {% if pagination is not null and pagination|length > 0 %}
-            {% for entity in pagination %}
-                <div class="row py-2 fs-6">
-                {# columns of the grid #}
-                {% for column in listGrid.columns %}
-                    {% set event = dispatchGridColumnEventEvent('panel.grid.before_column_display',
-                        {"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
-
-                    {% if column.action is defined and column.action == 'display' %}
-
-                        <div class="col">
-
-                            {% set column = attribute(event.getData(),'column') %}
-                            {% if column.value is defined %}
-                                <a href="{{ column.value }}"> {{ attribute(entity, column.propertyName) }}</a>
-                            {% else %}
-                                {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/display_link.html.twig' with {
-                                    'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                                    'name':attribute(entity, column.propertyName),
-                                    'id':attribute(entity, 'id'),
-                                    'link_id':listGrid.link_id} %}
-                            {% endif %}
-
-                        </div>
-
-                    {% else %}
-
-                        <div class="col">
-
-                            {% set column = attribute(event.getData(),'column') %}
-
-                            {% if column.value is defined %}
-                                {{ column.value }}
-                            {% else %}
-                                {{ attribute(entity, column.propertyName) }}
-                            {% endif %}
-
-                        </div>
-                    {% endif %}
-                {% endfor %}
-
-                <div class="col">
-
-                    {% if listGrid.edit_link_allowed is defined and listGrid.edit_link_allowed == true %}
-
-                        {% include '@SilecustWebShop/admin/ui/panel/section/content/action/grid/edit_link.html.twig' with {
-                            'function':listGrid.function is defined ? listGrid.function: request.get('_function'),
-                            'id':attribute(entity, 'id'),
-                            'link_id':listGrid.link_id} %}
-
-                    {% endif %}
-
-                </div>
-            </div>
-        {% endfor %}
-        <div class="navigation">
-            {{ knp_pagination_render(
-                pagination,
-                '@SilecustWebShop/admin/ui/panel/section/content/list/sliding.html.twig',
-                {
-                    '_function': listGrid.function is defined ? listGrid.function:request.get('_function'),
-                    '_type': listGrid.function is defined ? listGrid.function:request.get('_type')
-                }
-            ) }}
-        </div>
-    {% else %}
-        <h2>No records found</h2>
-
-    {% endif %}
 
 </div>
+<div id="silecust-admin-grid" class="p-2 border-2 border-secondary">
+    {# -- Create Row Header -- #}
+    {% if listGrid.grid_heading is defined %}
+        <div>
+            <h2> {{ listGrid.grid_heading }}</h2>
+        </div>
+    {% endif %}
 
+    <div id="silecust-admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
+        {% set event = dispatchGridRowHeaderEvent({
+            "request":request,
+            'listGrid':listGrid
+        }) %}
+        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+    </div>
+
+    {# -- Pagination starts -- #}
+    {% if pagination is not null and pagination|length > 0 %}
+        {% for entity in pagination %}
+            {# -- Row level --  #}
+            {% set event = dispatchGridRowDataEvent({
+                "request":request,
+                'listGrid':listGrid
+            }) %}
+            {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+
+        {% endfor %}
+        <div class="navigation">
+            {# -- Pagination --  #}
+            {% set event = dispatchGridPaginationEvent({
+                "request":request,
+                'listGrid':listGrid
+            }) %}
+            {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+        </div>
+    {% else %}
+        <p id="no-records-found">No records found</p>
+    {% endif %}
+</div>
+<script type="module">
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        console.log("ready!");
+        let a = $("#silecust-admin-create-link");
+        a.hide();
+        let b = $("#silecust-admin-search-box")
+        let c = $("#silecust-admin-content-heading h2");
+        c.after(a);
+        a.show();
+
+    });
+</script>

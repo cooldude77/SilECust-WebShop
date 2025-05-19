@@ -115,7 +115,8 @@ class StateController extends EnhancedAbstractController
 
     #[Route('/admin/state/{id}/display', name: 'sc_admin_state_display')]
     public function display(StateRepository $stateRepository,
-                            int                $id
+                            Request         $request,
+                            int             $id
     ): Response
     {
         $state = $stateRepository->find($id);
@@ -136,7 +137,7 @@ class StateController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/location_data/admin/state/state_display.html.twig',
-            ['entity' => $state, 'params' => $displayParams]
+            ['entity' => $state, 'params' => $displayParams, 'request' => $request]
         );
 
     }
@@ -148,6 +149,8 @@ class StateController extends EnhancedAbstractController
                          PaginatorInterface $paginator,
                          int                $id): Response
     {
+        $this->setContentHeading($request, 'State');
+
         $country = $countryRepository->find($id);
         if (!$country)
             throw $this->createNotFoundException('No country found for id ' . $id);

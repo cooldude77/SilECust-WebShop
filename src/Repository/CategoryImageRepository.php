@@ -2,16 +2,20 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\QueryException;
+use Doctrine\Persistence\ManagerRegistry;
 use Silecust\WebShop\Entity\Category;
 use Silecust\WebShop\Entity\CategoryImage;
 use Silecust\WebShop\Entity\File;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository;
 
 /**
  * @extends ServiceEntityRepository<CategoryImage>
  */
-class CategoryImageRepository extends ServiceEntityRepository
+class CategoryImageRepository extends ServiceEntityRepository implements SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -42,13 +46,30 @@ class CategoryImageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(Category $category, File $file):CategoryImage
+    public function create(Category $category, File $file): CategoryImage
     {
         $categoryImage = new CategoryImage();
         $categoryImage->setCategory($category);
         $categoryImage->setFile($file);
 
         return $categoryImage;
+
+    }
+
+    /**
+     * @throws QueryException
+     */
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('ci')
+            ->from(CategoryImage::class, 'ci');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
 
     }
 }

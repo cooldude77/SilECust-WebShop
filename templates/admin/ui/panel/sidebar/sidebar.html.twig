@@ -1,8 +1,6 @@
-<div class="border-right-1 border-primary">
-    <ul class="nav nav-pills flex-column">
-        {% for section in sideBar.sections %}
-            {% include  '@SilecustWebShop/admin/ui/panel/sidebar/components/_li_section_with_header.html.twig' with section %}
-        {% endfor %}
+<ul id="side-bar-list-content" class="nav nav-pills flex-column">
+    {% for section in sideBar.sections %}
+        {% include  '@SilecustWebShop/admin/ui/panel/sidebar/components/_li_section_with_header.html.twig' with section %}
+    {% endfor %}
 
-    </ul>
-</div>
+</ul>

@@ -1,8 +1,8 @@
-<div class="nav">
+<div id="silecust-admin-search-form">
     {{ form_start(form,{'action': path('sc_admin_route_grid_search',{'_redirected_to':request.requestUri})  ,'attr':{'class':"navbar-form navbar-left"}}) }}
-    <div class="input-group">
+    <div class="input-group" id="silecust-admin-search-field">
         {{ form_widget(form.searchTerm,{'label':false,'attr':{'placeholder':"Search"}}) }}
-        <div class="input-group-btn">
+        <div class="input-group-btn" id="silecust-admin-search-submit">
             <button class="btn btn-default" type="submit">
                 <i class="bi bi-search"></i>
             </button>

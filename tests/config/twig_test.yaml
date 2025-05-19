@@ -1,0 +1,9 @@
+twig:
+  strict_variables: true
+  file_name_pattern: '*.twig'
+  form_themes: [ 'bootstrap_5_layout.html.twig' ]
+  globals:
+    item_price_calculator: "@Silecust\\WebShop\\Service\\Transaction\\Order\\Price\\Item\\ItemPriceCalculator"
+    price_by_country_code: "@Silecust\\WebShop\\Service\\MasterData\\Price\\PriceByCountryCalculator"
+    header_price_calculator: "@Silecust\\WebShop\\Service\\Transaction\\Order\\Price\\Header\\HeaderPriceCalculator"
+  debug: true

@@ -169,6 +169,8 @@ class CityController extends EnhancedAbstractController
                          CityRepository $cityRepository,
                          Request        $request, PaginatorInterface $paginator): Response
     {
+        $this->setContentHeading($request, 'City');
+
         $state = $stateRepository->find($id);
 
         if (!$state) {

@@ -40,7 +40,7 @@ class EmployeeFromUserFinder
         return $employee;
     }
 
-    public function isLoggedInUserAlsoAEmployee(): bool
+    public function isLoggedInUserAnEmployee(): bool
     {
         if ($this->security->getUser() == null) {
 

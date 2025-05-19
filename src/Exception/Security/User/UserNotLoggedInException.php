@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\Exception\Security\User;
 
-use Doctrine\DBAL\Exception;
+use Exception;
 use Throwable;
 
 class UserNotLoggedInException extends Exception

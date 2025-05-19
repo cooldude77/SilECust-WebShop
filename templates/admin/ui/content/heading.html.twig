@@ -1,0 +1,6 @@
+{% set constant = constant('Silecust\\Framework\\Service\\Twig\\TwigConstants::UI_CONTENT_HEADING') %}
+{% if (request.attributes.get(constant) !=null) %}
+    <div id="silecust-admin-content-heading" class="d-flex py-2">
+        <h2 class="me-auto">{{ request.attributes.get(constant) }}</h2>
+    </div>
+{% endif %}

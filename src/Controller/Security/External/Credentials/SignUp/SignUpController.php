@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Security\External\Credentials\SignUp;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Security\External\SignUp\SignUpEvent;
 use Silecust\WebShop\Event\Security\SecurityEventTypes;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
@@ -11,18 +13,19 @@ use Silecust\WebShop\Form\Security\User\SignUpSimpleForm;
 use Silecust\WebShop\Service\MasterData\Customer\Mapper\CustomerDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerService;
 use Silecust\WebShop\Service\Security\User\Mapper\SignUpDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
 class SignUpController extends EnhancedAbstractController
 {
 
     /**
-     * @param Request         $request
+     * @param Request $request
      * @param CustomerService $customerService
      * @param SignUpDTOMapper $signUpDTOMapper
      *
@@ -31,12 +34,16 @@ class SignUpController extends EnhancedAbstractController
      * To be called when user quickly wants to sign up
      */
     #[Route('/signup', name: 'sc_user_customer_sign_up')]
-    public function signUp(Request $request,
-        CustomerService $customerService,
-        SignUpDTOMapper $signUpDTOMapper,
-        EventDispatcherInterface $eventDispatcher
+    public function signUp(Request                    $request,
+                           CustomerService            $customerService,
+                           SignUpDTOMapper            $signUpDTOMapper,
+                           EventDispatcherInterface   $eventDispatcher,
+                           UserAuthenticatorInterface $authenticatorManager,
+                           #[Autowire(service: 'security.authenticator.form_login.main')]
+                           FormLoginAuthenticator     $formLoginAuthenticator
 
-    ): Response {
+    ): Response
+    {
         $signUpDTO = new SignUpSimpleDTO();
 
         $form = $this->createForm(SignUpSimpleForm::class, $signUpDTO);
@@ -57,7 +64,9 @@ class SignUpController extends EnhancedAbstractController
             $event = new SignUpEvent();
             $event->setCustomer($customer);
 
-            $eventDispatcher->dispatch($event,SecurityEventTypes::POST_CUSTOMER_SIGN_UP_SUCCESS);
+            $eventDispatcher->dispatch($event, SecurityEventTypes::POST_CUSTOMER_SIGN_UP_SUCCESS);
+
+            $authenticatorManager->authenticateUser($customer->getUser(), $formLoginAuthenticator, $request);
 
             // do anything else you need here, like send an email
             if ($request->get('_redirect_after_success') == null) {
@@ -67,16 +76,15 @@ class SignUpController extends EnhancedAbstractController
             }
         }
 
-        return $this->render('@SilecustWebShop/security/external/user/sign_up/page/sign_up_page.html.twig', [
-            'form' => $form,
-        ]);
+        return $this->render('@SilecustWebShop/security/external/user/sign_up/page/sign_up_page.html.twig',
+            ['form' => $form]);
     }
 
     /**
-     * @param CustomerDTOMapper      $customerDTOMapper
+     * @param CustomerDTOMapper $customerDTOMapper
      * @param EntityManagerInterface $entityManager
      *
-     * @param Request                $request
+     * @param Request $request
      *
      * @return Response
      *
@@ -84,9 +92,10 @@ class SignUpController extends EnhancedAbstractController
      */
     #[Route('/signup/advanced', name: 'sc_user_customer_sign_up_advanced')]
     // Todo: Make redirect_after_success mandatory in route
-    public function signUpAdvanced(CustomerDTOMapper $customerDTOMapper,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
+    public function signUpAdvanced(CustomerDTOMapper      $customerDTOMapper,
+                                   EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
 
 
         $customerDTO = new CustomerDTO();
@@ -118,7 +127,7 @@ class SignUpController extends EnhancedAbstractController
         }
 
         return $this->render(
-            'security/external/user/sign_up/sign_up_advanced.html.twig',
+            '@SilecustWebShop/security/external/user/sign_up/sign_up_advanced.html.twig',
             ['form' => $form]
         );
 

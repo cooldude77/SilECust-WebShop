@@ -1,0 +1,8 @@
+{{ knp_pagination_render(
+    pagination,
+    '@SilecustWebShop/admin/ui/panel/section/content/list/sliding.html.twig',
+    {
+        '_function': listGrid.function is defined ? listGrid.function:request.get('_function'),
+        '_type': listGrid.function is defined ? listGrid.function:request.get('_type')
+    }
+) }}

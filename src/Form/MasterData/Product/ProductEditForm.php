@@ -28,11 +28,11 @@ class ProductEditForm extends CustomFormType
 
     function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('id', HiddenType::class,['required' => true]);
-        $builder->add('name', TextType::class,['required' => true]);
-        $builder->add('description', TextType::class,['required' => true]);
-        $builder->add('category', CategoryAutoCompleteField::class, ['required' => true, 'mapped' => false]);
-        $builder->add('isActive', CheckboxType::class);
+        $builder->add('id', HiddenType::class);
+        $builder->add('name', TextType::class);
+        $builder->add('description', TextType::class);
+        $builder->add('category', CategoryAutoCompleteField::class, ['mapped' => false]);
+        $builder->add('isActive', CheckboxType::class, ['required' => false]);
         $builder->add('save', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {

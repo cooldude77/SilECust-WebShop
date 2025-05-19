@@ -2,17 +2,18 @@
 
 namespace Silecust\WebShop\Tests\Controller\Transaction\Order\Admin\Header;
 
-use Silecust\WebShop\Tests\Fixtures\CurrencyFixture;
-use Silecust\WebShop\Tests\Fixtures\CustomerFixture;
-use Silecust\WebShop\Tests\Fixtures\EmployeeFixture;
-use Silecust\WebShop\Tests\Fixtures\LocationFixture;
-use Silecust\WebShop\Tests\Fixtures\OrderFixture;
-use Silecust\WebShop\Tests\Fixtures\OrderItemFixture;
-use Silecust\WebShop\Tests\Fixtures\PriceFixture;
-use Silecust\WebShop\Tests\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
 
 class OrderHeaderControllerTest extends WebTestCase
 {
@@ -25,7 +26,8 @@ class OrderHeaderControllerTest extends WebTestCase
         LocationFixture,
         CurrencyFixture,
         OrderFixture,
-        OrderItemFixture;
+        OrderItemFixture,
+        Factories;
 
     protected function setUp(): void
     {

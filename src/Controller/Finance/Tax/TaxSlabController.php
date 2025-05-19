@@ -2,10 +2,12 @@
 // src/Controller/LuckyController.php
 namespace Silecust\WebShop\Controller\Finance\Tax;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Silecust\WebShop\Form\Finance\TaxSlab\DTO\TaxSlabDTO;
 use Silecust\WebShop\Form\Finance\TaxSlab\TaxSlabCreateForm;
 use Silecust\WebShop\Form\Finance\TaxSlab\TaxSlabEditForm;
 use Silecust\WebShop\Repository\TaxSlabRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\Finance\TaxSlab\Mapper\TaxSlabDTOMapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -125,13 +127,16 @@ class TaxSlabController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/finance/tax_slab/tax_slab_display.html.twig',
-            ['request' => $request, 'entity' => $taxSlab, 'params' => $displayParams]
+            ['entity' => $taxSlab,'request' => $request, 'params' => $displayParams]
         );
 
     }
 
     #[Route('/admin/tax-slab/list', name: 'sc_admin_tax_slab_list')]
-    public function list(TaxSlabRepository $taxSlabRepository, Request $request): Response
+    public function list(TaxSlabRepository $taxSlabRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
 
         $listGrid = ['title' => 'TaxSlab',
@@ -145,10 +150,17 @@ class TaxSlabController extends EnhancedAbstractController
                 'function' => 'taxSlab',
                 'anchorText' => 'Create TaxSlab']];
 
-        $categories = $taxSlabRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $taxSlabRepository);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

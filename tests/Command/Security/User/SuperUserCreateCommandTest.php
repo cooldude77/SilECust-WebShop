@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\Tests\Command\Security\User;
 
-use Silecust\WebShop\Tests\Fixtures\SuperAdminFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\SuperAdminFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Console\Test\InteractsWithConsole;

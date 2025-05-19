@@ -4,7 +4,7 @@ namespace Silecust\WebShop\Form\MasterData\Price\Discount;
 
 use Silecust\WebShop\Form\Finance\Currency\CurrencyAutoCompleteField;
 use Silecust\WebShop\Form\MasterData\Price\Discount\DTO\PriceProductDiscountDTO;
-use Silecust\WebShop\Form\MasterData\Price\DTO\PriceProductBaseDTO;
+use Silecust\WebShop\Form\MasterData\Price\Product\DTO\PriceProductBaseDTO;
 use Silecust\WebShop\Form\MasterData\Product\ProductAutoCompleteField;
 use Silecust\WebShop\Repository\CurrencyRepository;
 use Silecust\WebShop\Repository\ProductRepository;

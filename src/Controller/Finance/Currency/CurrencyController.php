@@ -2,16 +2,17 @@
 // src/Controller/LuckyController.php
 namespace Silecust\WebShop\Controller\Finance\Currency;
 
-use Silecust\WebShop\Entity\Country;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\Currency;
 use Silecust\WebShop\Form\Finance\Currency\CurrencyCreateForm;
 use Silecust\WebShop\Form\Finance\Currency\CurrencyEditForm;
 use Silecust\WebShop\Form\Finance\Currency\DTO\CurrencyDTO;
 use Silecust\WebShop\Repository\CountryRepository;
 use Silecust\WebShop\Repository\CurrencyRepository;
+use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\Finance\Currency\Mapper\CurrencyDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,13 +23,15 @@ class CurrencyController extends EnhancedAbstractController
 
     #[Route('/admin/currency/create', name: 'sc_admin_currency_create')]
     public function create(
-        CountryRepository $countryRepository,
+        CountryRepository      $countryRepository,
         CurrencyDTOMapper      $currencyDTOMapper,
         EntityManagerInterface $entityManager,
         Request                $request,
         ValidatorInterface     $validator
     ): Response
     {
+        $this->setContentHeading($request, 'Display Country');
+
         $currencyDTO = new CurrencyDTO();
 
         $form = $this->createForm(CurrencyCreateForm::class, $currencyDTO);
@@ -70,7 +73,8 @@ class CurrencyController extends EnhancedAbstractController
         Request                $request,
         ValidatorInterface     $validator
     ): Response
-    {
+    {$this->setContentHeading($request, 'Edit Country');
+
         $currencyDTO = $currencyDTOMapper->mapToDtoFromEntity($currency);
 
         $form = $this->createForm(CurrencyEditForm::class, $currencyDTO);
@@ -107,6 +111,9 @@ class CurrencyController extends EnhancedAbstractController
     public function display(Currency $currency,
                             Request  $request): Response
     {
+        $this->setContentHeading($request, 'Display Country');
+
+        $this->setContentHeading($request, 'Currency');
 
         $displayParams = ['title' => 'Currency',
             'editButtonLinkText' => 'Edit',
@@ -119,14 +126,18 @@ class CurrencyController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/finance/currency/currency_display.html.twig',
-            ['request' => $request, 'entity' => $currency, 'params' => $displayParams]
+            [ 'entity' => $currency, 'request' => $request,'params' => $displayParams]
         );
 
     }
 
     #[Route('/admin/currency/list', name: 'sc_admin_currency_list')]
-    public function list(CurrencyRepository $currencyRepository, Request $request): Response
+    public function list(CurrencyRepository    $currencyRepository,
+                         PaginatorInterface    $paginator,
+                         SearchEntityInterface $searchEntity,
+                         Request               $request): Response
     {
+        $this->setContentHeading($request, 'Currencies');
 
         $listGrid = ['title' => 'Currency',
             'link_id' => 'id-currency',
@@ -139,10 +150,17 @@ class CurrencyController extends EnhancedAbstractController
                 'function' => 'currency',
                 'anchorText' => 'Create Currency']];
 
-        $categories = $currencyRepository->findAll();
+        $query = $searchEntity->getQueryForSelect($request, $currencyRepository, ['code','description']);
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/list/list.html.twig',
-            ['request' => $request, 'entities' => $categories, 'listGrid' => $listGrid]
+            '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
+            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
         );
     }
 }

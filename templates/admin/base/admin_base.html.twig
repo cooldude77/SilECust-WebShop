@@ -8,12 +8,19 @@
             </div>
         </div>
         <div class="row">
-            <div id="sidebar-wrapper" class="col-sm-3">
+            <div id="sidebar-wrapper" class="col-sm-3 border-end ms-3 py-3">
                 {% block sidebar %}
                 {% endblock %}
             </div>
-            <div id="content-wrapper" class="col-sm mt-2">
-                {% block content %}{% endblock %}
+            <div id="content-wrapper" class="col-sm  py-3">
+                {% block flash_messages %}
+                    {% include '@SilecustWebShop/admin/ui/flash/flash_messages.html.twig' %}
+                {% endblock %}
+                {% block content_heading %}
+                    {% include '@SilecustWebShop/admin/ui/content/heading.html.twig' with {'request':request} %}
+                {% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
         <div class="row">

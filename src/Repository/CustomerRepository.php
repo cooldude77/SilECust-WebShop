@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Customer[]    findAll()
  * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomerRepository extends ServiceEntityRepository
+class CustomerRepository extends ServiceEntityRepository implements \Silecust\WebShop\Service\Component\Database\Repository\SearchableRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -54,5 +56,19 @@ class CustomerRepository extends ServiceEntityRepository
         $customer->setUser($user);
 
         return $customer;
+    }
+
+    function getQueryForSelect(Criteria $criteria = null): Query
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('c')
+            ->from(Customer::class, 'c');
+
+        if ($criteria != null) {
+            $qb->addCriteria($criteria);
+        }
+        return $qb->getQuery();
+
     }
 }

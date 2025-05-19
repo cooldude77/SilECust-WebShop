@@ -57,9 +57,9 @@ class LoginManagementController extends EnhancedAbstractController
         if($security->getUser() == null)
             throw new UserNotLoggedInException();
 
-        if ($customerFromUserFinder->isLoggedInUserAlsoACustomer()) {
+        if ($customerFromUserFinder->isLoggedInUserACustomer()) {
             return $this->redirectToRoute('sc_home');
-        } elseif ($employeeFromUserFinder->isLoggedInUserAlsoAEmployee()) {
+        } elseif ($employeeFromUserFinder->isLoggedInUserAnEmployee()) {
             return $this->redirectToRoute('sc_admin_panel', ['_function' => 'dashboard']);
         }
 

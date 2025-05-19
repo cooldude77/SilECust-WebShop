@@ -3,20 +3,23 @@
 namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 
 // ...
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerAddressController extends EnhancedAbstractController
 {
@@ -76,7 +79,7 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
 
-    #[\Symfony\Component\Routing\Attribute\Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
+    #[Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
     public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
                          EntityManagerInterface    $entityManager,
                          CustomerAddressRepository $customerAddressRepository, Request $request
@@ -117,33 +120,53 @@ class CustomerAddressController extends EnhancedAbstractController
         }
 
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
+            '@SilecustWebShop/admin/ui/panel/section/content/edit/edit.html.twig', ['form' => $form]
         );
 
     }
 
     #[Route('/admin/customer/address/{id}/display', name: 'sc_admin_customer_address_display')]
-    public function display(CustomerAddressRepository $customerAddressRepository, int $id): Response
+    public function display(
+        CustomerAddressRepository $customerAddressRepository,
+        int                       $id,
+        Request                   $request,
+        EventDispatcherInterface  $eventDispatcher): Response
+    {
+        $customerAddress = $customerAddressRepository->find($id);
+        if (!$customerAddress) {
+            throw $this->createNotFoundException('No Customer found for id ' . $id);
+        }
+        $displayParamEvent = $eventDispatcher->dispatch(
+            new DisplayParamPropertyEvent($request),
+            DisplayParamPropertyEvent::EVENT_NAME);
+        /*
+                $displayParams = ['title' => 'Customer Address',
+                    'link_id' => 'id-customer-address',
+                    'editButtonLinkText' => 'Edit',
+                    'fields' => [
+                        ['label' => 'line 1',
+                            'propertyName' => 'line1',
+                            'link_id' => 'id-display-customer-address'],
+                    ]];
+        */
+        return $this->render(
+            '@SilecustWebShop/master_data/customer/customer_display.html.twig',
+            ['entity' => $customerAddress, 'params' => $displayParamEvent->getDisplayParamProperties(), 'request' => $request]
+        );
+
+    }
+
+    #[Route('/admin/customer/address/{id}/delete', name: 'sc_admin_customer_address_delete')]
+    public function delete(CustomerAddressRepository $customerAddressRepository, int $id): Response
     {
         $customerAddress = $customerAddressRepository->find($id);
         if (!$customerAddress) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Customer Address',
-            'link_id' => 'id-customer-address',
-            'editButtonLinkText' => 'Edit',
-            'fields' => [
-                ['label' => 'line 1',
-                    'propertyName' => 'line-1',
-                    'link_id' => 'id-display-customer-address'],
-            ]];
+        $customerAddressRepository->remove($customerAddress);
 
-        return $this->render(
-            '@SilecustWebShop/master_data/customer/customer_display.html.twig',
-            ['entity' => $customerAddress, 'params' => $displayParams]
-        );
-
+        return new JsonResponse(['id' => $id, 'message' => "Customer Address Delete"]);
     }
 
 
@@ -156,23 +179,9 @@ class CustomerAddressController extends EnhancedAbstractController
 
     ): Response
     {
+        $this->setContentHeading($request, 'Addresses');
 
-        $listGrid = ['title' => 'Customer Address',
-            'function'=>'customer_address',
-            'link_id' => 'id-customer-address',
-            'columns' => [
-                ['label' => 'Address Line 1',
-                    'propertyName' => 'line1',
-                    'action' => 'display'
-                ]
-                ,],
-            'createButtonConfig' => [
-                'link_id' => 'id-create-customer-address',
-                'function' => 'customer_address',
-                'anchorText' => 'Create Customer Address'
-            ]
-        ];
-
+        $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
 
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);
 
@@ -185,7 +194,7 @@ class CustomerAddressController extends EnhancedAbstractController
         );
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+            ['pagination' => $pagination, 'listGrid' => $listGridEvent->getListGridProperties(), 'request' => $request]
         );
     }
 

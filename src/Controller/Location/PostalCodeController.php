@@ -137,7 +137,7 @@ class PostalCodeController extends EnhancedAbstractController
             'link_id' => 'id-postalCode',
             'editButtonLinkText' => 'Edit',
             'fields' => [['label' => 'Postal Code',
-                'propertyName' => 'postalCode',
+                'propertyName' => 'code',
                 'link_id' => 'id-display-postalCode'], ['label' => 'Name',
                 'propertyName' => 'name'
                 ,],]];
@@ -157,6 +157,8 @@ class PostalCodeController extends EnhancedAbstractController
         Request              $request,
         PaginatorInterface   $paginator): Response
     {
+        $this->setContentHeading($request, 'Postal Code');
+
         $city = $cityRepository->find($id);
 
         if (!$city) {
@@ -170,7 +172,7 @@ class PostalCodeController extends EnhancedAbstractController
             'id' => $city->getId(),
             'columns' => [
                 ['label' => 'Postal Code',
-                    'propertyName' => 'postalCode',
+                    'propertyName' => 'code',
                     'action' => 'display',],
                 ['label' => 'Name',
                     'propertyName' => 'name'

@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CustomerDTO
 {
+
     public ?int $id = -1;
     public ?string $firstName = null;
     public ?string $middleName = null;

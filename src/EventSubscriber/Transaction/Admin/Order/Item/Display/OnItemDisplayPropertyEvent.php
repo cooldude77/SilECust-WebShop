@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Item\Display;
 
-use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParametersEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -29,7 +29,7 @@ class OnItemDisplayPropertyEvent implements EventSubscriberInterface
     public function setProperty(DisplayParametersEvent $event): void
     {
         $route = $this->router->match($event->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['my_order_display', 'sc_admin_route_order_display']))
+        if (!in_array($route['_route'], ['sc_my_order_display', 'sc_admin_route_order_display']))
             if (!($event->getRequest()->query->get('_function') == 'order_item' // order item list is never shown standalone
                 && $event->getRequest()->query->get('_type') == 'display')
             )
