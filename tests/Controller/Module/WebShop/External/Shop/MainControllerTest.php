@@ -47,8 +47,8 @@ class MainControllerTest extends WebTestCase
         $this->browser()
             ->visit('/')
             ->assertSuccessful()
-            ->assertSee("Base Price not found for product Prod name A")
-            ->assertSee("Base Price not found for product Prod name B");
+            ->assertSee('Base Price not found for product Prod name A')
+            ->assertSee('Base Price not found for product Prod name B');
 
     }
 
@@ -61,7 +61,7 @@ class MainControllerTest extends WebTestCase
                      $r = $browser->client()->getResponse();
                  })
               */
-            ->assertSee("No products are available to list at the moment");
+            ->assertSee('No products are available to list at the moment');
 
     }
 
@@ -72,9 +72,8 @@ class MainControllerTest extends WebTestCase
         // visit home , not logged in
         $this->browser()
             ->visit('/')
-            ->assertSuccessful();
-
-        //    ->assertSeeElement('a#logo-home-link');
+            ->assertSuccessful()
+            ->assertSeeIn('title', 'Buy from comfort of your home');
 
     }
 }
