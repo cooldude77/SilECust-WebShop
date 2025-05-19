@@ -4,9 +4,13 @@
 
 {% block content %}
 
+    <h2>Please log in </h2>
     {% include '@SilecustWebShop/security/external/user/login/login_form.html.twig' with{  'last_username': last_username, 'error' : error,} %}
 
-    <a href="{{ path('sc_user_customer_sign_up') }}">Go to sign up</a>
-    <a href="{{ path('sc_app_forgot_password_request') }}">Forgot Password</a>
-
+    <div>
+        <a href="{{ path('sc_user_customer_sign_up') }}">Sign Up</a>
+    </div>
+    <div>
+        <a href="{{ path('sc_app_forgot_password_request') }}">Forgot Password...</a>
+    </div>
 {% endblock %}
