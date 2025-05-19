@@ -1,72 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
-   version="1.1"
-   id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   sodipodi:docname="logo.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="0.71179153"
-     inkscape:cx="396.88587"
-     inkscape:cy="561.25984"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs1">
-    <rect
-       x="271.14681"
-       y="276.76643"
-       width="198.09171"
-       height="272.55171"
-       id="rect2" />
-  </defs>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#333333;fill-opacity:0.07251909;fill-rule:evenodd;stroke:#020202;stroke-width:1.365;stroke-linejoin:round;stroke-opacity:0.133588;stroke-dasharray:none"
-       id="rect1"
-       width="102.22153"
-       height="102.22153"
-       x="46.092617"
-       y="51.668331" />
-    <text
-       xml:space="preserve"
-       transform="scale(0.26458333)"
-       id="text1"
-       style="fill:black;fill-opacity:1;line-height:1.25;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;white-space:pre;shape-inside:url(#rect2)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:103.337px;line-height:1.25;font-family:Roboto;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;-inkscape-font-specification:Roboto;font-stretch:normal;font-variant:normal"
-       x="65.34758"
-       y="141.14388"
-       id="text3"><tspan
-         sodipodi:role="line"
-         id="tspan3"
-         style="stroke-width:0.264583;-inkscape-font-specification:Roboto;font-family:Roboto;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
-         x="65.34758"
-         y="141.14388">S</tspan></text>
-  </g>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 301 302" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-98.2759,-99.3743)">
+        <rect x="98.276" y="99.374" width="300.969" height="301.472" style="fill:rgb(34,15,15);fill-opacity:0.05;"/>
+        <g transform="matrix(2.83465,0,0,2.83465,0,0)">
+            <g transform="matrix(1.04713,0,0,1.10356,54.6028,128.77)">
+                <g id="text3">
+                    <g>
+                        <clipPath id="_clip1">
+                            <path d="M44.655,-19.275C44.655,-22.134 43.646,-24.329 41.627,-25.859C39.609,-27.39 35.976,-29.005 30.729,-30.703C25.481,-32.402 21.327,-34.076 18.266,-35.724C9.923,-40.231 5.752,-46.303 5.752,-53.939C5.752,-57.908 6.871,-61.449 9.108,-64.56C11.345,-67.672 14.557,-70.102 18.745,-71.852C22.933,-73.601 27.634,-74.475 32.848,-74.475C38.095,-74.475 42.771,-73.525 46.875,-71.624C50.979,-69.724 54.166,-67.041 56.437,-63.576C58.707,-60.112 59.843,-56.176 59.843,-51.769L44.705,-51.769C44.705,-55.133 43.646,-57.749 41.527,-59.616C39.407,-61.482 36.43,-62.416 32.596,-62.416C28.895,-62.416 26.019,-61.634 23.967,-60.07C21.915,-58.505 20.889,-56.445 20.889,-53.889C20.889,-51.5 22.092,-49.499 24.497,-47.884C26.902,-46.27 30.443,-44.756 35.118,-43.343C43.73,-40.753 50.003,-37.54 53.939,-33.706C57.875,-29.871 59.843,-25.094 59.843,-19.376C59.843,-13.018 57.437,-8.031 52.627,-4.415C47.817,-0.799 41.342,1.009 33.201,1.009C27.55,1.009 22.403,-0.025 17.761,-2.094C13.119,-4.163 9.579,-6.997 7.14,-10.596C4.701,-14.195 3.482,-18.367 3.482,-23.11L18.669,-23.11C18.669,-15.003 23.513,-10.949 33.201,-10.949C36.8,-10.949 39.609,-11.681 41.627,-13.144C43.646,-14.607 44.655,-16.651 44.655,-19.275Z" clip-rule="nonzero"/>
+                        </clipPath>
+                        <g clip-path="url(#_clip1)">
+                            <text x="0px" y="0px" style="font-family:'Roboto-Bold', 'Roboto';font-weight:700;font-size:103.337px;fill:rgb(42,54,208);">S</text>
+                            <g transform="matrix(0.388714,0,0,0.368838,-71.3279,-128.983)">
+                                <path d="M298.376,297.444C298.376,289.692 295.78,283.741 290.587,279.591C285.395,275.442 276.049,271.064 262.549,266.458C249.049,261.853 238.362,257.315 230.487,252.847C209.026,240.626 198.295,224.164 198.295,203.461C198.295,192.7 201.173,183.101 206.927,174.665C212.682,166.229 220.946,159.639 231.72,154.897C242.494,150.154 254.588,147.783 268.001,147.783C281.501,147.783 293.53,150.36 304.087,155.512C314.645,160.665 322.844,167.939 328.686,177.332C334.527,186.726 337.448,197.396 337.448,209.344L298.506,209.344C298.506,200.224 295.78,193.133 290.328,188.071C284.876,183.01 277.217,180.479 267.352,180.479C257.833,180.479 250.434,182.599 245.155,186.84C239.876,191.081 237.237,196.667 237.237,203.598C237.237,210.073 240.331,215.5 246.518,219.877C252.706,224.255 261.814,228.359 273.842,232.19C295.996,239.212 312.135,247.922 322.26,258.319C332.385,268.715 337.448,281.666 337.448,297.17C337.448,314.407 331.26,327.928 318.885,337.732C306.51,347.536 289.852,352.438 268.91,352.438C254.371,352.438 241.131,349.633 229.189,344.025C217.247,338.416 208.139,330.732 201.865,320.974C195.591,311.215 192.454,299.906 192.454,287.047L231.526,287.047C231.526,309.026 243.987,320.016 268.91,320.016C278.169,320.016 285.395,318.032 290.587,314.065C295.78,310.098 298.376,304.557 298.376,297.444Z" style="fill:rgb(34,15,15);"/>
+                            </g>
+                        </g>
+                        <text x="0px" y="0px" style="font-family:'Roboto-Bold', 'Roboto';font-weight:700;font-size:103.337px;fill:none;stroke:rgb(14,16,34);stroke-width:0.33px;">S</text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>
