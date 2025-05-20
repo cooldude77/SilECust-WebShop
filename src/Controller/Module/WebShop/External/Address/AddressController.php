@@ -3,6 +3,7 @@
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Address;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
@@ -17,6 +18,7 @@ use Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO\AddressCreateA
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
@@ -36,7 +38,7 @@ class AddressController extends EnhancedAbstractController
 
 
     /**
-     * @param Request         $request
+     * @param Request $request
      * @param RouterInterface $router
      *
      * @return Response
@@ -47,6 +49,13 @@ class AddressController extends EnhancedAbstractController
     public function main(Request $request, RouterInterface $router): Response
     {
         $session = $request->getSession();
+
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
+        );
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_METHOD_NAME, 'head'
+        );
 
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_NAME, HeaderController::class
@@ -60,6 +69,7 @@ class AddressController extends EnhancedAbstractController
         );
 
         $route = $request->get('_route');
+        $method = "";
         switch ($route) {
             case 'sc_web_shop_checkout_addresses':
                 $method = "content";
@@ -71,6 +81,7 @@ class AddressController extends EnhancedAbstractController
                 $method = "choose";
                 break;
         }
+
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
             $method
@@ -87,37 +98,38 @@ class AddressController extends EnhancedAbstractController
 
 
     public function content(CustomerAddressRepository $customerAddressRepository,
-        CheckOutAddressQuery $checkOutAddressQuery,
-        CustomerFromUserFinder $customerFromUserFinder,
-        Request $request
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+                            CheckOutAddressQuery      $checkOutAddressQuery,
+                            CustomerFromUserFinder    $customerFromUserFinder,
+                            Request                   $request
+    ): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
 
         $ownRoute = $this->generateUrl('sc_web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
-                                                                 'addressType' => 'shipping']);
+            'addressType' => 'shipping']);
 
         if ($addressesShipping == null) {
             return $this->redirectToRoute(
                 'sc_web_shop_checkout_address_create',
                 ['type' => 'shipping',
-                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'sc_web_shop_checkout_addresses'
-                 )]
+                    RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                        'sc_web_shop_checkout_addresses'
+                    )]
             );
         }
 
         $addressesBilling = $customerAddressRepository->findBy(['customer' => $customer,
-                                                                'addressType' => 'billing']);
+            'addressType' => 'billing']);
 
         if ($addressesBilling == null) {
             return $this->redirectToRoute(
                 'sc_web_shop_checkout_address_create',
                 ['type' => 'billing',
-                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'sc_web_shop_checkout_addresses'
-                 )]
+                    RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                        'sc_web_shop_checkout_addresses'
+                    )]
             );
         }
 
@@ -135,9 +147,9 @@ class AddressController extends EnhancedAbstractController
             return $this->redirectToRoute(
                 'sc_web_shop_checkout_choose_address_from_list',
                 ['type' => 'billing',
-                 RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
-                     'sc_web_shop_checkout_addresses'
-                 )]
+                    RoutingConstants::REDIRECT_UPON_SUCCESS_URL => $this->generateUrl(
+                        'sc_web_shop_checkout_addresses'
+                    )]
             );
         }
 
@@ -153,12 +165,13 @@ class AddressController extends EnhancedAbstractController
 
     }
 
-    public function create(RouterInterface $router, Request $request,
-        CustomerFromUserFinder $customerFromUserFinder,
-        CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
-        CheckOutAddressSave $checkOutAddressSave,
-        EventDispatcherInterface $eventDispatcher
-    ): Response {
+    public function create(RouterInterface             $router, Request $request,
+                           CustomerFromUserFinder      $customerFromUserFinder,
+                           CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
+                           CheckOutAddressSave         $checkOutAddressSave,
+                           EventDispatcherInterface    $eventDispatcher
+    ): Response
+    {
 
 
         $dto = new AddressCreateAndChooseDTO();
@@ -210,30 +223,31 @@ class AddressController extends EnhancedAbstractController
 
     /**
      *
-     * @param CustomerAddressRepository          $customerAddressRepository
-     * @param CustomerFromUserFinder             $customerFromUserFinder
+     * @param CustomerAddressRepository $customerAddressRepository
+     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param ChooseFromMultipleAddressDTOMapper $addressChooseMapper
-     * @param CheckoutAddressChooseParser        $checkoutAddressChooseParser
-     * @param EventDispatcherInterface           $eventDispatcher
-     * @param Request                            $request
+     * @param CheckoutAddressChooseParser $checkoutAddressChooseParser
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param Request $request
      *
      * @return Response
      * @throws UserNotLoggedInException Choose from multiple addresses
      * @throws UserNotAssociatedWithACustomerException
      */
-    public function choose(CustomerAddressRepository $customerAddressRepository,
-        CustomerFromUserFinder $customerFromUserFinder,
-        ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
-        CheckoutAddressChooseParser $checkoutAddressChooseParser,
-        EventDispatcherInterface $eventDispatcher,
-        Request $request
-    ): Response {
+    public function choose(CustomerAddressRepository          $customerAddressRepository,
+                           CustomerFromUserFinder             $customerFromUserFinder,
+                           ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
+                           CheckoutAddressChooseParser        $checkoutAddressChooseParser,
+                           EventDispatcherInterface           $eventDispatcher,
+                           Request                            $request
+    ): Response
+    {
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addresses = $customerAddressRepository->findBy(['customer' => $customer,
-                                                         'addressType' => $request->query->get(
-                                                             'type'
-                                                         )]);
+            'addressType' => $request->query->get(
+                'type'
+            )]);
 
         $addressesDTO = $addressChooseMapper->mapAddressesToDto(
             $addresses, $request->request->all()
@@ -281,7 +295,7 @@ class AddressController extends EnhancedAbstractController
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/address/address_choose.html.twig',
             ['form' => $form,
-             'addressTypeCaption' => $caption]
+                'addressTypeCaption' => $caption]
         );
     }
 

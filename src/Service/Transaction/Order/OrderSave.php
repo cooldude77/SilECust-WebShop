@@ -7,6 +7,8 @@ use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Entity\OrderItemPaymentPrice;
+use Silecust\WebShop\Entity\OrderPayment;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
@@ -187,13 +189,14 @@ readonly class OrderSave
     public function savePrice(OrderItem $orderItem, PriceObject $priceObject): void
     {
 
+        /** @var OrderItemPaymentPrice $orderItemPaymentPrice */
         $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->findOneBy(['orderItem' => $orderItem]);
         if ($orderItemPaymentPrice == null)
             $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
         else {
             $orderItemPaymentPrice->setBasePrice($priceObject->getBasePrice());
             $orderItemPaymentPrice->setDiscount($priceObject->getDiscount());
-            $orderItemPaymentPrice->setRateOfTax($priceObject->getTaxRate());
+            $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRate());
         }
 
         $this->databaseOperations->save($orderItemPaymentPrice);

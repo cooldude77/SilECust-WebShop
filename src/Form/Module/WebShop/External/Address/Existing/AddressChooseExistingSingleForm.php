@@ -17,15 +17,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AddressChooseExistingSingleForm extends AbstractType
 {
 
+    //todo : How to create a radio button
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('isChosen', CheckboxType::class,['label'=>'Choose this']);
+        $builder->add('isChosen', CheckboxType::class,['label' => false,'required'=>false]);
         $builder->add('id', HiddenType::class);
 
     }
 
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', AddressChooseExistingSingleDTO::class);
 

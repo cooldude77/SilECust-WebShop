@@ -10,12 +10,14 @@
             {% endblock %}
         </div>
         <div id="content-wrapper" class="row h-100 my-4 ">
-            <div id="sidebar-wrapper" class="col-sm-3 sidenav card p-3">
-                <div id="sidebar">
-                    {% block sidebar %}
-                    {% endblock %}
+            {% block sidebar_wrapper %}
+                <div id="sidebar-wrapper" class="col-sm-3 sidenav card p-3">
+                    <div id="sidebar">
+                        {% block sidebar %}
+                        {% endblock %}
+                    </div>
                 </div>
-            </div>
+            {% endblock %}
             <div id="content" class="col-sm card p-3">
                 {% block flash %}
                 <div id="flash-messages">
