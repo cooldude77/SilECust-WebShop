@@ -1,28 +1,15 @@
 <div class="container">
     <h2>Your order details</h2>
 
-    Your order number is {{ orderObject.getOrderHeader().getGeneratedId }}
+    {# Your order number is {{ orderObject.getOrderHeader().getGeneratedId }}
+    #}
     {% set orderTotal = 0 %}
-    {% for item in orderObject.getOrderItems %}
-        <div class="row">
-            <div class="col-sm-3">
-                {{ item.product.description }}
-            </div>
-            <div class="col-sm-3">
-                {{ item.quantity }}
-            </div>
-            <div class="col-sm-3">
-                {{ item_price_calculator.getCurrency().getSymbol() }}
-                {{ item_price_calculator.getPriceWithTax(item) * item.quantity }}
-            </div>
-            {% set orderTotal =  orderTotal + item_price_calculator.getPriceWithTax(item) * item.quantity %}
-        </div>
-        <div class="row"
-    {% endfor %}
-    <div class="row">
-        Order Total = {{header_price_calculator.calculateOrderValue( orderObject.getOrderHeader()) }}
-    </div>
-    <a class="btn btn-dark" href="{{ path('sc_web_shop_payment_start',
-        {'generatedId': orderObject.getOrderHeader().getGeneratedId()}) }}">To Payment > </a>
+
+    {% include '@SilecustWebShop/module/web_shop/external/order/table_header.html.twig' %}
+
+    {% include '@SilecustWebShop/module/web_shop/external/order/table_items.html.twig' with {'items':orderObject.getOrderItems} %}
+    {% include '@SilecustWebShop/module/web_shop/external/order/final_price.html.twig' with {'orderHeader':orderObject.getOrderHeader()} %}
+    {% include '@SilecustWebShop/module/web_shop/external/order/to_payment.html.twig' with {'generatedId':orderObject.getOrderHeader().getGeneratedId()} %}
+
 
 </div>
