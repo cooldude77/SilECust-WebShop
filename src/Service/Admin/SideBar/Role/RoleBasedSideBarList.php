@@ -2,14 +2,14 @@
 
 namespace Silecust\WebShop\Service\Admin\SideBar\Role;
 
-use Silecust\WebShop\Service\Admin\SideBar\List\PanelSideBarListMapBuilder;
+use Silecust\WebShop\Service\Admin\SideBar\List\ListMapBuilder;
 use Symfony\Bundle\SecurityBundle\Security;
 
 readonly class RoleBasedSideBarList
 {
 
-    public function __construct(private PanelSideBarListMapBuilder $listMapBuilder,
-        private readonly Security $security
+    public function __construct(private ListMapBuilder $listMapBuilder,
+        private readonly Security                      $security
     ) {
     }
 

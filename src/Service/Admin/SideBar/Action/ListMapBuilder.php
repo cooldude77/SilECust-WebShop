@@ -4,18 +4,18 @@ namespace Silecust\WebShop\Service\Admin\SideBar\Action;
 
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 
-class PanelActionListMapBuilder
+class ListMapBuilder
 {
 
-    private PanelActionListMap $actionListMap;
+    private ListMap $actionListMap;
 
     /**
      * function - product/customer / webshop etc
      * route -> route names related to processes of a function
      */
-    public function build(): PanelActionListMapBuilder
+    public function build(): ListMapBuilder
     {
-        $this->actionListMap = new PanelActionListMap(
+        $this->actionListMap = new ListMap(
             [
                 'functions' => [
                     'product' => [
@@ -170,9 +170,9 @@ class PanelActionListMapBuilder
                             'list' => 'sc_admin_file_list'
                         ]
                     ],
-                    'settings' => [
+                    'settings-system' => [
                         'routes' => [
-                            'list' => 'sc_admin_system_settings'
+                            'list' => 'sc_admin_settings_system'
                         ]
                     ],
                     'category_file_image' => [
@@ -218,9 +218,9 @@ class PanelActionListMapBuilder
     }
 
     /**
-     * @return PanelActionListMap
+     * @return ListMap
      */
-    public function getPanelActionListMap(): PanelActionListMap
+    public function getPanelActionListMap(): ListMap
     {
         if (empty($this->actionListMap)) {
             throw new EmptyActionListMapException();

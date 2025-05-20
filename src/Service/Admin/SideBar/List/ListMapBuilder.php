@@ -2,12 +2,12 @@
 
 namespace Silecust\WebShop\Service\Admin\SideBar\List;
 
-class PanelSideBarListMapBuilder
+class ListMapBuilder
 {
 
-    public function build(string $adminUrl): PanelSideBarListMap
+    public function build(string $adminUrl): ListMap
     {
-        return new PanelSideBarListMap(
+        return new ListMap(
 
             [
                 'sections' =>
@@ -228,10 +228,10 @@ class PanelSideBarListMapBuilder
                                 [
                                     'url' => $this->appendForAdmin(
                                         $adminUrl,
-                                        'settings'
+                                        'settings-system'
                                     ),
-                                    'text' => 'Settings',
-                                    'css-id' => 'sidebar-link-settings'
+                                    'text' => 'System',
+                                    'css-id' => 'sidebar-link-settings-system'
                                 ]
                             ],
                             'roles' => ['ROLE_EMPLOYEE'],

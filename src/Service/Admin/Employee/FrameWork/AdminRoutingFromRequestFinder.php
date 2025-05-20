@@ -7,15 +7,15 @@ use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameter
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
-use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
+use Silecust\WebShop\Service\Admin\SideBar\Action\ListMapBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 readonly class AdminRoutingFromRequestFinder
 {
-    public function __construct(private PanelActionListMapBuilder $builder,
-        private RouterInterface $router
+    public function __construct(private ListMapBuilder $builder,
+        private RouterInterface                        $router
     ) {
     }
 

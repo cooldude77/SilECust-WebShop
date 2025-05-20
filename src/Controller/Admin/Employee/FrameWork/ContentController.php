@@ -8,7 +8,7 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
-use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
+use Silecust\WebShop\Service\Admin\SideBar\Action\ListMapBuilder;
 use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class ContentController extends EnhancedAbstractController
     /**
      * @param Request                   $request
      * @param RouterInterface           $router
-     * @param PanelActionListMapBuilder $builder
+     * @param ListMapBuilder $builder
      *
      * @return Response
      * @throws AdminUrlFunctionKeyParameterNull
@@ -33,9 +33,9 @@ class ContentController extends EnhancedAbstractController
      * @throws FunctionNotFoundInMap
      * @throws TypeNotFoundInMap
      */
-    public function content(Request $request, RouterInterface $router,
-        PanelActionListMapBuilder $builder,
-        AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
+    public function content(Request                       $request, RouterInterface $router,
+                            ListMapBuilder                $builder,
+                            AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
     ): Response {
 
         // todo: check context route
