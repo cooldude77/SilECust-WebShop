@@ -1,8 +1,11 @@
 {% block content %}
+    <div class="row-flex mr-auto">
 
+    </div>
     <div id="addresses">
-
-        <h2>{{ addressTypeCaption }}</h2>
+        <h2>{{ addressTypeCaption }} <a class="btn btn-link" href="{{ path('sc_my_addresses') }}">
+                <i class="bi bi-geo-alt-fill"></i>Manage Addresses
+            </a></h2>
 
         {{ form_start(form) }}
         <ul class="address">
