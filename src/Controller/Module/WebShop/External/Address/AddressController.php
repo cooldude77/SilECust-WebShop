@@ -154,13 +154,8 @@ class AddressController extends EnhancedAbstractController
         }
 
         // everything ok, go back to check out
-        if ($request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL) != null) {
-            return $this->redirect(
-                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
-            );
-        } else {
-            return $this->redirectToRoute('sc_web_shop_view_order');
-        }
+        // recalculate prices etc
+        return $this->redirectToRoute('sc_web_shop_checkout');
 
 
     }

@@ -4,6 +4,8 @@ namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Item\Grid;
 
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -22,6 +24,10 @@ class OnGridColumnEvent implements EventSubscriberInterface
 
     }
 
+    /**
+     * @throws PriceProductBaseNotFound
+     * @throws PriceProductTaxNotFound
+     */
     public function beforeDisplay(GridColumnEvent $event): void
     {
         $route = $this->router->match($event->getData()['request']->getPathInfo());

@@ -7,6 +7,7 @@ use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
+use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,6 +18,7 @@ class CheckOutController extends EnhancedAbstractController
     #[Route('/checkout', name: 'sc_web_shop_checkout')]
     public function checkout(
         CustomerFromUserFinder    $customerFromUserFinder,
+        OrderSave                 $orderSave,
         CartSessionProductService $cartSessionService,
         CheckOutAddressQuery      $checkOutAddressQuery
     ): Response
@@ -48,6 +50,7 @@ class CheckOutController extends EnhancedAbstractController
         ) {
             return $this->redirectToRoute('sc_web_shop_checkout_addresses');
         }
+
 
 
         return $this->redirectToRoute('sc_web_shop_view_order');

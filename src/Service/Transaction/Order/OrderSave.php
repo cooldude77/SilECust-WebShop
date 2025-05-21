@@ -8,7 +8,6 @@ use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Entity\OrderItemPaymentPrice;
-use Silecust\WebShop\Entity\OrderPayment;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
@@ -54,6 +53,8 @@ readonly class OrderSave
 
 
     /**
+     * An order is implicitly created when cart is started
+     * @param Customer $customer
      * @return void
      */
     public function createNewOrderFromCart(Customer $customer): void
@@ -65,18 +66,6 @@ readonly class OrderSave
 
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();
-
-    }
-
-    /**
-     * @param OrderHeader $orderHeader
-     *
-     * @return void
-     */
-    public function flush(OrderHeader $orderHeader): void
-    {
-        $this->databaseOperations->flush();
-
 
     }
 
@@ -131,8 +120,9 @@ readonly class OrderSave
 
     }
 
-    public function createOrUpdate(?OrderHeader $orderHeader, CustomerAddress $address,
-                                   array        $currentAddressesForOrder
+    public function createOrUpdate(?OrderHeader    $orderHeader,
+                                   CustomerAddress $address,
+                                   array           $currentAddressesForOrder
     ): void
     {
         // no list was sent
@@ -151,6 +141,8 @@ readonly class OrderSave
                 }
 
             }
+
+
             $this->databaseOperations->flush();
         }
 

@@ -6,7 +6,6 @@ class PriceObject
 {
     private float $discount;
     private float $taxRate;
-
     private float $shipping;
     public function __construct(private float $basePrice)
     {

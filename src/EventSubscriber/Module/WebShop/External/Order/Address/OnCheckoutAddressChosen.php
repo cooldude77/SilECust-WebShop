@@ -12,8 +12,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
 {
     public function __construct(private OrderRead $orderRead,
-        private OrderSave $orderSave
-    ) {
+                                private OrderSave $orderSave
+    )
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -36,14 +37,15 @@ readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
         $customer = $event->getCustomer();
 
         $orderHeader = $this->orderRead->getOpenOrder($customer);
-        if($orderHeader == null)
-            throw  new NoOpenOrderExists();
+        if ($orderHeader == null)
+            throw  new NoOpenOrderExists($customer);
 
         $address = $event->getCustomerAddress();
 
         $listAddresses = $this->orderRead->getAddresses($orderHeader);
 
-        $this->orderSave->createOrUpdate($orderHeader, $address,$listAddresses);
+        // Add conditions on update
+        $this->orderSave->createOrUpdate($orderHeader, $address, $listAddresses);
 
     }
 }

@@ -148,6 +148,8 @@ class  CartController extends EnhancedAbstractController
         EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder
     ): void {
         $cartSessionProductService->initialize();
+
+        // the order is created here
         //todo handle exception`
         $eventDispatcher->dispatch(
             new CartEvent(
