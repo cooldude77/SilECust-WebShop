@@ -2,15 +2,17 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Payment;
 
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Entity\OrderPayment;
 use Silecust\WebShop\Event\Component\UI\Twig\BeforeTwigRenderInController;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentValidationEvent;
+use Silecust\WebShop\Exception\Module\WebShop\External\Payment\PaymentInfoNotFound;
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +40,7 @@ class PaymentController extends EnhancedAbstractController
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
+        // set your id for validation later in this event
         $event = new PaymentStartEvent($orderHeader);
         $eventDispatcher->dispatch($event, PaymentStartEvent::BEFORE_PAYMENT_PROCESS);
 
@@ -56,31 +59,38 @@ class PaymentController extends EnhancedAbstractController
     }
 
 
-    #[Route('/payment/order/{generatedId}/success', name:'sc_web_shop_payment_success')]
-    public function onPaymentSuccess(EventDispatcherInterface $eventDispatcher,
-                                     string                   $generatedId,
-                                     OrderRead                $orderRead,
-                                     Request                  $request,
+    /**
+     * @throws PaymentInfoNotFound
+     */
+    #[Route('/payment/order/{generatedId}/success', name: 'sc_web_shop_payment_success')]
+    public function onPaymentSuccess(
+        EventDispatcherInterface $eventDispatcher,
+        string                   $generatedId,
+        OrderRead                $orderRead,
+        Request                  $request,
     ): Response
     {
 
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
-        $paymentInfo = $request->request->all()[OrderPayment::PAYMENT_GATEWAY_RESPONSE];
 
         // This method should throw exception in case payment details are not validated
         // The custom event handler must issue stopPropagation as early as possible
-        $event = new PaymentSuccessEvent($orderHeader, $paymentInfo);
-        $eventDispatcher->dispatch($event, PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS);
+        $event = new PaymentValidationEvent($orderHeader, $request);
+        $eventDispatcher->dispatch($event, PaymentValidationEvent::ON_PAYMENT_VALIDATION);
 
-        if (!$event->isPropagationStopped()) {
+        if ($event->isPropagationStopped()) {
+            return new Response('There was an error in payment', 403);
+        } else {
+
+            $event = new PaymentSuccessEvent($orderHeader, $request);
+            $eventDispatcher->dispatch($event, PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS);
+
             $this->addFlash('success', 'Your payment was successful');
             $this->addFlash('success', 'Your order was created and is in under process');
 
             return $this->redirectToRoute('sc_module_web_shop_order_complete_details',
                 ['generatedId' => $orderHeader->getGeneratedId()]);
-        } else {
-            return new Response('There was an error in payment', 403);
         }
     }
 

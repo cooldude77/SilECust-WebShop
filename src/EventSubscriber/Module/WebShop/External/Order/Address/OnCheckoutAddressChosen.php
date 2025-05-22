@@ -2,17 +2,22 @@
 
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Address;
 
-use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
+use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
+use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
 {
-    public function __construct(private OrderRead $orderRead,
-                                private OrderSave $orderSave
+    public function __construct(
+        private readonly CustomerFromUserFinder $customerFromUserFinder,
+        private readonly OrderRead              $orderRead,
+        private readonly OrderSave              $orderSave
     )
     {
     }
@@ -20,21 +25,23 @@ readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutAddressEventTypes::POST_ADDRESS_CHOSEN => 'onAddressChosen'
+            CheckoutAddressEventTypes::EVENT_NAME => 'onAddressChosen'
         ];
 
     }
 
     /**
-     * @param CheckoutAddressChosenEvent $event
+     * @param AddressChosenEvent $event
      *
      * @return void
      * @throws NoOpenOrderExists
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
      */
-    public function onAddressChosen(CheckoutAddressChosenEvent $event): void
+    public function onAddressChosen(AddressChosenEvent $event): void
     {
 
-        $customer = $event->getCustomer();
+        $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
         $orderHeader = $this->orderRead->getOpenOrder($customer);
         if ($orderHeader == null)
@@ -45,7 +52,7 @@ readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
         $listAddresses = $this->orderRead->getAddresses($orderHeader);
 
         // Add conditions on update
-        $this->orderSave->createOrUpdate($orderHeader, $address, $listAddresses);
+        $this->orderSave->createOrUpdateAddress($orderHeader, $address, $listAddresses);
 
     }
 }

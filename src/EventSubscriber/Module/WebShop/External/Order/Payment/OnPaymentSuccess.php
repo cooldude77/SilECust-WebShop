@@ -19,17 +19,18 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS => ['afterPaymentSuccess', 100]
+            PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS => ['afterPaymentSuccess', 0]
         ];
 
     }
 
-    public function afterPaymentSuccess(PaymentSuccessEvent $paymentEvent): void
+    public function afterPaymentSuccess(
+        PaymentSuccessEvent $paymentEvent): void
     {
 
         $this->orderSave->setOrderStatus($paymentEvent->getOrderHeader(), OrderStatusTypes::ORDER_PAYMENT_COMPLETE);
 
-        $this->orderSave->savePayment($paymentEvent->getOrderHeader(), $paymentEvent->getPaymentSuccessArray());
+        $this->orderSave->savePayment($paymentEvent->getOrderHeader(), $paymentEvent->getPaymentSuccessInfo());
         $this->journalSnapShot->snapShot($paymentEvent->getOrderHeader());
 
     }

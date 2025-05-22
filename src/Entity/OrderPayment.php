@@ -2,8 +2,8 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderPaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Silecust\WebShop\Repository\OrderPaymentRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderPaymentRepository::class)]
@@ -19,8 +19,13 @@ class OrderPayment
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderHeader $orderHeader = null;
 
-    #[ORM\Column]
-    private array $paymentResponse = [];
+    #[ORM\Column(length: 5000)]
+    #[Assert\Length(
+        min: 1,
+        max: 5000,
+        maxMessage: 'Length cannot exceed 255'
+    )]
+    private ?string $paymentResponse;
 
     public function getId(): ?int
     {
@@ -39,10 +44,16 @@ class OrderPayment
         return $this;
     }
 
-    public function setPaymentResponse(array $paymentResponse): static
+    public function setPaymentResponse(string $paymentResponse): static
     {
         $this->paymentResponse = $paymentResponse;
 
         return $this;
     }
+
+    public function getPaymentResponse(): ?string
+    {
+        return $this->paymentResponse;
+    }
+
 }

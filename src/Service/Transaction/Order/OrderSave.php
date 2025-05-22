@@ -8,6 +8,7 @@ use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Entity\OrderItemPaymentPrice;
+use Silecust\WebShop\Entity\OrderShipping;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
@@ -120,15 +121,14 @@ readonly class OrderSave
 
     }
 
-    public function createOrUpdate(?OrderHeader    $orderHeader,
-                                   CustomerAddress $address,
-                                   array           $currentAddressesForOrder
+    public function createOrUpdateAddress(?OrderHeader    $orderHeader,
+                                          CustomerAddress $address,
+                                          array           $currentAddressesForOrder
     ): void
     {
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
-            $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
-            $this->databaseOperations->save($orderAddress);
+            $this->orderAddressRepository->create($orderHeader, $address);
         } else {
             /** @var OrderAddress $orderAddress */
             foreach ($currentAddressesForOrder as $orderAddress) {
@@ -139,10 +139,7 @@ readonly class OrderSave
                     $orderAddress->setBillingAddress($address);
                     break;
                 }
-
             }
-
-
             $this->databaseOperations->flush();
         }
 
@@ -194,26 +191,27 @@ readonly class OrderSave
         $this->databaseOperations->save($orderItemPaymentPrice);
     }
 
-    public function savePayment(OrderHeader $orderHeader, array $paymentInformation): void
+    public function savePayment(OrderHeader $orderHeader, string $paymentInformation): void
     {
         $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
         $this->databaseOperations->save($orderPayment);
 
     }
 
-    public function saveShippingData(OrderHeader $orderHeader, array $valueAndDataArray): void
+    public function saveShippingData(OrderHeader $orderHeader, array $data, OrderShipping $orderShipping = null): void
     {
-
-        foreach ($valueAndDataArray as $data) {
-
-            $shipping = $this->orderShippingRepository->create(
+        if ($orderShipping == null)
+            $orderShipping = $this->orderShippingRepository->create(
                 $orderHeader, $data['name'], $data['value'], $data['data']);
-            $this->databaseOperations->persist($shipping);
+        else {
+            $orderShipping->setValue($data['value'], $data['data']);
         }
+
+        $this->databaseOperations->persist($orderShipping);
 
         $this->databaseOperations->flush();
 
 
     }
 
-}
+ }

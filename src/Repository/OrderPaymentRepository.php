@@ -2,10 +2,10 @@
 
 namespace Silecust\WebShop\Repository;
 
-use Silecust\WebShop\Entity\OrderHeader;
-use Silecust\WebShop\Entity\OrderPayment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderPayment;
 
 /**
  * @extends ServiceEntityRepository<OrderPayment>
@@ -41,7 +41,7 @@ class OrderPaymentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(OrderHeader $orderHeader, array $paymentGatewayResponse): OrderPayment
+    public function create(OrderHeader $orderHeader, string $paymentGatewayResponse): OrderPayment
     {
         $payment = new OrderPayment();
         $payment->setOrderHeader($orderHeader);

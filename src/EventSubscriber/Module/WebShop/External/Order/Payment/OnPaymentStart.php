@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
@@ -7,17 +7,16 @@ use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
-use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class OnPaymentStart implements EventSubscriberInterface
+readonly class OnPaymentStart implements EventSubscriberInterface
 {
 
-    public function __construct(private readonly OrderRead                $orderRead,
-                                private readonly OrderSave                $orderSave,
-                                private readonly PriceByCountryCalculator $priceByCountryCalculator
+    public function __construct(private OrderRead                $orderRead,
+                                private OrderSave                $orderSave,
+                                private PriceByCountryCalculator $priceByCountryCalculator
     )
     {
         //todo: add snapshot
@@ -37,6 +36,7 @@ class OnPaymentStart implements EventSubscriberInterface
      *
      * @throws PriceProductBaseNotFound
      * @throws PriceProductTaxNotFound
+     * @noinspection PhpUnused
      */
     public function beforePaymentStart(PaymentStartEvent $paymentEvent): void
     {

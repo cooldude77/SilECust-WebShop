@@ -2,7 +2,10 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\CheckOut;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Event\Module\WebShop\External\CheckOut\CheckoutProcessCompleteEvent;
+use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderViewEvent;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
@@ -17,8 +20,7 @@ class CheckOutController extends EnhancedAbstractController
 
     #[Route('/checkout', name: 'sc_web_shop_checkout')]
     public function checkout(
-        CustomerFromUserFinder    $customerFromUserFinder,
-        OrderSave                 $orderSave,
+        EventDispatcherInterface $eventDispatcher,
         CartSessionProductService $cartSessionService,
         CheckOutAddressQuery      $checkOutAddressQuery
     ): Response
@@ -52,6 +54,7 @@ class CheckOutController extends EnhancedAbstractController
         }
 
 
+        $eventDispatcher->dispatch(new CheckoutProcessCompleteEvent());
 
         return $this->redirectToRoute('sc_web_shop_view_order');
 

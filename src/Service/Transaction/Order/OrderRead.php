@@ -5,7 +5,9 @@ namespace Silecust\WebShop\Service\Transaction\Order;
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Entity\OrderShipping;
 use Silecust\WebShop\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
+use Silecust\WebShop\Exception\Module\WebShop\External\Shipping\ShippingRecordByKeyNotFound;
 use Silecust\WebShop\Repository\OrderAddressRepository;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
@@ -33,7 +35,7 @@ readonly class OrderRead
                                 private OrderStatusTypeRepository       $orderStatusTypeRepository,
                                 private OrderAddressRepository          $orderAddressRepository,
                                 private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-                                private OrderShippingRepository $orderShippingRepository,
+                                private OrderShippingRepository         $orderShippingRepository,
                                 private OrderPaymentRepository          $orderPaymentRepository
     )
     {
@@ -84,7 +86,7 @@ readonly class OrderRead
         $object->setOrderItems($this->getOrderItems($orderHeader));
         $object->setOrderPayment($this->getPayment($orderHeader));
         $object->setOrderItemPaymentPrices($this->getOrderItemPaymentPrices($orderHeader));
-        $object->setOrderShipping($this->getShipping($orderHeader));
+        $object->setOrderShipping($this->getShippingData($orderHeader));
 
         return $object;
     }
@@ -158,10 +160,30 @@ readonly class OrderRead
         return $this->orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
     }
 
-    private function getShipping(OrderHeader $orderHeader): array
+    public function getShippingData(OrderHeader $orderHeader): array
     {
         return $this->orderShippingRepository->findBy(['orderHeader' => $orderHeader]);
 
     }
+
+    /**
+     * @throws ShippingRecordByKeyNotFound
+     */
+    public function findShippingDataByKey(OrderHeader $orderHeader, string $name)
+    {
+        $shippingData = $this->getShippingData($orderHeader);
+
+        /**
+         * @var  OrderShipping $orderShipping
+         */
+        foreach ($shippingData as $orderShipping)
+            if ($orderShipping->getName() == $name) {
+                return $orderShipping;
+            }
+
+        throw  new ShippingRecordByKeyNotFound();
+
+    }
+
 
 }

@@ -8,7 +8,7 @@ use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingOrderServ
 class TestShippingCharges implements ShippingOrderServiceInterface
 {
 
-    public function getValueAndDataArray(OrderHeader $orderHeader): array
+    public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): array
     {
         return [
             'condition1' => [

@@ -6,11 +6,10 @@ use Silecust\WebShop\Entity\OrderHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PaymentSuccessEvent extends Event
+class PaymentValidationEvent extends Event
 {
-    public const string AFTER_PAYMENT_SUCCESS = 'payment.post.success';
+    public const string ON_PAYMENT_VALIDATION = 'payment.on.validation';
 
-    private string $paymentSuccessInfo;
 
     public function __construct(private readonly OrderHeader $orderHeader, private readonly Request $request)
     {
@@ -26,19 +25,6 @@ class PaymentSuccessEvent extends Event
     {
         return $this->request;
     }
-
-    public function getPaymentSuccessInfo(): string
-    {
-        return $this->paymentSuccessInfo;
-    }
-
-    public function setPaymentSuccessInfo(string $paymentSuccessInfo): void
-    {
-        $this->paymentSuccessInfo = $paymentSuccessInfo;
-    }
-
-
-
 
 
 }

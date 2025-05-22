@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Controller\Module\WebShop\External\Address;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressChosenEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
@@ -28,6 +28,7 @@ use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing\Cho
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -97,11 +98,13 @@ class AddressController extends EnhancedAbstractController
     }
 
 
-    public function content(CustomerAddressRepository $customerAddressRepository,
-                            CheckOutAddressQuery      $checkOutAddressQuery,
-                            CustomerFromUserFinder    $customerFromUserFinder,
-                            Request                   $request
-    ): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function content(
+        EventDispatcherInterface  $eventDispatcher,
+        CustomerAddressRepository $customerAddressRepository,
+        CheckOutAddressQuery      $checkOutAddressQuery,
+        CustomerFromUserFinder    $customerFromUserFinder,
+        Request                   $request
+    ): RedirectResponse
     {
 
         $ownRoute = $this->generateUrl('sc_web_shop_checkout_addresses');
@@ -143,6 +146,8 @@ class AddressController extends EnhancedAbstractController
                     )]
             );
         }
+
+
         if (!$checkOutAddressQuery->isBillingAddressChosen()) {
             return $this->redirectToRoute(
                 'sc_web_shop_checkout_choose_address_from_list',
@@ -152,6 +157,7 @@ class AddressController extends EnhancedAbstractController
                     )]
             );
         }
+
 
         // everything ok, go back to check out
         // recalculate prices etc
@@ -270,11 +276,8 @@ class AddressController extends EnhancedAbstractController
             }
 
             $eventDispatcher->dispatch(
-                new CheckoutAddressChosenEvent(
-                    $customerFromUserFinder->getLoggedInCustomer(),
-                    $address
-                ),
-                CheckoutAddressEventTypes::POST_ADDRESS_CHOSEN,
+                new AddressChosenEvent($address),
+                CheckoutAddressEventTypes::EVENT_NAME,
 
             );
 

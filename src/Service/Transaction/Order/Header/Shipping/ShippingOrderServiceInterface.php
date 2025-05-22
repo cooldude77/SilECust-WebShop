@@ -7,5 +7,7 @@ use Silecust\WebShop\Entity\OrderHeader;
 interface ShippingOrderServiceInterface
 {
 
-    public function getValueAndDataArray(OrderHeader $orderHeader): array;
+    public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): array;
+
+    public function shippingDataExists(array $shippingData);
 }

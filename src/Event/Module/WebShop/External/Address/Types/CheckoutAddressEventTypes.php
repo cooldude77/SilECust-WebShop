@@ -6,6 +6,6 @@ class CheckoutAddressEventTypes
 {
 
     public const string POST_ADDRESS_CREATE = 'checkout.post.address_created';
-    public const string POST_ADDRESS_CHOSEN = 'checkout.post.address_chosen';
+    public const string EVENT_NAME = 'checkout.post.address_chosen';
 
 }

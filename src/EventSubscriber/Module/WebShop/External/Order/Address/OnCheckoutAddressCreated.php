@@ -38,7 +38,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
 
         $listAddresses = $this->orderRead->getAddresses($orderHeader);
 
-        $this->orderSave->createOrUpdate($orderHeader, $address, $listAddresses);
+        $this->orderSave->createOrUpdateAddress($orderHeader, $address, $listAddresses);
 
 
     }

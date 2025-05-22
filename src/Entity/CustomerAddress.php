@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
-class CustomerAddress
+class  CustomerAddress
 {
 
     public const ADDRESS_TYPE_SHIPPING = 'shipping';
