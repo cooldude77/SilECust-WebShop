@@ -8,37 +8,17 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class PaymentSuccessEvent extends Event
 {
-    public const string AFTER_PAYMENT_SUCCESS = 'payment.post.success';
+    public const string EVENT_NAME = 'payment.post.success';
 
-    private string $paymentSuccessInfo;
 
-    public function __construct(private readonly OrderHeader $orderHeader, private readonly Request $request)
+    public function __construct(private readonly Request $request)
     {
-    }
-
-
-    public function getOrderHeader(): OrderHeader
-    {
-        return $this->orderHeader;
     }
 
     public function getRequest(): Request
     {
         return $this->request;
     }
-
-    public function getPaymentSuccessInfo(): string
-    {
-        return $this->paymentSuccessInfo;
-    }
-
-    public function setPaymentSuccessInfo(string $paymentSuccessInfo): void
-    {
-        $this->paymentSuccessInfo = $paymentSuccessInfo;
-    }
-
-
-
 
 
 }

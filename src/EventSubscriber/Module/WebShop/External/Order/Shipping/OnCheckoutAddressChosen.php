@@ -11,7 +11,7 @@ use Silecust\WebShop\Exception\Module\WebShop\External\Shipping\ShippingRecordBy
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
+use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,13 +20,13 @@ class OnCheckoutAddressChosen implements EventSubscriberInterface
 {
     /**
      * @param OrderSave $orderSave
-     * @param ShippingOrderServiceInterface $shippingOrderService
+     * @param ShippingPricingConditionsResponseResolverInterface $shippingOrderService
      */
     public function __construct(
-        private readonly CustomerFromUserFinder        $customerFromUserFinder,
-        private readonly OrderRead                     $orderRead,
-        private readonly OrderSave                     $orderSave,
-        private readonly ShippingOrderServiceInterface $shippingOrderService)
+        private readonly CustomerFromUserFinder                             $customerFromUserFinder,
+        private readonly OrderRead                                          $orderRead,
+        private readonly OrderSave                                          $orderSave,
+        private readonly ShippingPricingConditionsResponseResolverInterface $shippingOrderService)
     {
     }
 

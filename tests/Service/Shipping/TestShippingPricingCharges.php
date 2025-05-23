@@ -3,9 +3,9 @@
 namespace Silecust\WebShop\Tests\Service\Shipping;
 
 use Silecust\WebShop\Entity\OrderHeader;
-use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingOrderServiceInterface;
+use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface;
 
-class TestShippingCharges implements ShippingOrderServiceInterface
+class TestShippingPricingCharges implements ShippingPricingConditionsResponseResolverInterface
 {
 
     public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): array

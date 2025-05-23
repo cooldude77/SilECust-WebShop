@@ -83,8 +83,8 @@ class PaymentController extends EnhancedAbstractController
             return new Response('There was an error in payment', 403);
         } else {
 
-            $event = new PaymentSuccessEvent($orderHeader, $request);
-            $eventDispatcher->dispatch($event, PaymentSuccessEvent::AFTER_PAYMENT_SUCCESS);
+            $event = new PaymentSuccessEvent($request);
+            $eventDispatcher->dispatch($event, PaymentSuccessEvent::EVENT_NAME);
 
             $this->addFlash('success', 'Your payment was successful');
             $this->addFlash('success', 'Your order was created and is in under process');
