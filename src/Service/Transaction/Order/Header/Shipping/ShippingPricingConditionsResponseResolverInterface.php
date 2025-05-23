@@ -8,5 +8,5 @@ interface ShippingPricingConditionsResponseResolverInterface
 {
 
     public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): array;
-    
+
 }
