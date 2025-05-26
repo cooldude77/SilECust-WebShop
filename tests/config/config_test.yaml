@@ -48,6 +48,14 @@ services:
     tags:
       - { name: twig.extension }
 
+  Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver: ~
+  Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver: ~
+
+  Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentSuccessResponseResolverInterface: '@Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver'
+
+  Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface:
+    '@Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver'
+
 symfonycasts_reset_password:
   request_password_repository: Silecust\WebShop\Repository\ResetPasswordRequestRepository
   lifetime: 3600

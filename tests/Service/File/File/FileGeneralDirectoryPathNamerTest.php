@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Service\File;
+namespace Silecust\WebShop\Tests\Service\File\File;
 
 use Silecust\WebShop\Service\Common\File\Provider\FileDirectoryPathProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

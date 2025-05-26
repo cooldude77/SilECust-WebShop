@@ -2,10 +2,11 @@
 
 namespace Silecust\WebShop\Repository;
 
-use Silecust\WebShop\Entity\CustomerAddress;
-use Silecust\WebShop\Entity\OrderAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\OrderAddress;
+use Silecust\WebShop\Entity\OrderHeader;
 
 /**
  * @extends ServiceEntityRepository<OrderAddress>
@@ -46,9 +47,10 @@ class OrderAddressRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\Silecust\WebShop\Entity\OrderHeader $orderHeader,
-        CustomerAddress $address
-    ): OrderAddress {
+    public function create(OrderHeader     $orderHeader,
+                           CustomerAddress $address
+    ): OrderAddress
+    {
         $orderAddress = new OrderAddress();
 
         $orderAddress->setOrderHeader($orderHeader);
@@ -58,6 +60,6 @@ class OrderAddressRepository extends ServiceEntityRepository
         } else if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING)
             $orderAddress->setBillingAddress($address);
 
-            return $orderAddress;
+        return $orderAddress;
     }
 }

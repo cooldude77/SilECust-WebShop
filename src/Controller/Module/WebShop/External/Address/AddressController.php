@@ -166,6 +166,10 @@ class AddressController extends EnhancedAbstractController
 
     }
 
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
     public function create(RouterInterface             $router, Request $request,
                            CustomerFromUserFinder      $customerFromUserFinder,
                            CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,

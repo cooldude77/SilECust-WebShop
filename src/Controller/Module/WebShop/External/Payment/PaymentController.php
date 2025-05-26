@@ -9,6 +9,8 @@ use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentValidationEvent;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Exception\Module\WebShop\External\Payment\PaymentInfoNotFound;
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
@@ -25,9 +27,11 @@ class PaymentController extends EnhancedAbstractController
      * @param string $generatedId
      * @param EventDispatcherInterface $eventDispatcher
      * @param OrderRead $orderRead
-     * @param PaymentPriceCalculator $paymentPriceCalculator
-     *
+     * @param Request $request
+     * @param HeaderPriceCalculator $headerPriceCalculator
      * @return Response
+     * @throws PriceProductBaseNotFound
+     * @throws PriceProductTaxNotFound
      */
     #[Route('/payment/order/{generatedId}/start', name: 'sc_web_shop_payment_start')]
     public function startPayment(

@@ -128,20 +128,25 @@ readonly class OrderSave
     {
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
-            $this->orderAddressRepository->create($orderHeader, $address);
+            $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
+            $this->databaseOperations->persist($orderAddress);
         } else {
             /** @var OrderAddress $orderAddress */
             foreach ($currentAddressesForOrder as $orderAddress) {
                 if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
                     $orderAddress->setShippingAddress($address);
+                    $this->databaseOperations->persist($orderAddress);
                     break;
                 } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
                     $orderAddress->setBillingAddress($address);
+                    $this->databaseOperations->persist($orderAddress);
                     break;
                 }
             }
-            $this->databaseOperations->flush();
         }
+
+
+        $this->databaseOperations->flush();
 
     }
 
@@ -214,4 +219,4 @@ readonly class OrderSave
 
     }
 
- }
+}

@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CheckOutAddressSession
 {
-    public const BILLING_ADDRESS_ID = "BILLING_ADDRESS_SET_ID";
-    public const SHIPPING_ADDRESS_ID = "SHIPPING_ADDRESS_SET_ID";
+    public const string BILLING_ADDRESS_ID = "BILLING_ADDRESS_SET_ID";
+    public const string SHIPPING_ADDRESS_ID = "SHIPPING_ADDRESS_SET_ID";
 
     public function __construct(
         private readonly RequestStack $requestStack,
