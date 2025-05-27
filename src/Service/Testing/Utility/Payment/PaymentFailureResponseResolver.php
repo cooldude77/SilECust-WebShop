@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Service\Payment;
+namespace Silecust\WebShop\Service\Testing\Utility\Payment;
 
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFailureResponseResolverInterface;
 use Symfony\Component\HttpFoundation\Request;

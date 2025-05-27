@@ -50,15 +50,15 @@ services:
 
   Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver: ~
   Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentSuccessResponseResolverInterface:
-    '@Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver'
+    '@Silecust\WebShop\Service\Testing\Utility\Payment\PaymentSuccessResponseResolver'
 
   Silecust\WebShop\Tests\Service\Payment\PaymentFailureResponseResolver: ~
   Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFailureResponseResolverInterface:
-    '@Silecust\WebShop\Tests\Service\Payment\PaymentFailureResponseResolver'
+    '@Silecust\WebShop\Service\Testing\Utility\Payment\PaymentFailureResponseResolver'
 
   Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver: ~
   Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface:
-    '@Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver'
+    '@Silecust\WebShop\Service\Testing\Utility\Shipping\ShippingPricingConditionsResponseResolver'
 
 symfonycasts_reset_password:
   request_password_repository: Silecust\WebShop\Repository\ResetPasswordRequestRepository

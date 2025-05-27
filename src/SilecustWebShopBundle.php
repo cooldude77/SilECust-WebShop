@@ -24,7 +24,7 @@ class SilecustWebShopBundle extends AbstractBundle
                             ->scalarNode('main_page_title')
                             ->end()
                         ->end()
-                 ->end() // twitter
+                 ->end()
             ->end();
        // @formatter:on
 

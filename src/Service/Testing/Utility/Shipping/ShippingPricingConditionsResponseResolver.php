@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Service\Shipping;
+namespace Silecust\WebShop\Service\Testing\Utility\Shipping;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface;
