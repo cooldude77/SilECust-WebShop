@@ -368,8 +368,5 @@ class CartControllerTest extends WebTestCase
             ->click('button[name="addToCart"]')
             ->assertSuccessful();
 
-
-        // Todo: more validations needed
-
     }
 }

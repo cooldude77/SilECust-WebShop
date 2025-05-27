@@ -38,9 +38,6 @@ class ContentController extends EnhancedAbstractController
         AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
     ): Response {
 
-        // todo: check context route
-        // todo: make a class for getting system session variables ?
-
         if ($request->query->get('_function') == 'dashboard') {
             return $this->render(
                 '@SilecustWebShop/admin/employee/dashboard/dashboard.html.twig',

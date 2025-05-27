@@ -102,7 +102,6 @@ class CustomerCreateCommand extends Command
 
     public function isEnabled(): bool
     {
-        // todo: How to eliminate 'test' value here and yet get it tested
         return in_array($this->environment, ['dev', 'test']);
     }
 
