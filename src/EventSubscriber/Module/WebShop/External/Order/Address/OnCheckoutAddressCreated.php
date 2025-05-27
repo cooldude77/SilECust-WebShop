@@ -2,8 +2,7 @@
 
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Address;
 
-use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressCreatedEvent;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -25,7 +24,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutAddressEventTypes::POST_ADDRESS_CREATE => 'onAddressCreated'
+            AddressCreatedEvent::EVENT_NAME => 'onAddressCreated'
         ];
 
     }
@@ -35,7 +34,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
      * @throws NoOpenOrderExists
      * @throws UserNotLoggedInException
      */
-    public function onAddressCreated(CheckoutAddressCreatedEvent $event): void
+    public function onAddressCreated(AddressCreatedEvent $event): void
     {
 
         $customer = $event->getCustomer();

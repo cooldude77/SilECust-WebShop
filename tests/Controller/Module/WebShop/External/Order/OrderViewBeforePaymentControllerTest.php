@@ -8,6 +8,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderShippingFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
@@ -30,7 +31,9 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         OrderFixture,
         OrderItemFixture,
         SessionFactoryFixture,
+        OrderShippingFixture,
         Factories;
+
     protected function setUp(): void
     {
         $this->browser()->visit('/logout');
@@ -48,7 +51,8 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
         $this->createOpenOrderFixtures($this->customer);
         $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-
+        $this->createOrderShippingFixture($this->openOrderHeader);
+        
         $uri = '/checkout/order/view';
 
         $this->browser()
@@ -58,7 +62,7 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
                 $browser->client()->loginUser($this->userForCustomer->object());
             })
             ->visit($uri)
-            ->assertSee(4930.5);;
+            ->assertSee(4930);
 
     }
 }

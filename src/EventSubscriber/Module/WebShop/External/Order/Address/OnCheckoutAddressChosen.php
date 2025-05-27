@@ -3,7 +3,6 @@
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Address;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -25,7 +24,7 @@ readonly class OnCheckoutAddressChosen implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutAddressEventTypes::EVENT_NAME => 'onAddressChosen'
+            AddressChosenEvent::EVENT_NAME => 'onAddressChosen'
         ];
 
     }

@@ -6,8 +6,7 @@ use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\CheckoutAddressCreatedEvent;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\Types\CheckoutAddressEventTypes;
+use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressCreatedEvent;
 use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -208,12 +207,12 @@ class AddressController extends EnhancedAbstractController
             );
 
             $eventDispatcher->dispatch(
-                new CheckoutAddressCreatedEvent(
+                new AddressCreatedEvent(
                     $customerFromUserFinder->getLoggedInCustomer(),
                     $address,
                     $createNewAndChooseDTOMapper->isChosen($data)
                 ),
-                CheckoutAddressEventTypes::POST_ADDRESS_CREATE
+                AddressCreatedEvent::EVENT_NAME
             );
             return $this->redirect(
                 $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
@@ -281,7 +280,7 @@ class AddressController extends EnhancedAbstractController
 
             $eventDispatcher->dispatch(
                 new AddressChosenEvent($address),
-                CheckoutAddressEventTypes::EVENT_NAME,
+                AddressChosenEvent::EVENT_NAME,
 
             );
 

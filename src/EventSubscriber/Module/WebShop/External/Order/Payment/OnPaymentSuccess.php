@@ -3,7 +3,7 @@
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
-use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentSuccessResponseResolverInterface;
+use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentSuccessResponseResolverInterface;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;

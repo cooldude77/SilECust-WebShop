@@ -12,7 +12,6 @@ use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentValidationEven
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Exception\Module\WebShop\External\Payment\PaymentInfoNotFound;
-use Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentPriceCalculator;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -117,12 +116,11 @@ class PaymentController extends EnhancedAbstractController
     ): Response
     {
 
-        $paymentInfo = $request->request->all()[OrderPayment::PAYMENT_GATEWAY_RESPONSE];
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
         // This method should throw exception in case payment details are not validated
         // The custom event handler must issue stopPropagation as early as possible
-        $event = new PaymentFailureEvent($orderHeader, $paymentInfo);
+        $event = new PaymentFailureEvent($request);
         $eventDispatcher->dispatch($event, PaymentFailureEvent::AFTER_PAYMENT_FAILURE);
 
         if (!$event->isPropagationStopped()) {

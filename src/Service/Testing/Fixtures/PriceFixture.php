@@ -36,8 +36,10 @@ trait PriceFixture
     public float $taxRateOfProductB = 20;
 
     /** Total amount of 1st item is
-     *  (100*(1-10/100))*(1+10/100) =91 ( WT) *1.1 (T) =  100.1
-     *  (200*(1-20/100)) * (1+20/100) = 160(WT) * 1.2(T) = 192
+     *  (100*(1-10/100)) = 90 Without Tax  = 90* (1+10/100) = 99 With Tax
+     *  (200*(1-20/100)) = 160 Without Tax = 160* (1+20/100) = 192
+     * Total cart value before shipping  =
+     * 99*10 +192* 20 = 4830
      */
 
     function createPriceFixtures(Proxy|Product $productA, Proxy|Product $productB,

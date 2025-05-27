@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Service\Module\WebShop\External\Payment;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver;
 
 use Symfony\Component\HttpFoundation\Request;
 

@@ -16,8 +16,7 @@ readonly class ShippingChargeCalculator
     public function getShippingCharges(OrderHeader $orderHeader): float
     {
 
-        $shipping = $this->orderShippingRepository->findAll();
-      //  findBy(['orderHeader' => $orderHeader]);
+        $shipping = $this->orderShippingRepository->findBy(['orderHeader' => $orderHeader]);
 
         $final = 0;
 

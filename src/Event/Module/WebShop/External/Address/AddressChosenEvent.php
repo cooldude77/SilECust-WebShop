@@ -7,6 +7,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class AddressChosenEvent extends Event
 {
+    public const string EVENT_NAME = 'checkout.post.address_chosen';
+
     public function __construct(private readonly CustomerAddress $customerAddress)
     {
     }

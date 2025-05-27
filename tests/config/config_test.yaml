@@ -49,10 +49,14 @@ services:
       - { name: twig.extension }
 
   Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver: ~
+  Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentSuccessResponseResolverInterface:
+    '@Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver'
+
+  Silecust\WebShop\Tests\Service\Payment\PaymentFailureResponseResolver: ~
+  Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFailureResponseResolverInterface:
+    '@Silecust\WebShop\Tests\Service\Payment\PaymentFailureResponseResolver'
+
   Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver: ~
-
-  Silecust\WebShop\Service\Module\WebShop\External\Payment\PaymentSuccessResponseResolverInterface: '@Silecust\WebShop\Tests\Service\Payment\PaymentSuccessResponseResolver'
-
   Silecust\WebShop\Service\Transaction\Order\Header\Shipping\ShippingPricingConditionsResponseResolverInterface:
     '@Silecust\WebShop\Tests\Service\Shipping\ShippingPricingConditionsResponseResolver'
 

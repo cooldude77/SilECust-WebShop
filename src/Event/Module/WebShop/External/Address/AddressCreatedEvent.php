@@ -6,13 +6,16 @@ use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\CustomerAddress;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class CheckoutAddressCreatedEvent extends Event
+class AddressCreatedEvent extends Event
 {
 
-    public function __construct(private readonly Customer $customer,
-        private readonly CustomerAddress $customerAddress,
-        private readonly bool $isChosen = false
-    ) {
+    public const string EVENT_NAME = 'checkout.post.address_created';
+
+    public function __construct(private readonly Customer        $customer,
+                                private readonly CustomerAddress $customerAddress,
+                                private readonly bool            $isChosen = false
+    )
+    {
     }
 
     public function getCustomer(): Customer
