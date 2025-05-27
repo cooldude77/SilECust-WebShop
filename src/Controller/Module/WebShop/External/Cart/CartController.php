@@ -5,6 +5,7 @@ namespace Silecust\WebShop\Controller\Module\WebShop\External\Cart;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartClearedByUserEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartEvent;
@@ -20,6 +21,7 @@ use Silecust\WebShop\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
+use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
@@ -54,6 +56,14 @@ class  CartController extends EnhancedAbstractController
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME, 'header'
         );
+
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
+        );
+        $session->set(
+            PanelHeadController::HEAD_CONTROLLER_CLASS_METHOD_NAME, 'head'
+        );
+
         $session->set(
             PanelContentController::CONTENT_CONTROLLER_CLASS_NAME, self::class
         );

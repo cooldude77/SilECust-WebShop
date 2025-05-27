@@ -1,0 +1,26 @@
+{% for item in items %}
+    {% set product = item.product %}
+    <div class="row">
+        <div class="col-3">
+            <div class="row">
+                <b> {{ product.description }}</b>
+            </div>
+            <div class="row">
+                <a href="{{ path('sc_web_shop_product_single_display',{'name':product.name }) }}" target="_blank">
+                    <img width="50%" height="50%"
+                         src="{{ path( 'sc_product_image_file_for_img_tag',{'id':attribute(product,"id")}) }}"
+                         alt="{{ product.description }}"/>
+                </a>
+            </div>
+        </div>
+        <div class="col-3 text-end">
+            {{ item.quantity }}
+        </div>
+        <div class="col-3 text-end">
+            {{ item_price_calculator.getCurrency().getSymbol() }}
+            {{ item_price_calculator.getPriceWithTax(item) * item.quantity }}
+        </div>
+
+        {% set orderTotal =  orderTotal + item_price_calculator.getPriceWithTax(item) * item.quantity %}
+    </div>
+{% endfor %}

@@ -3,6 +3,7 @@
 namespace Silecust\WebShop;
 
 use Silecust\WebShop\Resources\SilecustCompilerPass;
+use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -11,6 +12,23 @@ class SilecustWebShopBundle extends AbstractBundle
 {
     const string CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
+    public function configure(DefinitionConfigurator $definition): void
+    {
+
+        // @formatter:off
+        $definition
+            ->rootNode()
+                ->children()
+                        ->arrayNode('site_settings')
+                        ->children()
+                            ->scalarNode('main_page_title')
+                            ->end()
+                        ->end()
+                 ->end() // twitter
+            ->end();
+       // @formatter:on
+
+    }
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
@@ -26,4 +44,5 @@ class SilecustWebShopBundle extends AbstractBundle
     {
         $container->addCompilerPass(new SilecustCompilerPass());
     }
+
 }
