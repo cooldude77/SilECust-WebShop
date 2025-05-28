@@ -109,6 +109,66 @@ class CategoryControllerTest extends WebTestCase
 
     }
 
+    public function testCreateMultipleWithSingleParent()
+    {
+
+        $uri = '/admin/category/create';
+
+        $category = CategoryFactory::createOne(['name' => 'CatParent', 'description' => 'Category Parent']);
+
+        // The value of category->getId() will be  1
+
+        $this->browser()
+            ->visit($uri)
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_create_form' => [
+                            'name' => 'CatChildOneWithParent',
+                            'description' => 'Category Child One With Parent',
+                            'parentId' => $category->getId()
+                        ],
+                    ],
+                ])
+            ->assertSuccessful();
+
+
+        $created = CategoryFactory::find(array('name' => "CatChildOneWithParent"));
+
+        assertEquals('Category Child One With Parent', $created->getDescription());
+        assertEquals($category->getId(), $created->getParent()->getId());
+        assertEquals("{$created->getParent()->getPath()}/{$created->getId()}", $created->getPath());
+
+        $this->browser()
+            ->visit($uri)
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->post($uri,
+                [
+                    'body' => [
+                        'category_create_form' => [
+                            'name' => 'CatChildTwoWithParent',
+                            'description' => 'Category Child Two With Parent',
+                            'parentId' => $category->getId()
+                        ],
+                    ],
+                ])
+            ->assertSuccessful();
+
+
+        $created = CategoryFactory::find(array('name' => "CatChildTwoWithParent"));
+
+        assertEquals('Category Child Two With Parent', $created->getDescription());
+        assertEquals($category->getId(), $created->getParent()->getId());
+        assertEquals("{$created->getParent()->getPath()}/{$created->getId()}", $created->getPath());
+
+
+    }
+
 
     /**
      * Requires this test extends Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
@@ -154,8 +214,8 @@ class CategoryControllerTest extends WebTestCase
         $edited = CategoryFactory::find($category->getId());
 
         /** @var EntityManager $entityManager */
-     //   $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
-       // $edited = $entityManager->getRepository(Category::class)->find($category->getId());
+        //   $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        // $edited = $entityManager->getRepository(Category::class)->find($category->getId());
         assertEquals('CatChanged', $edited->getName());
         assertEquals('Category Changed', $edited->getDescription());
         assertEquals($categoryParent2->getId(), $edited->getParent()->getId());

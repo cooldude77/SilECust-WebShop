@@ -36,7 +36,7 @@ class Category
         maxMessage: 'Length cannot exceed 255'
     )] private ?string $description = null;
 
-    #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn]
     // Note: removed inversed By: 'category', from above notation
     private ?self $parent = null;
