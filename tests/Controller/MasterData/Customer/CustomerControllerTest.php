@@ -136,7 +136,7 @@ class CustomerControllerTest extends WebTestCase
 
     public function testList()
     {
-        $this->createEmployeeFixtures();
+        $this->createEmployeeFixtures(); $this->createCustomerFixtures();
         $uri = '/admin/customer/list';
         $this->browser()->visit($uri)->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {

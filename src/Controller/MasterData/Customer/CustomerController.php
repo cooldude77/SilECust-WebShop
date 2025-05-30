@@ -4,8 +4,10 @@ namespace Silecust\WebShop\Controller\MasterData\Customer;
 
 // ...
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
@@ -61,7 +63,6 @@ class CustomerController extends EnhancedAbstractController
             );
         }
 
-        $formErrors = $form->getErrors(true);
         return $this->render('@SilecustWebShop/master_data/customer/customer_create.html.twig', ['form' => $form]);
     }
 
@@ -127,26 +128,22 @@ class CustomerController extends EnhancedAbstractController
 
     }
 
+    /**
+     * @throws QueryException
+     */
     #[Route('/admin/customer/list', name: 'sc_admin_customer_list')]
     public function list(CustomerRepository    $customerRepository,
                          PaginatorInterface    $paginator,
                          SearchEntityInterface $searchEntity,
                          Request               $request): Response
     {
+
+        // Todo : The addition of properties causes grid overflow.
+        // todo: find a solution for overflow
         $this->setContentHeading($request, 'Customers');
 
-        $listGrid = [
-            'title' => 'Customer',
-            'link_id' => 'id-customer',
-            'columns' => [['label' => 'Name',
-                'propertyName' => 'firstName',
-                'action' => 'display',],],
-            'createButtonConfig' => [
-                'link_id' => ' id-create-Customer',
-                'function' => 'customer',
-                'anchorText' => 'create Customer'
-            ]
-        ];
+        $listGridEvent = $this->eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
+
 
         $query = $searchEntity->getQueryForSelect($request, $customerRepository,
             ['firstName', 'middleName', 'lastName', 'givenName']);
@@ -159,7 +156,7 @@ class CustomerController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+            ['pagination' => $pagination, 'listGrid' => $listGridEvent->getListGridProperties(), 'request' => $request]
         );
     }
 
