@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection ALL */
+
 // src/Controller/CustomerController.php
 namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CustomerAddressController extends EnhancedAbstractController
 {
-
+    const string LIST_IDENTIFIER = "address_grid";
     /**
      * @throws AddressTypeNotProvided
      */
@@ -170,20 +171,31 @@ class CustomerAddressController extends EnhancedAbstractController
     }
 
 
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param EventDispatcherInterface $eventDispatcher
+     * @return Response
+     */
     #[Route('/admin/customer/{id}/address/list', name: 'sc_admin_customer_address_list')]
-    public function list(int                       $id,
-                         CustomerAddressRepository $customerAddressRepository,
-                         Request                   $request,
-                         PaginatorInterface        $paginator,
-                         EventDispatcherInterface  $eventDispatcher,
+    public function list(
+        Request                  $request,
+        PaginatorInterface       $paginator,
+        EventDispatcherInterface $eventDispatcher,
 
     ): Response
     {
         $this->setContentHeading($request, 'Addresses');
 
-        $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
+        // NOTE: This grid can be called as a subsection to main screen
+        $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, [
+            'event_caller' => $this::LIST_IDENTIFIER
+        ]), GridPropertyEvent::EVENT_NAME);
 
-        $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request), ListQueryEvent::BEFORE_LIST_QUERY);
+        $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request,
+            [
+                'event_caller' => $this::LIST_IDENTIFIER
+            ]), ListQueryEvent::BEFORE_LIST_QUERY);
 
         $query = $listQueryEvent->getQuery();
 

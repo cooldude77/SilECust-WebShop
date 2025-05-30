@@ -11,7 +11,7 @@ class ListQueryEvent extends Event
     public const string BEFORE_LIST_QUERY = 'admin.query.before.list';
     private ?Query $query =null;
 
-    public function __construct(private readonly Request $request)
+    public function __construct(private readonly Request $request, private readonly ?array $data = null)
     {
     }
 
@@ -28,6 +28,11 @@ class ListQueryEvent extends Event
     public function getRequest(): Request
     {
         return $this->request;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
     }
 
 

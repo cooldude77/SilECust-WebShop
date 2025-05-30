@@ -15,7 +15,6 @@ class GridPropertyEvent extends Event
     private ?array $data;
     private Request $request;
 
-
     public function __construct(Request $request,array $data =null)
     {
         $this->data = $data;

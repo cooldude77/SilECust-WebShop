@@ -24,6 +24,8 @@ class CustomerController extends EnhancedAbstractController
 {
 
 
+    const string LIST_IDENTIFIER = 'address';
+
     public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct($eventDispatcher);
@@ -142,7 +144,8 @@ class CustomerController extends EnhancedAbstractController
         // todo: find a solution for overflow
         $this->setContentHeading($request, 'Customers');
 
-        $listGridEvent = $this->eventDispatcher->dispatch(new GridPropertyEvent($request), GridPropertyEvent::EVENT_NAME);
+        $listGridEvent = $this->eventDispatcher->dispatch(new GridPropertyEvent($request,
+            ['event_caller' => $this::LIST_IDENTIFIER]), GridPropertyEvent::EVENT_NAME);
 
 
         $query = $searchEntity->getQueryForSelect($request, $customerRepository,

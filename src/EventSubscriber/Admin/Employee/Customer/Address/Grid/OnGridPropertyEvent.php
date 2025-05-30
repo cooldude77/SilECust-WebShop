@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Address\Grid;
 
 use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
@@ -14,7 +14,8 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private readonly RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router
+    )
     {
     }
 
@@ -31,56 +32,44 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        // for testing and UI both
-        if (!in_array($route['_route'], ['sc_admin_panel','sc_admin_customer_list']))
+        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_customer_display']))
             return;
 
-        if ($event->getData()['event_caller'] != CustomerController::LIST_IDENTIFIER)
+        if ($event->getData()['event_caller'] != CustomerAddressController::LIST_IDENTIFIER)
             return;
 
         $event->setListGridProperties([
             'title' => 'Customer Address',
-            'link_id' => 'id-customer',
+            'link_id' => 'id-customer_address',
             'columns' => [
                 [
-                    'label' => 'First Name',
-                    'propertyName' => 'firstName',
+                    'label' => 'Line 1',
+                    'propertyName' => 'line1',
                     'action' => 'display',
-                ],
-                [
-                    'label' => 'Middle Name',
-                    'propertyName' => 'middleName'
-                ],
-                [
-                    'label' => 'Last Name',
-                    'propertyName' => 'lastName'
-                ],
-                [
-                    'label' => 'Given Name',
-                    'propertyName' => 'givenName'
                 ]
             ],
             'config' => [
                 'create_link' => [
                     'link_id' => ' id-create-address',
-                    'route' => 'sc_customer_create',
-                    'anchorText' => 'Create address',
-                    'redirect_upon_success_route' => 'sc_admin_customer_list'
+                    'route' => 'sc_admin_address_create',
+                    'anchorText' => 'Create Order',
+                    'redirect_upon_success_route' => 'sc_admin_addresses'
                 ],
                 'edit_link' => [
                     'link_id' => ' id-edit-address',
-                    'route' => 'sc_customer_edit',
+                    'route' => 'sc_admin_address_edit',
                     'anchorText' => 'Edit Address',
-                    'redirect_upon_success_route' => 'sc_admin_customer_list'
+                    'redirect_upon_success_route' => 'sc_admin_addresses'
                 ],
                 'display_link' => [
                     'link_id' => ' id-display-address',
-                    'route' => 'sc_customer_display',
+                    'route' => 'sc_admin_address_display',
                     'anchorText' => 'Display Address',
-                    'redirect_upon_success_route' => 'sc_admin_customer_list'
+                    'redirect_upon_success_route' => 'sc_admin_addresses'
                 ]
             ],
 
         ]);
     }
+
 }
