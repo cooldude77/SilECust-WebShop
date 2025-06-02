@@ -31,34 +31,34 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_my_address_display']))
+        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_my_address_display']))
             return;
 
 
         $event->setDisplayParamProperties(
             [
                 'title' => 'Customer Address',
-                    'link_id' => 'id-customer-address',
-                    'config' => [
-                        'edit_link' => [
-                            'editButtonLinkText' => 'Edit',
-                            'route' => 'sc_my_address_edit',
-                            'link_id' => 'id-display-customer-address'
-                        ]
-                    ],
+                'link_id' => 'id-customer-address',
+                'config' => [
+                    'edit_link' => [
+                        'editButtonLinkText' => 'Edit',
+                        'route' => 'sc_my_address_edit',
+                        'link_id' => 'id-display-customer-address'
+                    ]
+                ],
                 'fields' => [
                     [
                         'label' => 'line 1',
                         'propertyName' => 'line1',
-                    ],  [
+                    ], [
                         'label' => 'line 2',
                         'propertyName' => 'line2',
-                    ],  [
+                    ], [
                         'label' => 'line 3',
                         'propertyName' => 'line3',
                     ],
                 ]]
-            );
-        }
+        );
+    }
 
 }
