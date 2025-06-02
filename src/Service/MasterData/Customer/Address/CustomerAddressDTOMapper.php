@@ -21,7 +21,6 @@ readonly class CustomerAddressDTOMapper
     public function mapDtoToEntityForCreate(CustomerAddressDTO $customerAddressDTO): CustomerAddress
     {
         /** @var Customer $customer */
-
         $customer = $this->customerRepository->findOneBy(
             ['id' => $customerAddressDTO->customerId]
         );
@@ -48,9 +47,12 @@ readonly class CustomerAddressDTOMapper
 
     }
 
-    public function mapDtoToEntityForUpdate(CustomerAddressDTO $customerAddressDTO,
-        CustomerAddress $customerAddress
+    public function mapDtoToEntityForUpdate(CustomerAddressDTO $customerAddressDTO
     ): CustomerAddress {
+
+
+        /** @var CustomerAddress $customerAddress */
+        $customerAddress = $this->customerAddressRepository->find(['id' => $customerAddressDTO->id]);
 
         $customerAddress->setLine1($customerAddressDTO->line1);
 
@@ -69,6 +71,35 @@ readonly class CustomerAddressDTOMapper
         $customerAddress->setDefault($customerAddressDTO->isDefault);
 
         return $customerAddress;
+    }
+
+    public function mapEntityToDtoForUpdate(int $id
+    ): CustomerAddressDTO
+    {
+
+        $customerAddressDTO = new CustomerAddressDTO();
+
+        /** @var CustomerAddress $customerAddress */
+        $customerAddress = $this->customerAddressRepository->find($id);
+
+        $customerAddressDTO->id = $customerAddress->getId();
+
+        $customerAddressDTO->line1 = $customerAddress->getLine1();
+
+        $customerAddressDTO->line2 = $customerAddress->getLine2();
+
+        $customerAddressDTO->line3 = $customerAddress->getLine3();
+
+        $customerAddressDTO->addressType = $customerAddress->getAddressType();
+
+        $customerAddressDTO->postalCodeId =
+            $this->postalCodeRepository->find(
+                $customerAddress->getCode()->getId()
+            )->getId();
+
+        $customerAddressDTO->isDefault = $customerAddress->isDefault();
+
+        return $customerAddressDTO;
     }
 
 }

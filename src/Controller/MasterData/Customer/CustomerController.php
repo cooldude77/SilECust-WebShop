@@ -109,19 +109,28 @@ class CustomerController extends EnhancedAbstractController
     #[Route('/admin/customer/{id}/display', name: 'sc_admin_customer_display')]
     public function display(CustomerRepository $customerRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request,"Display Customer");
         $customer = $customerRepository->find($id);
         if (!$customer) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
 
-        $displayParams = ['title' => 'Customer',
+        $displayParams = [
+            'title' => 'Customer',
             'link_id' => 'id-customer',
             'editButtonLinkText' => 'Edit',
-            'fields' => [['label' => 'First Name',
-                'propertyName' => 'firstName',
-                'link_id' => 'id-display-customer'],
-                ['label' => 'Last Name',
-                    'propertyName' => 'lastName'],]];
+            'fields' => [
+                [
+                    'label' => 'First Name',
+                    'propertyName' => 'firstName',
+                    'link_id' => 'id-display-customer'
+                ],
+                [
+                    'label' => 'Last Name',
+                    'propertyName' => 'lastName'
+                ],
+            ]
+        ];
 
         return $this->render(
             '@SilecustWebShop/master_data/customer/customer_display.html.twig',

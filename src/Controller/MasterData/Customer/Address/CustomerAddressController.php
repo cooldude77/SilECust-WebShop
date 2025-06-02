@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
@@ -25,6 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class CustomerAddressController extends EnhancedAbstractController
 {
     const string LIST_IDENTIFIER = "address_grid";
+
     /**
      * @throws AddressTypeNotProvided
      */
@@ -81,14 +81,15 @@ class CustomerAddressController extends EnhancedAbstractController
 
 
     #[Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
-    public function edit(int                       $id, CustomerAddressDTOMapper $mapper,
-                         EntityManagerInterface    $entityManager,
-                         CustomerAddressRepository $customerAddressRepository, Request $request
+    public function edit(int                      $id,
+                         CustomerAddressDTOMapper $customerAddressDTOMapper,
+                         EntityManagerInterface   $entityManager,
+                         Request                  $request
     ): Response
     {
-        $customerAddressDTO = new CustomerAddressDTO();
+        $this->setContentHeading($request, 'Edit Address');
 
-        $customerAddress = $customerAddressRepository->find($id);
+        $customerAddressDTO = $customerAddressDTOMapper->mapEntityToDtoForUpdate($id);
 
         $form = $this->createForm(CustomerAddressEditForm::class, $customerAddressDTO);
 
@@ -100,22 +101,20 @@ class CustomerAddressController extends EnhancedAbstractController
             $data = $form->getData();
             $data->postalCodeId = $form->get('postalCode')->getData()->getId();
 
-            $customerEntity = $mapper->mapDtoToEntityForUpdate(
-                $data, $customerAddress
-            );
+            $customerAddress = $customerAddressDTOMapper->mapDtoToEntityForUpdate($data);
 
-            $entityManager->persist($customerEntity);
+            $entityManager->persist($customerAddress);
             $entityManager->flush();
 
 
-            $id = $customerEntity->getId();
+            $id = $customerAddress->getId();
             $this->addFlash(
-                'success', "Customer Address Value updated successfully"
+                'success', "Address updated successfully"
             );
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Customer Address Value updated successfully"]
+                    ['id' => $id, 'message' => "Customer Address updated successfully"]
                 ), 200
             );
         }
@@ -133,26 +132,38 @@ class CustomerAddressController extends EnhancedAbstractController
         Request                   $request,
         EventDispatcherInterface  $eventDispatcher): Response
     {
+        $this->setContentHeading($request, 'Display Address');
+
         $customerAddress = $customerAddressRepository->find($id);
+
         if (!$customerAddress) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
-        $displayParamEvent = $eventDispatcher->dispatch(
-            new DisplayParamPropertyEvent($request),
-            DisplayParamPropertyEvent::EVENT_NAME);
-        /*
-                $displayParams = ['title' => 'Customer Address',
+        $displayParams = ['title' => 'Customer Address',
                     'link_id' => 'id-customer-address',
                     'editButtonLinkText' => 'Edit',
                     'fields' => [
-                        ['label' => 'line 1',
+                        [
+                            'label' => 'line 1',
                             'propertyName' => 'line1',
-                            'link_id' => 'id-display-customer-address'],
-                    ]];
-        */
+                            'link_id' => 'id-display-customer-address'
+                        ],
+                        [
+                            'label' => 'line 2',
+                            'propertyName' => 'line2',
+                            'link_id' => 'id-display-customer-address'
+                        ],
+                        [
+                            'label' => 'line 3',
+                            'propertyName' => 'line3',
+                            'link_id' => 'id-display-customer-address'
+                        ],
+                    ]
+        ];
+
         return $this->render(
-            '@SilecustWebShop/master_data/customer/customer_display.html.twig',
-            ['entity' => $customerAddress, 'params' => $displayParamEvent->getDisplayParamProperties(), 'request' => $request]
+            '@SilecustWebShop/master_data/customer/address/customer_address_display.html.twig',
+            ['entity' => $customerAddress, 'params' => $displayParams, 'request' => $request]
         );
 
     }
@@ -179,22 +190,28 @@ class CustomerAddressController extends EnhancedAbstractController
      */
     #[Route('/admin/customer/{id}/address/list', name: 'sc_admin_customer_address_list')]
     public function list(
+        int $id,
         Request                  $request,
         PaginatorInterface       $paginator,
         EventDispatcherInterface $eventDispatcher,
 
     ): Response
     {
-        $this->setContentHeading($request, 'Addresses');
+        // if the grid is a secondary
+        // do not set top heading
+        if ($request->attributes->get('twig_is_grid_secondary') != true)
+            $this->setContentHeading($request, 'Addresses');
 
         // NOTE: This grid can be called as a subsection to main screen
         $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, [
-            'event_caller' => $this::LIST_IDENTIFIER
+            'event_caller' => $this::LIST_IDENTIFIER,
+            'id' => $id,
         ]), GridPropertyEvent::EVENT_NAME);
 
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request,
             [
-                'event_caller' => $this::LIST_IDENTIFIER
+                'event_caller' => $this::LIST_IDENTIFIER,
+                'id' => $id,
             ]), ListQueryEvent::BEFORE_LIST_QUERY);
 
         $query = $listQueryEvent->getQuery();

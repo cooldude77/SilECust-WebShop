@@ -32,7 +32,7 @@ readonly class OnGridCreateLinkEvent implements EventSubscriberInterface
     }
 
     /**
-     * @param GridColumnEvent $event
+     * @param GridCreateLinkEvent $event
      * @return void
      */
     public function beforeDisplay(GridCreateLinkEvent $event): void

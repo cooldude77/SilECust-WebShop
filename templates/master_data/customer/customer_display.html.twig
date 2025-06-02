@@ -1,5 +1,6 @@
 
 {% include '@SilecustWebShop/admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
 
-    {{ render(controller('Silecust\\WebShop\\Controller\\MasterData\\Customer\\Address\\CustomerAddressController::list',
+{% do request.attributes.set('twig_is_grid_secondary', true) %}
+{{ render(controller('Silecust\\WebShop\\Controller\\MasterData\\Customer\\Address\\CustomerAddressController::list',
         { 'id':entity.id,'request':request})) }}

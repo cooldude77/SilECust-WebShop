@@ -3,16 +3,17 @@
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Address\Grid;
 
 use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
-use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * For Address Event
+ */
 readonly class OnGridPropertyEvent implements EventSubscriberInterface
 {
     /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param RouterInterface $router
      */
     public function __construct(private readonly RouterInterface $router
     )
@@ -41,6 +42,9 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
         $event->setListGridProperties([
             'title' => 'Customer Address',
             'link_id' => 'id-customer_address',
+            'function' => 'customer_address',
+            'id' => $event->getData()['id'],
+            'grid_heading'=>'Addresses',
             'columns' => [
                 [
                     'label' => 'Line 1',

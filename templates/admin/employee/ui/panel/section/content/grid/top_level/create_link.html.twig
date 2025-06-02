@@ -7,26 +7,25 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
     Thus this check and setting of context_route for unit testing when url is not called from admin_panel
 #}
 
-
-
 {% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+{% set function =listGrid.function is defined ? listGrid.function: app.request.get('_function') %}
 {% set after =  path(context_route,
     {
-        '_function':config.function is defined ? config.function: app.request.get('_function'),
+        '_function': function,
         '_type':'display'
     }) %}
 
    {% set parameterList = {
-       '_function':config.function is defined ? config.function: app.request.get('_function'),
+       '_function':function,
        '_type':'create'
    } %}
-   {% if config.id is defined %}
-       {% set parameterList = parameterList|merge({'id':config.id}) %}
+   {% if listGrid.id is defined %}
+       {% set parameterList = parameterList|merge({'id':listGrid.id}) %}
    {% endif %}
     {% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
 
     {% set href = path(context_route,parameterList) %}
 
 <a class="btn btn-secondary active" href="{{ href }}">
-    <i class="bi bi-plus-circle-fill pe-2"></i>{{ app.request.get('_function') | title | replace({'_':' '}) }}</a>
+    <i class="bi bi-plus-circle-fill pe-2"></i>{{ function | title | replace({'_':' '}) }}</a>
 

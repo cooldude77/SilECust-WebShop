@@ -2,19 +2,6 @@
 {#  do some dumping  #}
  {# -- Create Link -- #}
 
-<div id="silecust-admin-search-box" class="row">
-    {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
-</div>
-<div id="silecust-admin-create-link">
-    {% set event = dispatchGridCreateLinkEvent({
-        "request":request,
-        'listGrid':listGrid
-    }) %}
-    {% include event.getTemplate with {
-        "request":request,'listGrid':listGrid} %}
-
-
-</div>
 <div id="silecust-admin-grid" class="p-2 border-2 border-secondary">
     {# -- Create Row Header -- #}
     {% if listGrid.grid_heading is defined %}
@@ -22,6 +9,19 @@
             <h2> {{ listGrid.grid_heading }}</h2>
         </div>
     {% endif %}
+    <div id="silecust-admin-search-box" class="row">
+        {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
+    </div>
+    <div id="silecust-admin-create-link">
+        {% set event = dispatchGridCreateLinkEvent({
+            "request":request,
+            'listGrid':listGrid
+        }) %}
+        {% include event.getTemplate with {
+            "request":request,'listGrid':listGrid} %}
+
+
+    </div>
 
     <div id="silecust-admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
         {% set event = dispatchGridRowHeaderEvent({
@@ -54,6 +54,8 @@
         <p id="no-records-found">No records found</p>
     {% endif %}
 </div>
+
+{% if request.attribute.twig_is_grid_secondary is defined %}
 <script type="module">
     // A $( document ).ready() block.
     $(document).ready(function () {
@@ -67,3 +69,14 @@
 
     });
 </script>
+{% else %}
+    <script type="module">
+        // A $( document ).ready() block.
+        $(document).ready(function () {
+            let b = $("#silecust-admin-search-box")
+            // let c = $("#silecust-admin-content-heading h2");
+            b.hide();
+
+        });
+    </script>
+{% endif %}
