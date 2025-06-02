@@ -1,5 +1,5 @@
-{% if listGrid.config.create_link.edit_link_allowed is defined
-    and listGrid.config.create_link.edit_link_allowed == false %}
+{% if listGrid.config.edit_link.edit_link_allowed is defined
+    and listGrid.config.edit_link.edit_link_allowed ==true %}
     {% set id  = attribute(entity, 'id') %}
     {% set href =  path( listGrid.config.edit_link.route,{'id':id}) %}
     <div class="d-flex flex mb-1 ml-0 ">

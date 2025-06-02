@@ -6,6 +6,6 @@
     {% set href = path(listGrid.config.create_link.route,parameterList) %}
 
     <a class="btn btn-secondary active" href="{{ href }}">
-        <i class="bi bi-plus-circle-fill"></i>
+        <i class="bi bi-plus-circle-fill"></i>{{ listGrid.config.create_link.anchorText }}
     </a>
 {% endif %}

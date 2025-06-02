@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Address\Display;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Address\Display;
 
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,8 +12,8 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-                                private readonly RouterInterface      $router
+    public function __construct(
+        private readonly RouterInterface $router
     )
     {
     }
@@ -31,21 +31,20 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_my_address_display']))
+        if (!in_array($route['_route'], ['sc_admin_address_display']))
             return;
 
 
         $event->setDisplayParamProperties(
             [
                 'title' => 'Customer Address',
-                    'link_id' => 'id-customer-address',
-                    'config' => [
-                        'edit_link' => [
-                            'editButtonLinkText' => 'Edit',
-                            'route' => 'sc_my_address_edit',
-                            'link_id' => 'id-display-customer-address'
-                        ]
-                    ],
+                'link_id' => 'id-customer-address',
+                'config' => [
+                    'edit_link' => [
+                        'editButtonLinkText' => 'Edit',
+                        'route' => 'sc_my_address_edit',
+                        'link_id' => 'id-display-customer-address']
+                ],
                 'fields' => [
                     [
                         'label' => 'line 1',
@@ -58,7 +57,7 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
                         'propertyName' => 'line3',
                     ],
                 ]]
-            );
-        }
+        );
+    }
 
 }

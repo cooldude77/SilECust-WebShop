@@ -1,11 +1,8 @@
-{% if params.config.edit_link is defined
-    and params.config.edit_link.edit_link_allowed == false %}
-{% else %}
+
 {% set id  = attribute(entity, 'id') %}
 {% set href =  path(params.config.edit_link.route,{'id':id}) %}
 <div class="d-flex flex mb-1 ml-0 ">
     <a class="link-primary" id="{{ params.config.edit_link.link_id ~"-edit-"~id }}" href="{{ href }}">
-        Edit
+        <i class="bi bi-pencil pe-2"></i>Edit
     </a>
 </div>
-{% endif %}

@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
@@ -138,31 +139,14 @@ class CustomerAddressController extends EnhancedAbstractController
         if (!$customerAddress) {
             throw $this->createNotFoundException('No Customer found for id ' . $id);
         }
-        $displayParams = ['title' => 'Customer Address',
-                    'link_id' => 'id-customer-address',
-                    'editButtonLinkText' => 'Edit',
-                    'fields' => [
-                        [
-                            'label' => 'line 1',
-                            'propertyName' => 'line1',
-                            'link_id' => 'id-display-customer-address'
-                        ],
-                        [
-                            'label' => 'line 2',
-                            'propertyName' => 'line2',
-                            'link_id' => 'id-display-customer-address'
-                        ],
-                        [
-                            'label' => 'line 3',
-                            'propertyName' => 'line3',
-                            'link_id' => 'id-display-customer-address'
-                        ],
-                    ]
-        ];
+
+        // NOTE: This grid can be called as a subsection to main screen
+        $displayParamsEvent = $eventDispatcher->dispatch(new DisplayParamPropertyEvent($request), DisplayParamPropertyEvent::EVENT_NAME);
+
 
         return $this->render(
             '@SilecustWebShop/master_data/customer/address/customer_address_display.html.twig',
-            ['entity' => $customerAddress, 'params' => $displayParams, 'request' => $request]
+            ['entity' => $customerAddress, 'params' => $displayParamsEvent->getDisplayParamProperties(), 'request' => $request]
         );
 
     }

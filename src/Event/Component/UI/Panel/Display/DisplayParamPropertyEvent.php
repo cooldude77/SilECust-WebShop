@@ -16,7 +16,7 @@ class DisplayParamPropertyEvent extends Event
     private Request $request;
 
 
-    public function __construct(Request $request, array $data)
+    public function __construct(Request $request, array $data = null)
     {
         $this->data = $data;
         $this->request = $request;

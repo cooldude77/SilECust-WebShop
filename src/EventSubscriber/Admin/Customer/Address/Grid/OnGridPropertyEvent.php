@@ -34,66 +34,27 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
         if (!in_array($route['_route'], ['sc_my_addresses']))
             return;
 
-        /**
-         *
-         * if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
-         *
-         * Todo: check for these
-         * if (!($event->getRequest()->query->get('_function') == 'order'
-         * && $event->getRequest()->query->get('_type') == 'list')
-         * )
-         *
-         *
-         *
-         * $event->setListGridProperties([
-         * 'function' => 'customer_address',
-         * 'title' => 'Customer Address',
-         * 'link_id' => 'id-customer_address',
-         * 'edit_link_allowed' => true,
-         * 'columns' => [
-         * [
-         * 'label' => 'id',
-         * 'propertyName' => 'id',
-         * 'action' => 'display',
-         * ],
-         * [
-         * 'label' => 'Line 1',
-         * 'propertyName' => 'line1'
-         * ]
-         * ],
-         * 'createButtonConfig' => [
-         * 'link_id' => ' id-create-address',
-         * 'function' => 'order',
-         * 'anchorText' => 'Create Order'
-         * ]
-         * ]);
-         *
-         * } else {
-         */
-
-        if ($this->authorizationChecker->isGranted('ROLE_CUSTOMER')) {
             $event->setListGridProperties([
                 'title' => 'Customer Address',
                 'link_id' => 'id-customer_address',
                 'columns' => [
                     [
-                        'label' => 'id',
-                        'propertyName' => 'id',
-                        'action' => 'display',
-                    ],
-                    [
                         'label' => 'Line 1',
-                        'propertyName' => 'line1'
+                        'propertyName' => 'line1',
+                        'action' => 'display',
+
                     ]
                 ],
                 'config' => [
                     'create_link' => [
                         'link_id' => ' id-create-address',
+                        'create_link_allowed' => true,
                         'route' => 'sc_my_address_create',
-                        'anchorText' => 'Create Order',
+                        'anchorText' => 'Address',
                         'redirect_upon_success_route' => 'sc_my_addresses'
                     ],
                     'edit_link' => [
+                        'edit_link_allowed' => true,
                         'link_id' => ' id-edit-address',
                         'route' => 'sc_my_address_edit',
                         'anchorText' => 'Edit Address',
@@ -109,5 +70,4 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
 
             ]);
         }
-    }
 }
