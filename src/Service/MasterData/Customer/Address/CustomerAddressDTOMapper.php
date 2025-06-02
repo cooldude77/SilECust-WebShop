@@ -62,10 +62,9 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setAddressType($customerAddressDTO->addressType);
 
-        $customerAddress->setPostalCode(
-            $this->postalCodeRepository->find(
-                $customerAddressDTO->postalCodeId
-            )
+        if ($customerAddressDTO->postalCodeId != 0)
+            // no value was sent
+            $customerAddress->setPostalCode($this->postalCodeRepository->find($customerAddressDTO->postalCodeId)
         );
 
         $customerAddress->setDefault($customerAddressDTO->isDefault);
@@ -92,10 +91,11 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddressDTO->addressType = $customerAddress->getAddressType();
 
-        $customerAddressDTO->postalCodeId =
-            $this->postalCodeRepository->find(
-                $customerAddress->getCode()->getId()
-            )->getId();
+        $postalCode = $this->postalCodeRepository->find(
+            $customerAddress->getCode()->getId()
+        );
+
+        $customerAddressDTO->postalCodeId = $postalCode->getId();
 
         $customerAddressDTO->isDefault = $customerAddress->isDefault();
 

@@ -77,6 +77,7 @@ class CustomerController extends EnhancedAbstractController
                          int                    $id
     ): Response
     {
+        $this->setContentHeading($request,"Edit Customer");
         $customer = $customerRepository->find($id);
 
         if (!$customer) {

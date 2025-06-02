@@ -99,8 +99,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
-
+// todo : In display actually check if value of postalcode changed
             $customerAddress = $customerAddressDTOMapper->mapDtoToEntityForUpdate($data);
 
             $entityManager->persist($customerAddress);

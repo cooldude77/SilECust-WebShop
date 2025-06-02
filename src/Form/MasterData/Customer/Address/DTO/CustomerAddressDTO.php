@@ -19,6 +19,10 @@ class CustomerAddressDTO
     public ?string $addressType = "billing";
     public ?int $postalCodeId = 0;
 
+    /** @var string|null
+     * For edit form
+     */
+    public ?string $currentPostalCodeText = null;
     public bool $isDefault = false;
 
 }
