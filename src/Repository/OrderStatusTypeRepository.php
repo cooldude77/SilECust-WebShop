@@ -2,9 +2,11 @@
 
 namespace Silecust\WebShop\Repository;
 
-use Silecust\WebShop\Entity\OrderStatusType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderStatus;
+use Silecust\WebShop\Entity\OrderStatusType;
 
 /**
  * @extends ServiceEntityRepository<OrderStatusType>
@@ -40,4 +42,5 @@ class OrderStatusTypeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
 }

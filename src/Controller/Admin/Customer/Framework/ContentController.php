@@ -62,7 +62,7 @@ class ContentController extends EnhancedAbstractController
     public function orders(Request $request):
     Response
     {
-
+        $this->setContentHeading($request, "Your Orders");
         return $this->forward(OrderHeaderController::class . '::list', ['request' => $request]);
 
     }

@@ -18,11 +18,13 @@ use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
 use Silecust\WebShop\Repository\OrderItemRepository;
 use Silecust\WebShop\Repository\OrderPaymentRepository;
 use Silecust\WebShop\Repository\OrderShippingRepository;
+use Silecust\WebShop\Repository\OrderStatusRepository;
 use Silecust\WebShop\Repository\OrderStatusTypeRepository;
 use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 
 /**
  *
@@ -38,16 +40,17 @@ readonly class OrderSave
      * @param DatabaseOperations $databaseOperations
      */
     public function __construct(
-        private OrderHeaderRepository           $orderHeaderRepository,
-        private OrderItemRepository             $orderItemRepository,
-        private OrderAddressRepository          $orderAddressRepository,
-        private OrderStatusTypeRepository       $orderStatusTypeRepository,
-        private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private OrderIdStrategyInterface        $orderIdStrategy,
-        private OrderPaymentRepository          $orderPaymentRepository,
-        private OrderShippingRepository         $orderShippingRepository,
-        private PriceByCountryCalculator        $priceByCountryCalculator,
-        private DatabaseOperations              $databaseOperations,
+        private readonly OrderHeaderRepository           $orderHeaderRepository,
+        private readonly OrderItemRepository             $orderItemRepository,
+        private readonly OrderAddressRepository          $orderAddressRepository,
+        private readonly OrderStatusRepository           $orderStatusRepository,
+        private readonly OrderStatusTypeRepository       $orderStatusTypeRepository,
+        private readonly OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
+        private readonly OrderIdStrategyInterface        $orderIdStrategy,
+        private readonly OrderPaymentRepository          $orderPaymentRepository,
+        private readonly OrderShippingRepository         $orderShippingRepository,
+        private readonly PriceByCountryCalculator        $priceByCountryCalculator,
+        private readonly DatabaseOperations              $databaseOperations,
     )
     {
     }
@@ -64,6 +67,12 @@ readonly class OrderSave
 
         $orderHeader = $this->orderHeaderRepository->create($customer);
         $orderHeader->setGeneratedId($this->orderIdStrategy->generateOrderId());
+
+        $type = $this->orderStatusTypeRepository->findOneBy(['type' => OrderStatusTypes::ORDER_CREATED]);
+
+        $orderStatus = $this->orderStatusRepository->create($orderHeader, $type);
+        $orderStatus->setNote("Order Created");
+        $this->databaseOperations->persist($orderStatus);
 
         $this->databaseOperations->persist($orderHeader);
         $this->databaseOperations->flush();

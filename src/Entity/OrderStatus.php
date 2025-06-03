@@ -2,12 +2,13 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderStatusRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Silecust\WebShop\Repository\OrderStatusRepository;
 
 #[ORM\Entity(repositoryClass: OrderStatusRepository::class)]
+#[HasLifecycleCallbacks]
 class OrderStatus
 {
     #[ORM\Id]
@@ -95,5 +96,11 @@ class OrderStatus
         $this->snapShot = $snapShot;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setDatesOnCreation(): void
+    {
+        $this->dateOfStatusSet = new \DateTimeImmutable();
     }
 }

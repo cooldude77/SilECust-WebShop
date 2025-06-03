@@ -2,13 +2,14 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderStatusType;
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<OrderHeader>
@@ -83,14 +84,15 @@ class OrderHeaderRepository extends ServiceEntityRepository
 
     }
 
-    public function getQueryForSelectAllButOpenOrders(): Query
+    public function getQueryForSelectAllButOpenOrders(Criteria $criteria): Query
     {
 
         return $this->getEntityManager()->createQueryBuilder()
             ->select('oh')
-            ->from(OrderHeader::class,'oh')
+            ->from(OrderHeader::class, 'oh')
             ->join('oh.orderStatusType', 'ost')
             ->where('ost.type != :type')
+            ->addCriteria($criteria)
             ->setParameter('type', OrderStatusTypes::ORDER_CREATED)
             ->getQuery();
 
