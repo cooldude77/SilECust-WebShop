@@ -31,11 +31,16 @@ class CustomerController extends EnhancedAbstractController
         parent::__construct($eventDispatcher);
     }
 
-    #[Route('/admin/customer/create', 'customer_create')]
-    public function create(CustomerDTOMapper      $customerDTOMapper,
-                           EntityManagerInterface $entityManager, Request $request
+    #[Route('/admin/customer/create', 'sc_admin_customer_create')]
+    public function create(
+        CustomerDTOMapper      $customerDTOMapper,
+        EntityManagerInterface $entityManager,
+        Request                $request
     ): Response
     {
+        $this->setContentHeading($request, "Create Customer");
+
+
         $customerDTO = new CustomerDTO();
         $form = $this->createForm(CustomerCreateForm::class, $customerDTO);
 
@@ -65,7 +70,8 @@ class CustomerController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('@SilecustWebShop/master_data/customer/customer_create.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/master_data/customer/customer_create.html.twig', [
+            'form' => $form, 'request' => $request]);
     }
 
 

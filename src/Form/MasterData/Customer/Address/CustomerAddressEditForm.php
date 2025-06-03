@@ -30,8 +30,8 @@ class CustomerAddressEditForm extends AbstractType
         $builder->add('line1', TextType::class);
         $builder->add('line2', TextType::class);
         $builder->add('line3', TextType::class);
-        $builder->add('postalCode', PostalCodeAutoCompleteField::class, ['mapped' => false, 'required' => false]);
-        $builder->add('currentPostalCodeText', TextType::class, ['disabled' => true]);
+        $builder->add('postalCode', PostalCodeAutoCompleteField::class, ['mapped' => false, 'required' => false, 'label' => 'Search Postal Codes']);
+        $builder->add('currentPostalCodeText', TextType::class, ['disabled' => true, 'label' => 'Postal Code ']);
         $builder->add(
             'addressType', ChoiceType::class,
             [
@@ -43,7 +43,7 @@ class CustomerAddressEditForm extends AbstractType
                 'expanded' => true,
             ]
         );
-        $builder->add('isDefault', CheckboxType::class);
+        $builder->add('isDefault', CheckboxType::class, ['label' => 'Use as default']);
 
         $builder->add('save', SubmitType::class);
 
