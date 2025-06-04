@@ -125,7 +125,12 @@ class CustomerController extends EnhancedAbstractController
         $displayParams = [
             'title' => 'Customer',
             'link_id' => 'id-customer',
-            'editButtonLinkText' => 'Edit',
+            'config' => [
+                'edit_link' => [
+                    'editButtonLinkText' => 'Edit',
+                    'route' => 'sc_my_address_edit',
+                    'link_id' => 'id-display-customer-address']
+            ],
             'fields' => [
                 [
                     'label' => 'First Name',

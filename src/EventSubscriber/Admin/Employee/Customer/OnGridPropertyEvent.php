@@ -2,11 +2,10 @@
 
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer;
 
-use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 readonly class OnGridPropertyEvent implements EventSubscriberInterface
@@ -14,10 +13,10 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private readonly RouterInterface $router)
+    public function __construct(private readonly EventRouteChecker $eventRouteChecker
+    )
     {
     }
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -29,11 +28,16 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
     public function setProperty(GridPropertyEvent $event): void
     {
 
-        $route = $this->router->match($event->getRequest()->getPathInfo());
-
-        // for testing and UI both
-        if (!in_array($route['_route'], ['sc_admin_panel','sc_admin_customer_list']))
+        if (!
+        $this->eventRouteChecker->isInRouteList($event->getRequest(), ['sc_admin_panel', 'sc_admin_customer_list']))
             return;
+        if (!
+        ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer')
+            || ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer_address'))
+        )
+        )
+            return;
+        // for testing and UI both
 
         if ($event->getData()['event_caller'] != CustomerController::LIST_IDENTIFIER)
             return;
@@ -41,25 +45,6 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
         $event->setListGridProperties([
             'title' => 'Customer Address',
             'link_id' => 'id-customer',
-            'columns' => [
-                [
-                    'label' => 'First Name',
-                    'propertyName' => 'firstName',
-                    'action' => 'display',
-                ],
-                [
-                    'label' => 'Middle Name',
-                    'propertyName' => 'middleName'
-                ],
-                [
-                    'label' => 'Last Name',
-                    'propertyName' => 'lastName'
-                ],
-                [
-                    'label' => 'Given Name',
-                    'propertyName' => 'givenName'
-                ]
-            ],
             'config' => [
                 'create_link' => [
                     'link_id' => ' id-create-address',
@@ -80,6 +65,26 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
                     'redirect_upon_success_route' => 'sc_admin_customer_list'
                 ]
             ],
+            'columns' => [
+                [
+                    'label' => 'First Name',
+                    'propertyName' => 'firstName',
+                    'action' => 'display',
+                ],
+                [
+                    'label' => 'Middle Name',
+                    'propertyName' => 'middleName'
+                ],
+                [
+                    'label' => 'Last Name',
+                    'propertyName' => 'lastName'
+                ],
+                [
+                    'label' => 'Given Name',
+                    'propertyName' => 'givenName'
+                ]
+            ],
+
 
         ]);
     }

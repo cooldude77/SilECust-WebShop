@@ -7,15 +7,15 @@ use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Repository\CustomerRepository;
+use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 readonly class OnListQuery implements EventSubscriberInterface
 {
     public function __construct(
         private readonly CustomerRepository        $customerRepository,
         private readonly CustomerAddressRepository $customerAddressRepository,
-        private readonly RouterInterface           $router
+        private readonly EventRouteChecker $eventRouteChecker
     )
     {
     }
@@ -34,12 +34,18 @@ readonly class OnListQuery implements EventSubscriberInterface
     public function beforeQueryList(ListQueryEvent $event): void
     {
 
-        $route = $this->router->match($event->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_customer_display', 'sc_admin_customer_address_list']))
+        if (!
+        $this->eventRouteChecker->isInRouteList($event->getRequest(), ['sc_admin_panel', 'sc_admin_customer_display']))
             return;
-        if ($event->getData()['event_caller'] != CustomerAddressController::LIST_IDENTIFIER)
+        if (!
+        ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer')
+            || ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer_address'))
+        )
+        )
             return;
 
+        if ($event->getData()['event_caller'] != CustomerAddressController::LIST_IDENTIFIER)
+            return;
 
         $customer = $this->customerRepository->find($event->getRequest()->get('id'));
 

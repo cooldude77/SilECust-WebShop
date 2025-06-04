@@ -4,6 +4,7 @@ namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Address\Grid;
 
 use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressController;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -15,7 +16,7 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
     /**
      * @param RouterInterface $router
      */
-    public function __construct(private readonly RouterInterface $router
+    public function __construct(private readonly EventRouteChecker $eventRouteChecker
     )
     {
     }
@@ -31,9 +32,15 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
     public function setProperty(GridPropertyEvent $event): void
     {
 
-        $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_customer_display']))
+        if (!
+            $this->eventRouteChecker->isInRouteList($event->getRequest(), ['sc_admin_panel', 'sc_admin_customer_display']))
+            return;
+        if (!
+        ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer')
+            || ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer_address'))
+        )
+        )
             return;
 
         if ($event->getData()['event_caller'] != CustomerAddressController::LIST_IDENTIFIER)
