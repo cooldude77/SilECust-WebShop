@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Item\Grid;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Item\Grid;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

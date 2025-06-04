@@ -1,12 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Order\Header\Display;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Header\Grid;
 
 use Silecust\WebShop\Entity\OrderHeader;
-use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayFieldValueEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
-use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -14,7 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  *
  */
-readonly class OnFieldValueEvent implements EventSubscriberInterface
+readonly class OnGridColumnEvent implements EventSubscriberInterface
 {
     /**
      * @param RouterInterface $router
@@ -30,18 +27,16 @@ readonly class OnFieldValueEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            DisplayFieldValueEvent::EVENT_NAME => 'beforeDisplay'
+            GridColumnEvent::EVENT_NAME => 'beforeDisplay'
         ];
 
     }
 
     /**
-     * @param DisplayFieldValueEvent $event
+     * @param GridColumnEvent $event
      * @return void
-     * @throws PriceProductBaseNotFound
-     * @throws PriceProductTaxNotFound
      */
-    public function beforeDisplay(DisplayFieldValueEvent $event): void
+    public function beforeDisplay(GridColumnEvent $event): void
     {
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
@@ -84,9 +79,6 @@ readonly class OnFieldValueEvent implements EventSubscriberInterface
                 $column['value'] = $this->orderPriceValueCalculator->calculateOrderValue($entity);
                 $data['column'] = $column;
                 break;
-            default:
-                $column['value'] = "";
-                $data['column'] = $column;
 
         }
 

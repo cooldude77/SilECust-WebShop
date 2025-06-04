@@ -1,11 +1,10 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Address\Display;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Header;
 
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
 {
@@ -30,33 +29,38 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_my_address_display']))
+        if ($route['_route'] != 'sc_my_order_display')
             return;
 
 
         $event->setDisplayParamProperties(
             [
-                'title' => 'Customer Address',
-                'link_id' => 'id-customer-address',
+                'title' => 'Order',
+                'link_id' => 'id-order',
                 'config' => [
                     'edit_link' => [
-                        'editButtonLinkText' => 'Edit',
-                        'route' => 'sc_my_address_edit',
-                        'link_id' => 'id-display-customer-address'
+                        'edit_link_allowed' => false,
                     ]
                 ],
                 'fields' => [
                     [
-                        'label' => 'line 1',
-                        'propertyName' => 'line1',
-                    ], [
-                        'label' => 'line 2',
-                        'propertyName' => 'line2',
-                    ], [
-                        'label' => 'line 3',
-                        'propertyName' => 'line3',
+                        'label' => 'Order Number',
+                        'propertyName' => 'generatedId',
+                        'action' => 'display',],
+                    [
+                        'label' => 'Date Of Order',
+                        'propertyName' => 'dateTimeOfOrder'
                     ],
-                ]]
+                    [
+                        'label' => 'Status',
+                        'propertyName' => 'orderStatusType'
+                    ],
+                    [
+                        'label' => 'Order Value',
+                        'propertyName' => 'orderValue'
+                    ],
+                ],
+            ]
         );
     }
 
