@@ -122,6 +122,7 @@ class OrderItemController extends EnhancedAbstractController
     public function display(OrderItemRepository $OrderItemRepository, int $id, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
+
         if (!$OrderItem) {
             throw $this->createNotFoundException('No product found for id ' . $id);
         }
@@ -133,8 +134,8 @@ class OrderItemController extends EnhancedAbstractController
         $displayParams = $event->getParameterList();
 
         return $this->render(
-            'transaction/order/item/order_item_display.html.twig',
-            ['entity' => $OrderItem, 'params' => $displayParams]
+            '@SilecustWebShop/transaction/admin/order/item/order_item_display.html.twig',
+            ['entity' => $OrderItem, 'request'=>$request,'params' => $displayParams]
         );
     }
 

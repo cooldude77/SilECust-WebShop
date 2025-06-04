@@ -1,19 +1,19 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Item\Display;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Order\Item\Display;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class OnItemDisplayPropertyEvent implements EventSubscriberInterface
+class OnDisplayPropertyEvent implements EventSubscriberInterface
 {
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-                                private readonly RouterInterface      $router
+    public function __construct(
+        private readonly RouterInterface $router
     )
     {
     }
@@ -29,16 +29,20 @@ class OnItemDisplayPropertyEvent implements EventSubscriberInterface
     public function setProperty(DisplayParametersEvent $event): void
     {
         $route = $this->router->match($event->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['sc_my_order_display', 'sc_admin_route_order_display']))
-            if (!($event->getRequest()->query->get('_function') == 'order_item' // order item list is never shown standalone
-                && $event->getRequest()->query->get('_type') == 'display')
-            )
-                return;
+        if ($route['_route'] != 'sc_my_order_item_display')
+            return;
 
         $event->setParameterList(
-            ['title' => 'Price',
+            [
+                'title' => 'Price',
                 'link_id' => 'id-price',
-                'editButtonLinkText' => 'Edit',
+                'config' => [
+                    'edit_link' => [
+                        'edit_link_allowed' => false,
+                        'editButtonLinkText' => 'Edit',
+                        'route' => 'sc_my_address_edit',
+                        'link_id' => 'id-display-customer-address']
+                ],
                 'fields' => [
                     [
                         'label' => 'id',

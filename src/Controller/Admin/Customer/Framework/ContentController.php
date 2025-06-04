@@ -187,7 +187,7 @@ class ContentController extends EnhancedAbstractController
         $routeParams = $request->attributes->get('_route_params');
 
 
-        return $this->forward(OrderItemController::class . '::display', ['request' => $request]);
+        return $this->forward(OrderItemController::class . '::display', ['request' => $request, 'id' => $request->attributes->get('id')]);
 
     }
 
