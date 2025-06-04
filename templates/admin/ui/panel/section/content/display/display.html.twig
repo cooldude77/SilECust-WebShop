@@ -19,7 +19,7 @@
                 'entity':entity,
                 'column':column
             }) %}
-            {% if(event.data.column.value != null) %}
+            {% if(event.data.column.value is defined and event.data.column.value != null) %}
                 {{ event.data.column.value }}
             {% else %}
             {{ attribute(entity,column.propertyName) }}
