@@ -40,6 +40,7 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
                 'link_id' => 'id-customer-address',
                 'config' => [
                     'edit_link' => [
+                        'edit_link_allowed'=>true,
                         'editButtonLinkText' => 'Edit',
                         'route' => 'sc_my_address_edit',
                         'link_id' => 'id-display-customer-address'

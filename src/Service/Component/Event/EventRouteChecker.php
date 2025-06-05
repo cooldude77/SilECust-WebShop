@@ -30,4 +30,15 @@ readonly class EventRouteChecker
         // order item list is never shown standalone
         return $request->query->get('_type') == $type;
     }
+
+    public function isAdminRoute(Request $request): bool
+    {
+        return $this->isInRouteList($request, ['sc_admin_panel']);
+    }
+
+    public function checkFunctions(Request $request, array $allowedFunction): bool
+    {
+        return in_array($request->query->get('_function'), $allowedFunction);
+
+    }
 }

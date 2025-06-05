@@ -6,16 +6,16 @@ use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 
-readonly class OnCustomerAddressListQuery implements EventSubscriberInterface
+readonly class OnListQuery implements EventSubscriberInterface
 {
     public function __construct(
         private CustomerFromUserFinder    $customerFromUserFinder,
         private CustomerAddressRepository $customerAddressRepository,
-        private RouterInterface           $router
+        private readonly EventRouteChecker $eventRouteChecker
     )
     {
     }
@@ -31,24 +31,18 @@ readonly class OnCustomerAddressListQuery implements EventSubscriberInterface
     /**
      * @throws UserNotLoggedInException
      */
-    public function beforeQueryList(ListQueryEvent $listQueryEvent): void
+    public function beforeQueryList(ListQueryEvent $event): void
     {
 
-        $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
-
-        if ($route['_route'] != 'sc_my_addresses')
+        if (!
+        $this->eventRouteChecker->isInRouteList($event->getRequest(), ['sc_my_addresses']))
             return;
 
         if ($this->customerFromUserFinder->isLoggedInUserACustomer())
             try {
-                $listQueryEvent->setQuery($this->customerAddressRepository->getQueryForSelectByCustomer($this->customerFromUserFinder->getLoggedInCustomer()));
+                $event->setQuery($this->customerAddressRepository->getQueryForSelectByCustomer($this->customerFromUserFinder->getLoggedInCustomer()));
             } catch (UserNotAssociatedWithACustomerException $e) {
 
             }
-// todo: logic for employee in this or another event
-
-//        if ($this->employeeFromUserFinder->isLoggedInUserAlsoAEmployee())
-        //          $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelect());
-
     }
 }

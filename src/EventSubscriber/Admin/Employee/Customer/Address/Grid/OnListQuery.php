@@ -35,14 +35,16 @@ readonly class OnListQuery implements EventSubscriberInterface
     {
 
         if (!
-        $this->eventRouteChecker->isInRouteList($event->getRequest(), ['sc_admin_panel', 'sc_admin_customer_display']))
+        $this->eventRouteChecker->isInRouteList($event->getRequest(), [
+            'sc_admin_panel', 'sc_admin_customer_display'
+        ]))
             return;
-        if (!
-        ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer')
-            || ($this->eventRouteChecker->hasFunction($event->getRequest(), 'customer_address'))
-        )
-        )
-            return;
+
+        // Note: Route
+        // This is for success of testing as the URLS are called directly
+        if ($this->eventRouteChecker->isAdminRoute($event->getRequest()))
+            if (!$this->eventRouteChecker->checkFunctions($event->getRequest(), ['customer', 'customer_address']))
+                return;
 
         if ($event->getData()['event_caller'] != CustomerAddressController::LIST_IDENTIFIER)
             return;
