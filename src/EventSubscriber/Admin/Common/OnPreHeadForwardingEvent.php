@@ -3,6 +3,8 @@
 
 namespace Silecust\WebShop\EventSubscriber\Admin\Common;
 
+use Psr\Log\LoggerInterface;
+use Silecust\Framework\Service\Twig\TwigConstants;
 use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
@@ -13,7 +15,6 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\Common\AdminTitle;
 use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
@@ -43,9 +44,8 @@ readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
                 $event->getRequest()
             );
             // should handle function and type relevant to it
-            $event->setPageTitle(
-                $this->adminTitle->getTitle($object)
-            );
+            $event->getRequest()->attributes->set(TwigConstants::UI_WEB_PAGE_TITLE,
+                $this->adminTitle->getTitle($object));
 
         } catch (
         EmptyActionListMapException

@@ -1941,12 +1941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cooldude77/silecust-framework.git",
-                "reference": "5e629fbfc12c2098fb3aca8b82e5664bbdad5953"
+                "reference": "bb117e4249eb159a540e5dd8aed6ee294a6af7ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cooldude77/silecust-framework/zipball/5e629fbfc12c2098fb3aca8b82e5664bbdad5953",
-                "reference": "5e629fbfc12c2098fb3aca8b82e5664bbdad5953",
+                "url": "https://api.github.com/repos/cooldude77/silecust-framework/zipball/bb117e4249eb159a540e5dd8aed6ee294a6af7ad",
+                "reference": "bb117e4249eb159a540e5dd8aed6ee294a6af7ad",
                 "shasum": ""
             },
             "require": {
@@ -1970,9 +1970,9 @@
             "description": "Silecust framework for common classes",
             "support": {
                 "issues": "https://github.com/cooldude77/silecust-framework/issues",
-                "source": "https://github.com/cooldude77/silecust-framework/tree/v0.0.0-alpha.4"
+                "source": "https://github.com/cooldude77/silecust-framework/tree/master"
             },
-            "time": "2025-04-25T05:08:36+00:00"
+            "time": "2025-06-09T05:58:47+00:00"
         },
         {
             "name": "symfony/asset-mapper",
@@ -6257,16 +6257,16 @@
         },
         {
             "name": "symfony/ux-autocomplete",
-            "version": "v2.25.2",
+            "version": "v2.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-autocomplete.git",
-                "reference": "e78d586a4e5100bfed49e05edc844f238928e06d"
+                "reference": "3b7c77b3f50a934ca123c6cdbc413d1017a403ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-autocomplete/zipball/e78d586a4e5100bfed49e05edc844f238928e06d",
-                "reference": "e78d586a4e5100bfed49e05edc844f238928e06d",
+                "url": "https://api.github.com/repos/symfony/ux-autocomplete/zipball/3b7c77b3f50a934ca123c6cdbc413d1017a403ef",
+                "reference": "3b7c77b3f50a934ca123c6cdbc413d1017a403ef",
                 "shasum": ""
             },
             "require": {
@@ -6327,7 +6327,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-autocomplete/tree/v2.25.2"
+                "source": "https://github.com/symfony/ux-autocomplete/tree/v2.26.1"
             },
             "funding": [
                 {
@@ -6343,7 +6343,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-19T11:54:27+00:00"
+            "time": "2025-06-05T17:25:17+00:00"
         },
         {
             "name": "symfony/validator",

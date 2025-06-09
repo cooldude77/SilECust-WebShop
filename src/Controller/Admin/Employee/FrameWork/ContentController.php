@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
+use Exception;
+use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
@@ -9,8 +11,6 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
 use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
-use Exception;
-use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -33,8 +33,7 @@ class ContentController extends EnhancedAbstractController
      * @throws FunctionNotFoundInMap
      * @throws TypeNotFoundInMap
      */
-    public function content(Request $request, RouterInterface $router,
-        PanelActionListMapBuilder $builder,
+    public function content(Request $request,
         AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
     ): Response {
 

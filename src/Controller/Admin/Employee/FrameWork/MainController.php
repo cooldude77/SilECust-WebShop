@@ -3,8 +3,6 @@
 namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\FooterController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
