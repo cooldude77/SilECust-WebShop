@@ -12,6 +12,7 @@ use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
+use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
@@ -44,7 +45,7 @@ class  CartController extends EnhancedAbstractController
      * @throws Exception
      */
     #[Route('/cart', name: 'sc_module_web_shop_cart')]
-    public function main(Request $request): Response
+    public function main(Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
 
 
@@ -56,7 +57,10 @@ class  CartController extends EnhancedAbstractController
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME, 'header'
         );
-
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request),
+            PreHeadForwardingEvent::EVENT_NAME
+        );
         $session->set(
             PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
         );

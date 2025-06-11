@@ -9,12 +9,14 @@ use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\Header
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\SideBarController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Product\ProductController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\ContentController;
+use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelSideBarController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -30,7 +32,7 @@ class HomePageController extends EnhancedAbstractController
      *
      * Home redirects to here
      */
-    public function shop(Request $request, SessionInterface $session): Response
+    public function shop(Request $request, SessionInterface $session,EventDispatcherInterface $eventDispatcher): Response
     {
 
 
@@ -50,6 +52,11 @@ class HomePageController extends EnhancedAbstractController
         $session->set(
             PanelHeaderController::HEADER_CONTROLLER_CLASS_METHOD_NAME,
             'header'
+        );
+
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request),
+            PreHeadForwardingEvent::EVENT_NAME
         );
 
         $session->set(

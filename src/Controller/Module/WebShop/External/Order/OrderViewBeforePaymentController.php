@@ -5,6 +5,7 @@ namespace Silecust\WebShop\Controller\Module\WebShop\External\Order;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
+use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderViewEvent;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -33,12 +34,14 @@ class OrderViewBeforePaymentController extends EnhancedAbstractController
      *  Payment info to be added later
      */
     #[Route('/checkout/order/view', name: 'sc_web_shop_view_order')]
-    public function view(Request $request): Response
+    public function view(Request $request, \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher): Response
     {
 
-
         $session = $request->getSession();
-
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request),
+            PreHeadForwardingEvent::EVENT_NAME
+        );
         $session->set(
             PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
         );

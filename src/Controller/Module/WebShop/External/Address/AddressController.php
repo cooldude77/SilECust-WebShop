@@ -7,6 +7,7 @@ use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadCo
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressCreatedEvent;
+use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -46,10 +47,16 @@ class AddressController extends EnhancedAbstractController
     #[Route('/checkout/addresses', name: 'sc_web_shop_checkout_addresses')]
     #[Route('/checkout/address/create', name: 'sc_web_shop_checkout_address_create')]
     #[Route('/checkout/addresses/choose', name: 'sc_web_shop_checkout_choose_address_from_list')]
-    public function main(Request $request, RouterInterface $router): Response
+    public function main(Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
         $session = $request->getSession();
 
+
+
+        $eventDispatcher->dispatch(
+            new PreHeadForwardingEvent($request),
+            PreHeadForwardingEvent::EVENT_NAME
+        );
         $session->set(
             PanelHeadController::HEAD_CONTROLLER_CLASS_NAME, HeadController::class
         );

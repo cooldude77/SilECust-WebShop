@@ -73,7 +73,7 @@ class MainControllerTest extends WebTestCase
         $this->browser()
             ->visit('/')
             ->assertSuccessful()
-            ->assertSeeIn('title', 'Buy from comfort of your home');
+            ->assertSeeIn('title', 'Home Page');
 
     }
 }
