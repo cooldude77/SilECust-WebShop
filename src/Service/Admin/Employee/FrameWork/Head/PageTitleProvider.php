@@ -1,15 +1,16 @@
 <?php
 
-namespace Silecust\WebShop\Service\Admin\Employee\Common;
+namespace Silecust\WebShop\Service\Admin\Employee\FrameWork\Head;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
-use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRouteObject;
-use Doctrine\ORM\EntityManagerInterface;
+use Silecust\WebShop\Service\Admin\Employee\Route\AdminRouteObject;
+use Silecust\WebShop\Service\Admin\Employee\Route\FunctionToEntityMapper;
 use Symfony\Component\String\Inflector\EnglishInflector;
 use Symfony\Component\String\UnicodeString;
 
-readonly class AdminTitle
+readonly class PageTitleProvider
 {
     public function __construct(private EntityManagerInterface $entityManager,
         private readonly FunctionToEntityMapper $functionToEntityMapper

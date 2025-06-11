@@ -9,7 +9,7 @@ use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameter
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
-use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
+use Silecust\WebShop\Service\Admin\Employee\Route\AdminRoutingFromRequestFinder;
 use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

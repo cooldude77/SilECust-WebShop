@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
@@ -12,11 +12,10 @@ class HeadController extends EnhancedAbstractController
     public function head(Request $request): Response
     {
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/head/head.html.twig',
-
-        );
+            '@SilecustWebShop/admin/customer/ui/panel/head/head.html.twig', ['request' => $request]);
 
 
     }
+
 
 }

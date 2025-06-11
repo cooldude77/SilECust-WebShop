@@ -1,14 +1,14 @@
-<?php
+<?php /** @noinspection ALL */
 
-namespace Silecust\WebShop\Event\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Event\Admin\Customer\Framework\Head;
 
-use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
+use Silecust\Framework\Service\Twig\TwigConstants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PreHeadForwardingEvent extends Event
 {
-    const string PRE_HEAD_FORWARDING_EVENT = 'admin_panel.before_forwarding';
+    const string EVENT_NAME = 'admin_panel.customer.header.before_forwarding';
 
     /**
      * @param Request $request
@@ -24,7 +24,7 @@ class PreHeadForwardingEvent extends Event
 
     public function setPageTitle(string $pageTitle): void
     {
-        $this->request->getSession()->set(PanelHeadController::PAGE_TITLE, $pageTitle);
+        $this->request->attributes->set(TwigConstants::UI_WEB_PAGE_TITLE, $pageTitle);
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Service\Admin\Employee\Common;
+namespace Silecust\WebShop\Service\Admin\Employee\Route;
 
 use Silecust\WebShop\Entity\Category;
 use Silecust\WebShop\Entity\Product;

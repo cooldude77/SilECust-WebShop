@@ -3,7 +3,7 @@
 namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
+use Silecust\WebShop\Event\Admin\Employee\FrameWork\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
@@ -25,7 +25,7 @@ class MainController extends EnhancedAbstractController
 
         $eventDispatcher->dispatch(
             new PreHeadForwardingEvent($request),
-            PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT
+            PreHeadForwardingEvent::EVENT_NAME
         );
 
 

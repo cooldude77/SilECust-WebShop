@@ -2,8 +2,8 @@
 
 namespace Silecust\WebShop\Exception\Admin\Employee\Common;
 
-use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRouteObject;
 use Exception;
+use Silecust\WebShop\Service\Admin\Employee\Route\AdminRouteObject;
 
 class TitleNotFoundForAdminRouteObject extends Exception
 {

@@ -1,11 +1,11 @@
 <?php
 /** @noinspection PhpUnused */
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Common;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Framework\Head;
 
 use Psr\Log\LoggerInterface;
 use Silecust\Framework\Service\Twig\TwigConstants;
-use Silecust\WebShop\Event\Admin\Employee\FrameWork\PreHeadForwardingEvent;
+use Silecust\WebShop\Event\Admin\Employee\FrameWork\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\Admin\Common\FunctionNotMappedToAnyEntity;
 use Silecust\WebShop\Exception\Admin\Employee\Common\TitleNotFoundForAdminRouteObject;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
@@ -13,21 +13,21 @@ use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameter
 use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
-use Silecust\WebShop\Service\Admin\Employee\Common\AdminTitle;
-use Silecust\WebShop\Service\Admin\Employee\FrameWork\AdminRoutingFromRequestFinder;
+use Silecust\WebShop\Service\Admin\Employee\FrameWork\Head\PageTitleProvider;
+use Silecust\WebShop\Service\Admin\Employee\Route\AdminRoutingFromRequestFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPreHeadForwardingEvent implements EventSubscriberInterface
 {
     public function __construct(private AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder,
-        private AdminTitle $adminTitle,
-        private readonly LoggerInterface $logger
+        private PageTitleProvider                                     $adminTitle,
+        private readonly LoggerInterface                              $logger
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
-        return [PreHeadForwardingEvent::PRE_HEAD_FORWARDING_EVENT => 'setHeadData'];
+        return [PreHeadForwardingEvent::EVENT_NAME => 'setHeadData'];
 
     }
 

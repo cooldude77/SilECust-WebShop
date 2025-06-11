@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Service\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Service\Admin\Employee\Route;
 
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlFunctionKeyParameterNull;
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\AdminUrlTypeKeyParameterNull;
