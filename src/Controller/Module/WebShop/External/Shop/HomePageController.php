@@ -8,7 +8,6 @@ use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadCo
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\SideBarController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Product\ProductController;
-use Silecust\WebShop\Controller\Module\WebShop\External\Shop\Components\ContentController;
 use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
@@ -27,7 +26,7 @@ class HomePageController extends EnhancedAbstractController
     /**
      * @param Request $request
      * @param SessionInterface $session
-     *
+     * @param EventDispatcherInterface $eventDispatcher
      * @return Response
      *
      * Home redirects to here
@@ -94,14 +93,6 @@ class HomePageController extends EnhancedAbstractController
 
     public function content(Request $request): Response
     {
-
-        if ($request->query->get('searchTerm')) {
-            return $this->forward(ProductController::class . '::' . 'listBySearchTerm', ['request'
-                => $request]
-            );
-        } else {
-            return $this->forward(ProductController::class . '::' . 'list', ['request' => $request]
-            );
-        }
+        return $this->forward(ProductController::class . '::' . 'list', ['request' => $request]);
     }
 }

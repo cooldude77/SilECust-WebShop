@@ -118,37 +118,25 @@ class ProductController extends EnhancedAbstractController
 
         if ($sortForm->isSubmitted() && $sortForm->isValid()) {
 
-            $queryParams = $this->mergeQueryParameters($request, $sortForm);
+            $queryParams = $this->addSortByAndOrderParameters($request, $sortForm);
 
             return $this->redirectToRoute('sc_home', $queryParams);
         }
 
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
-            ['pagination' => $pagination,
-                'sortForm' => $sortForm]
+            [
+                'pagination' => $pagination,
+                'sortForm' => $sortForm
+            ]
         );
     }
-
-    public function listBySearchTerm(Request $request, ProductRepository $productRepository
-    ): Response
-    {
-        $products = $productRepository->search($request->get('searchTerm'));
-
-        return $this->render(
-            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
-            ['products' => $products]
-        );
-
-
-    }
-
     /**
      * @param Request $request
      * @param FormInterface $sortForm
      * @return array
      */
-    public function mergeQueryParameters(Request $request, FormInterface $sortForm): array
+    public function addSortByAndOrderParameters(Request $request, FormInterface $sortForm): array
     {
         $queryParams = $request->query->all();
 

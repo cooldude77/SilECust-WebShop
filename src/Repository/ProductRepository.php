@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Repository;
 
@@ -76,35 +76,10 @@ class ProductRepository extends ServiceEntityRepository implements SearchableRep
 
     }
 
-    public function search(mixed $searchTerm)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $q = $qb->select('p')
-            ->from(Product::class, 'p')
-            ->where(
-                $qb->expr()->like('p.name', ':searchTerm')
-            )
-            ->orWhere(
-                $qb->expr()->like('p.description', ':searchTerm')
-            )
-            ->orWhere(
-
-                $qb->expr()->like('p.longDescription', ':searchTerm')
-            )
-            ->setParameter('searchTerm', '%' . $searchTerm . '%')
-            ->orderBy('p.name', 'ASC')
-            ->getQuery();
-
-        $e = $q->getDQL();
-
-        return $q->getResult();
-    }
 
     public function findAllByChildren(Category $category): mixed
     {
-        $result = $this->getEntityManager()
+        return $this->getEntityManager()
             ->createQueryBuilder()
             ->select('p')
             ->from(Product::class, 'p')
@@ -112,8 +87,6 @@ class ProductRepository extends ServiceEntityRepository implements SearchableRep
             ->where('c.path like :path')
             ->setParameter('path', "{$category->getPath()}%")
             ->getQuery()->getResult();
-
-        return $result;
     }
 
     public function getQueryFindAll(): Query
