@@ -28,7 +28,11 @@
                     {% endfor %}
                     {% endblock %}
                 </div>
-                {% block content %}{% endblock %}
+                {% block content_heading %}
+                    {% include '@SilecustWebShop/module/web_shop/external/ui/content/heading.html.twig' with {'request':request} %}
+                {% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
 

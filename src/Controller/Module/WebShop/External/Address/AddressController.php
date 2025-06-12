@@ -184,7 +184,6 @@ class AddressController extends EnhancedAbstractController
     ): Response
     {
 
-
         $dto = new AddressCreateAndChooseDTO();
 
         $dto->address->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
@@ -192,6 +191,11 @@ class AddressController extends EnhancedAbstractController
         if ($request->get('type') != null) {
             $dto->address->addressType = $request->query->get('type');
         }
+
+        $this->setContentHeading($request,  $dto->address->addressType =='shipping'?'Add Shipping Address':
+            'Add Billing Address');
+
+
 
         $x = $request->query->get('type');
 

@@ -34,12 +34,14 @@ class CustomerAddressController extends EnhancedAbstractController
                            EntityManagerInterface $entityManager, Request $request
     ): Response
     {
+
+        if ($request->query->get('type') != null)
+            $customerAddressDTO->addressType = $request->query->get('type');
+
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddressDTO->customerId = $id;
 
-        if ($request->query->get('type') != null)
-            $customerAddressDTO->addressType = $request->query->get('type');
 
 
         $form = $this->createForm(
