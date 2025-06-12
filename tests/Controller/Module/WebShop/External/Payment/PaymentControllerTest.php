@@ -5,6 +5,7 @@ namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Payment;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderJournal;
 use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -17,6 +18,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
 use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -93,7 +95,16 @@ class PaymentControllerTest extends WebTestCase
                             ]
                     ]
                 ])
-            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1);
+            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1)
+            ->use(callback: function (KernelBrowser $browser) {
+                $this->createSession($browser);
+
+                // check cart is emptied
+                self::assertNull(
+                    $this->session->get(CartSessionProductService::CART_SESSION_KEY)
+                );
+
+            });
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
