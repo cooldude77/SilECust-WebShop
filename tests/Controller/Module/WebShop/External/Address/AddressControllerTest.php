@@ -5,6 +5,7 @@ namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Address;
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Factory\CustomerAddressFactory;
+use Silecust\WebShop\Factory\OrderAddressFactory;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -151,11 +152,13 @@ class AddressControllerTest extends WebTestCase
                     ['customer' => $this->customer->object()]
                 );
 
-                $orderAddress = $this->findOneBy(
-                    OrderAddress::class, ['shippingAddress' => $address]
-                );
+
+                $orderAddress = OrderAddressFactory::find(['shippingAddress' => $address]);
 
                 self::assertNotNull($orderAddress);
+                self::assertNotEmpty($orderAddress->getShippingAddressInJson());
+                self::assertJson($orderAddress->getShippingAddressInJson());
+
                 // check if it is shipping session
                 self::assertEquals(
                     $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID),
@@ -213,12 +216,16 @@ class AddressControllerTest extends WebTestCase
                     ['customer' => $this->customer->object()]
                 );
 
-                $orderAddress = $this->findOneBy(
-                    OrderAddress::class, ['billingAddress' => $address]
-                );
+                $orderAddress = OrderAddressFactory::find(['billingAddress' => $address]);
 
                 self::assertNotNull($orderAddress);
-
+                self::assertNotEmpty($orderAddress->getBillingAddressInJson());
+                self::assertJson($orderAddress->getBillingAddressInJson());
+                // check if it is billing session
+                self::assertEquals(
+                    $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),
+                    $orderAddress->getBillingAddress()->getId()
+                );
             });
         //todo: check redirect
     }

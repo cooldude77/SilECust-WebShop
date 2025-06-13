@@ -5,6 +5,8 @@ namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Cart;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
+use Silecust\WebShop\Factory\OrderHeaderFactory;
+use Silecust\WebShop\Factory\OrderItemFactory;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
@@ -366,7 +368,16 @@ class CartControllerTest extends WebTestCase
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->use(function (\Zenstruck\Browser $browser) {
+
+                $orderHeader = OrderHeaderFactory::find(['customer' => $this->customer]);
+                $orderItems = OrderItemFactory::findBy(['orderHeader' => $orderHeader]);
+                // check product searlized
+                self::assertNotEmpty($orderItems[0]->getProductInJson());
+                self::assertJson($orderItems[0]->getProductInJson());
+
+            });;
 
     }
 }

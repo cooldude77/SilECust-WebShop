@@ -2,9 +2,9 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderAddressRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Silecust\WebShop\Repository\OrderAddressRepository;
 
 #[ORM\Entity(repositoryClass: OrderAddressRepository::class)]
 class OrderAddress
@@ -19,13 +19,18 @@ class OrderAddress
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CustomerAddress $shippingAddress = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CustomerAddress $billingAddress = null;
 
+    #[ORM\Column(type: Types::JSON)]
+    private mixed $shippingAddressInJson = null;
+
+    #[ORM\Column(type: Types::JSON)]
+    private mixed $billingAddressInJson = null;
 
     public function getId(): ?int
     {
@@ -65,4 +70,25 @@ class OrderAddress
 
         return $this;
     }
+
+    public function getShippingAddressInJson(): mixed
+    {
+        return $this->shippingAddressInJson;
+    }
+
+    public function setShippingAddressInJson(mixed $shippingAddressInJson): void
+    {
+        $this->shippingAddressInJson = $shippingAddressInJson;
+    }
+
+    public function getBillingAddressInJson(): mixed
+    {
+        return $this->billingAddressInJson;
+    }
+
+    public function setBillingAddressInJson(mixed $billingAddressInJson): void
+    {
+        $this->billingAddressInJson = $billingAddressInJson;
+    }
+
 }

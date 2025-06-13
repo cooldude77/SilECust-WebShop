@@ -45,7 +45,7 @@ final class OrderItemFactory extends PersistentProxyObjectFactory
         return [
             'orderHeader' => OrderHeaderFactory::new(),
             'product' => ProductFactory::new(),
-            'quantity' => self::faker()->randomNumber(),
+            'quantity' => self::faker()->randomNumber()
         ];
     }
 
@@ -55,7 +55,10 @@ final class OrderItemFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(OrderItem $orderItem): void {})
+            ->afterInstantiate(function (OrderItem $orderItem): void {
+                $orderItem->setProductInJson(json_encode(['Product' => 'Do not test for this value']));
+
+            })
         ;
     }
 }

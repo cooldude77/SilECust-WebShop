@@ -25,6 +25,7 @@ use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  *
@@ -36,21 +37,28 @@ readonly class OrderSave
      * @param OrderHeaderRepository $orderHeaderRepository
      * @param OrderItemRepository $orderItemRepository
      * @param OrderAddressRepository $orderAddressRepository
+     * @param OrderStatusRepository $orderStatusRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
+     * @param OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository
+     * @param OrderIdStrategyInterface $orderIdStrategy
+     * @param OrderPaymentRepository $orderPaymentRepository
+     * @param OrderShippingRepository $orderShippingRepository
+     * @param PriceByCountryCalculator $priceByCountryCalculator
      * @param DatabaseOperations $databaseOperations
      */
     public function __construct(
-        private readonly OrderHeaderRepository           $orderHeaderRepository,
-        private readonly OrderItemRepository             $orderItemRepository,
-        private readonly OrderAddressRepository          $orderAddressRepository,
-        private readonly OrderStatusRepository           $orderStatusRepository,
-        private readonly OrderStatusTypeRepository       $orderStatusTypeRepository,
-        private readonly OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
-        private readonly OrderIdStrategyInterface        $orderIdStrategy,
-        private readonly OrderPaymentRepository          $orderPaymentRepository,
-        private readonly OrderShippingRepository         $orderShippingRepository,
-        private readonly PriceByCountryCalculator        $priceByCountryCalculator,
-        private readonly DatabaseOperations              $databaseOperations,
+        private OrderHeaderRepository           $orderHeaderRepository,
+        private OrderItemRepository             $orderItemRepository,
+        private OrderAddressRepository          $orderAddressRepository,
+        private OrderStatusRepository           $orderStatusRepository,
+        private OrderStatusTypeRepository       $orderStatusTypeRepository,
+        private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
+        private OrderIdStrategyInterface        $orderIdStrategy,
+        private OrderPaymentRepository          $orderPaymentRepository,
+        private OrderShippingRepository         $orderShippingRepository,
+        private PriceByCountryCalculator        $priceByCountryCalculator,
+        private DatabaseOperations              $databaseOperations,
+        private SerializerInterface             $serializer,
     )
     {
     }
@@ -132,22 +140,30 @@ readonly class OrderSave
 
     public function createOrUpdateAddress(?OrderHeader    $orderHeader,
                                           CustomerAddress $address,
-                                          array           $currentAddressesForOrder
+                                          array $currentAddressesForOrder
+
     ): void
     {
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
             $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
+            if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
+                $orderAddress->setShippingAddressInJson($this->serializer->serialize($address, 'json'));
+            } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
+                $orderAddress->setBillingAddressInJson($this->serializer->serialize($address, 'json'));
+            }
             $this->databaseOperations->persist($orderAddress);
         } else {
             /** @var OrderAddress $orderAddress */
             foreach ($currentAddressesForOrder as $orderAddress) {
                 if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
                     $orderAddress->setShippingAddress($address);
+                    $orderAddress->setShippingAddressInJson($this->serializer->serialize($address, 'json'));
                     $this->databaseOperations->persist($orderAddress);
                     break;
                 } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
                     $orderAddress->setBillingAddress($address);
+                    $orderAddress->setBillingAddressInJson($this->serializer->serialize($address, 'json'));
                     $this->databaseOperations->persist($orderAddress);
                     break;
                 }
@@ -180,6 +196,7 @@ readonly class OrderSave
     {
         // todo: check if the item already exists
         $orderItem = $this->orderItemRepository->create($orderHeader, $product, $quantity);
+        $orderItem->setProductInJson($this->serializer->serialize($product,'json'));
 
         $priceObject = $this->priceByCountryCalculator->getPriceObject($orderItem);
         $itemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
@@ -218,7 +235,7 @@ readonly class OrderSave
             $orderShipping = $this->orderShippingRepository->create(
                 $orderHeader, $data['name'], $data['value'], $data['data']);
         else {
-            $orderShipping->setValue($data['value'], $data['data']);
+            $orderShipping->setValue($data['value']);
         }
 
         $this->databaseOperations->persist($orderShipping);

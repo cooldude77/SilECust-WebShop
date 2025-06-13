@@ -2,6 +2,7 @@
 
 namespace Silecust\WebShop\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Silecust\WebShop\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,11 +20,14 @@ class OrderItem
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true,onDelete: 'SET NULL')]
     private ?Product $product = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: false)]
+    private mixed $productInJson = null;
 
 
     public function getId(): ?int
@@ -66,5 +70,16 @@ class OrderItem
 
         return $this;
     }
+
+    public function getProductInJson(): mixed
+    {
+        return $this->productInJson;
+    }
+
+    public function setProductInJson(mixed $productInJson): void
+    {
+        $this->productInJson = $productInJson;
+    }
+    
 
 }

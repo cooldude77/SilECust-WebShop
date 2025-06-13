@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class  CustomerAddress
 {
 
-    public const ADDRESS_TYPE_SHIPPING = 'shipping';
-    public const ADDRESS_TYPE_BILLING = 'billing';
+    public const string ADDRESS_TYPE_SHIPPING = 'shipping';
+    public const string ADDRESS_TYPE_BILLING = 'billing';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
