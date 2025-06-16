@@ -2,9 +2,9 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
 
 #[ORM\Entity(repositoryClass: OrderItemPaymentPriceRepository::class)]
 class OrderItemPaymentPrice
@@ -26,6 +26,15 @@ class OrderItemPaymentPrice
     #[ORM\OneToOne(targetEntity:OrderItem::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false,onDelete :'CASCADE')]
     private ?OrderItem $orderItem = null;
+
+    #[ORM\Column(type: Types::JSON)]
+    private mixed $basePriceInJson = null;
+
+    #[ORM\Column(type: Types::JSON)]
+    private mixed $discountsInJson = null;
+
+    #[ORM\Column(type: Types::JSON)]
+    private mixed $taxationInJson = null;
 
     public function getId(): ?int
     {
@@ -79,4 +88,35 @@ class OrderItemPaymentPrice
 
         return $this;
     }
+
+    public function getBasePriceInJson(): mixed
+    {
+        return $this->basePriceInJson;
+    }
+
+    public function setBasePriceInJson(mixed $basePriceInJson): void
+    {
+        $this->basePriceInJson = $basePriceInJson;
+    }
+
+    public function getDiscountsInJson(): mixed
+    {
+        return $this->discountsInJson;
+    }
+
+    public function setDiscountsInJson(mixed $discountsInJson): void
+    {
+        $this->discountsInJson = $discountsInJson;
+    }
+
+    public function getTaxationInJson(): mixed
+    {
+        return $this->taxationInJson;
+    }
+
+    public function setTaxationInJson(mixed $taxationInJson): void
+    {
+        $this->taxationInJson = $taxationInJson;
+    }
+
 }

@@ -26,10 +26,10 @@ class OrderAddress
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CustomerAddress $billingAddress = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::JSON,nullable: true)]
     private mixed $shippingAddressInJson = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::JSON,nullable: true)]
     private mixed $billingAddressInJson = null;
 
     public function getId(): ?int

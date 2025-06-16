@@ -16,18 +16,21 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
  *
  */
-readonly class PriceByCountryCalculator
+readonly class PriceByCountryCalculator implements PriceByCountryCalculatorInterface
 {
-    public function __construct(private PriceCalculator $priceCalculator,
-        private readonly CountryRepository $countryRepository, private ProductRepository $productRepository,
-        private readonly CurrencyRepository $currencyRepository,
+    /**
+     * @throws DefaultCountryNotSet
+     */
+    public function __construct(
+        private PriceCalculator    $priceCalculator,
+        private CountryRepository  $countryRepository,
+        private ProductRepository  $productRepository,
+        private CurrencyRepository $currencyRepository,
         #[Autowire(param: 'silecust.default_country')]
-        private readonly string $countryCode
+        private string             $countryCode
     ) {
-
         if($this->countryCode == null)
              throw new DefaultCountryNotSet();
-
     }
 
 
@@ -70,6 +73,9 @@ readonly class PriceByCountryCalculator
         );
     }
 
+    /**
+     * @return Currency|null
+     */
     public function getCurrency(): ?Currency
     {
 

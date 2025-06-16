@@ -27,6 +27,7 @@ use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInter
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\Serializer\SerializerInterface;
 
+
 /**
  *
  */
@@ -45,6 +46,7 @@ readonly class OrderSave
      * @param OrderShippingRepository $orderShippingRepository
      * @param PriceByCountryCalculator $priceByCountryCalculator
      * @param DatabaseOperations $databaseOperations
+     * @param SerializerInterface $serializer
      */
     public function __construct(
         private OrderHeaderRepository           $orderHeaderRepository,
@@ -88,6 +90,11 @@ readonly class OrderSave
     }
 
 
+    /**
+     * @param array $cartArray
+     * @param array $orderItems
+     * @return void
+     */
     public function updateOrderItemsFromCartArray(array $cartArray, array $orderItems): void
     {
 
@@ -111,6 +118,11 @@ readonly class OrderSave
 
     }
 
+    /**
+     * @param Product $product
+     * @param array $orderItems
+     * @return void
+     */
     public function updateOrderRemoveItem(Product $product, array $orderItems): void
     {
         /** @var OrderItem $item */
@@ -126,6 +138,10 @@ readonly class OrderSave
 
     }
 
+    /**
+     * @param array $orderItems
+     * @return void
+     */
     public function removeAllItems(array $orderItems): void
     {
         /** @var OrderItem $item */
@@ -138,6 +154,12 @@ readonly class OrderSave
 
     }
 
+    /**
+     * @param OrderHeader|null $orderHeader
+     * @param CustomerAddress $address
+     * @param array $currentAddressesForOrder
+     * @return void
+     */
     public function createOrUpdateAddress(?OrderHeader    $orderHeader,
                                           CustomerAddress $address,
                                           array $currentAddressesForOrder
@@ -169,18 +191,17 @@ readonly class OrderSave
                 }
             }
         }
-
-
         $this->databaseOperations->flush();
-
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @param string $orderStatusTypeString
+     * @return void
+     */
     public function setOrderStatus(OrderHeader $orderHeader, string $orderStatusTypeString): void
     {
-        $orderStatusType = $this->orderStatusTypeRepository->findOneBy
-        (
-            ['type' => $orderStatusTypeString]
-        );
+        $orderStatusType = $this->orderStatusTypeRepository->findOneBy(['type' => $orderStatusTypeString]);
 
         $orderHeader->setOrderStatusType($orderStatusType);
 
@@ -206,22 +227,40 @@ readonly class OrderSave
     }
 
 
+    /**
+     * @param OrderItem $orderItem
+     * @param PriceObject $priceObject
+     * @return void
+     */
     public function savePrice(OrderItem $orderItem, PriceObject $priceObject): void
     {
 
         /** @var OrderItemPaymentPrice $orderItemPaymentPrice */
         $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->findOneBy(['orderItem' => $orderItem]);
+
+
         if ($orderItemPaymentPrice == null)
             $orderItemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
         else {
-            $orderItemPaymentPrice->setBasePrice($priceObject->getBasePrice());
-            $orderItemPaymentPrice->setDiscount($priceObject->getDiscount());
-            $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRate());
+
+            $orderItemPaymentPrice->setBasePrice($priceObject->getBasePriceAmount());
+            $orderItemPaymentPrice->setDiscount($priceObject->getDiscountAmount());
+            $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRatePercentage());
+
+            $orderItemPaymentPrice->getBasePriceInJson($this->serializer->serialize($priceObject->getBasePriceArray(), 'json'));
+            $orderItemPaymentPrice->getDiscountsInJson($this->serializer->serialize($priceObject->getDiscountAmount(), 'json'));
+            $orderItemPaymentPrice->getTaxationInJson($this->serializer->serialize($priceObject->getTaxRatePercentage(), 'json'));
+
         }
 
         $this->databaseOperations->save($orderItemPaymentPrice);
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @param string $paymentInformation
+     * @return void
+     */
     public function savePayment(OrderHeader $orderHeader, string $paymentInformation): void
     {
         $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
@@ -229,6 +268,12 @@ readonly class OrderSave
 
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @param array $data
+     * @param OrderShipping|null $orderShipping
+     * @return void
+     */
     public function saveShippingData(OrderHeader $orderHeader, array $data, OrderShipping $orderShipping = null): void
     {
         if ($orderShipping == null)

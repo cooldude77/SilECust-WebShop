@@ -2,12 +2,12 @@
 
 namespace Silecust\WebShop\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Entity\OrderItemPaymentPrice;
 use Silecust\WebShop\Service\Transaction\Order\PriceObject;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<OrderItemPaymentPrice>
@@ -63,9 +63,13 @@ class OrderItemPaymentPriceRepository extends ServiceEntityRepository
 
         $orderItemPaymentPrice = new OrderItemPaymentPrice();
         $orderItemPaymentPrice->setOrderItem($orderItem);
-        $orderItemPaymentPrice->setBasePrice($priceObject->getBasePrice());
-        $orderItemPaymentPrice->setDiscount($priceObject->getDiscount());
-        $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRate());
+        $orderItemPaymentPrice->setBasePrice($priceObject->getBasePriceAmount());
+        $orderItemPaymentPrice->setDiscount($priceObject->getDiscountAmount());
+        $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRatePercentage());
+        $orderItemPaymentPrice->setBasePriceInJson($priceObject->getBasePriceArray());
+        $orderItemPaymentPrice->setDiscountsInJson($priceObject->getDiscountArray());
+        $orderItemPaymentPrice->setTaxationInJson($priceObject->getTaxRateArray());
+
 
         return $orderItemPaymentPrice;
     }

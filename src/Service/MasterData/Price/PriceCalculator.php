@@ -15,6 +15,7 @@ use Silecust\WebShop\Repository\PriceProductDiscountRepository;
 use Silecust\WebShop\Repository\PriceProductTaxRepository;
 use Silecust\WebShop\Repository\TaxSlabRepository;
 use Silecust\WebShop\Service\Transaction\Order\PriceObject;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  *
@@ -27,10 +28,12 @@ readonly class PriceCalculator
      * @param PriceProductTaxRepository $priceProductTaxRepository
      * @param TaxSlabRepository $taxSlabRepository
      */
-    public function __construct(private PriceProductBaseRepository $priceProductBaseRepository,
+    public function __construct(
+        private PriceProductBaseRepository $priceProductBaseRepository,
         private PriceProductDiscountRepository $priceProductDiscountRepository,
         private PriceProductTaxRepository $priceProductTaxRepository,
-        private TaxSlabRepository $taxSlabRepository
+        private TaxSlabRepository          $taxSlabRepository,
+        private SerializerInterface        $serializer
     ) {
     }
 
@@ -98,8 +101,7 @@ readonly class PriceCalculator
     }
 
     /**
-     * @param Product $productpo
-     *
+     * @param Product $product
      * @return PriceProductDiscount|null
      */
     public function getDiscount(Product $product): ?PriceProductDiscount
@@ -138,6 +140,21 @@ readonly class PriceCalculator
         $priceObject->setDiscount($this->getDiscount($product)->getValue());
         $priceObject->setTaxRate($this->getTaxRate($product,$country)->getTaxSlab()->getRateOfTax
         ());
+
+
+        $priceObject->setBasePriceArray(json_decode(
+                $this->serializer->serialize($this->getBasePrice($product, $currency), 'json'), true)
+        );
+        $priceObject->setDiscountArray(
+            json_decode(
+                $this->serializer->serialize($this->getDiscount($product, $currency), 'json'),
+                true)
+        );
+        $priceObject->setTaxRateArray(
+            json_decode(
+                $this->serializer->serialize($this->getTaxRate($product, $country),
+                    'json'),
+                true));
 
         return $priceObject;
     }
