@@ -68,4 +68,33 @@ class CustomerAddressRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
 
     }
+
+    /**
+     * @param CustomerAddress $customerAddress
+     * @return void
+     *
+     * Sets all other address other than provided to non defaults
+     * if the default flag is set for the parameter address
+     */
+    public function setDefaultAddressForAddressNotIn(CustomerAddress $customerAddress): void
+    {
+
+      if($customerAddress->isDefault()) {
+          $qb = $this->getEntityManager()->createQueryBuilder();
+          $query = $qb->update(CustomerAddress::class, 'ca')
+              ->set('ca.isDefault', ":falseValue")
+              ->setParameter("falseValue", 0)
+              ->where($qb->expr()->eq("ca.customer", ":customer"))
+              ->setParameter("customer", $customerAddress->getCustomer())
+              ->andWhere($qb->expr()->eq("ca.addressType", ":addressType"))
+              ->setParameter("addressType", $customerAddress->getAddressType())
+              ->andWhere($qb->expr()->neq("ca.id", ":notThisId"))
+              ->setParameter("notThisId", $customerAddress->getId())
+              ->getQuery();
+
+          $q = $query->getSQL();
+          $query->execute();
+      }
+      //  $y = $this->findAll();
+    }
 }

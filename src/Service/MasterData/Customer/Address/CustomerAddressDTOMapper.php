@@ -18,32 +18,64 @@ readonly class CustomerAddressDTOMapper
     ) {
     }
 
-    public function mapDtoToEntityForCreate(CustomerAddressDTO $customerAddressDTO): CustomerAddress
+    public function mapDtoToEntityForCreate(CustomerAddressDTO $customerAddressDTO): array
     {
         /** @var Customer $customer */
         $customer = $this->customerRepository->findOneBy(
             ['id' => $customerAddressDTO->customerId]
         );
 
-        $customerAddress = $this->customerAddressRepository->create($customer);
+        $customerAddressesArray = array();
 
-        $customerAddress->setLine1($customerAddressDTO->line1);
-        $customerAddress->setLine2($customerAddressDTO->line2);
-        $customerAddress->setLine3($customerAddressDTO->line3);
+        if (in_array('shipping', $customerAddressDTO->addressTypes)) {
+            $customerAddress = $this->customerAddressRepository->create($customer);
 
-        $customerAddress->setCustomer($customer);
+            $customerAddress->setLine1($customerAddressDTO->line1);
+            $customerAddress->setLine2($customerAddressDTO->line2);
+            $customerAddress->setLine3($customerAddressDTO->line3);
 
-        $customerAddress->setAddressType($customerAddressDTO->addressType);
+            $customerAddress->setCustomer($customer);
 
-        $customerAddress->setPostalCode(
-            $this->postalCodeRepository->find(
-                $customerAddressDTO->postalCodeId
-            )
-        );
+            $customerAddress->setAddressType('shipping');
 
-        $customerAddress->setDefault($customerAddressDTO->isDefault);
+            $customerAddress->setPostalCode(
+                $this->postalCodeRepository->find(
+                    $customerAddressDTO->postalCodeId
+                )
+            );
 
-        return $customerAddress;
+            if (in_array('useAsDefaultShipping', $customerAddressDTO->addressTypeDefaults))
+                $customerAddress->setDefault(true);
+
+
+            $customerAddressesArray[] = $customerAddress;
+        }
+
+        if (in_array('billing', $customerAddressDTO->addressTypes)) {
+            $customerAddress = $this->customerAddressRepository->create($customer);
+
+            $customerAddress->setLine1($customerAddressDTO->line1);
+            $customerAddress->setLine2($customerAddressDTO->line2);
+            $customerAddress->setLine3($customerAddressDTO->line3);
+
+            $customerAddress->setCustomer($customer);
+
+            $customerAddress->setAddressType('billing');
+
+            $customerAddress->setPostalCode(
+                $this->postalCodeRepository->find(
+                    $customerAddressDTO->postalCodeId
+                )
+            );
+
+            if (in_array('useAsDefaultBilling', $customerAddressDTO->addressTypeDefaults))
+                $customerAddress->setDefault(true);
+
+
+            $customerAddressesArray[] = $customerAddress;
+        }
+
+        return $customerAddressesArray;
 
     }
 

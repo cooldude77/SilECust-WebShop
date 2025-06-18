@@ -7,6 +7,7 @@ namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
@@ -30,8 +31,12 @@ class CustomerAddressController extends EnhancedAbstractController
      * @throws AddressTypeNotProvided
      */
     #[Route('/admin/customer/{id}/address/create', name: 'sc_admin_customer_address_create')]
-    public function create(int                    $id, CustomerAddressDTOMapper $mapper,
-                           EntityManagerInterface $entityManager, Request $request
+    public function create(
+        int                      $id,
+        EventDispatcherInterface $eventDispatcher,
+        CustomerAddressDTOMapper $mapper,
+        EntityManagerInterface   $entityManager,
+        Request                  $request
     ): Response
     {
 
@@ -41,9 +46,6 @@ class CustomerAddressController extends EnhancedAbstractController
         $customerAddressDTO = new CustomerAddressDTO();
 
         $customerAddressDTO->customerId = $id;
-
-
-
         $form = $this->createForm(
             CustomerAddressCreateForm::class, $customerAddressDTO,
             ['addressType' => $request->query->get('type')]
@@ -59,22 +61,28 @@ class CustomerAddressController extends EnhancedAbstractController
 
             $customerAddress = $mapper->mapDtoToEntityForCreate($data);
 
-            $entityManager->persist($customerAddress);
-            $entityManager->flush();
 
+            foreach ($customerAddress as $address) {
+
+                $entityManager->persist($address);
+            }
+            $entityManager->flush();
+            $a = $entityManager->getRepository(CustomerAddress::class)->findAll();
             $this->addFlash(
                 'success', "Customer Address created successfully"
             );
 
-            $id = $customerAddress->getId();
+            // $id = $customerAddress->getId();
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Customer Address created successfully"]
+                    ['message' => "Customer Address(es) created successfully"]
                 ), 201
             );
 
         }
+
+        $errors = $form->getErrors(true);
 
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
