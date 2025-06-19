@@ -27,7 +27,6 @@ class CustomerAddressDTO
      * For edit form
      */
     public ?string $currentPostalCodeText = null;
-    public bool $isDefault = false;
 
 
     #[Assert\Callback]

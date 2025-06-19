@@ -3,6 +3,7 @@
 namespace Silecust\WebShop\Tests\Controller\MasterData\Customer\Address;
 
 use Silecust\WebShop\Factory\CustomerAddressFactory;
+use Silecust\WebShop\Service\Testing\Fixtures\CustomerAddressFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
@@ -15,7 +16,7 @@ use Zenstruck\Foundry\Test\Factories;
 class CustomerAddressControllerTest extends WebTestCase
 {
 
-    use HasBrowser, EmployeeFixture, CustomerFixture, SelectElement, LocationFixture, Factories;
+    use HasBrowser, EmployeeFixture, CustomerFixture, CustomerAddressFixture, SelectElement, LocationFixture, Factories;
 
 
     /**
@@ -174,6 +175,63 @@ class CustomerAddressControllerTest extends WebTestCase
         self::assertFalse($created1->isDefault());
         self::assertTrue($created2->isDefault());
         
+
+    }
+
+    public function testEditShippingAddress()
+    {
+
+        $this->createCustomerAddress($this->customer);
+        $uri = "/admin/customer/address/{$this->addressShipping->getId()}/edit";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            // fill all remaining fields too
+            ->visit($uri)
+            ->fillField('customer_address_edit_form[line1]', 'Line 1')
+            ->fillField('customer_address_edit_form[line2]', 'Line A')
+            ->fillField('customer_address_edit_form[line3]', 'Line B')
+            ->checkField('Use as default shipping')
+            ->click('Save')
+            ->assertSuccessful();
+
+        $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
+
+        self::assertTrue($created->isDefault());
+
+    }
+    public function testEditBillingAddress()
+    {
+
+        $this->createCustomerAddress($this->customer);
+        $uri = "/admin/customer/address/{$this->addressBilling->getId()}/edit";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            // fill all remaining fields too
+            ->visit($uri)
+            ->fillField('customer_address_edit_form[line1]', 'Line 1')
+            ->fillField('customer_address_edit_form[line2]', 'Line A')
+            ->fillField('customer_address_edit_form[line3]', 'Line B')
+            ->checkField('Use as default billing')
+            ->click('Save')
+            ->assertSuccessful();
+
+        $created = CustomerAddressFactory::find(array('line1' => 'Line 1'));
+
+        self::assertTrue($created->isDefault());
+
+     
 
     }
 

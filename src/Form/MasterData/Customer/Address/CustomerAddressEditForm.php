@@ -6,7 +6,6 @@ use Silecust\WebShop\Form\MasterData\Customer\Address\Attribute\PostalCode\Posta
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Repository\PostalCodeRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,37 +27,48 @@ class CustomerAddressEditForm extends AbstractType
     {
         $builder->add('id', HiddenType::class);
         $builder->add('line1', TextType::class);
-        $builder->add('line2', TextType::class);
-        $builder->add('line3', TextType::class);
+        $builder->add('line2', TextType::class, ['required' => false]);
+        $builder->add('line3', TextType::class, ['required' => false]);
+
         $builder->add('postalCode', PostalCodeAutoCompleteField::class, ['mapped' => false, 'required' => false, 'label' => 'Search Postal Codes']);
         $builder->add('currentPostalCodeText', TextType::class, ['disabled' => true, 'label' => 'Postal Code ']);
-        $builder->add(
-            'addressType', ChoiceType::class,
-            [
-                'choices' => [
-                    'Shipping' => 'shipping',
-                    'Billing' => 'billing',
-                ],
-                'multiple' => false,
-                'expanded' => true,
-            ]
-        );
-        $builder->add('isDefault', CheckboxType::class, ['label' => 'Use as default']);
-
-        $builder->add('save', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
             /** @var CustomerAddressDTO $data */
             $data = $formEvent->getData();
+            $form = $formEvent->getForm();
 
             $id = $data->postalCodeId;
-
-            $postalCode = $this->postalCodeRepository->find(
-                $id
-            );
+            $postalCode = $this->postalCodeRepository->find($id);
             $data->currentPostalCodeText = $postalCode->getCode();
 
+            if (in_array('shipping', $data->addressTypes))
+                $form->add(
+                    'addressTypeDefaults', ChoiceType::class,
+                    [
+                        'choices' => [
+                            'Use as default shipping' => 'useAsDefaultShipping',
+                        ],
+                        'multiple' => true,
+                        'expanded' => true,
+                    ]
+                );
+            else if (in_array('billing', $data->addressTypes))
+                $form->add(
+                    'addressTypeDefaults', ChoiceType::class,
+                    [
+                        'choices' => [
+                            'Use as default billing' => 'useAsDefaultBilling',
+                        ],
+                        'multiple' => true,
+                        'expanded' => true,
+                    ]
+                );
+
+            $form->add('save', SubmitType::class);
+
             $formEvent->setData($data);
+
         });
 
 

@@ -92,16 +92,21 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setLine3($customerAddressDTO->line3);
 
-        $customerAddress->setAddressType($customerAddressDTO->addressType);
+        if (in_array('shipping', $customerAddressDTO->addressTypes)
+            && in_array('useAsDefaultShipping', $customerAddressDTO->addressTypeDefaults)
+        )
+            $customerAddress->setDefault(true);
+        if (in_array('billing', $customerAddressDTO->addressTypes)
+            && in_array('useAsDefaultBilling', $customerAddressDTO->addressTypeDefaults)
+        )
+            $customerAddress->setDefault(true);
 
         if ($customerAddressDTO->postalCodeId != 0)
             // no value was sent
             $customerAddress->setPostalCode($this->postalCodeRepository->find($customerAddressDTO->postalCodeId)
         );
 
-        $customerAddress->setDefault($customerAddressDTO->isDefault);
-
-        return $customerAddress;
+         return $customerAddress;
     }
 
     public function mapEntityToDtoForUpdate(int $id
@@ -121,15 +126,21 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddressDTO->line3 = $customerAddress->getLine3();
 
-        $customerAddressDTO->addressType = $customerAddress->getAddressType();
+        $customerAddressDTO->addressTypes[] = $customerAddress->getAddressType();
+
+        if (in_array('shipping', $customerAddressDTO->addressTypes) && $customerAddress->isDefault()) {
+            $customerAddressDTO->addressTypeDefaults[] = 'useAsDefaultShipping';
+        }
+
+        if (in_array('billing', $customerAddressDTO->addressTypes) && $customerAddress->isDefault()) {
+            $customerAddressDTO->addressTypeDefaults[] = 'useAsDefaultBilling';
+        }
 
         $postalCode = $this->postalCodeRepository->find(
             $customerAddress->getCode()->getId()
         );
 
         $customerAddressDTO->postalCodeId = $postalCode->getId();
-
-        $customerAddressDTO->isDefault = $customerAddress->isDefault();
 
         return $customerAddressDTO;
     }
