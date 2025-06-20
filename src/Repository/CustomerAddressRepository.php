@@ -92,9 +92,7 @@ class CustomerAddressRepository extends ServiceEntityRepository
               ->setParameter("notThisId", $customerAddress->getId())
               ->getQuery();
 
-          $q = $query->getSQL();
           $query->execute();
       }
-      //  $y = $this->findAll();
     }
 }

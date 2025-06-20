@@ -169,11 +169,6 @@ readonly class OrderSave
         // no list was sent
         if (count($currentAddressesForOrder) == 0) {
             $orderAddress = $this->orderAddressRepository->create($orderHeader, $address);
-            if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
-                $orderAddress->setShippingAddressInJson($this->serializer->serialize($address, 'json'));
-            } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
-                $orderAddress->setBillingAddressInJson($this->serializer->serialize($address, 'json'));
-            }
             $this->databaseOperations->persist($orderAddress);
         } else {
             /** @var OrderAddress $orderAddress */
@@ -191,7 +186,8 @@ readonly class OrderSave
                 }
             }
         }
-        $this->databaseOperations->flush();
+        // Not to be flushed here
+        //    $this->databaseOperations->flush();
     }
 
     /**

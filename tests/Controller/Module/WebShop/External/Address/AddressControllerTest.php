@@ -34,6 +34,7 @@ class AddressControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
+        $this->createOpenOrderFixtures($this->customer);
 
     }
 
@@ -117,29 +118,24 @@ class AddressControllerTest extends WebTestCase
                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField(
-                'address_create_and_choose_form[address][line1]', 'Line 1'
+                'customer_address_create_form[line1]', 'Line 1'
             )
             ->fillField(
-                'address_create_and_choose_form[address][line2]', 'Line 2'
+                'customer_address_create_form[line2]', 'Line 2'
             )
             ->fillField(
-                'address_create_and_choose_form[address][line3]', 'Line 3'
+                'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
+                'customer_address_create_form[postalCode]', $this->postalCode->getId()
             )
-            ->fillField(
-                'address_create_and_choose_form[address][addressType]', 'shipping'
-            )
-            ->checkField(
-                'address_create_and_choose_form[address][isDefault]'
-            )
-            ->checkField('address_create_and_choose_form[isChosen]')
+            ->checkField('The address is for shipping')
+            // ->checkField('The address is for billing')
+            ->checkField('Use as default shipping')
             ->click('Save')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
-
                 // check if address set it session
                 self::assertNotNull(
                     $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
@@ -157,13 +153,14 @@ class AddressControllerTest extends WebTestCase
 
                 self::assertNotNull($orderAddress);
                 self::assertNotEmpty($orderAddress->getShippingAddressInJson());
-                self::assertJson($orderAddress->getShippingAddressInJson());
+                self::assertJson(@json_encode($orderAddress->getShippingAddressInJson()));
 
                 // check if it is shipping session
                 self::assertEquals(
                     $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID),
                     $orderAddress->getShippingAddress()->getId()
                 );
+
             });
     }
 
@@ -185,24 +182,82 @@ class AddressControllerTest extends WebTestCase
                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField(
-                'address_create_and_choose_form[address][line1]', 'Line 1'
+                'customer_address_create_form[line1]', 'Line 1'
             )
             ->fillField(
-                'address_create_and_choose_form[address][line2]', 'Line 2'
+                'customer_address_create_form[line2]', 'Line 2'
             )
             ->fillField(
-                'address_create_and_choose_form[address][line3]', 'Line 3'
+                'customer_address_create_form[line3]', 'Line 3'
             )
             ->fillField(
-                'address_create_and_choose_form[address][postalCode]', $this->postalCode->getId()
+                'customer_address_create_form[postalCode]', $this->postalCode->getId()
+            )
+            ->checkField('The address is for billing')
+            // ->checkField('The address is for billing')
+            ->checkField('Use as default billing')
+            ->click('Save')
+            ->assertRedirectedTo('/checkout/addresses', 1)
+            ->use(function (KernelBrowser $browser) {
+                $this->createSession($browser);
+                self::assertNotNull(
+                    $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
+                );
+
+                $address = $this->findOneBy(
+                    CustomerAddress::class,
+                    ['customer' => $this->customer->object()]
+                );
+
+                $orderAddress = OrderAddressFactory::find(['billingAddress' => $address]);
+
+                self::assertNotNull($orderAddress);
+                self::assertNotEmpty($orderAddress->getBillingAddressInJson());
+                self::assertJson(@json_encode($orderAddress->getBillingAddressInJson()));
+                // check if it is billing session
+                self::assertEquals(
+                    $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),
+                    $orderAddress->getBillingAddress()->getId()
+                );
+            });
+        //todo: check redirect
+    }
+
+    public function testCreateAddressBothBillingAndShipping()
+    {
+
+        $uri = "/checkout/address/create?type=shipping&"
+            . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
+
+        $this->browser()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForCustomer->object());
+                $this->createOpenOrderFixtures($this->customer);
+
+            })
+            ->interceptRedirects()
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $this->addOption($browser, 'select', $this->postalCode->getId());
+            })
+            ->fillField(
+                'customer_address_create_form[line1]', 'Line 1'
             )
             ->fillField(
-                'address_create_and_choose_form[address][addressType]', 'billing'
+                'customer_address_create_form[line2]', 'Line 2'
             )
-            ->checkField(
-                'address_create_and_choose_form[address][isDefault]'
+            ->fillField(
+                'customer_address_create_form[line3]', 'Line 3'
             )
-            ->checkField('address_create_and_choose_form[isChosen]')
+            ->fillField(
+                'customer_address_create_form[postalCode]', $this->postalCode->getId()
+            )
+            ->checkField('The address is for shipping')
+            // ->checkField('The address is for shipping')
+            ->checkField('Use as default shipping')
+            ->checkField('The address is for billing')
+            // ->checkField('The address is for billing')
+            ->checkField('Use as default billing')
             ->click('Save')
             ->assertRedirectedTo('/checkout/addresses', 1)
             ->use(function (KernelBrowser $browser) {

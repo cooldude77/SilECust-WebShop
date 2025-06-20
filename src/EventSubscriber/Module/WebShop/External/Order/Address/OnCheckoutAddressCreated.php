@@ -16,7 +16,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
     public function __construct(
         private readonly CustomerFromUserFinder $customerFromUserFinder,
         private OrderRead                       $orderRead,
-        private OrderSave                       $orderSave
+        private OrderSave $orderSave
     )
     {
     }
@@ -24,7 +24,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            AddressCreatedEvent::EVENT_NAME => 'onAddressCreated'
+            AddressCreatedEvent::EVENT_NAME => ['onAddressCreated']
         ];
 
     }
@@ -37,7 +37,7 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
     public function onAddressCreated(AddressCreatedEvent $event): void
     {
 
-        $customer = $event->getCustomer();
+        $customer = $this->customerFromUserFinder->getLoggedInCustomer();
 
         $orderHeader = $this->orderRead->getOpenOrder($customer);
 
@@ -49,7 +49,6 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
         $listAddresses = $this->orderRead->getAddresses($orderHeader);
 
         $this->orderSave->createOrUpdateAddress($orderHeader, $address, $listAddresses);
-
 
     }
 }

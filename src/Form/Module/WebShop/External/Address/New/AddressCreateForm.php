@@ -5,7 +5,6 @@ namespace Silecust\WebShop\Form\Module\WebShop\External\Address\New;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -23,14 +22,16 @@ class AddressCreateForm extends AbstractType
         // use address structure
         // default is in this structure
         $builder->add(
-            'address', CustomerAddressCreateForm::class, ['addressType' => $options['addressType']]
-        );
-        // check box if this is to be chosen
-        $builder->add('isChosen', CheckboxType::class,['label'=>'Choose this address']);
-        $builder->add('save', SubmitType::class);
+            'address', CustomerAddressCreateForm::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $event->getForm()->get('address')->remove('save');
+            $form = $event->getForm();
+            $data = $event->getData();
+            $options = $event->getForm()->getConfig()->getOptions();
+
+            $form->get('address')->remove('save');
+            $event->getForm()->add('save', SubmitType::class);
+
 
         });
 

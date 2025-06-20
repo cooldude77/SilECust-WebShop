@@ -1,18 +1,19 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Address;
+namespace Silecust\WebShop\EventSubscriber\Entity\MasterData\Address;
 
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Events;
 use Silecust\WebShop\Entity\CustomerAddress;
-use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressSave;
 
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: CustomerAddress::class)]
 readonly class OnAddressCreated
 {
 
-    public function __construct(private readonly CustomerAddressRepository $customerAddressRepository)
+    public function __construct(
+        private readonly CustomerAddressSave $customerAddressSave)
     {
     }
 
@@ -25,6 +26,7 @@ readonly class OnAddressCreated
      */
     public function postPersist(CustomerAddress $customerAddress, PostPersistEventArgs $event): void
     {
-        $this->customerAddressRepository->setDefaultAddressForAddressNotIn($customerAddress);
+        $this->customerAddressSave->setDefaultAddressForAddressNotIn($customerAddress);
+
     }
 }

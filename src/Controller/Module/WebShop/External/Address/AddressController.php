@@ -2,6 +2,7 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Address;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
@@ -11,6 +12,8 @@ use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForward
 use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
+use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
+use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\New\AddressCreateForm;
@@ -21,9 +24,11 @@ use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentControlle
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSave;
+use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
@@ -50,7 +55,6 @@ class AddressController extends EnhancedAbstractController
     public function main(Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
         $session = $request->getSession();
-
 
 
         $eventDispatcher->dispatch(
@@ -103,13 +107,19 @@ class AddressController extends EnhancedAbstractController
         return $this->forward(PanelMainController::class . '::main', ['request' => $request]);
     }
 
+    /**
+     * @param CustomerAddressRepository $customerAddressRepository
+     * @param CheckOutAddressQuery $checkOutAddressQuery
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @return RedirectResponse
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
 
     public function content(
-        EventDispatcherInterface  $eventDispatcher,
         CustomerAddressRepository $customerAddressRepository,
         CheckOutAddressQuery      $checkOutAddressQuery,
         CustomerFromUserFinder    $customerFromUserFinder,
-        Request                   $request
     ): RedirectResponse
     {
 
@@ -176,11 +186,11 @@ class AddressController extends EnhancedAbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    public function create(RouterInterface             $router, Request $request,
-                           CustomerFromUserFinder      $customerFromUserFinder,
-                           CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
-                           CheckOutAddressSave         $checkOutAddressSave,
-                           EventDispatcherInterface    $eventDispatcher
+    public function create11111(RouterInterface             $router, Request $request,
+                                CustomerFromUserFinder      $customerFromUserFinder,
+                                CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
+                                CheckOutAddressSave         $checkOutAddressSave,
+                                EventDispatcherInterface    $eventDispatcher
     ): Response
     {
 
@@ -192,9 +202,8 @@ class AddressController extends EnhancedAbstractController
             $dto->address->addressType = $request->query->get('type');
         }
 
-        $this->setContentHeading($request,  $dto->address->addressType =='shipping'?'Add Shipping Address':
+        $this->setContentHeading($request, $dto->address->addressType == 'shipping' ? 'Add Shipping Address' :
             'Add Billing Address');
-
 
 
         $x = $request->query->get('type');
@@ -232,6 +241,69 @@ class AddressController extends EnhancedAbstractController
         // if it is a form then just display it raw here
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
+        );
+
+    }
+
+    /**
+     * @throws UserNotAssociatedWithACustomerException
+     * @throws UserNotLoggedInException
+     */
+    public function create(
+        Request                  $request,
+        CustomerFromUserFinder   $customerFromUserFinder,
+        EntityManagerInterface   $entityManager,
+        CustomerAddressDTOMapper $customerAddressDTOMapper,
+        EventDispatcherInterface $eventDispatcher,
+        CheckOutAddressSession   $checkOutAddressSession
+    ): Response
+    {
+
+
+        $customerAddressDTO = new CustomerAddressDTO();
+        $customerAddressDTO->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
+
+
+        $form = $this->createForm(
+            CustomerAddressCreateForm::class, $customerAddressDTO
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var CustomerAddressDTO $data */
+            $data = $form->getData();
+            $data->postalCodeId = $form->get('postalCode')->getData()->getId();
+
+            $customerAddresses = $customerAddressDTOMapper->mapDtoToEntityForCreate($data);
+
+            foreach ($customerAddresses as $customerAddress) {
+                $eventDispatcher
+                    ->dispatch(new AddressCreatedEvent($customerAddress), AddressCreatedEvent::EVENT_NAME);
+                $entityManager->persist($customerAddress);
+            }
+
+            $entityManager->flush();
+
+            // Cannot happen in event as the above process need to be completed successfully
+            // post
+            // todo: verify more
+            foreach ($customerAddresses as $customerAddress) {
+                $checkOutAddressSession->setSessionParameters($customerAddress);
+            }
+
+            return $this->redirect(
+                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
+            );
+
+        }
+
+        return $this->render(
+            '@SilecustWebShop/module/web_shop/external/address/address_create.html.twig', [
+                'form' => $form,
+                'addressType' => $request->query->get('addressType')
+            ]
         );
 
     }

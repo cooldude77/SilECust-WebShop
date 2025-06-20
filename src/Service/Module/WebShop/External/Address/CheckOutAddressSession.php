@@ -48,6 +48,15 @@ class CheckOutAddressSession
 
     }
 
+    public function setSessionParameters(CustomerAddress $customerAddress): void
+    {
+        if ($customerAddress->getAddressType() == 'shipping') {
+            $this->setShippingAddress($customerAddress->getId());
+        } elseif ($customerAddress->getAddressType() == 'billing') {
+            $this->setBillingAddress($customerAddress->getId());
+        }
+    }
+
 
     private function setChosen(bool $isChosen,$type):void
     {

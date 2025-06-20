@@ -38,6 +38,7 @@ class CustomerAddressCreateForm extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
+                'required'=>false,
             ]
         );
 
@@ -50,6 +51,7 @@ class CustomerAddressCreateForm extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
+                'required'=>false,
             ]
         );
 
@@ -83,7 +85,7 @@ class CustomerAddressCreateForm extends AbstractType
     {
         $resolver->setDefaults(['data_class' => CustomerAddressDTO::class]);
 
-        $resolver->setRequired(['addressType']);
+
 
     }
 

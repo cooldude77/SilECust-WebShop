@@ -40,15 +40,12 @@ class CustomerAddressController extends EnhancedAbstractController
     ): Response
     {
 
-        if ($request->query->get('type') != null)
-            $customerAddressDTO->addressType = $request->query->get('type');
 
         $customerAddressDTO = new CustomerAddressDTO();
-
         $customerAddressDTO->customerId = $id;
+
         $form = $this->createForm(
-            CustomerAddressCreateForm::class, $customerAddressDTO,
-            ['addressType' => $request->query->get('type')]
+            CustomerAddressCreateForm::class, $customerAddressDTO
         );
 
         $form->handleRequest($request);
