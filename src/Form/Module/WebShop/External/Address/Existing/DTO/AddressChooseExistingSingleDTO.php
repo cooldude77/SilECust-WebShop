@@ -9,5 +9,6 @@ class AddressChooseExistingSingleDTO
 {
     public ?string $address = null;
     public bool $isChosen = false;
+
     public int $id = 0;
 }

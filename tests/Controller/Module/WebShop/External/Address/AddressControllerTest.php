@@ -89,7 +89,7 @@ class AddressControllerTest extends WebTestCase
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/addresses/choose?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )->use(callback: function (KernelBrowser $browser) {
+            )->use(callback: function () {
 
                 $this->saveToSession(
                     CheckOutAddressSession::BILLING_ADDRESS_ID, $this->billingAddress->getId()
@@ -141,7 +141,6 @@ class AddressControllerTest extends WebTestCase
                     $this->session->get(CheckOutAddressSession::SHIPPING_ADDRESS_ID)
                 );
 
-                $a = CustomerAddressFactory::findBy(['customer' => $this->customer->object()]);
 
                 $address = $this->findOneBy(
                     CustomerAddress::class,
@@ -275,7 +274,7 @@ class AddressControllerTest extends WebTestCase
 
                 self::assertNotNull($orderAddress);
                 self::assertNotEmpty($orderAddress->getBillingAddressInJson());
-                self::assertJson($orderAddress->getBillingAddressInJson());
+                self::assertJson(json_encode($orderAddress->getBillingAddressInJson()));
                 // check if it is billing session
                 self::assertEquals(
                     $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID),

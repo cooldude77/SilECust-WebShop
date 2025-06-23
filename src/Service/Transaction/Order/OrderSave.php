@@ -172,19 +172,13 @@ readonly class OrderSave
             $this->databaseOperations->persist($orderAddress);
         } else {
             /** @var OrderAddress $orderAddress */
-            foreach ($currentAddressesForOrder as $orderAddress) {
-                if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING) {
-                    $orderAddress->setShippingAddress($address);
-                    $orderAddress->setShippingAddressInJson($this->serializer->serialize($address, 'json'));
-                    $this->databaseOperations->persist($orderAddress);
-                    break;
-                } elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING) {
-                    $orderAddress->setBillingAddress($address);
-                    $orderAddress->setBillingAddressInJson($this->serializer->serialize($address, 'json'));
-                    $this->databaseOperations->persist($orderAddress);
-                    break;
-                }
-            }
+
+            if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING)
+                $currentAddressesForOrder[0]->setShippingAddress($address);
+
+            elseif ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING)
+                $currentAddressesForOrder[0]->setBillingAddress($address);
+
         }
         // Not to be flushed here
         //    $this->databaseOperations->flush();

@@ -16,8 +16,6 @@ use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\AddressChooseFromMultipleForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
-use Silecust\WebShop\Form\Module\WebShop\External\Address\New\AddressCreateForm;
-use Silecust\WebShop\Form\Module\WebShop\External\Address\New\DTO\AddressCreateAndChooseDTO;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
@@ -27,10 +25,8 @@ use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
-use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSave;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
-use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\New\CreateNewAndChooseDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -182,68 +178,6 @@ class AddressController extends EnhancedAbstractController
 
     }
 
-    /**
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
-     */
-    public function create11111(RouterInterface             $router, Request $request,
-                                CustomerFromUserFinder      $customerFromUserFinder,
-                                CreateNewAndChooseDTOMapper $createNewAndChooseDTOMapper,
-                                CheckOutAddressSave         $checkOutAddressSave,
-                                EventDispatcherInterface    $eventDispatcher
-    ): Response
-    {
-
-        $dto = new AddressCreateAndChooseDTO();
-
-        $dto->address->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
-
-        if ($request->get('type') != null) {
-            $dto->address->addressType = $request->query->get('type');
-        }
-
-        $this->setContentHeading($request, $dto->address->addressType == 'shipping' ? 'Add Shipping Address' :
-            'Add Billing Address');
-
-
-        $x = $request->query->get('type');
-
-        $form = $this->createForm(
-            AddressCreateForm::class, $dto,
-            ['addressType' => $request->query->get('type')]
-        );
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            /** @var AddressCreateAndChooseDTO $data */
-            $data = $form->getData();
-
-
-            $address = $checkOutAddressSave->save(
-                $createNewAndChooseDTOMapper->map($data),
-                $createNewAndChooseDTOMapper->isChosen($data)
-            );
-
-            $eventDispatcher->dispatch(
-                new AddressCreatedEvent(
-                    $customerFromUserFinder->getLoggedInCustomer(),
-                    $address,
-                    $createNewAndChooseDTOMapper->isChosen($data)
-                ),
-                AddressCreatedEvent::EVENT_NAME
-            );
-            return $this->redirect(
-                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
-            );
-        }
-        // if it is a form then just display it raw here
-        return $this->render(
-            '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
-        );
-
-    }
 
     /**
      * @throws UserNotAssociatedWithACustomerException
@@ -338,20 +272,16 @@ class AddressController extends EnhancedAbstractController
                            ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
                            CheckoutAddressChooseParser        $checkoutAddressChooseParser,
                            EventDispatcherInterface           $eventDispatcher,
-                           Request                            $request
+                           Request                $request,
+                           EntityManagerInterface $entityManager
     ): Response
     {
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addresses = $customerAddressRepository->findBy(['customer' => $customer,
-            'addressType' => $request->query->get(
-                'type'
-            )]);
+            'addressType' => $request->query->get('type')]);
 
-        $addressesDTO = $addressChooseMapper->mapAddressesToDto(
-            $addresses, $request->request->all()
-        );
-
+        $addressesDTO = $addressChooseMapper->mapAddressesToDto($addresses, $request->request->all());
 
         $form = $this->createForm(AddressChooseFromMultipleForm::class, $addressesDTO);
 
@@ -361,23 +291,33 @@ class AddressController extends EnhancedAbstractController
 
             /** @var AddressChooseExistingMultipleDTO $data */
             $data = $form->getData();
-
             try {
-                $address = $checkoutAddressChooseParser->setAddressInSession(
-                    $data, $request->query->get('type')
-                );
-            } catch (NoAddressChosenAtCheckout $e) {
+                // Note: Order Address
+                // transaction is needed in case of two records being provided by the mapper
+                // then the same entity is persisted twice
+                // leading to error. So transaction first commits one address and then
+                // updates the next
+                $entityManager->beginTransaction();
+                try {
 
-                $this->addFlash('error', 'Please choose at least one address');
-                return $this->redirectToRoute('sc_web_shop_checkout_choose_address_from_list');
+                    $address = $checkoutAddressChooseParser->setAddressInSession(
+                        $data, $request->query->get('type')
+                    );
+                } catch (NoAddressChosenAtCheckout $e) {
 
+                    $this->addFlash('error', 'Please choose at least one address');
+                    return $this->redirectToRoute('sc_web_shop_checkout_choose_address_from_list');
+
+                }
+                $eventDispatcher->dispatch(new AddressChosenEvent($address), AddressChosenEvent::EVENT_NAME);
+
+                $entityManager->flush();
+                $entityManager->commit();
+
+            } catch (\Exception $exception) {
+                $entityManager->rollback();
+                throw $exception;
             }
-
-            $eventDispatcher->dispatch(
-                new AddressChosenEvent($address),
-                AddressChosenEvent::EVENT_NAME,
-
-            );
 
             return $this->redirectToRoute('sc_web_shop_checkout_addresses');
 
@@ -388,6 +328,8 @@ class AddressController extends EnhancedAbstractController
         } else {
             $caption = 'Choose Billing Address';
         }
+
+
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/address/address_choose.html.twig',
             ['form' => $form,

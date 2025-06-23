@@ -10,8 +10,7 @@ readonly class ChooseFromMultipleAddressDTOMapper
 {
 
 
-    public function mapAddressesToDto(array $addresses, array $array):
-    AddressChooseExistingMultipleDTO {
+    public function mapAddressesToDto(array $addresses, array $array): AddressChooseExistingMultipleDTO {
 
         $multi = new AddressChooseExistingMultipleDTO();
 

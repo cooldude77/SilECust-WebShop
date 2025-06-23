@@ -9,7 +9,7 @@ class AddressChooseExistingMultipleDTO
 {
     public array $addresses;
 
-    public function add(AddressChooseExistingSingleDTO $dto)
+    public function add(AddressChooseExistingSingleDTO $dto): void
     {
         $this->addresses[] = $dto;
     }

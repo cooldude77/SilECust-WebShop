@@ -5,6 +5,7 @@ namespace Silecust\WebShop\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Silecust\WebShop\Repository\OrderAddressRepository;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: OrderAddressRepository::class)]
 class OrderAddress
@@ -18,17 +19,21 @@ class OrderAddress
     #[ORM\JoinColumn(nullable: false, onDelete :'CASCADE')]
     private ?OrderHeader $orderHeader = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    // fetch eager because this information is needed for serialization
+    // postal code fetch eager is not needed
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'],fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CustomerAddress $shippingAddress = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'],fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CustomerAddress $billingAddress = null;
 
+    #[Ignore]
     #[ORM\Column(type: Types::JSON,nullable: true)]
     private mixed $shippingAddressInJson = null;
 
+    #[Ignore]
     #[ORM\Column(type: Types::JSON,nullable: true)]
     private mixed $billingAddressInJson = null;
 
