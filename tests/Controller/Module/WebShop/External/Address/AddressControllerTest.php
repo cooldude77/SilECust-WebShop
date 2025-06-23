@@ -266,12 +266,12 @@ class AddressControllerTest extends WebTestCase
                     $this->session->get(CheckOutAddressSession::BILLING_ADDRESS_ID)
                 );
 
-                $address = $this->findOneBy(
+                $addressShipping = $this->findOneBy(
                     CustomerAddress::class,
-                    ['customer' => $this->customer->object()]
+                    ['customer' => $this->customer->object(),'addressType'=>'shipping']
                 );
 
-                $orderAddress = OrderAddressFactory::find(['billingAddress' => $address]);
+                $orderAddress = OrderAddressFactory::find(['shippingAddress' => $addressShipping]);
 
                 self::assertNotNull($orderAddress);
                 self::assertNotEmpty($orderAddress->getBillingAddressInJson());

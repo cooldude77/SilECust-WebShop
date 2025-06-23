@@ -278,24 +278,36 @@ class AddressController extends EnhancedAbstractController
 
             $customerAddresses = $customerAddressDTOMapper->mapDtoToEntityForCreate($data);
 
-            foreach ($customerAddresses as $customerAddress) {
-                $eventDispatcher
-                    ->dispatch(new AddressCreatedEvent($customerAddress), AddressCreatedEvent::EVENT_NAME);
-                $entityManager->persist($customerAddress);
+            try {
+                // Note: Order Address
+                // transaction is needed in case of two records being provided by the mapper
+                // then the same entity is persisted twice
+                // leading to error. So transaction first commits one address and then
+                // updates the next
+                $entityManager->beginTransaction();
+                foreach ($customerAddresses as $customerAddress) {
+                    $eventDispatcher
+                        ->dispatch(new AddressCreatedEvent($customerAddress), AddressCreatedEvent::EVENT_NAME);
+                    $entityManager->persist($customerAddress);
+                    $entityManager->flush();
+
+                }
+                $entityManager->commit();
+                // Cannot happen in event as the above process need to be completed successfully
+                // post
+                // todo: verify more
+                foreach ($customerAddresses as $customerAddress) {
+                    $checkOutAddressSession->setSessionParameters($customerAddress);
+                }
+
+
+                return $this->redirect(
+                    $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
+                );
+            } catch (\Exception $exception) {
+                $entityManager->rollback();
+                throw $exception;
             }
-
-            $entityManager->flush();
-
-            // Cannot happen in event as the above process need to be completed successfully
-            // post
-            // todo: verify more
-            foreach ($customerAddresses as $customerAddress) {
-                $checkOutAddressSession->setSessionParameters($customerAddress);
-            }
-
-            return $this->redirect(
-                $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
-            );
 
         }
 
