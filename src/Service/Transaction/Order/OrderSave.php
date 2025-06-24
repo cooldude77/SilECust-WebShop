@@ -273,9 +273,11 @@ readonly class OrderSave
             $orderShipping->setValue($data['value']);
         }
 
-        $this->databaseOperations->persist($orderShipping);
+        // flush and commit to be done in controller classes
 
-        $this->databaseOperations->flush();
+        //  $this->databaseOperations->persist($orderShipping);
+
+// $this->databaseOperations->flush();
 
 
     }
