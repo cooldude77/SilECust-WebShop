@@ -71,7 +71,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
             // $id = $customerAddress->getId();
 
-            return new Response(
+            return new JsonResponse(
                 serialize(
                     ['message' => "Customer Address(es) created successfully"]
                 ), 201
@@ -119,7 +119,7 @@ class CustomerAddressController extends EnhancedAbstractController
                 'success', "Address updated successfully"
             );
 
-            return new Response(
+            return new JsonResponse(
                 serialize(
                     ['id' => $id, 'message' => "Customer Address updated successfully"]
                 ), 200

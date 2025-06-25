@@ -92,15 +92,19 @@ readonly class CustomerAddressDTOMapper
 
         $customerAddress->setLine3($customerAddressDTO->line3);
 
-        if (in_array('shipping', $customerAddressDTO->addressTypes)
-            && in_array('useAsDefaultShipping', $customerAddressDTO->addressTypeDefaults)
-        )
-            $customerAddress->setDefault(true);
-        if (in_array('billing', $customerAddressDTO->addressTypes)
-            && in_array('useAsDefaultBilling', $customerAddressDTO->addressTypeDefaults)
-        )
-            $customerAddress->setDefault(true);
-
+        if (in_array('shipping', $customerAddressDTO->addressTypes)) {
+            if (in_array('useAsDefaultShipping', $customerAddressDTO->addressTypeDefaults))
+                $customerAddress->setDefault(true);
+            else
+                $customerAddress->setDefault(false);
+        }
+        if (in_array('billing', $customerAddressDTO->addressTypes)) {
+            if (in_array('useAsDefaultBilling', $customerAddressDTO->addressTypeDefaults))
+                $customerAddress->setDefault(true);
+            else
+                $customerAddress->setDefault(false);
+        }
+        
         if ($customerAddressDTO->postalCodeId != 0)
             // no value was sent
             $customerAddress->setPostalCode($this->postalCodeRepository->find($customerAddressDTO->postalCodeId)

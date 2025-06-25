@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
