@@ -144,7 +144,7 @@ class CustomerAddressController extends EnhancedAbstractController
         $customerAddress = $customerAddressRepository->find($id);
 
         if (!$customerAddress) {
-            throw $this->createNotFoundException('No Customer found for id ' . $id);
+            throw $this->createNotFoundException('No Address found for id ' . $id);
         }
 
         // NOTE: This grid can be called as a subsection to main screen

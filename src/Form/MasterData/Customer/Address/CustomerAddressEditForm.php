@@ -51,6 +51,7 @@ class CustomerAddressEditForm extends AbstractType
                         ],
                         'multiple' => true,
                         'expanded' => true,
+                        'required' => false
                     ]
                 );
             else if (in_array('billing', $data->addressTypes))
@@ -62,6 +63,7 @@ class CustomerAddressEditForm extends AbstractType
                         ],
                         'multiple' => true,
                         'expanded' => true,
+                        'required' => false
                     ]
                 );
 

@@ -128,7 +128,7 @@ class ContentController extends EnhancedAbstractController
         $this->setContentHeading($request, 'Create new address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::display',
-            ['request' => $request, 'id' => $customer->getId()]);
+            ['request' => $request, 'id' => $request->attributes->get('id')]);
 
 
         if ($formResponse instanceof JsonResponse)
@@ -157,7 +157,7 @@ class ContentController extends EnhancedAbstractController
         $this->setContentHeading($request, 'Edit address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::edit',
-            ['request' => $request, 'id' => $customer->getId()]);
+            ['request' => $request, 'id' => $request->attributes->get('id')]);
 
 
         if ($formResponse instanceof JsonResponse)
