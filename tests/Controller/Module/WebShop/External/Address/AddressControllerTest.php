@@ -317,8 +317,14 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uriShipping)
-            ->checkField(
-                "address_choose_existing_multiple_form[addresses][0][isChosen]"
+            ->use(callback: function (Browser $browser) use ($address1Shipping) {
+                $re = $browser->client()->getResponse();
+                $form = $browser->crawler()->selectButton('Choose')->form();
+                $form['address_choose_existing_multiple_form[addresses]']->select($address1Shipping->getId());
+
+            })
+            ->fillField(
+                'address_choose_existing_multiple_form[addresses]', $address1Shipping->getId()
             )
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
@@ -345,8 +351,8 @@ class AddressControllerTest extends WebTestCase
             // then choose billing
             ->interceptRedirects()
             ->visit($uriBilling)
-            ->checkField(
-                "address_choose_existing_multiple_form[addresses][0][isChosen]"
+            ->fillField(
+                'address_choose_existing_multiple_form[addresses]', $address1Billing->getId()
             )
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
@@ -380,8 +386,8 @@ class AddressControllerTest extends WebTestCase
             })
             ->interceptRedirects()
             ->visit($uriShipping)
-            ->checkField(
-                "address_choose_existing_multiple_form[addresses][1][isChosen]"
+            ->fillField(
+                'address_choose_existing_multiple_form[addresses]', $address2Shipping->getId()
             )
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)
@@ -408,8 +414,8 @@ class AddressControllerTest extends WebTestCase
             // then choose different billing
             ->interceptRedirects()
             ->visit($uriBilling)
-            ->checkField(
-                "address_choose_existing_multiple_form[addresses][1][isChosen]"
+            ->fillField(
+                'address_choose_existing_multiple_form[addresses]', $address2Billing->getId()
             )
             ->click('Choose')
             ->assertRedirectedTo('/checkout/addresses', 1)

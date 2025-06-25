@@ -23,6 +23,7 @@ use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
+use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
@@ -269,6 +270,7 @@ class AddressController extends EnhancedAbstractController
      */
     public function choose(CustomerAddressRepository          $customerAddressRepository,
                            CustomerFromUserFinder             $customerFromUserFinder,
+                           CustomerAddressQuery $customerAddressQuery,
                            ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
                            CheckoutAddressChooseParser        $checkoutAddressChooseParser,
                            EventDispatcherInterface           $eventDispatcher,
@@ -281,9 +283,13 @@ class AddressController extends EnhancedAbstractController
         $addresses = $customerAddressRepository->findBy(['customer' => $customer,
             'addressType' => $request->query->get('type')]);
 
-        $addressesDTO = $addressChooseMapper->mapAddressesToDto($addresses, $request->request->all());
+        $choices = [];
+        foreach ($addresses as $address) {
+            $choices[$customerAddressQuery->getAddressInASingleLine($address->getId())] = $address->getId();
+        }
 
-        $form = $this->createForm(AddressChooseFromMultipleForm::class, $addressesDTO);
+        $form = $this->createForm(
+            AddressChooseFromMultipleForm::class, null, ['addressChoices' => $choices]);
 
         $form->handleRequest($request);
 
@@ -300,9 +306,8 @@ class AddressController extends EnhancedAbstractController
                 $entityManager->beginTransaction();
                 try {
 
-                    $address = $checkoutAddressChooseParser->setAddressInSession(
-                        $data, $request->query->get('type')
-                    );
+                    $address = $checkoutAddressChooseParser
+                        ->setAddressInSession($data['addresses'], $request->query->get('type'));
                 } catch (NoAddressChosenAtCheckout $e) {
 
                     $this->addFlash('error', 'Please choose at least one address');

@@ -5,7 +5,6 @@ namespace Silecust\WebShop\Service\Module\WebShop\External\Address;
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout;
 use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingMultipleDTO;
-use Silecust\WebShop\Form\Module\WebShop\External\Address\Existing\DTO\AddressChooseExistingSingleDTO;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
 
 readonly class CheckoutAddressChooseParser
@@ -23,25 +22,17 @@ readonly class CheckoutAddressChooseParser
      * @return CustomerAddress|null
      * @throws NoAddressChosenAtCheckout
      */
-    public function setAddressInSession(AddressChooseExistingMultipleDTO $multipleDTO,
-        string $addressType
-    ): ?CustomerAddress {
-        /** @var AddressChooseExistingSingleDTO $address */
-        foreach ($multipleDTO->addresses as $address) {
-            if ($address->isChosen) {
-                if ($addressType == 'shipping') {
-                    $this->checkOutAddressSession->setShippingAddress($address->id);
-                    return $this->customerAddressRepository->find($address->id);
-                } elseif ($addressType == 'billing') {
-                    $this->checkOutAddressSession->setBillingAddress($address->id);
-                    return $this->customerAddressRepository->find($address->id);
+    public function setAddressInSession(int $addressId, string $addressType): ?CustomerAddress
+    {
 
-                }
-            }
-        }
+        $address = $this->customerAddressRepository->find($addressId);
 
-        throw new NoAddressChosenAtCheckout();
+        if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_SHIPPING)
+            $this->checkOutAddressSession->setShippingAddress($addressId);
+        if ($address->getAddressType() == CustomerAddress::ADDRESS_TYPE_BILLING)
+            $this->checkOutAddressSession->setBillingAddress($addressId);
 
+        return $address;
 
     }
 }
