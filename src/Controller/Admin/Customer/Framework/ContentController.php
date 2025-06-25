@@ -125,8 +125,6 @@ class ContentController extends EnhancedAbstractController
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
-        $this->setContentHeading($request, 'Create new address');
-
         $formResponse = $this->forward(CustomerAddressController::class . '::display',
             ['request' => $request, 'id' => $request->attributes->get('id')]);
 
@@ -153,8 +151,6 @@ class ContentController extends EnhancedAbstractController
     {
 
         $customer = $customerFromUserFinder->getLoggedInCustomer();
-
-        $this->setContentHeading($request, 'Edit address');
 
         $formResponse = $this->forward(CustomerAddressController::class . '::edit',
             ['request' => $request, 'id' => $request->attributes->get('id')]);

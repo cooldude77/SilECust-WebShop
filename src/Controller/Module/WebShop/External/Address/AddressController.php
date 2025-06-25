@@ -278,10 +278,15 @@ class AddressController extends EnhancedAbstractController
                            EntityManagerInterface $entityManager
     ): Response
     {
+
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addresses = $customerAddressRepository->findBy(['customer' => $customer,
             'addressType' => $request->query->get('type')]);
+
+
+        $this->setContentHeading($request, "Choose a {$request->query->get('type')} address");
+
 
         $choices = [];
         foreach ($addresses as $address) {
