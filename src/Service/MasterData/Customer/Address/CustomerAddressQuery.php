@@ -2,9 +2,9 @@
 
 namespace Silecust\WebShop\Service\MasterData\Customer\Address;
 
-use Silecust\WebShop\Entity\CustomerAddress;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeIncorrect;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
-use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 
 class CustomerAddressQuery
 {
@@ -24,6 +24,22 @@ class CustomerAddressQuery
             . $customerAddress->getCode()->getCity()->getState()->getCountry()->getName() . "\n"
             . $customerAddress->getCode()->getCode() . "\n";
 
+
+    }
+
+    /**
+     * @param Customer $customer
+     * @param string $addressType
+     * @return bool
+     * @throws AddressTypeIncorrect
+     */
+    public function checkAddressExistsForAddressType(Customer $customer, string $addressType): bool
+    {
+        if ($addressType != 'shipping')
+            if ($addressType != 'billing')
+                throw  new AddressTypeIncorrect($addressType);
+
+        return count($this->customerAddressRepository->findBy(['customer' => $customer, 'addressType' => $addressType])) > 0;
 
     }
 

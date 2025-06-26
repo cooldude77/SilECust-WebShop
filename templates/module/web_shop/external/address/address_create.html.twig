@@ -1,3 +1,22 @@
 {{ form(form) }}
+<div id="">
+    {% set customer = customer_from_user_finder.getLoggedInCustomer() %}
+    {% if( customer_address_query.checkAddressExistsForAddressType(customer,request.query.get('type'))) %}
+        {% set constant = constant('\\Silecust\\WebShop\\Service\\Component\\Routing\\RoutingConstants::REDIRECT_UPON_SUCCESS_URL') %}
+        <a href="{{ path('sc_web_shop_checkout_choose_address_from_list',
+            {
+                'type':request.query.get("type"),
+                (constant): path('sc_web_shop_checkout_addresses')
+
+            }) }}">Or choose from shipping address... </a>
+    {% endif %}
+</div>
 <script>
+    /*
+        $(document).ready(function (){
+      var v=  $("customer_address_create_form[addressTypes][]");
+
+    });
+
+    */
 </script>

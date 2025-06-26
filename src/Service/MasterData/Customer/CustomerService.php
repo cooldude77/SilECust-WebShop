@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Service\Security\User\Customer;
+namespace Silecust\WebShop\Service\MasterData\Customer;
 
 use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\User;

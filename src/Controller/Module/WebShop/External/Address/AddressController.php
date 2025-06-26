@@ -34,7 +34,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 
 class AddressController extends EnhancedAbstractController
 {
@@ -42,8 +41,7 @@ class AddressController extends EnhancedAbstractController
 
     /**
      * @param Request $request
-     * @param RouterInterface $router
-     *
+     * @param EventDispatcherInterface $eventDispatcher
      * @return Response
      */
     #[Route('/checkout/addresses', name: 'sc_web_shop_checkout_addresses')]
@@ -194,10 +192,15 @@ class AddressController extends EnhancedAbstractController
     ): Response
     {
 
+        $this->setContentHeading($request, "Create {$request->query->get("type")} address");
 
         $customerAddressDTO = new CustomerAddressDTO();
         $customerAddressDTO->customerId = $customerFromUserFinder->getLoggedInCustomer()->getId();
 
+        if ($request->query->get('type') == 'shipping')
+            $customerAddressDTO->addressTypes[] = 'shipping';
+      if ($request->query->get('type') == 'billing')
+            $customerAddressDTO->addressTypes[] = 'billing';
 
         $form = $this->createForm(
             CustomerAddressCreateForm::class, $customerAddressDTO
@@ -249,7 +252,7 @@ class AddressController extends EnhancedAbstractController
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/address/address_create.html.twig', [
                 'form' => $form,
-                'addressType' => $request->query->get('addressType')
+                'request' => $request
             ]
         );
 
@@ -333,17 +336,12 @@ class AddressController extends EnhancedAbstractController
 
         }
 
-        if ($request->query->get('type') == 'shipping') {
-            $caption = 'Choose Shipping Address';
-        } else {
-            $caption = 'Choose Billing Address';
-        }
-
-
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/address/address_choose.html.twig',
-            ['form' => $form,
-                'addressTypeCaption' => $caption]
+            [
+                'form' => $form,
+                'request' => $request
+            ]
         );
     }
 

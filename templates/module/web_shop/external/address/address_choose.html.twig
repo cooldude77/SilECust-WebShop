@@ -18,4 +18,16 @@
     </div>
 {% endblock %}
 #}
+{#
+NOTE: How to use a variable as array key ( see constant below)
+#}
 {{ form(form) }}
+<div id="">
+    {% set constant = constant('\\Silecust\\WebShop\\Service\\Component\\Routing\\RoutingConstants::REDIRECT_UPON_SUCCESS_URL') %}
+    <a href="{{ path('sc_web_shop_checkout_address_create',
+        {
+            'type':request.query.get("type"),
+            (constant): path('sc_web_shop_checkout_addresses')
+
+        }) }}">Or create new ... </a>
+</div>
