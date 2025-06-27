@@ -14,7 +14,6 @@ class DatabaseOperations
 
     public function persist(mixed $entity): void
     {
-        $x = $this->entityManager->contains($entity);
         $this->entityManager->persist($entity);
     }
 

@@ -83,9 +83,9 @@ readonly class OrderSave
         $orderStatus = $this->orderStatusRepository->create($orderHeader, $type);
         $orderStatus->setNote("Order Created");
         $this->databaseOperations->persist($orderStatus);
-
         $this->databaseOperations->persist($orderHeader);
-        $this->databaseOperations->flush();
+
+        // $this->databaseOperations->flush();
 
     }
 
@@ -112,8 +112,8 @@ readonly class OrderSave
                 }
             }
         }
-        $this->databaseOperations->flush();
-        $this->databaseOperations->clear();
+       // $this->databaseOperations->flush();
+       // $this->databaseOperations->clear();
 
 
     }
@@ -132,8 +132,8 @@ readonly class OrderSave
             }
 
         }
-        $this->databaseOperations->flush();
-        $this->databaseOperations->clear();
+       // $this->databaseOperations->flush();
+      //  $this->databaseOperations->clear();
 
 
     }
@@ -148,8 +148,8 @@ readonly class OrderSave
         foreach ($orderItems as $item) {
             $this->databaseOperations->remove($item);
         }
-        $this->databaseOperations->flush();
-        $this->databaseOperations->clear();
+       // $this->databaseOperations->flush();
+       // $this->databaseOperations->clear();
 
 
     }
@@ -195,7 +195,7 @@ readonly class OrderSave
 
         $orderHeader->setOrderStatusType($orderStatusType);
 
-        $this->databaseOperations->flush();
+       // $this->databaseOperations->flush();
 
     }
 
@@ -212,7 +212,7 @@ readonly class OrderSave
         $priceObject = $this->priceByCountryCalculator->getPriceObject($orderItem);
         $itemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
 
-        $this->databaseOperations->save($itemPaymentPrice);
+        $this->databaseOperations->persist($itemPaymentPrice);
 
     }
 
@@ -243,7 +243,7 @@ readonly class OrderSave
 
         }
 
-        $this->databaseOperations->save($orderItemPaymentPrice);
+        $this->databaseOperations->persist($orderItemPaymentPrice);
     }
 
     /**

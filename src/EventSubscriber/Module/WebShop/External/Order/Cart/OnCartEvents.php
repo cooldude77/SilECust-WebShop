@@ -52,16 +52,13 @@ readonly class OnCartEvents implements EventSubscriberInterface
      */
     public function postCartInitialized(CartEvent $event): void
     {
-        // do not create an order if the cart is empty
-        if (!$this->cartSessionProductService->isCartEmpty()) {
-            // check if the open order does not exist
+        // check if the open order does not exist
             if (!$this->orderRead->isOpenOrder($event->getCustomer())) // only now create the order
             {
                 $this->orderSave->createNewOrderFromCart($event->getCustomer());
             }
 
-        }
-
+        
     }
 
     /**

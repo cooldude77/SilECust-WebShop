@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Cart;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
@@ -14,6 +14,7 @@ use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\CartItemToUpdateIsOfInvalidType;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -41,6 +42,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class  CartController extends EnhancedAbstractController
 {
+    // todo: write test cases when transaction rollback happens
     /**
      * @throws Exception
      */
@@ -87,25 +89,27 @@ class  CartController extends EnhancedAbstractController
 
     /**
      *
-     * @param CartSessionToDTOMapper    $cartDTOMapper
+     * @param CartSessionToDTOMapper $cartDTOMapper
      * @param CartSessionProductService $cartService
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param CustomerFromUserFinder    $customerFromUserFinder
-     * @param Request                   $request
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @param Request $request
      *
      * @return Response
      * @throws UserNotLoggedInException
      * @throws UserNotAssociatedWithACustomerException
+     * @throws CartItemToUpdateIsOfInvalidType
      */
-    public function list(CartSessionToDTOMapper $cartDTOMapper,
-        CartSessionProductService $cartService, EventDispatcherInterface $eventDispatcher,
-        CustomerFromUserFinder $customerFromUserFinder, Request $request
+    public function list(
+        CartSessionToDTOMapper    $cartDTOMapper,
+        CartSessionProductService $cartService,
+        EventDispatcherInterface  $eventDispatcher,
+        CustomerFromUserFinder    $customerFromUserFinder,
+        Request                   $request,
+        EntityManagerInterface    $entityManager
     ): Response {
 
-        $this->initializeCartAndDispatchEvents(
-            $cartService, $eventDispatcher, $customerFromUserFinder
-        );
-
+        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $customerFromUserFinder, $entityManager);
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -122,9 +126,13 @@ class  CartController extends EnhancedAbstractController
                 return $this->redirectToRoute('sc_web_shop_checkout');
             }
 
-            /** @var ArrayCollection $array */
-            $array = $form->getData()['items'];
-            $cartService->updateItemArray($array);
+            $arrayOfCartItems = [];
+        /** @var CartProductDTO $item */
+            foreach ($form->getData()['items'] as $item) {
+
+                $arrayOfCartItems[] = new CartSessionObject($item->productId, $item->quantity);
+            }
+            $cartService->updateItemArray($arrayOfCartItems);
 
             $eventDispatcher->dispatch(
                 new CartEvent(
@@ -148,20 +156,29 @@ class  CartController extends EnhancedAbstractController
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
      */
-    private function initializeCartAndDispatchEvents(CartSessionProductService $cartSessionProductService,
-        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder
+    private function initializeCartAndDispatchEvents(
+        CartSessionProductService $cartSessionProductService,
+        EventDispatcherInterface  $eventDispatcher,
+        CustomerFromUserFinder    $customerFromUserFinder,
+        EntityManagerInterface    $entityManager,
     ): void {
+
+        // session variable initialization
         $cartSessionProductService->initialize();
+        try {
 
-        // the order is created here
-        //todo handle exception`
-        $eventDispatcher->dispatch(
-            new CartEvent(
-                $customerFromUserFinder->getLoggedInCustomer()
-            ), CartEventTypes::POST_CART_INITIALIZED
-        );
+            $entityManager->beginTransaction();
 
+            // the order is created here
+            $eventDispatcher->dispatch(new CartEvent($customerFromUserFinder->getLoggedInCustomer()), CartEventTypes::POST_CART_INITIALIZED);
 
+            $entityManager->flush();
+            $entityManager->commit();
+        } catch (Exception $exception) {
+
+            $entityManager->rollback();
+            throw $exception;
+        }
     }
 
     /**
@@ -179,12 +196,15 @@ class  CartController extends EnhancedAbstractController
      * @throws UserNotLoggedInException
      */
     #[Route('/cart/product/{id}/add', name: 'sc_module_web_shop_cart_add_product')]
-    public function addToCart($id, ProductRepository $productRepository,
-        CartSessionProductService $cartService, Request $request,
-        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
+    public function addToCart($id,
+                              ProductRepository $productRepository,
+                              CartSessionProductService $cartService,
+                              Request $request,
+                              EventDispatcherInterface $eventDispatcher,
+                              CustomerFromUserFinder $customerFromUserFinder,
+                              EntityManagerInterface $entityManager,
         RouterInterface $router
     ): Response {
-
 
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button
@@ -193,6 +213,7 @@ class  CartController extends EnhancedAbstractController
             }
         }
 
+        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $customerFromUserFinder, $entityManager);
 
         $product = $productRepository->find($id);
 
@@ -209,11 +230,6 @@ class  CartController extends EnhancedAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->initializeCartAndDispatchEvents(
-                $cartService, $eventDispatcher, $customerFromUserFinder
-            );
-
-            // Before Item was to be added to the cart
             $eventDispatcher->dispatch(
                 new CartItemAddedEvent(
                     $customerFromUserFinder->getLoggedInCustomer(), $product,
@@ -223,21 +239,28 @@ class  CartController extends EnhancedAbstractController
 
             $cartProductDTO = $form->getData();
 
-            $cartObject = new CartSessionObject(
-                $cartProductDTO->productId, $cartProductDTO->quantity
-            );
-
+            // NEW
+            $cartObject = new CartSessionObject($cartProductDTO->productId, $cartProductDTO->quantity);
             $cartService->addItemToCart($cartObject);
 
-            // Todo : event after cart update
-            $eventDispatcher->dispatch(
-                new CartItemAddedEvent(
+            // Now raise events for persistence and other stuff
+            try {
+
+                $entityManager->beginTransaction();
+
+                $eventDispatcher->dispatch(new CartItemAddedEvent(
                     $customerFromUserFinder->getLoggedInCustomer(), $product,
-                    $cartProductDTO->quantity
-                ), CartEventTypes::ITEM_ADDED_TO_CART
-            );
+                    $cartProductDTO->quantity), CartEventTypes::ITEM_ADDED_TO_CART);
 
+                $entityManager->flush();
+                $entityManager->commit();
+            } catch (Exception $exception) {
 
+                $cartService->deleteItem($cartObject->productId);
+
+                $entityManager->rollback();
+                throw $exception;
+            }
             return $this->redirectToRoute('sc_module_web_shop_cart');
 
         }
@@ -250,32 +273,51 @@ class  CartController extends EnhancedAbstractController
     /**
      *
      * @param                           $id
-     * @param ProductRepository         $productRepository
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param ProductRepository $productRepository
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param CartSessionProductService $cartService
      *
      * @return Response
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
+     * @throws ProductNotFoundInCart
      */
     #[Route('/cart/product/{id}/delete', name: 'sc_module_web_shop_cart_delete_product')]
-    public function delete($id, ProductRepository $productRepository,
-        EventDispatcherInterface $eventDispatcher, CustomerFromUserFinder $customerFromUserFinder,
-        CartSessionProductService $cartService
+    public function delete(
+        int                       $id,
+        ProductRepository         $productRepository,
+        EventDispatcherInterface  $eventDispatcher,
+        CustomerFromUserFinder    $customerFromUserFinder,
+        CartSessionProductService $cartService,
+        EntityManagerInterface    $entityManager
     ): Response {
 
         $product = $productRepository->find($id);
 
         $cartService->initialize();
+
+        $cartObject = $cartService->getCartObjectByKey($id);
         $cartService->deleteItem($id);
+        try {
+
+            $entityManager->beginTransaction();
 
         $eventDispatcher->dispatch(
             new CartItemDeletedEvent(
                 $customerFromUserFinder->getLoggedInCustomer(), $product
             ), CartEventTypes::ITEM_DELETED_FROM_CART
         );
+            $entityManager->flush();
+            $entityManager->commit();
 
+        } catch (Exception $exception) {
+
+            $cartService->addItemToCart($cartObject);
+            $entityManager->rollback();
+
+            throw $exception;
+        }
         if ($cartService->hasItems()) {
             return $this->redirectToRoute('sc_home');
         } else {
@@ -285,27 +327,43 @@ class  CartController extends EnhancedAbstractController
 
     /**
      *
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param CustomerFromUserFinder    $customerFromUserFinder
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param CartSessionProductService $cartService
      *
      * @return Response
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
+     * @throws ProductNotFoundInCart
      */
     #[Route('/cart/clear', name: 'sc_module_web_shop_cart_clear')]
-    public function clear(EventDispatcherInterface $eventDispatcher,
-        CustomerFromUserFinder $customerFromUserFinder, CartSessionProductService $cartService
+    public function clear(
+        EventDispatcherInterface  $eventDispatcher,
+        CustomerFromUserFinder    $customerFromUserFinder,
+        CartSessionProductService $cartService,
+        EntityManagerInterface    $entityManager
     ): Response {
 
         $cartService->initialize();
+        $cartArray = $cartService->getCartArray();
         $cartService->clearCart();
 
-        $eventDispatcher->dispatch(
-            new CartClearedByUserEvent($customerFromUserFinder->getLoggedInCustomer()),
-            CartEventTypes::CART_CLEARED_BY_USER
-        );
+        try {
+            $entityManager->beginTransaction();
 
+            $eventDispatcher->dispatch(
+            new CartClearedByUserEvent($customerFromUserFinder->getLoggedInCustomer()),
+                CartEventTypes::CART_CLEARED_BY_USER);
+
+            $entityManager->flush();
+            $entityManager->commit();
+        } catch (Exception $exception) {
+
+            foreach ($cartArray as $arr)
+                $cartService->addItemToCart($arr);
+            $entityManager->rollback();
+            throw $exception;
+        }
 
         return $this->redirectToRoute('sc_home');
 

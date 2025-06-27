@@ -2,10 +2,11 @@
 
 namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\CartItemToUpdateIsOfInvalidType;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
 use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -83,7 +84,7 @@ class CartSessionProductService
      * @return CartSessionObject
      * @throws ProductNotFoundInCart
      */
-    private function getCartObjectByKey(int $productId): CartSessionObject{
+    public function getCartObjectByKey(int $productId): CartSessionObject{
 
         if($this->isProductInCartArray($productId))
             return $this->getCartArray()[$productId];
@@ -161,18 +162,23 @@ class CartSessionProductService
     }
 
     /**
-     * @param ArrayCollection $array
+     * @param array $array
      *
      * @return void
+     * @throws CartItemToUpdateIsOfInvalidType
      */
-    public function updateItemArray(ArrayCollection $array): void
+    public function updateItemArray(array $array): void
     {
         $this->initialize();
+
         $cartArray = $this->getCartArray();
         /** CartSessionObject $item */
         foreach ($array as $item) {
+            if(!($item instanceof CartSessionObject))
+                throw  new CartItemToUpdateIsOfInvalidType();
             $cartArray[$item->productId] = $item;
         }
+
         $this->setCartArrayInSession($cartArray);
     }
 
@@ -225,6 +231,11 @@ class CartSessionProductService
     {
 
         return count($this->getCartArray()) == 0;
+    }
+
+    public function getItemWithId(int $id)
+    {
+        return $this->getCartArray()[$id];
     }
 
 
