@@ -3,11 +3,13 @@
 namespace Silecust\WebShop\Entity;
 
 use Doctrine\DBAL\Types\Types;
-use Silecust\WebShop\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Query\AST\DeleteClause;
+use Silecust\WebShop\Repository\OrderItemRepository;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
+#[UniqueConstraint(name: "UNIQ_ORDER_HEADER_PRODUCT", columns: ["order_header_id", "product_id"])]
 class OrderItem
 {
     #[ORM\Id]
@@ -16,7 +18,7 @@ class OrderItem
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false,onDelete: 'CASCADE')]
     private ?OrderHeader $orderHeader = null;
 
     #[ORM\ManyToOne]
