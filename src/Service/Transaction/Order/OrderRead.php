@@ -3,9 +3,12 @@
 namespace Silecust\WebShop\Service\Transaction\Order;
 
 use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\OrderAddress;
 use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Entity\OrderPayment;
 use Silecust\WebShop\Entity\OrderShipping;
+use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Exception\Module\WebShop\External\CheckOut\ShippingAddressNotSetException;
 use Silecust\WebShop\Exception\Module\WebShop\External\Shipping\ShippingRecordByKeyNotFound;
 use Silecust\WebShop\Repository\OrderAddressRepository;
@@ -28,6 +31,8 @@ readonly class OrderRead
      * @param OrderItemRepository $orderItemRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
      * @param OrderAddressRepository $orderAddressRepository
+     * @param OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository
+     * @param OrderShippingRepository $orderShippingRepository
      * @param OrderPaymentRepository $orderPaymentRepository
      */
     public function __construct(private OrderHeaderRepository           $orderHeaderRepository,
@@ -115,8 +120,12 @@ readonly class OrderRead
         return $this->orderPaymentRepository->findOneBy(['orderHeader' => $orderHeader]);
     }
 
-    public function getOrderItem(OrderHeader $orderHeader, ?\Silecust\WebShop\Entity\Product $product
-    ): ?\Silecust\WebShop\Entity\OrderItem
+    /**
+     * @param OrderHeader $orderHeader
+     * @param Product|null $product
+     * @return OrderItem|null
+     */
+    public function getOrderItem(OrderHeader $orderHeader, ?Product $product): ?OrderItem
     {
         return $this->orderItemRepository->findOneBy([
             'orderHeader' => $orderHeader,
@@ -124,7 +133,12 @@ readonly class OrderRead
     }
 
 
-    public function getShippingAddress($orderHeader): \Silecust\WebShop\Entity\OrderAddress
+    /**
+     * @param $orderHeader
+     * @return OrderAddress
+     * @throws ShippingAddressNotSetException
+     */
+    public function getShippingAddress($orderHeader): OrderAddress
     {
 
         $address = $this->orderAddressRepository->findOneBy([
@@ -140,26 +154,46 @@ readonly class OrderRead
 
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @return array
+     */
     public function getOrderItems(OrderHeader $orderHeader): array
     {
         return $this->orderItemRepository->findBy(['orderHeader' => $orderHeader]);
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @return array
+     */
     public function getOrderItemPaymentPrices(OrderHeader $orderHeader): array
     {
         return $this->orderItemPaymentPriceRepository->findByOrderHeader($orderHeader);
     }
 
+    /**
+     * @param int $id
+     * @return OrderHeader
+     */
     public function getOrder(int $id): OrderHeader
     {
         return $this->orderHeaderRepository->find($id);
     }
 
+    /**
+     * @param string $generatedId
+     * @return OrderHeader
+     */
     public function getOrderByGeneratedId(string $generatedId): OrderHeader
     {
         return $this->orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
     }
 
+    /**
+     * @param OrderHeader $orderHeader
+     * @return array
+     */
     public function getShippingData(OrderHeader $orderHeader): array
     {
         return $this->orderShippingRepository->findBy(['orderHeader' => $orderHeader]);
@@ -169,7 +203,7 @@ readonly class OrderRead
     /**
      * @throws ShippingRecordByKeyNotFound
      */
-    public function findShippingDataByKey(OrderHeader $orderHeader, string $name)
+    public function findShippingDataByKey(OrderHeader $orderHeader, string $name): OrderShipping
     {
         $shippingData = $this->getShippingData($orderHeader);
 
@@ -183,6 +217,17 @@ readonly class OrderRead
 
         throw  new ShippingRecordByKeyNotFound();
 
+    }
+
+    /**
+     * @param OrderHeader $orderHeader
+     * @param Product $product
+     * @return bool
+     */
+    public function orderItemExists(OrderHeader $orderHeader, Product $product): bool
+    {
+
+        return $this->orderItemRepository->findOneBy(['orderHeader' => $orderHeader, 'product' => $product]) != null;
     }
 
 

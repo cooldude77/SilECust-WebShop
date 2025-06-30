@@ -266,20 +266,20 @@ readonly class OrderSave
      */
     public function saveShippingData(OrderHeader $orderHeader, array $data, OrderShipping $orderShipping = null): void
     {
-        if ($orderShipping == null)
-            $orderShipping = $this->orderShippingRepository->create(
-                $orderHeader, $data['name'], $data['value'], $data['data']);
-        else {
+        if ($orderShipping == null) {
+            $orderShippingCreate = $this->orderShippingRepository->create($orderHeader, $data['name'], $data['value'], $data['data']);
+            $this->databaseOperations->persist($orderShippingCreate);
+        } else {
             $orderShipping->setValue($data['value']);
         }
 
         // flush and commit to be done in controller classes
+        // $this->databaseOperations->flush();
+    }
 
-        //  $this->databaseOperations->persist($orderShipping);
-
-// $this->databaseOperations->flush();
-
-
+    public function incrementQuantityOfItem(OrderItem $orderItem): void
+    {
+        $orderItem->setQuantity($orderItem->getQuantity() + 1);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Product;
 
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -11,6 +12,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
 use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -61,7 +63,7 @@ class ProductControllerTest extends WebTestCase
     {
         $this->createOpenOrderFixtures($this->customer);
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
+        $uriAddProductA = "/product/" . $this->productA->getName();
 
         // From the product page, click on add to cart button
         $this->browser()
@@ -82,9 +84,24 @@ class ProductControllerTest extends WebTestCase
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
+            ->assertRedirectedTo('/cart')
+            ->interceptRedirects()
+            ->visit($uriAddProductA)
+            ->fillField(
+                'cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField(
+                'cart_add_product_single_form[quantity]', 1
+            )
+            ->click('button[name="addToCart"]')
+            ->use(function (KernelBrowser $browser) {
+
+                $this->createSession($browser);
+                $cart = $this->session->get(CartSessionProductService::CART_SESSION_KEY);
+
+                // Test: Cart has right items and quantities
+                $this->assertEquals(2, $cart[$this->productA->getId()]->quantity);
+            })
             ->assertRedirectedTo('/cart');
-
     }
-
 
 }

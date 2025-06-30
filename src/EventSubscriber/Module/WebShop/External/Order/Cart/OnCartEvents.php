@@ -7,6 +7,8 @@ use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemAddedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
+use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
@@ -24,8 +26,8 @@ readonly class OnCartEvents implements EventSubscriberInterface
      * @param CartSessionProductService $cartSessionProductService
      */
     public function __construct(private OrderSave $orderSave,
-        private readonly OrderRead $orderRead,
-        private readonly CartSessionProductService $cartSessionProductService,
+                                private OrderRead                 $orderRead,
+                                private CartSessionProductService $cartSessionProductService,
     ) {
     }
 
@@ -92,6 +94,8 @@ readonly class OnCartEvents implements EventSubscriberInterface
      *
      * @return void
      * @throws NoOpenOrderExists
+     * @throws PriceProductBaseNotFound
+     * @throws PriceProductTaxNotFound
      */
     public function newItemAdded(CartItemAddedEvent $event): void
     {
@@ -104,7 +108,11 @@ readonly class OnCartEvents implements EventSubscriberInterface
             throw new NoOpenOrderExists($event->getCustomer());
         }
 
-        $this->orderSave->addNewItem($event->getProduct(), $event->getQuantity(), $orderHeader);
+        if ($this->orderRead->orderItemExists($orderHeader, $event->getProduct())) {
+            $item = $this->orderRead->getOrderItem($orderHeader, $event->getProduct());
+            $this->orderSave->incrementQuantityOfItem($item);
+        } else
+            $this->orderSave->addNewItem($event->getProduct(), $event->getQuantity(), $orderHeader);
 
     }
 
