@@ -111,7 +111,7 @@ class OrderHeaderController extends EnhancedAbstractController
                 $entityManager->persist($orderHeader);
                 $entityManager->flush();
 
-                $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader), OrderHeaderChangedEvent::ORDER_HEADER_CHANGED);
+                $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader), OrderHeaderChangedEvent::EVENT_NAME);
 
                 $this->addFlash(
                     'success', "Order updated successfully"

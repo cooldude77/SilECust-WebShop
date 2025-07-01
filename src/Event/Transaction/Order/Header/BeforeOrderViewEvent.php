@@ -7,7 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class BeforeOrderViewEvent extends Event
 {
-    const string BEFORE_ORDER_VIEW_EVENT = 'before.order.view';
+    const string EVENT_NAME = 'before.order.view';
 
     /**
      * @param OrderHeader $orderHeader

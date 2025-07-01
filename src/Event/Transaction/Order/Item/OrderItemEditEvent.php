@@ -6,7 +6,7 @@ use Silecust\WebShop\Entity\OrderItem;
 
 class OrderItemEditEvent
 {
-    const ORDER_ITEM_EDITED = 'after.order.item.change';
+    const string EVENT_NAME = 'after.order.item.change';
 
     /**
      * @param OrderItem $orderItem

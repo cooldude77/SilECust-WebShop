@@ -7,7 +7,7 @@ use Silecust\WebShop\Entity\OrderHeader;
 class OrderHeaderChangedEvent
 {
 
-    const ORDER_HEADER_CHANGED = 'after.order.header.changed';
+    const string EVENT_NAME = 'after.order.header.changed';
 
     public function __construct(private readonly OrderHeader $orderHeader)
     {

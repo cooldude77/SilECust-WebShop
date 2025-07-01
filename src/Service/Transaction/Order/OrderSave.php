@@ -238,8 +238,8 @@ readonly class OrderSave
             $orderItemPaymentPrice->setTaxRate($priceObject->getTaxRatePercentage());
 
             $orderItemPaymentPrice->setBasePriceInJson($this->serializer->serialize($priceObject->getBasePriceArray(), 'json'));
-            $orderItemPaymentPrice->setDiscountsInJson($this->serializer->serialize($priceObject->getDiscountAmount(), 'json'));
-            $orderItemPaymentPrice->setTaxationInJson($this->serializer->serialize($priceObject->getTaxRatePercentage(), 'json'));
+            $orderItemPaymentPrice->setDiscountsInJson($this->serializer->serialize($priceObject->getDiscountArray(), 'json'));
+            $orderItemPaymentPrice->setTaxationInJson($this->serializer->serialize($priceObject->getTaxRateArray(), 'json'));
 
         }
 

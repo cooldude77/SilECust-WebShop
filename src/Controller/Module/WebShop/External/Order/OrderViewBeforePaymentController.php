@@ -91,7 +91,7 @@ class OrderViewBeforePaymentController extends EnhancedAbstractController
 
         $orderHeader = $orderRead->getOpenOrder($customerFromUserFinder->getLoggedInCustomer());
 
-        $eventDispatcher->dispatch(new BeforeOrderViewEvent($orderHeader), BeforeOrderViewEvent::BEFORE_ORDER_VIEW_EVENT);
+        $eventDispatcher->dispatch(new BeforeOrderViewEvent($orderHeader), BeforeOrderViewEvent::EVENT_NAME);
 
         $orderObject = $orderRead->getOrderObject($orderHeader);
 

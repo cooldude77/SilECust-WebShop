@@ -46,7 +46,7 @@ class OrderItemController extends EnhancedAbstractController
             $entityManager->persist($orderItem);
             $entityManager->persist($orderItemPaymentPrice);
 
-            $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem), OrderItemAddEvent::ORDER_ITEM_ADDED);
+            $eventDispatcher->dispatch(new OrderItemAddEvent($orderItem), OrderItemAddEvent::EVENT_NAME);
 
             $entityManager->flush();
 
@@ -100,7 +100,7 @@ class OrderItemController extends EnhancedAbstractController
             $entityManager->persist($orderItemPaymentPrice);
 
             $entityManager->flush();
-            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem), OrderItemEditEvent::ORDER_ITEM_EDITED);
+            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem), OrderItemEditEvent::EVENT_NAME);
 
             $this->addFlash(
                 'success', "Order Item updated successfully"
