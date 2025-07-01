@@ -7,6 +7,6 @@ use Silecust\WebShop\Entity\OrderHeader;
 interface ShippingPricingConditionsResponseResolverInterface
 {
 
-    public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): array;
+    public function getShippingChargesConditionsFromAPI(OrderHeader $orderHeader): mixed;
 
 }

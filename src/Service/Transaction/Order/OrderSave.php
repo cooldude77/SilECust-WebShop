@@ -264,13 +264,14 @@ readonly class OrderSave
      * @param OrderShipping|null $orderShipping
      * @return void
      */
-    public function saveShippingData(OrderHeader $orderHeader, array $data, OrderShipping $orderShipping = null): void
+    public function saveShippingData(OrderHeader $orderHeader, float $value, array $shippingConditions, OrderShipping $orderShipping = null): void
     {
         if ($orderShipping == null) {
-            $orderShippingCreate = $this->orderShippingRepository->create($orderHeader, $data['name'], $data['value'], $data['data']);
+            $orderShippingCreate = $this->orderShippingRepository->create($orderHeader, $value, $shippingConditions);
             $this->databaseOperations->persist($orderShippingCreate);
         } else {
-            $orderShipping->setValue($data['value']);
+            $orderShipping->setValue($value);
+            $orderShipping->setShippingConditionsInJson($shippingConditions);
         }
 
         // flush and commit to be done in controller classes

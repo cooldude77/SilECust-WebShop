@@ -2,13 +2,18 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderShippingRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Silecust\WebShop\Repository\OrderShippingRepository;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 #[ORM\Entity(repositoryClass: OrderShippingRepository::class)]
 class OrderShipping
 {
+
+    const string TOTAL_SHIPPING_VALUE = "TOTAL_SHIPPING_VALUE";
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -17,14 +22,14 @@ class OrderShipping
     #[ORM\ManyToOne]
     private ?OrderHeader $orderHeader = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
+    /** @var float|null Total Shipping charges */
     #[ORM\Column]
+    #[GreaterThan(0)]
     private ?float $value = null;
 
-    #[ORM\Column]
-    private array $data = [];
+    #[Ignore]
+    #[ORM\Column(type: Types::JSON, nullable: false)]
+    private mixed $shippingConditionsInJson = [];
 
     public function getId(): ?int
     {
@@ -43,17 +48,6 @@ class OrderShipping
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     public function getValue(): ?float
     {
@@ -67,14 +61,14 @@ class OrderShipping
         return $this;
     }
 
-    public function getData(): array
+    public function getShippingConditionsInJson(): mixed
     {
-        return $this->data;
+        return $this->shippingConditionsInJson;
     }
 
-    public function setData(array $data): static
+    public function setShippingConditionsInJson(mixed $shippingConditionsInJson): static
     {
-        $this->data = $data;
+        $this->shippingConditionsInJson = $shippingConditionsInJson;
 
         return $this;
     }

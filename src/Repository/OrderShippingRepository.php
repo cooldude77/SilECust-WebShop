@@ -2,10 +2,10 @@
 
 namespace Silecust\WebShop\Repository;
 
-use Silecust\WebShop\Entity\OrderHeader;
-use Silecust\WebShop\Entity\OrderShipping;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\OrderShipping;
 
 /**
  * @extends ServiceEntityRepository<OrderShipping>
@@ -41,14 +41,13 @@ class OrderShippingRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(OrderHeader $orderHeader, string $name, float $value, array $data): OrderShipping
+    public function create(OrderHeader $orderHeader,float $value, mixed $shippingConditionsInJson): OrderShipping
     {
-        $ship = new OrderShipping();
-        $ship->setOrderHeader($orderHeader);
-        $ship->setName($name);
-        $ship->setValue($value);
-        $ship->setData($data);
+        $orderShipping = new OrderShipping();
+        $orderShipping->setOrderHeader($orderHeader);
+        $orderShipping->setValue($value);
+        $orderShipping->setShippingConditionsInJson($shippingConditionsInJson);
 
-        return $ship;
+        return $orderShipping;
     }
 }

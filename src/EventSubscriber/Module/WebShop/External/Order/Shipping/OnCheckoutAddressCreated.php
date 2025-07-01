@@ -3,11 +3,10 @@
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Shipping;
 
 use Silecust\WebShop\Entity\CustomerAddress;
-use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressChosenEvent;
+use Silecust\WebShop\Entity\OrderShipping;
 use Silecust\WebShop\Event\Module\WebShop\External\Address\AddressCreatedEvent;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use Silecust\WebShop\Exception\Module\WebShop\External\Shipping\ShippingChargesNotProvided;
-use Silecust\WebShop\Exception\Module\WebShop\External\Shipping\ShippingRecordByKeyNotFound;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
@@ -68,22 +67,17 @@ readonly class OnCheckoutAddressCreated implements EventSubscriberInterface
             && $this->checkOutAddressSession->getShippingAddress()->getId() == $address->getId()
         ) {
 
-            // Check the structure in DevShippingChargesClass
-            // get values from API
-            $shippingConditions = $this->shippingOrderService->getShippingChargesConditionsFromAPI($orderHeader);
+               // Check the structure in DevShippingChargesClass
+               // get values from API
+               // which is in JSON Format
+               $shippingConditions = json_decode($this->shippingOrderService->getShippingChargesConditionsFromAPI($orderHeader),true);
 
-            if ($shippingConditions == null)
-                throw  new ShippingChargesNotProvided();
+               if ($shippingConditions == null)
+                   throw  new ShippingChargesNotProvided();
 
-            foreach ($shippingConditions as $value) {
-                try {
-                    $shippingRecord = $this->orderRead->findShippingDataByKey($orderHeader, $value['name']);
-                    $this->orderSave->saveShippingData($orderHeader, $value, $shippingRecord);
-                } catch (ShippingRecordByKeyNotFound) {
-                    $this->orderSave->saveShippingData($orderHeader, $value);
-                }
-            }
-        }
+               $this->orderSave->saveShippingData($orderHeader, $shippingConditions[OrderShipping::TOTAL_SHIPPING_VALUE], $shippingConditions);
+
+           }
 
     }
 }

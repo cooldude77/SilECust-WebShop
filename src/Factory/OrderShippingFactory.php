@@ -43,9 +43,8 @@ final class OrderShippingFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'data' => [],
-            'name' => self::faker()->text(255),
-            'value' => self::faker()->randomFloat(),
+            'shippingConditionsInJson' => [],
+           'value' => self::faker()->randomFloat(),
         ];
     }
 

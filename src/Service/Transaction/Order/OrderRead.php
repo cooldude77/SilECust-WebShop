@@ -200,26 +200,7 @@ readonly class OrderRead
 
     }
 
-    /**
-     * @throws ShippingRecordByKeyNotFound
-     */
-    public function findShippingDataByKey(OrderHeader $orderHeader, string $name): OrderShipping
-    {
-        $shippingData = $this->getShippingData($orderHeader);
-
-        /**
-         * @var  OrderShipping $orderShipping
-         */
-        foreach ($shippingData as $orderShipping)
-            if ($orderShipping->getName() == $name) {
-                return $orderShipping;
-            }
-
-        throw  new ShippingRecordByKeyNotFound();
-
-    }
-
-    /**
+       /**
      * @param OrderHeader $orderHeader
      * @param Product $product
      * @return bool
