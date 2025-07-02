@@ -20,5 +20,5 @@ Customer can update details like personal data
 - all personal details including email
 
 `/my/details`
-## Password change
+## Personal Data Change
 Customer can change their password 

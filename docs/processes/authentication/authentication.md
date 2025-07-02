@@ -3,7 +3,7 @@ Authentication include Logging in and signing up.
 
 # Sign Up ( For Customer)
 Sign Up is reserved for customer who wish to purchase from the site. The url for sign up is `/signup` 
-The role customer get is   `ROLE_CUSTOMER`
+The role customer get is `ROLE_CUSTOMER`
 
 # Employee Creation
 Super user creates employees and they are assigned the role `ROLE_EMPLOYEE`
