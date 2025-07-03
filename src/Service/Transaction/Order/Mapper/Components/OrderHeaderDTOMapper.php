@@ -42,5 +42,13 @@ class OrderHeaderDTOMapper
          return $orderHeader;
     }
 
+    public function mapEntityToDtoForEdit(OrderHeader $orderHeader): OrderHeaderDTO
+    {
+        $orderHeaderDTO = new OrderHeaderDTO();
+        $orderHeaderDTO->id = $orderHeader->getId();
+        $orderHeaderDTO->orderStatusTypeId = $orderHeader->getOrderStatusType()->getId();
+        return $orderHeaderDTO;
+    }
+
 
 }

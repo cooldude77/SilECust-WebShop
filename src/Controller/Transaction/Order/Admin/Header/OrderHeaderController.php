@@ -4,6 +4,7 @@ namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
@@ -75,6 +76,7 @@ class OrderHeaderController extends EnhancedAbstractController
      * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_route_order_edit')]
     public function edit(
@@ -88,6 +90,7 @@ class OrderHeaderController extends EnhancedAbstractController
     ): Response
     {
 
+        $this->setContentHeading($request, "Edit Order {$generatedId}");
         try {
             $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
 
@@ -95,24 +98,26 @@ class OrderHeaderController extends EnhancedAbstractController
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-            $orderHeaderDTO = new OrderHeaderDTO();
-            $orderHeaderDTO->id = $orderHeader->getId();
+            $orderHeaderDTO = $mapper->mapEntityToDtoForEdit($orderHeader);
 
-            $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
+            $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO, ['statusType' => $orderHeader->getOrderStatusType()]);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $entityManager->beginTransaction();
 
-                $orderHeader = $mapper->mapDtoToEntityForEdit(
-                    $form->getData()
-                );
+                    $orderHeader = $mapper->mapDtoToEntityForEdit($form->getData());
+                    $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader),
+                        OrderHeaderChangedEvent::EVENT_NAME);
+                    $entityManager->flush();
+                    $entityManager->commit();
 
-                $entityManager->persist($orderHeader);
-                $entityManager->flush();
-
-                $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader), OrderHeaderChangedEvent::EVENT_NAME);
-
+                } catch (Exception $exception) {
+                    $entityManager->rollback();
+                    throw $exception;
+                }
                 $this->addFlash(
                     'success', "Order updated successfully"
                 );

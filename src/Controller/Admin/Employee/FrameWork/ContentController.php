@@ -22,10 +22,8 @@ class ContentController extends EnhancedAbstractController
 {
 
     /**
-     * @param Request                   $request
-     * @param RouterInterface           $router
-     * @param PanelActionListMapBuilder $builder
-     *
+     * @param Request $request
+     * @param AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder
      * @return Response
      * @throws AdminUrlFunctionKeyParameterNull
      * @throws AdminUrlTypeKeyParameterNull

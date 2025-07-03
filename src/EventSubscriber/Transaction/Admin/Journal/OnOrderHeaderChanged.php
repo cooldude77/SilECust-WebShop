@@ -18,14 +18,14 @@ readonly class OnOrderHeaderChanged implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            OrderItemEditEvent::EVENT_NAME => ['afterOrderHeaderChanged', 100]
+            OrderHeaderChangedEvent::EVENT_NAME => ['afterOrderHeaderChanged', 100]
         ];
 
     }
 
     public function afterOrderHeaderChanged(OrderHeaderChangedEvent $event): void
     {
-        $this->journalSnapShot->snapShot($event->getOrderHeader());
+      //  $this->journalSnapShot->snapShot($event->getOrderHeader());
     }
 
 }
