@@ -51,7 +51,8 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
                 'link_id' => 'id-order',
                 'config' => [
                     'edit_link' => [
-                        'edit_link_allowed' => false,
+                        'edit_link_allowed' => true,
+                        'use_entity_field_as_id' => 'generatedId'
                     ]
                 ],
                 'fields' => [

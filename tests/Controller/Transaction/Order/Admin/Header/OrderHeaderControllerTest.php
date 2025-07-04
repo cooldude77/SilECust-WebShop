@@ -136,4 +136,44 @@ class OrderHeaderControllerTest extends WebTestCase
             ->assertSuccessful();
 
     }
+
+    public function testAdminUrlEdit()
+    {
+
+        $uri = "/admin?_function=order&_type=edit&generatedId={$this->afterPaymentSuccessOrderHeader->getGeneratedId()}";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSuccessful();
+
+
+    }
+
+    public function testAdminUrlDisplay()
+    {
+
+        $uri = "/admin?_function=order&_type=display&generatedId={$this->afterPaymentSuccessOrderHeader->getGeneratedId()}";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->assertSuccessful()
+            ->click('Edit')
+            ->assertSee('Edit Order');
+
+
+    }
+
+
 }
