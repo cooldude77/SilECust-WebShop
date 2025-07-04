@@ -3,16 +3,16 @@
 namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Address\Display;
 
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
+use Silecust\WebShop\Service\Admin\Employee\Route\AdminRoutingFromRequestFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
 {
     /**
      * @param RouterInterface $router
      */
-    public function __construct(private readonly RouterInterface $router
+    public function __construct(private readonly RouterInterface $router, private AdminRoutingFromRequestFinder $adminRoutingFromRequestFinder,
     )
     {
     }
@@ -28,11 +28,12 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
     public function setProperty(DisplayParamPropertyEvent $event): void
     {
 
+
+
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_my_address_display']))
+        if (!in_array($route['_route'], ['sc_my_address_display']))
             return;
-
 
         $event->setDisplayParamProperties(
             [
@@ -40,7 +41,7 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
                 'link_id' => 'id-customer-address',
                 'config' => [
                     'edit_link' => [
-                        'edit_link_allowed'=>true,
+                        'edit_link_allowed' => true,
                         'editButtonLinkText' => 'Edit',
                         'route' => 'sc_my_address_edit',
                         'link_id' => 'id-display-customer-address'

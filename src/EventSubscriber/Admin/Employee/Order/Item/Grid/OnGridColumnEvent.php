@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Item\Grid;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Order\Item\Grid;
 
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
@@ -10,9 +10,9 @@ use Silecust\WebShop\Service\Transaction\Order\Price\Item\ItemPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class OnGridColumnEvent implements EventSubscriberInterface
+readonly class OnGridColumnEvent implements EventSubscriberInterface
 {
-    public function __construct(private readonly RouterInterface $router, private readonly ItemPriceCalculator $itemPriceCalculator)
+    public function __construct(private RouterInterface $router, private ItemPriceCalculator $itemPriceCalculator)
     {
     }
 
@@ -39,7 +39,6 @@ class OnGridColumnEvent implements EventSubscriberInterface
 
         $data = $event->getData();
         $column = $event->getData()['column'];
-        $listGrid = $event->getData()['listGrid'];
 
         /** @var OrderItem $entity */
         $entity = $event->getData()['entity'];

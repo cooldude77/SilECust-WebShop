@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Order\Item\Display;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Item\Display;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

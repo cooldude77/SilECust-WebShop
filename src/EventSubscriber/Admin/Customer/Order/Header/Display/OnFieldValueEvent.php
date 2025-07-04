@@ -1,12 +1,11 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Order\Header\Display;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Header\Display;
 
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayFieldValueEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Service\Transaction\Admin\Order\Header\Display\OrderHeaderFieldDisplayMapper;
-use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 

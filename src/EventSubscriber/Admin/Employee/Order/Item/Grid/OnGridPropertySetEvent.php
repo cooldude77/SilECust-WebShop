@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Item\Grid;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Order\Item\Grid;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,8 +12,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-                                private readonly RouterInterface      $router
+    public function __construct(private readonly RouterInterface      $router
     )
     {
     }
@@ -35,7 +34,6 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
             )
                 return;
 
-        if ($this->authorizationChecker->isGranted('ROLE_EMPLOYEE')) {
             $listGrid = ['title' => 'Order Items',
                 'link_id' => 'id-order-items',
                 'function' => 'order_item',
@@ -81,58 +79,6 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     'function' => 'order_item',
                     'anchorText' => 'Create Order Item']];
 
-
-        } else {
-            if ($this->authorizationChecker->isGranted('ROLE_CUSTOMER')) {
-                $listGrid = ['title' => 'Order Items',
-                    'link_id' => 'id-order-items',
-                    'function' => 'order_item',
-                    'columns' => [
-                        [
-                            'label' => 'Id',
-                            'propertyName' => 'id',
-                            'action' => 'display',],
-                        [
-                            'label' => 'Product',
-                            'propertyName' => 'product'
-                        ],
-                        [
-                            'label' => 'Quantity',
-                            'propertyName' => 'quantity'
-                        ],
-                        [
-                            'label' => 'Base Price',
-                            'propertyName' => 'price'
-                        ],
-                        [
-                            'label' => 'Discount',
-                            'propertyName' => 'discount'
-                        ],
-                        [
-                            'label' => 'Taxes',
-                            'propertyName' => 'tax'
-                        ],
-                        [
-                            'label' => 'Final Amount',
-                            'propertyName' => 'finalAmount'
-                        ],
-
-                    ],
-                    'config' => [
-                        'create_link' => [
-                            'create_link_allowed' => false,
-                        ],
-                        'edit_link' => [
-                            'edit_link_allowed=>false'
-                        ],
-                        'display_link' => [
-                            'link_id' => ' id-order-item',
-                            'route' => 'sc_my_order_item_display',
-                            'anchorText' => 'Display Order Item'
-                        ]
-                    ]];
-            }
-        }
 
         $event->setListGridProperties($listGrid);
 

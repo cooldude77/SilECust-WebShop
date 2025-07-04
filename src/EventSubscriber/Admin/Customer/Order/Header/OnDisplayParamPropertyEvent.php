@@ -40,13 +40,15 @@ readonly class OnDisplayParamPropertyEvent implements EventSubscriberInterface
                 'config' => [
                     'edit_link' => [
                         'edit_link_allowed' => false,
+                        'link_id' => 'id-order-header-edit'
                     ]
                 ],
                 'fields' => [
                     [
                         'label' => 'Order Number',
                         'propertyName' => 'generatedId',
-                        'action' => 'display',],
+                        'action' => 'display',
+                    ],
                     [
                         'label' => 'Date Of Order',
                         'propertyName' => 'dateTimeOfOrder'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Employee\Order\Header\Grid;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Order\Header\Grid;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;

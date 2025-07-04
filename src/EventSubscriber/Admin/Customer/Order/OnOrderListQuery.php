@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Customer\Order\Header;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order;
 
 use Doctrine\Common\Collections\Criteria;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
