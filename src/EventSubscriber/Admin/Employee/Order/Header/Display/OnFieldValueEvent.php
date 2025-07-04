@@ -50,7 +50,7 @@ readonly class OnFieldValueEvent implements EventSubscriberInterface
 
         // To check for both stand-alone test case where admin panel is not called
         // and also where admin panel is called from UI
-        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_route_order_display']))
+        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_order_display']))
             return;
 
         // if admin panel is called

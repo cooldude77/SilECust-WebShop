@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SearchController extends EnhancedAbstractController
 {
 
-    #[Route('/admin/search', name: 'sc_admin_route_grid_search')]
+    #[Route('/admin/search', name: 'sc_admin_grid_search')]
     public function search(Request $request): Response
     {
 

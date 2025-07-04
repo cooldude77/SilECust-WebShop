@@ -41,7 +41,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_my_orders', 'sc_admin_route_order_list']))
+        if (!in_array($route['_route'], ['sc_my_orders', 'sc_admin_order_list']))
             if (!($event->getData()['request']->query->get('_function') == 'order'
                 && $event->getData()['request']->query->get('_type') == 'list')
             )

@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class OrderHeaderController extends EnhancedAbstractController
 {
     // Right now no creation from panel
-    // #[Route('/admin/order/create', name: 'sc_admin_route_order_create')]
+    // #[Route('/admin/order/create', name: 'sc_admin_order_create')]
     public function createOrderHeader(
         EntityManagerInterface $entityManager,
         OrderHeaderDTOMapper   $orderHeaderMapper,
@@ -78,7 +78,7 @@ class OrderHeaderController extends EnhancedAbstractController
      * @return Response
      * @throws Exception
      */
-    #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_route_order_edit')]
+    #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_order_edit')]
     public function edit(
         string                   $generatedId,
         OrderHeaderDTOMapper     $mapper,
@@ -138,7 +138,7 @@ class OrderHeaderController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_route_order_display')]
+    #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_order_display')]
     public function display(
         string                   $generatedId,
         EventDispatcherInterface $eventDispatcher,
@@ -173,7 +173,7 @@ class OrderHeaderController extends EnhancedAbstractController
         }
     }
 
-    #[Route('/admin/order/list', name: 'sc_admin_route_order_list')]
+    #[Route('/admin/order/list', name: 'sc_admin_order_list')]
     public function list(
         PaginatorInterface       $paginator,
         EventDispatcherInterface $eventDispatcher,

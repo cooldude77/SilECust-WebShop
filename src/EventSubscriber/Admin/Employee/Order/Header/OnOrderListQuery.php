@@ -35,7 +35,7 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
     {
 
         $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
-        if ($route['_route'] != 'sc_admin_route_order_list')
+        if ($route['_route'] != 'sc_admin_order_list')
             if (!($listQueryEvent->getRequest()->query->get('_function') == 'order'
                 && $listQueryEvent->getRequest()->query->get('_type') == 'list')
             )
