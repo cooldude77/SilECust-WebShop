@@ -44,7 +44,7 @@ readonly class OrderItemPaymentPriceMapper
 
         $priceObjectEntity->setBasePrice($priceObject->getBasePriceAmount());
         $priceObjectEntity->setDiscount($priceObject->getDiscountAmount());
-        $priceObjectEntity->setRateOfTax($priceObject->getTaxRatePercentage());
+        $priceObjectEntity->setTaxRate($priceObject->getTaxRatePercentage());
 
         return $priceObjectEntity;
     }

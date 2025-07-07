@@ -23,12 +23,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderItemController extends EnhancedAbstractController
 {
-    #[Route('/order/{id}/item/create', name: 'sc_order_item_create')]
-    public function create(int                         $id, EntityManagerInterface $entityManager,
-                           OrderItemDTOMapper          $orderItemMapper,
-                           OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
-                           EventDispatcherInterface    $eventDispatcher,
-                           Request                     $request
+    #[Route('/order/{id}/item/create', name: 'sc_admin_order_item_create')]
+    public function create(
+        int                         $id,
+        EntityManagerInterface      $entityManager,
+        OrderItemDTOMapper          $orderItemMapper,
+        OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
+        EventDispatcherInterface    $eventDispatcher,
+        Request                     $request
     ): Response
     {
         $orderItemDTO = new OrderItemDTO();
@@ -71,7 +73,7 @@ class OrderItemController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/order/item/{id}/edit', name: 'sc_order_item_edit')]
+    #[Route('/order/item/{id}/edit', name: 'sc_admin_order_item_edit')]
     public function edit(int                         $id,
                          OrderItemDTOMapper          $mapper,
                          EntityManagerInterface      $entityManager,
@@ -113,12 +115,12 @@ class OrderItemController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('@SilecustWebShop/transaction/order/item/order_item_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/transaction/admin/order/item/order_item_edit.html.twig', ['form' => $form]);
 
 
     }
 
-    #[Route('/order/item/{id}/display', name: 'sc_order_item_display')]
+    #[Route('/order/item/{id}/display', name: 'sc_admin_order_item_display')]
     public function display(OrderItemRepository $OrderItemRepository, int $id, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
@@ -135,11 +137,11 @@ class OrderItemController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/transaction/admin/order/item/order_item_display.html.twig',
-            ['entity' => $OrderItem, 'request'=>$request,'params' => $displayParams]
+            ['entity' => $OrderItem, 'request' => $request, 'params' => $displayParams]
         );
     }
 
-    #[Route('/order/{id}/item/list', name: 'sc_order_item_list')]
+    #[Route('/order/{id}/item/list', name: 'sc_admin_order_item_list')]
     public function list(int                      $id,
                          EventDispatcherInterface $eventDispatcher,
                          PaginatorInterface       $paginator,

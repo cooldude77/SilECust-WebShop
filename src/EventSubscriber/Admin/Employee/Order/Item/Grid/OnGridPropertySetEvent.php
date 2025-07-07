@@ -12,7 +12,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private readonly RouterInterface      $router
+    public function __construct(private readonly RouterInterface $router
     )
     {
     }
@@ -34,50 +34,55 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
             )
                 return;
 
-            $listGrid = ['title' => 'Order Items',
-                'link_id' => 'id-order-items',
-                'function' => 'order_item',
-                'edit_link_allowed' => true,
-                'columns' => [
-                    [
-                        'label' => 'Id',
-                        'propertyName' => 'id',
-                        'action' => 'display',
-                    ], [
-                        'label' => 'Quantity',
-                        'propertyName' => 'quantity'
-                    ],
-                    [
-                        'label' => 'Product',
-                        'propertyName' => 'product'
-                    ],
-                    [
-                        'label' => 'Quantity',
-                        'propertyName' => 'quantity'
-                    ],
-                    [
-                        'label' => 'Base Price',
-                        'propertyName' => 'price'
-                    ],
-                    [
-                        'label' => 'Discount',
-                        'propertyName' => 'discount'
-                    ],
-                    [
-                        'label' => 'Taxes',
-                        'propertyName' => 'tax'
-                    ],
-                    [
-                        'label' => 'Final Amount',
-                        'propertyName' => 'finalAmount'
-                    ],
-
-
+        $listGrid = [
+            'title' => 'Order Items',
+            'link_id' => 'id-order-items',
+            'function' => 'order_item',
+            'edit_link_allowed' => true,
+            'parent_id' => $event->getData()['id'],
+            'columns' => [
+                [
+                    'label' => 'Id',
+                    'propertyName' => 'id',
+                    'action' => 'display',
                 ],
-                'createButtonConfig' => ['link_id' => ' id-create-order-item',
-                    'id' => $event->getData()['id'],
-                    'function' => 'order_item',
-                    'anchorText' => 'Create Order Item']];
+                [
+                    'label' => 'Quantity',
+                    'propertyName' => 'quantity'
+                ],
+                [
+                    'label' => 'Product',
+                    'propertyName' => 'product'
+                ],
+                [
+                    'label' => 'Quantity',
+                    'propertyName' => 'quantity'
+                ],
+                [
+                    'label' => 'Base Price',
+                    'propertyName' => 'price'
+                ],
+                [
+                    'label' => 'Discount',
+                    'propertyName' => 'discount'
+                ],
+                [
+                    'label' => 'Taxes',
+                    'propertyName' => 'tax'
+                ],
+                [
+                    'label' => 'Final Amount',
+                    'propertyName' => 'finalAmount'
+                ],
+
+
+            ],
+            'createButtonConfig' => [
+                'link_id' => ' id-create-order-item',
+                'function' => 'order_item',
+                'anchorText' => 'Create Order Item'
+            ]
+        ];
 
 
         $event->setListGridProperties($listGrid);
