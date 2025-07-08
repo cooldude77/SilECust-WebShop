@@ -14,10 +14,7 @@ use Silecust\WebShop\Event\Module\WebShop\External\Cart\CartItemDeletedEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Cart\Types\CartEventTypes;
 use Silecust\WebShop\Event\Module\WebShop\External\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
-use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\CartItemToUpdateIsOfInvalidType;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
-use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Form\Module\WebShop\External\Cart\CartMultipleEntryForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Cart\CartSingleEntryForm;
 use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
@@ -92,24 +89,24 @@ class  CartController extends EnhancedAbstractController
      * @param CartSessionToDTOMapper $cartDTOMapper
      * @param CartSessionProductService $cartService
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param Request $request
-     *
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
-     * @throws UserNotLoggedInException
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws CartItemToUpdateIsOfInvalidType
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\CartItemToUpdateIsOfInvalidType
+     * @throws \Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
+     * @throws \Silecust\WebShop\Exception\Security\User\UserNotLoggedInException
+     * @throws \Exception
      */
     public function list(
         CartSessionToDTOMapper    $cartDTOMapper,
         CartSessionProductService $cartService,
         EventDispatcherInterface  $eventDispatcher,
-        CustomerFromUserFinder    $customerFromUserFinder,
         Request                   $request,
         EntityManagerInterface    $entityManager
-    ): Response {
+    ): Response
+    {
 
-        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $customerFromUserFinder, $entityManager);
+        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $entityManager);
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
 
@@ -127,18 +124,14 @@ class  CartController extends EnhancedAbstractController
             }
 
             $arrayOfCartItems = [];
-        /** @var CartProductDTO $item */
+            /** @var CartProductDTO $item */
             foreach ($form->getData()['items'] as $item) {
 
                 $arrayOfCartItems[] = new CartSessionObject($item->productId, $item->quantity);
             }
             $cartService->updateItemArray($arrayOfCartItems);
 
-            $eventDispatcher->dispatch(
-                new CartEvent(
-                    $customerFromUserFinder->getLoggedInCustomer()
-                ), CartEventTypes::POST_CART_QUANTITY_UPDATED
-            );
+            $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_QUANTITY_UPDATED);
 
 
         }
@@ -150,18 +143,16 @@ class  CartController extends EnhancedAbstractController
 
     /**
      * @param CartSessionProductService $cartSessionProductService
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param CustomerFromUserFinder    $customerFromUserFinder
-     *
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @throws \Exception
      */
     private function initializeCartAndDispatchEvents(
         CartSessionProductService $cartSessionProductService,
         EventDispatcherInterface  $eventDispatcher,
-        CustomerFromUserFinder    $customerFromUserFinder,
         EntityManagerInterface    $entityManager,
-    ): void {
+    ): void
+    {
 
         // session variable initialization
         $cartSessionProductService->initialize();
@@ -170,7 +161,7 @@ class  CartController extends EnhancedAbstractController
             $entityManager->beginTransaction();
 
             // the order is created here
-            $eventDispatcher->dispatch(new CartEvent($customerFromUserFinder->getLoggedInCustomer()), CartEventTypes::POST_CART_INITIALIZED);
+            $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_INITIALIZED);
 
             $entityManager->flush();
             $entityManager->commit();
@@ -183,17 +174,17 @@ class  CartController extends EnhancedAbstractController
 
     /**
      * @param                           $id
-     * @param ProductRepository         $productRepository
+     * @param ProductRepository $productRepository
      * @param CartSessionProductService $cartService
-     * @param Request                   $request
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param CustomerFromUserFinder    $customerFromUserFinder
-     * @param RouterInterface           $router
+     * @param Request $request
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param CustomerFromUserFinder $customerFromUserFinder
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param RouterInterface $router
      *
      * @return Response
-     * @throws ProductNotFoundInCart
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
+     * @throws \Exception
      */
     #[Route('/cart/product/{id}/add', name: 'sc_module_web_shop_cart_add_product')]
     public function addToCart($id,
@@ -203,8 +194,9 @@ class  CartController extends EnhancedAbstractController
                               EventDispatcherInterface $eventDispatcher,
                               CustomerFromUserFinder $customerFromUserFinder,
                               EntityManagerInterface $entityManager,
-        RouterInterface $router
-    ): Response {
+                              RouterInterface $router
+    ): Response
+    {
 
         if ($request->isMethod(Request::METHOD_POST)) {
             // When a non-logged-in user presses add to cart button
@@ -213,7 +205,7 @@ class  CartController extends EnhancedAbstractController
             }
         }
 
-        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $customerFromUserFinder, $entityManager);
+        $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $entityManager);
 
         $product = $productRepository->find($id);
 
@@ -231,10 +223,8 @@ class  CartController extends EnhancedAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $eventDispatcher->dispatch(
-                new CartItemAddedEvent(
-                    $customerFromUserFinder->getLoggedInCustomer(), $product,
-                    $cartProductDTO->quantity
-                ), CartEventTypes::BEFORE_ITEM_ADDED_TO_CART
+                new CartItemAddedEvent($product, $cartProductDTO->quantity),
+                CartEventTypes::BEFORE_ITEM_ADDED_TO_CART
             );
 
             $cartProductDTO = $form->getData();
@@ -248,9 +238,7 @@ class  CartController extends EnhancedAbstractController
 
                 $entityManager->beginTransaction();
 
-                $eventDispatcher->dispatch(new CartItemAddedEvent(
-                    $customerFromUserFinder->getLoggedInCustomer(), $product,
-                    $cartProductDTO->quantity), CartEventTypes::ITEM_ADDED_TO_CART);
+                $eventDispatcher->dispatch(new CartItemAddedEvent($product,$cartProductDTO->quantity), CartEventTypes::ITEM_ADDED_TO_CART);
 
                 $entityManager->flush();
                 $entityManager->commit();
@@ -272,26 +260,23 @@ class  CartController extends EnhancedAbstractController
 
     /**
      *
-     * @param                           $id
+     * @param int $id
      * @param ProductRepository $productRepository
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param CartSessionProductService $cartService
-     *
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
-     * @throws ProductNotFoundInCart
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
      */
     #[Route('/cart/product/{id}/delete', name: 'sc_module_web_shop_cart_delete_product')]
     public function delete(
         int                       $id,
         ProductRepository         $productRepository,
         EventDispatcherInterface  $eventDispatcher,
-        CustomerFromUserFinder    $customerFromUserFinder,
         CartSessionProductService $cartService,
         EntityManagerInterface    $entityManager
-    ): Response {
+    ): Response
+    {
 
         $product = $productRepository->find($id);
 
@@ -303,11 +288,9 @@ class  CartController extends EnhancedAbstractController
 
             $entityManager->beginTransaction();
 
-        $eventDispatcher->dispatch(
-            new CartItemDeletedEvent(
-                $customerFromUserFinder->getLoggedInCustomer(), $product
-            ), CartEventTypes::ITEM_DELETED_FROM_CART
-        );
+            $eventDispatcher->dispatch(
+                new CartItemDeletedEvent($product), CartEventTypes::ITEM_DELETED_FROM_CART
+            );
             $entityManager->flush();
             $entityManager->commit();
 
@@ -328,21 +311,18 @@ class  CartController extends EnhancedAbstractController
     /**
      *
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CustomerFromUserFinder $customerFromUserFinder
      * @param CartSessionProductService $cartService
-     *
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
-     * @throws UserNotAssociatedWithACustomerException
-     * @throws UserNotLoggedInException
-     * @throws ProductNotFoundInCart
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
      */
     #[Route('/cart/clear', name: 'sc_module_web_shop_cart_clear')]
     public function clear(
         EventDispatcherInterface  $eventDispatcher,
-        CustomerFromUserFinder    $customerFromUserFinder,
         CartSessionProductService $cartService,
         EntityManagerInterface    $entityManager
-    ): Response {
+    ): Response
+    {
 
         $cartService->initialize();
         $cartArray = $cartService->getCartArray();
@@ -352,7 +332,7 @@ class  CartController extends EnhancedAbstractController
             $entityManager->beginTransaction();
 
             $eventDispatcher->dispatch(
-            new CartClearedByUserEvent($customerFromUserFinder->getLoggedInCustomer()),
+                new CartClearedByUserEvent(),
                 CartEventTypes::CART_CLEARED_BY_USER);
 
             $entityManager->flush();
@@ -373,10 +353,11 @@ class  CartController extends EnhancedAbstractController
      * @throws ProductNotFoundInCart
      * @throws PriceProductBaseNotFound
      */
-    public function single(string $id, ProductRepository $productRepository,
-        CartSessionProductService $cartSessionService,
-        PriceByCountryCalculator $priceByCountryCalculator,
-    ): Response {
+    public function single(string                    $id, ProductRepository $productRepository,
+                           CartSessionProductService $cartSessionService,
+                           PriceByCountryCalculator  $priceByCountryCalculator,
+    ): Response
+    {
 
 
         $product = $productRepository->find($id);
@@ -388,10 +369,9 @@ class  CartController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/cart/cart_single_product.html.twig', ['product' => $product,
-                                                                            'unitPrice' => $unitPrice,
-                                                                            'quantity' => $quantity,
-                                                                            'currency' => $priceByCountryCalculator->getCurrency(
-                                                                            )]
+                'unitPrice' => $unitPrice,
+                'quantity' => $quantity,
+                'currency' => $priceByCountryCalculator->getCurrency()]
         );
     }
 
