@@ -27,12 +27,12 @@ readonly class OnCartEvents implements EventSubscriberInterface
      * @param OrderSave $orderSave
      * @param OrderRead $orderRead
      * @param \Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder $customerFromUserFinder
-     * @param CartProductManager $cartSessionProductService
+     * @param CartProductManager $cartProductManager
      */
     public function __construct(private OrderSave              $orderSave,
                                 private OrderRead              $orderRead,
                                 private CustomerFromUserFinder $customerFromUserFinder,
-                                private CartProductManager     $cartSessionProductService,
+                                private CartProductManager     $cartProductManager,
     )
     {
     }
@@ -98,8 +98,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
 
             $orderItems = $this->orderRead->getOrderItems($orderHeader);
 
-            $this->orderSave->updateOrderItemsFromCartArray(
-                $this->cartSessionProductService->getCartArray(),
+            $this->orderSave->updateOrderItemsFromCartArray($this->cartProductManager->getCartArray(),
                 $orderItems
             );
         } catch (UserNotAssociatedWithACustomerException|UserNotLoggedInException $e) {

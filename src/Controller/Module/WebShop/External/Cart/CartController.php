@@ -106,6 +106,7 @@ class  CartController extends EnhancedAbstractController
     ): Response
     {
 
+        // todo: show initial order price
         $this->initializeCartAndDispatchEvents($cartService, $eventDispatcher, $entityManager);
 
         $DTOArray = $cartDTOMapper->mapCartToDto($cartService->getCartArray());
@@ -122,18 +123,31 @@ class  CartController extends EnhancedAbstractController
                 // todo: check cart not updated
                 return $this->redirectToRoute('sc_web_shop_checkout');
             }
+            try {
 
-            $arrayOfCartItems = [];
-            /** @var CartProductDTO $item */
-            foreach ($form->getData()['items'] as $item) {
+                $entityManager->beginTransaction();
 
-                $arrayOfCartItems[] = new CartItem($item->productId, $item->quantity);
+
+                $arrayOfCartItems = [];
+                /** @var CartProductDTO $item */
+                foreach ($form->getData()['items'] as $item) {
+
+                    $arrayOfCartItems[] = new CartItem($item->productId, $item->quantity);
+                }
+
+                $cartService->updateItemArray($arrayOfCartItems);
+
+                $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_QUANTITY_UPDATED);
+
+                $entityManager->flush();
+                $entityManager->commit();
+
+            } catch (Exception $exception) {
+
+                // todo: restore changed cart
+                $entityManager->rollback();
+                throw $exception;
             }
-            $cartService->updateItemArray($arrayOfCartItems);
-
-            $eventDispatcher->dispatch(new CartEvent(), CartEventTypes::POST_CART_QUANTITY_UPDATED);
-
-
         }
 
         return $this->render(
@@ -238,7 +252,7 @@ class  CartController extends EnhancedAbstractController
 
                 $entityManager->beginTransaction();
 
-                $eventDispatcher->dispatch(new CartItemAddedEvent($product,$cartProductDTO->quantity), CartEventTypes::ITEM_ADDED_TO_CART);
+                $eventDispatcher->dispatch(new CartItemAddedEvent($product, $cartProductDTO->quantity), CartEventTypes::ITEM_ADDED_TO_CART);
 
                 $entityManager->flush();
                 $entityManager->commit();
