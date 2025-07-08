@@ -31,7 +31,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], ['sc_my_orders', 'sc_admin_order_list']))
+        if (!in_array($route['_route'], [ 'sc_admin_order_list']))
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'list')
             ) return;

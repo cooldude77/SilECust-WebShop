@@ -1,6 +1,5 @@
-{% if listGrid.config.create_link.create_link_allowed is defined
-    and listGrid.config.create_link.create_link_allowed == false %}
-{% else %}
+{% if listGrid.config.create_link is defined and
+    listGrid.config.create_link.create_link_allowed ==  true %}
     {% set after =  path(listGrid.config.create_link.redirect_upon_success_route) %}
     {% set parameterList = {'_redirect_upon_success_url': after} %}
     {% set href = path(listGrid.config.create_link.route,parameterList) %}

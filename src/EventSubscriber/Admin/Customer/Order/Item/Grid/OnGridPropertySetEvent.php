@@ -12,8 +12,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-                                private readonly RouterInterface      $router
+    public function __construct(private readonly RouterInterface      $router
     )
     {
     }

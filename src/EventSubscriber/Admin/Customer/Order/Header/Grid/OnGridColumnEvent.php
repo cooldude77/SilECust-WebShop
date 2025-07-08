@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Order\Header\Grid;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Header\Grid;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
@@ -41,11 +41,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
-        if (!in_array($route['_route'], [ 'sc_admin_panel','sc_admin_order_list']))
-            if (!($event->getData()['request']->query->get('_function') == 'order'
-                && $event->getData()['request']->query->get('_type') == 'list')
-            )
-                return;
+        if ($route['_route'] != 'sc_my_orders')
+            return;
 
         $data = $event->getData();
         $column = $event->getData()['column'];
@@ -55,14 +52,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         switch ($column['propertyName']) {
             case 'generatedId':
-                if ($route['_route'] == 'sc_my_orders')
-                    $column['value'] = $this->router->generate('sc_my_order_display', ['generatedId' => $entity->getGeneratedId()]);
-                else
-                    $column['value'] = $this->router->generate('sc_admin_panel', [
-                        '_function' => 'order',
-                        '_type' => 'display',
-                        'generatedId' => $entity->getGeneratedId()
-                    ]);
+                $column['value'] = $this->router->generate('sc_my_order_display', ['generatedId' => $entity->getGeneratedId()]);
                 $data['column'] = $column;
                 break;
             case 'dateTimeOfOrder':
