@@ -315,11 +315,9 @@ class  CartController extends EnhancedAbstractController
 
             throw $exception;
         }
-        if ($cartService->hasItems()) {
-            return $this->redirectToRoute('sc_home');
-        } else {
-            return $this->redirectToRoute('sc_module_web_shop_cart');
-        }
+
+        return $this->redirectToRoute('sc_module_web_shop_cart');
+
     }
 
     /**

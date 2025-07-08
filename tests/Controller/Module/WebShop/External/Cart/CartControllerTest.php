@@ -34,13 +34,6 @@ class CartControllerTest extends WebTestCase
         CartFixture,
         SessionFactoryFixture, Factories;
 
-    protected function setUp(): void
-    {
-        $this->browser()->visit('/logout');
-
-
-    }
-
     public function testInCartProcesses()
     {
 
@@ -108,12 +101,12 @@ class CartControllerTest extends WebTestCase
 
                 // Now: Order is created when cart is loaded
                 // Test : An order got created
-               // $order = $this->findOneBy(
-                 //   OrderHeader::class, ['customer' => $this->customer->object()]
+                // $order = $this->findOneBy(
+                //   OrderHeader::class, ['customer' => $this->customer->object()]
                 //);
-               // self::assertNotNull($order);
+                // self::assertNotNull($order);
 
-               // $this->assertNotNull($order->getGeneratedId());
+                // $this->assertNotNull($order->getGeneratedId());
                 $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customer->object()]);
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
@@ -187,6 +180,7 @@ class CartControllerTest extends WebTestCase
 
 
             // Test: item delete from cart
+            ->interceptRedirects()
             ->visit($cartDeleteUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
@@ -215,7 +209,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertNotNull($itemB);
 
             })
-
+            ->assertRedirectedTo($cartUri)
             // Test: clear cart
             ->interceptRedirects()
             ->visit($cartUri)
@@ -384,6 +378,13 @@ class CartControllerTest extends WebTestCase
                 self::assertJson($orderItems[0]->getProductInJson());
 
             });;
+
+    }
+
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
 
     }
 }
