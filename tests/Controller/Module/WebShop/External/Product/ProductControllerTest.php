@@ -1,8 +1,8 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Product;
 
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -96,7 +96,7 @@ class ProductControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
 
                 $this->createSession($browser);
-                $cart = $this->session->get(CartSessionProductService::CART_SESSION_KEY);
+                $cart = $this->session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
                 $this->assertEquals(2, $cart[$this->productA->getId()]->quantity);

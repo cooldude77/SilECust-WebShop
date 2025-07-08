@@ -1,12 +1,12 @@
 <?php
 
-namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Mapper;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Mapper;
 
-use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
 use Doctrine\Common\Collections\ArrayCollection;
+use Silecust\WebShop\Form\Module\WebShop\External\Cart\DTO\CartProductDTO;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 
-class CartSessionToDTOMapper
+class CartListToDTOMapper
 {
 
 
@@ -20,7 +20,7 @@ class CartSessionToDTOMapper
     public function mapCartToDto(array $cartArrayList): ArrayCollection
     {
         $dtoArray = new  ArrayCollection();
-        /** @var CartSessionObject $cartObject */
+        /** @var CartItem $cartObject */
         foreach ($cartArrayList as $productId => $cartObject) {
 
             $dto = new CartProductDTO();

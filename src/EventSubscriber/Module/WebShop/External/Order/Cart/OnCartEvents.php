@@ -12,7 +12,7 @@ use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Exception\Module\WebShop\External\Order\NoOpenOrderExists;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
@@ -26,12 +26,13 @@ readonly class OnCartEvents implements EventSubscriberInterface
     /**
      * @param OrderSave $orderSave
      * @param OrderRead $orderRead
-     * @param CartSessionProductService $cartSessionProductService
+     * @param \Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder $customerFromUserFinder
+     * @param CartProductManager $cartSessionProductService
      */
-    public function __construct(private OrderSave                 $orderSave,
-                                private OrderRead                 $orderRead,
-                                private CustomerFromUserFinder    $customerFromUserFinder,
-                                private CartSessionProductService $cartSessionProductService,
+    public function __construct(private OrderSave              $orderSave,
+                                private OrderRead              $orderRead,
+                                private CustomerFromUserFinder $customerFromUserFinder,
+                                private CartProductManager     $cartSessionProductService,
     )
     {
     }
@@ -200,7 +201,7 @@ readonly class OnCartEvents implements EventSubscriberInterface
             $orderHeader = $this->orderRead->getOpenOrder($customer);
 
             if ($orderHeader == null) {
-                throw new NoOpenOrderExists($event->getCustomer());
+                throw new NoOpenOrderExists($customer);
             }
 
             $orderItems = $this->orderRead->getOrderItems($orderHeader);

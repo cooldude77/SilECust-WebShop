@@ -1,8 +1,12 @@
 <?php
 
-namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item;
 
-class CartSessionObject
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
+
+
+#[Exclude] // no autowiring with this annotation
+class CartItem
 {
 
     public function __construct(public string $productId, public int $quantity = 0)

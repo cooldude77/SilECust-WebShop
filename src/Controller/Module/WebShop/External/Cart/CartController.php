@@ -24,9 +24,9 @@ use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeadController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelHeaderController;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Mapper\CartSessionToDTOMapper;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Mapper\CartListToDTOMapper;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,8 +86,8 @@ class  CartController extends EnhancedAbstractController
 
     /**
      *
-     * @param CartSessionToDTOMapper $cartDTOMapper
-     * @param CartSessionProductService $cartService
+     * @param CartListToDTOMapper $cartDTOMapper
+     * @param CartProductManager $cartService
      * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
@@ -98,11 +98,11 @@ class  CartController extends EnhancedAbstractController
      * @throws \Exception
      */
     public function list(
-        CartSessionToDTOMapper    $cartDTOMapper,
-        CartSessionProductService $cartService,
-        EventDispatcherInterface  $eventDispatcher,
-        Request                   $request,
-        EntityManagerInterface    $entityManager
+        CartListToDTOMapper      $cartDTOMapper,
+        CartProductManager       $cartService,
+        EventDispatcherInterface $eventDispatcher,
+        Request                  $request,
+        EntityManagerInterface   $entityManager
     ): Response
     {
 
@@ -127,7 +127,7 @@ class  CartController extends EnhancedAbstractController
             /** @var CartProductDTO $item */
             foreach ($form->getData()['items'] as $item) {
 
-                $arrayOfCartItems[] = new CartSessionObject($item->productId, $item->quantity);
+                $arrayOfCartItems[] = new CartItem($item->productId, $item->quantity);
             }
             $cartService->updateItemArray($arrayOfCartItems);
 
@@ -142,15 +142,15 @@ class  CartController extends EnhancedAbstractController
     }
 
     /**
-     * @param CartSessionProductService $cartSessionProductService
+     * @param CartProductManager $cartSessionProductService
      * @param EventDispatcherInterface $eventDispatcher
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @throws \Exception
      */
     private function initializeCartAndDispatchEvents(
-        CartSessionProductService $cartSessionProductService,
-        EventDispatcherInterface  $eventDispatcher,
-        EntityManagerInterface    $entityManager,
+        CartProductManager       $cartSessionProductService,
+        EventDispatcherInterface $eventDispatcher,
+        EntityManagerInterface   $entityManager,
     ): void
     {
 
@@ -175,7 +175,7 @@ class  CartController extends EnhancedAbstractController
     /**
      * @param                           $id
      * @param ProductRepository $productRepository
-     * @param CartSessionProductService $cartService
+     * @param CartProductManager $cartService
      * @param Request $request
      * @param EventDispatcherInterface $eventDispatcher
      * @param CustomerFromUserFinder $customerFromUserFinder
@@ -189,7 +189,7 @@ class  CartController extends EnhancedAbstractController
     #[Route('/cart/product/{id}/add', name: 'sc_module_web_shop_cart_add_product')]
     public function addToCart($id,
                               ProductRepository $productRepository,
-                              CartSessionProductService $cartService,
+                              CartProductManager $cartService,
                               Request $request,
                               EventDispatcherInterface $eventDispatcher,
                               CustomerFromUserFinder $customerFromUserFinder,
@@ -230,7 +230,7 @@ class  CartController extends EnhancedAbstractController
             $cartProductDTO = $form->getData();
 
             // NEW
-            $cartObject = new CartSessionObject($cartProductDTO->productId, $cartProductDTO->quantity);
+            $cartObject = new CartItem($cartProductDTO->productId, $cartProductDTO->quantity);
             $cartService->addItemToCart($cartObject);
 
             // Now raise events for persistence and other stuff
@@ -263,18 +263,18 @@ class  CartController extends EnhancedAbstractController
      * @param int $id
      * @param ProductRepository $productRepository
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CartSessionProductService $cartService
+     * @param CartProductManager $cartService
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
      * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
      */
     #[Route('/cart/product/{id}/delete', name: 'sc_module_web_shop_cart_delete_product')]
     public function delete(
-        int                       $id,
-        ProductRepository         $productRepository,
-        EventDispatcherInterface  $eventDispatcher,
-        CartSessionProductService $cartService,
-        EntityManagerInterface    $entityManager
+        int                      $id,
+        ProductRepository        $productRepository,
+        EventDispatcherInterface $eventDispatcher,
+        CartProductManager       $cartService,
+        EntityManagerInterface   $entityManager
     ): Response
     {
 
@@ -311,16 +311,16 @@ class  CartController extends EnhancedAbstractController
     /**
      *
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CartSessionProductService $cartService
+     * @param CartProductManager $cartService
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
      * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
      */
     #[Route('/cart/clear', name: 'sc_module_web_shop_cart_clear')]
     public function clear(
-        EventDispatcherInterface  $eventDispatcher,
-        CartSessionProductService $cartService,
-        EntityManagerInterface    $entityManager
+        EventDispatcherInterface $eventDispatcher,
+        CartProductManager       $cartService,
+        EntityManagerInterface   $entityManager
     ): Response
     {
 
@@ -353,9 +353,9 @@ class  CartController extends EnhancedAbstractController
      * @throws ProductNotFoundInCart
      * @throws PriceProductBaseNotFound
      */
-    public function single(string                    $id, ProductRepository $productRepository,
-                           CartSessionProductService $cartSessionService,
-                           PriceByCountryCalculator  $priceByCountryCalculator,
+    public function single(string                   $id, ProductRepository $productRepository,
+                           CartProductManager       $cartSessionService,
+                           PriceByCountryCalculator $priceByCountryCalculator,
     ): Response
     {
 

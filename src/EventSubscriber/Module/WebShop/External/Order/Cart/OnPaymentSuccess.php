@@ -3,13 +3,13 @@
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Cart;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentSuccess implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly CartSessionProductService $cartSessionProductService)
+        private CartProductManager $cartSessionProductService)
     {
 
     }

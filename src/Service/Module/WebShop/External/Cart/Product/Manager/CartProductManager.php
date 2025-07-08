@@ -1,12 +1,10 @@
 <?php
 
-namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Session;
+namespace Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\CartItemToUpdateIsOfInvalidType;
 use Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart;
-use Silecust\WebShop\Repository\ProductRepository;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -14,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Handling product functionality in cart
  */
-class CartSessionProductService
+class CartProductManager
 {
     /**
      *
@@ -27,23 +25,21 @@ class CartSessionProductService
     private SessionInterface $session;
 
     /**
-     * @param RequestStack      $requestStack
-     * @param ProductRepository $productRepository
+     * @param RequestStack $requestStack
      */
     public function __construct(private readonly RequestStack $requestStack) {
         // Accessing the session in the constructor is *NOT* recommended, since
-        // it might not be accessible yet or lead to unwanted side-effects
+        // it might not be accessible yet or lead to unwanted sideeffects
         // $this->session = $requestStack->getSession();
-        $x=0;
     }
 
     /**
-     * @param CartSessionObject $cartObject
+     * @param CartItem $cartObject
      *
      * @return void
      * @throws ProductNotFoundInCart
      */
-    public function addItemToCart(CartSessionObject $cartObject): void
+    public function addItemToCart(CartItem $cartObject): void
     {
         // Todo: check quantity proper values
 
@@ -64,11 +60,11 @@ class CartSessionProductService
     }
 
     /**
-     * @param CartSessionObject $cartObject
+     * @param CartItem $cartObject
      *
      * @return void
      */
-    private function setCartObject(CartSessionObject $cartObject): void
+    private function setCartObject(CartItem $cartObject): void
     {
         $array = $this->getCartArray();
         // todo: validations
@@ -81,10 +77,10 @@ class CartSessionProductService
     /**
      * @param int $productId
      *
-     * @return CartSessionObject
+     * @return CartItem
      * @throws ProductNotFoundInCart
      */
-    public function getCartObjectByKey(int $productId): CartSessionObject{
+    public function getCartObjectByKey(int $productId): CartItem{
 
         if($this->isProductInCartArray($productId))
             return $this->getCartArray()[$productId];
@@ -109,9 +105,7 @@ class CartSessionProductService
     {
         $this->initialize();
 
-        $x = $this->session->get(self::CART_SESSION_KEY);
-
-        return $x;
+        return $this->session->get(self::CART_SESSION_KEY);
     }
 
     /**
@@ -155,7 +149,7 @@ class CartSessionProductService
     public function clearCart(): void
     {
         $this->initialize();
-        $this->setCartArrayInSession([]);
+        $this->setCartArrayInSession();
         $this->session->remove(self::CART_SESSION_KEY);
         $this->session->save();
 
@@ -172,9 +166,9 @@ class CartSessionProductService
         $this->initialize();
 
         $cartArray = $this->getCartArray();
-        /** CartSessionObject $item */
+        /** CartItem $item */
         foreach ($array as $item) {
-            if(!($item instanceof CartSessionObject))
+            if(!($item instanceof CartItem))
                 throw  new CartItemToUpdateIsOfInvalidType();
             $cartArray[$item->productId] = $item;
         }

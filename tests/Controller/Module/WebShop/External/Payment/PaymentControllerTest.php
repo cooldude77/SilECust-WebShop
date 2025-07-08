@@ -1,11 +1,11 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Payment;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderJournal;
 use Silecust\WebShop\Entity\OrderPayment;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -101,7 +101,7 @@ class PaymentControllerTest extends WebTestCase
 
                 // check cart is emptied
                 self::assertNull(
-                    $this->session->get(CartSessionProductService::CART_SESSION_KEY)
+                    $this->session->get(CartProductManager::CART_SESSION_KEY)
                 );
 
             });
