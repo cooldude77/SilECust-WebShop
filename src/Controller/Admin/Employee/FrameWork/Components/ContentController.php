@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork;
+namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork\Components;
 
 use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
@@ -10,10 +10,8 @@ use Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 use Silecust\WebShop\Service\Admin\Employee\Route\AdminRoutingFromRequestFinder;
-use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
 
 /**
  *

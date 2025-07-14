@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
+namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork\Components;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ class FooterController extends EnhancedAbstractController
     public function header(Request $request): Response
     {
         return $this->render(
-            '@SilecustWebShop/admin/ui/panel/footer/footer.html.twig'
+            '@SilecustWebShop/common/ui/panel/footer/footer.html.twig'
         );
 
 

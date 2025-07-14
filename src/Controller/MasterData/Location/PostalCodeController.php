@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Controller\Location;
+namespace Silecust\WebShop\Controller\MasterData\Location;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;

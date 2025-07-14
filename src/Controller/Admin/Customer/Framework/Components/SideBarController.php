@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
+namespace Silecust\WebShop\Controller\Admin\Customer\Framework\Components;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
