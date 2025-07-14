@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 class FooterController extends EnhancedAbstractController
 {
 
-    public function header(Request $request): Response
+    public function footer(Request $request): Response
     {
         return $this->render(
-            '@SilecustWebShop/common/ui/panel/footer/footer.html.twig'
+            '@SilecustWebShop/admin/ui/panel/footer/footer.html.twig'
         );
 
 
