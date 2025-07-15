@@ -30,13 +30,6 @@ class MainControllerTest extends WebTestCase
         SessionFactoryFixture,
         Factories;
 
-    protected function setUp(): void
-    {
-        $this->browser()->visit('/logout');
-
-
-    }
-
     public function testWhenProductsExistButPriceDoesNotExist()
     {
         $this->createCustomerFixtures();
@@ -48,7 +41,9 @@ class MainControllerTest extends WebTestCase
             ->visit('/')
             ->assertSuccessful()
             ->assertSee('Base Price not found for product Prod name A')
-            ->assertSee('Base Price not found for product Prod name B');
+            ->assertSee('Base Price not found for product Prod name B')
+            // footer
+            ->assertSee('Copyright @Silecust');
 
     }
 
@@ -74,6 +69,13 @@ class MainControllerTest extends WebTestCase
             ->visit('/')
             ->assertSuccessful()
             ->assertSeeIn('title', 'Home Page');
+
+    }
+
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
 
     }
 }

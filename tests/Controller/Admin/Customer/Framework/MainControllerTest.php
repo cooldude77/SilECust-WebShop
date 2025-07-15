@@ -48,6 +48,8 @@ class MainControllerTest extends WebTestCase
             })
             ->visit($uri)
             ->assertSuccessful()
+            // footer
+            ->assertSee('Copyright @Silecust')
             ->visit($uri)
             ->click('a#sidebar-link-my-order-list')
             ->assertSuccessful()
