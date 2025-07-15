@@ -57,7 +57,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 break;
             case 'dateTimeOfOrder':
                 {
-                    $column['value'] = $entity->getDateTimeOfOrder()->format('d-m-Y');
+                    $column['value'] = $entity->getDateTimeOfOrder()->format('d-m-Y H:i:s');
                     $data['column'] = $column;
                 }
                 break;

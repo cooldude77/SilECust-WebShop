@@ -34,7 +34,7 @@ class AddressControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customer);
 
     }
 
@@ -109,7 +109,7 @@ class AddressControllerTest extends WebTestCase
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
 
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOrderFixtures($this->customer);
 
             })
             ->interceptRedirects()
@@ -172,7 +172,7 @@ class AddressControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOrderFixtures($this->customer);
 
             })
             ->interceptRedirects()
@@ -231,7 +231,7 @@ class AddressControllerTest extends WebTestCase
         $this->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOrderFixtures($this->customer);
 
             })
             ->interceptRedirects()
@@ -313,7 +313,7 @@ class AddressControllerTest extends WebTestCase
             ->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOrderFixtures($this->customer);
             })
             ->interceptRedirects()
             ->visit($uriShipping)
@@ -382,7 +382,7 @@ class AddressControllerTest extends WebTestCase
             ->browser()
             ->use(callback: function (Browser $browser) {
                 $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOrderFixtures($this->customer);
             })
             ->interceptRedirects()
             ->visit($uriShipping)

@@ -15,7 +15,7 @@ trait OrderFixture
     private Proxy|null|OrderHeader $openOrderHeader = null;
     private Proxy|null|OrderHeader $afterPaymentSuccessOrderHeader = null;
 
-    public function createOpenOrderFixtures(Proxy $customer): void
+    public function createOrderFixtures(Proxy $customer): void
     {
 
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);

@@ -55,7 +55,7 @@ class PaymentControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customer);
         $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
         $this->createOrderShippingFixture($this->openOrderHeader);
 
@@ -76,7 +76,7 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customer);
 
         $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/success";
 
@@ -124,7 +124,7 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customer);
 
         $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/failure";
 
