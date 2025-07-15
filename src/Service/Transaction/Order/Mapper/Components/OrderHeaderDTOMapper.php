@@ -9,15 +9,27 @@ use Silecust\WebShop\Repository\CustomerRepository;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 use Silecust\WebShop\Repository\OrderStatusTypeRepository;
 
+/**
+ *
+ */
 class OrderHeaderDTOMapper
 {
-    public function __construct(private readonly OrderHeaderRepository $orderHeaderRepository,
-        private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
-        private readonly CustomerRepository $customerRepository
+    /**
+     * @param \Silecust\WebShop\Repository\OrderHeaderRepository $orderHeaderRepository
+     * @param \Silecust\WebShop\Repository\OrderStatusTypeRepository $orderStatusTypeRepository
+     * @param \Silecust\WebShop\Repository\CustomerRepository $customerRepository
+     */
+    public function __construct(private readonly OrderHeaderRepository     $orderHeaderRepository,
+                                private readonly OrderStatusTypeRepository $orderStatusTypeRepository,
+                                private readonly CustomerRepository        $customerRepository
     ) {
     }
 
-    public function mapToEntityForCreate(OrderHeaderDTO $orderHeaderDTO): \Silecust\WebShop\Entity\OrderHeader
+    /**
+     * @param OrderHeaderDTO $orderHeaderDTO
+     * @return OrderHeader
+     */
+    public function mapToEntityForCreate(OrderHeaderDTO $orderHeaderDTO): OrderHeader
     {
         $customer = $this->customerRepository->findOneBy(['id' => $orderHeaderDTO->customerId]);
 
@@ -27,7 +39,6 @@ class OrderHeaderDTOMapper
 
     /**
      * @param OrderHeaderDTO $orderHeaderDTO
-     *
      * @return OrderHeader
      */
     public function mapDtoToEntityForEdit(OrderHeaderDTO $orderHeaderDTO): OrderHeader
@@ -41,6 +52,7 @@ class OrderHeaderDTOMapper
 
          return $orderHeader;
     }
+
 
     public function mapEntityToDtoForEdit(OrderHeader $orderHeader): OrderHeaderDTO
     {

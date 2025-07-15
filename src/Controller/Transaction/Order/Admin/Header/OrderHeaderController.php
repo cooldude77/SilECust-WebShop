@@ -108,9 +108,12 @@ class OrderHeaderController extends EnhancedAbstractController
                 try {
                     $entityManager->beginTransaction();
 
-                    $orderHeader = $mapper->mapDtoToEntityForEdit($form->getData());
+                    $orderHeaderDTO = $form->getData();
+                    $orderHeader = $mapper->mapDtoToEntityForEdit($orderHeaderDTO);
+
                     $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader),
                         OrderHeaderChangedEvent::EVENT_NAME);
+
                     $entityManager->flush();
                     $entityManager->commit();
 
@@ -118,9 +121,7 @@ class OrderHeaderController extends EnhancedAbstractController
                     $entityManager->rollback();
                     throw $exception;
                 }
-                $this->addFlash(
-                    'success', "Order updated successfully"
-                );
+                $this->addFlash('success', "Order updated successfully");
 
                 return new Response(
                     serialize(
