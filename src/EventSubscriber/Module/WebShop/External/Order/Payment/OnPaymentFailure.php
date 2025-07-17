@@ -8,7 +8,6 @@ use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACust
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFailureResponseResolverInterface;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
-use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
@@ -16,15 +15,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentFailure implements EventSubscriberInterface
 {
-    private OrderHeader $orderHeader;
 
     public function __construct(
-        private readonly PaymentFailureResponseResolverInterface $paymentFailureResponseResolver,
+        private PaymentFailureResponseResolverInterface $paymentFailureResponseResolver,
 
-        private readonly OrderSave                               $orderSave,
-        private readonly OrderRead                               $orderRead,
-        private readonly CustomerFromUserFinder                  $customerFromUserFinder,
-        private readonly OrderJournalSnapShot                    $journalSnapShot)
+        private OrderSave                               $orderSave,
+        private OrderRead                               $orderRead,
+        private CustomerFromUserFinder                  $customerFromUserFinder)
     {
         //todo: add snapshot
     }
@@ -54,7 +51,6 @@ readonly class OnPaymentFailure implements EventSubscriberInterface
             $orderHeader,
             $this->paymentFailureResponseResolver->resolve($paymentEvent->getRequest())
         );
-        $this->journalSnapShot->snapShot($orderHeader);
 
     }
 }

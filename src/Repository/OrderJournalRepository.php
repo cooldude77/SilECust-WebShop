@@ -1,7 +1,12 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+
+/** @noinspection ALL */
 
 namespace Silecust\WebShop\Repository;
 
+use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderJournal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,7 +22,7 @@ class OrderJournalRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return OrderJournalSnapShot[] Returns an array of OrderJournalSnapShot objects
+    //     * @return OrderJournalRecorder[] Returns an array of OrderJournalRecorder objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +36,7 @@ class OrderJournalRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?OrderJournalSnapShot
+    //    public function findOneBySomeField($value): ?OrderJournalRecorder
     //    {
     //        return $this->createQueryBuilder('o')
     //            ->andWhere('o.exampleField = :val')
@@ -40,7 +45,7 @@ class OrderJournalRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(\Silecust\WebShop\Entity\OrderHeader $orderHeader): OrderJournal
+    public function create(OrderHeader $orderHeader): OrderJournal
     {
         $orderJournal = new OrderJournal();
         $orderJournal->setOrderHeader($orderHeader);

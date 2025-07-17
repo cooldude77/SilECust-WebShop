@@ -2,15 +2,14 @@
 
 namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal;
 
-use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemEditEvent;
-use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
+use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalRecorder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnOrderItemEdited implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly OrderJournalSnapShot $journalSnapShot
+        private OrderJournalRecorder $journalSnapShot
 
     )
     {
@@ -26,7 +25,7 @@ readonly class OnOrderItemEdited implements EventSubscriberInterface
 
     public function afterOrderChanged(OrderItemEditEvent $event): void
     {
-        $this->journalSnapShot->snapShot($event->getOrderItem()->getOrderHeader());
+     //   $this->journalSnapShot->snapShot($event->getOrderItem()->getOrderHeader());
     }
 
 }

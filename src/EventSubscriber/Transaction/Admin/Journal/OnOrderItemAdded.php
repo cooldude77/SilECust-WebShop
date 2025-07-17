@@ -3,13 +3,13 @@
 namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal;
 
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
-use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalSnapShot;
+use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalRecorder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnOrderItemAdded implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly OrderJournalSnapShot $journalSnapShot
+        private OrderJournalRecorder $journalSnapShot
     )
     {
     }
@@ -24,7 +24,7 @@ readonly class OnOrderItemAdded implements EventSubscriberInterface
 
     public function afterOrderItemAdded(OrderItemAddEvent $event): void
     {
-        $this->journalSnapShot->snapShot($event->getOrderItem()->getOrderHeader());
+ //       $this->journalSnapShot->snapShot($event->getOrderItem()->getOrderHeader());
     }
 
 }

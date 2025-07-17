@@ -10,7 +10,7 @@ use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
-use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
+use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderHeaderChangedEvent;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OrderHeaderNotFound;
 use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
@@ -90,12 +90,15 @@ class OrderHeaderController extends EnhancedAbstractController
     ): Response
     {
 
-        $this->setContentHeading($request, "Edit Order {$generatedId}");
+        $this->setContentHeading($request, "Edit Order $generatedId");
         try {
+            /** @var \Silecust\WebShop\Entity\OrderHeader $orderHeader */
             $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
 
             if ($orderHeader == null)
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
+
+
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
             $orderHeaderDTO = $mapper->mapEntityToDtoForEdit($orderHeader);
@@ -108,11 +111,17 @@ class OrderHeaderController extends EnhancedAbstractController
                 try {
                     $entityManager->beginTransaction();
 
-                    $orderHeaderDTO = $form->getData();
-                    $orderHeader = $mapper->mapDtoToEntityForEdit($orderHeaderDTO);
 
-                    $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader),
-                        OrderHeaderChangedEvent::EVENT_NAME);
+                    /** @var OrderHeaderDTO $orderHeaderDTO */
+                    $orderHeaderDTO = $form->getData();
+
+                    $event = new BeforeOrderHeaderChangedEvent();
+                    $event->setOrderHeader($orderHeader);
+                    $event->setRequestData(json_decode(json_encode($orderHeaderDTO), true));
+
+                    $eventDispatcher->dispatch($event, BeforeOrderHeaderChangedEvent::EVENT_NAME);
+
+                    $mapper->mapDtoToEntityForEdit($orderHeaderDTO);
 
                     $entityManager->flush();
                     $entityManager->commit();

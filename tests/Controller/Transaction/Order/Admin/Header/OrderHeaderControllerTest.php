@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Tests\Controller\Transaction\Order\Admin\Header;
 
+use Silecust\WebShop\Factory\OrderJournalFactory;
+use Silecust\WebShop\Factory\OrderStatusTypeFactory;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
@@ -10,6 +12,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -28,27 +31,6 @@ class OrderHeaderControllerTest extends WebTestCase
         OrderFixture,
         OrderItemFixture,
         Factories;
-
-    protected function setUp(): void
-    {
-
-        $this->createCustomerFixtures();
-        $this->createEmployeeFixtures();
-        $this->createProductFixtures();
-        $this->createLocationFixtures();
-        $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customer);
-        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderItemsFixture($this->afterPaymentSuccessOrderHeader, $this->productA, $this->productB);
-
-    }
-
-    protected function tearDown(): void
-    {
-        $this->browser()->visit('/logout');
-
-    }
 
     public function testListShouldDisplayOnlyNotOpenOrders()
     {
@@ -125,6 +107,8 @@ class OrderHeaderControllerTest extends WebTestCase
     {
         $uri = "/admin/order/{$this->afterPaymentSuccessOrderHeader->getGeneratedId()}/edit";
 
+        $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_SHIPPED]);
+
         $this
             ->browser()
             ->visit($uri)
@@ -133,7 +117,14 @@ class OrderHeaderControllerTest extends WebTestCase
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
             ->visit($uri)
+            ->assertSuccessful()
+            ->fillField('order_header_edit_form[orderStatusType]', $statusType->getId())
+            ->fillField('order_header_edit_form[changeNote]', 'Order Shipped')
+            ->click('Save')
             ->assertSuccessful();
+
+        $journal = OrderJournalFactory::find(['orderHeader' => $this->afterPaymentSuccessOrderHeader]);
+
 
     }
 
@@ -172,6 +163,27 @@ class OrderHeaderControllerTest extends WebTestCase
             ->click('Edit')
             ->assertSee('Edit Order');
 
+
+    }
+
+    protected function setUp(): void
+    {
+
+        $this->createCustomerFixtures();
+        $this->createEmployeeFixtures();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createOrderFixtures($this->customer);
+        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
+        $this->createOrderItemsFixture($this->afterPaymentSuccessOrderHeader, $this->productA, $this->productB);
+
+    }
+
+    protected function tearDown(): void
+    {
+        $this->browser()->visit('/logout');
 
     }
 

@@ -2,11 +2,12 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderJournalRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use Symfony\Component\Validator\Constraints as Assert;
+use Silecust\WebShop\Repository\OrderJournalRepository;
 
 #[ORM\Entity(repositoryClass: OrderJournalRepository::class)]
 #[HasLifecycleCallbacks]
@@ -17,11 +18,15 @@ class OrderJournal
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private array $orderSnapShot = [];
+    #[ORM\Column(type: Types::JSON, nullable: false)]
+    private mixed $orderSnapShot;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: false)]
+    private string $changeNote;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false)]
+    private ?DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -32,19 +37,18 @@ class OrderJournal
         return $this->id;
     }
 
-    public function getOrderSnapShot(): array
+    public function getOrderSnapShot(): mixed
     {
         return $this->orderSnapShot;
     }
 
-    public function setOrderSnapShot(array $orderSnapShot): static
+    public function setOrderSnapShot(mixed $orderSnapShot): void
     {
         $this->orderSnapShot = $orderSnapShot;
-
-        return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -65,6 +69,17 @@ class OrderJournal
     #[ORM\PrePersist]
     public function uponCreationFillDefaultFields(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
+
+    public function getChangeNote(): string
+    {
+        return $this->changeNote;
+    }
+
+    public function setChangeNote(string $changeNote): void
+    {
+        $this->changeNote = $changeNote;
+    }
+
 }
