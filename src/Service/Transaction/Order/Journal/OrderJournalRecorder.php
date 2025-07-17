@@ -11,8 +11,7 @@ readonly class OrderJournalRecorder
 {
     public function __construct(
         private OrderJournalRepository   $orderJournalRepository,
-        private ChangedOrderHeaderFinder $changedOrderHeaderFinder,
-        private EntityManagerInterface   $entityManager)
+         private EntityManagerInterface   $entityManager)
     {
     }
 
@@ -28,6 +27,20 @@ readonly class OrderJournalRecorder
         $orderJournal->setChangeNote($requestData['changeNote']);
 
         $this->entityManager->persist($orderJournal);
+    }
+
+    public function recordChanges(OrderHeader $orderHeader, $changesArray, $changeNote): void
+    {
+        // Checks for the status changes
+        $orderJournal = $this->orderJournalRepository->create($orderHeader);
+
+        $orderJournal->setOrderSnapShot($changesArray);
+
+        $orderJournal->setChangeNote($changeNote);
+
+        $this->entityManager->persist($orderJournal);
+
+
     }
 
 }

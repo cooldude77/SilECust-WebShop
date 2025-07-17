@@ -11,13 +11,18 @@ class PaymentSuccessEvent extends Event
     public const string EVENT_NAME = 'payment.post.success';
 
 
-    public function __construct(private readonly Request $request)
+    public function __construct(private readonly OrderHeader $orderHeader,private readonly Request $request)
     {
     }
 
     public function getRequest(): Request
     {
         return $this->request;
+    }
+
+    public function getOrderHeader(): OrderHeader
+    {
+        return $this->orderHeader;
     }
 
 

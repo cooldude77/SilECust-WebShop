@@ -2,7 +2,6 @@
 
 namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
 
-use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
@@ -29,7 +28,7 @@ readonly class OnPaymentFailure implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PaymentFailureEvent::AFTER_PAYMENT_FAILURE => ['afterPaymentFailure', 100]
+            PaymentFailureEvent::EVENT_NAME => ['afterPaymentFailure', 100]
         ];
 
     }
