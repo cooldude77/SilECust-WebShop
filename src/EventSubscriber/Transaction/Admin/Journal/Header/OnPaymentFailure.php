@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal\Header;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFailureResponseResolverInterface;

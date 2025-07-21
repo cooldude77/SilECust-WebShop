@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Service\Transaction\Order\Admin\Header\Changes;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalChangesType;
 
-class ChangedOrderHeaderFinder
+class ChangedDataFinder
 {
 
     public function getChangedData(OrderHeader $orderHeader, array $requestData): array

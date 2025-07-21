@@ -13,6 +13,7 @@ trait OrderFixture
 
 
     private Proxy|null|OrderHeader $openOrderHeader = null;
+    private Proxy|null|OrderHeader $inProcessOrderHeader = null;
     private Proxy|null|OrderHeader $afterPaymentSuccessOrderHeader = null;
 
     public function createOrderFixtures(Proxy $customer): void
@@ -27,13 +28,27 @@ trait OrderFixture
         );
 
 
+        $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
+
+        $this->inProcessOrderHeader = OrderHeaderFactory::createOne
+        (
+            [
+                'customer' => $customer->object(),
+                'orderStatusType' => $statusType->object()
+            ]
+        );
+
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_COMPLETE]);
 
         $this->afterPaymentSuccessOrderHeader = OrderHeaderFactory::createOne
         (
-            ['customer' => $customer->object(),
-                'orderStatusType' => $statusType->object()]
+            [
+                'customer' => $customer->object(),
+                'orderStatusType' => $statusType->object()
+            ]
         );
+
+
 
     }
 

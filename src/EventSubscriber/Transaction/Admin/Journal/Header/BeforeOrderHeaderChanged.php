@@ -1,17 +1,17 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal\Header;
 
 use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderHeaderChangedEvent;
-use Silecust\WebShop\Service\Transaction\Order\Admin\Header\Changes\ChangedOrderHeaderFinder;
+use Silecust\WebShop\Service\Transaction\Order\Admin\Header\Changes\ChangedDataFinder;
 use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalRecorder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class BeforeOrderHeaderChanged implements EventSubscriberInterface
 {
     public function __construct(
-        private OrderJournalRecorder     $orderJournalRecorder,
-        private ChangedOrderHeaderFinder $changedOrderHeaderFinder,
+        private OrderJournalRecorder $orderJournalRecorder,
+        private ChangedDataFinder    $changedOrderHeaderFinder,
 
     )
     {

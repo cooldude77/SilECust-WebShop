@@ -3,11 +3,13 @@
 namespace Silecust\WebShop\Service\Testing\Fixtures;
 
 use Silecust\WebShop\Entity\Currency;
+use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Entity\PriceProductBase;
 use Silecust\WebShop\Entity\PriceProductDiscount;
 use Silecust\WebShop\Entity\PriceProductTax;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Entity\TaxSlab;
+use Silecust\WebShop\Factory\OrderItemPaymentPriceFactory;
 use Silecust\WebShop\Factory\PriceProductBaseFactory;
 use Silecust\WebShop\Factory\PriceProductDiscountFactory;
 use Silecust\WebShop\Factory\PriceProductTaxFactory;
@@ -42,29 +44,30 @@ trait PriceFixture
      * 99*10 +192* 20 = 4830
      */
 
-    function createPriceFixtures(Proxy|Product $productA, Proxy|Product $productB,
-        Proxy|Currency $currency
-    ): void {
+    function createPriceFixtures(Proxy|Product  $productA, Proxy|Product $productB,
+                                 Proxy|Currency $currency
+    ): void
+    {
 
         $this->priceProductBaseA = PriceProductBaseFactory::createOne(['product' => $productA,
-                                                                       'currency' => $currency,
-                                                                       'price' => $this->priceValueOfProductA]
+                'currency' => $currency,
+                'price' => $this->priceValueOfProductA]
         );
         $this->priceProductBaseB = PriceProductBaseFactory::createOne(['product' => $productB,
-                                                                       'currency' => $currency,
-                                                                       'price' => $this->priceValueOfProductB]
+                'currency' => $currency,
+                'price' => $this->priceValueOfProductB]
         );
         $this->productDiscountA = PriceProductDiscountFactory::createOne(
             ['product' => $productA,
-             'currency' => $currency,
-             'value' =>
-                 $this->discountValueOfProductA]
+                'currency' => $currency,
+                'value' =>
+                    $this->discountValueOfProductA]
         );
         $this->productDiscountB = PriceProductDiscountFactory::createOne(
             ['product' => $productB,
-             'currency' => $currency,
-             'value' =>
-                 $this->discountValueOfProductB]
+                'currency' => $currency,
+                'value' =>
+                    $this->discountValueOfProductB]
         );
 
         $this->taxSlabForProductA = TaxSlabFactory::createOne
@@ -77,15 +80,37 @@ trait PriceFixture
 
         $this->productTaxA = PriceProductTaxFactory::createOne(
             ['product' => $productA,
-             'taxSlab' =>
-                 $this->taxSlabForProductA]
+                'taxSlab' =>
+                    $this->taxSlabForProductA]
         );
         $this->productTaxB = PriceProductTaxFactory::createOne(
             ['product' => $productB,
-             'taxSlab' =>
-                 $this->taxSlabForProductB]
+                'taxSlab' =>
+                    $this->taxSlabForProductB]
         );
 
     }
+
+    function createPriceFixturesForItems(Proxy|OrderItem $orderItemA, Proxy|OrderItem $orderItemB): void
+    {
+
+
+        OrderItemPaymentPriceFactory::createOne([
+            'orderItem' => $orderItemA,
+            'basePrice' => $this->priceValueOfProductA,
+            'discount' => $this->discountValueOfProductA,
+            'taxRate' => $this->taxRateOfProductA
+        ]);
+
+
+        OrderItemPaymentPriceFactory::createOne([
+            'orderItem' => $orderItemB,
+            'basePrice' => $this->priceValueOfProductB,
+            'discount' => $this->discountValueOfProductB,
+            'taxRate' => $this->taxRateOfProductB
+        ]);
+
+    }
+
 
 }

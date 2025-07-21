@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal;
+namespace Silecust\WebShop\EventSubscriber\Transaction\Admin\Journal\Item;
 
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
 use Silecust\WebShop\Service\Transaction\Order\Journal\OrderJournalRecorder;

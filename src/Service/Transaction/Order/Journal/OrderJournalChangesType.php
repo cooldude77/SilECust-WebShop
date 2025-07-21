@@ -9,4 +9,5 @@ class OrderJournalChangesType
     const string NEW_VALUE = 'new_value';
     const string PAYMENT_SUCCESS = 'payment_success';
     const string PAYMENT_FAILURE = 'payment_failure';
+    const string ITEM_QUANTITY_CHANGED = 'item_quantity_changed';
 }

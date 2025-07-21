@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -24,8 +25,10 @@ class OrderItemEditForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('id', HiddenType::class);
-        $builder->add('product', ProductAutoCompleteField::class,['mapped'=>false]);
+        $builder->add('product', ProductAutoCompleteField::class, ['mapped' => false]);
         $builder->add('quantity', NumberType::class);
+        $builder->add('changeNote', TextareaType::class, ['label' => 'Reason For change']);
+
         $builder->add('save', SubmitType::class);
 
 
@@ -35,7 +38,7 @@ class OrderItemEditForm extends AbstractType
             $data['productId'] = $data['product'];
             $formEvent->setData($data);
         });
-        
+
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
             $data = $formEvent->getData();
             $form = $formEvent->getForm();

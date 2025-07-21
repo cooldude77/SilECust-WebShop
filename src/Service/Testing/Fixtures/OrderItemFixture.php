@@ -9,24 +9,52 @@ use Zenstruck\Foundry\Proxy;
 trait OrderItemFixture
 {
 
-    private int $quantityA = 10;
-    private int $quantityB = 20;
+    private int $quantityForOpenOrderA = 10;
+    private int $quantityForOpenOrderB = 20;
 
-    private Proxy|OrderItem $orderItemA;
+    private Proxy|OrderItem $orderItemAForOpenOrder;
 
-    private Proxy|OrderItem $orderItemB;
+    private Proxy|OrderItem $orderItemBForOpenOrder;
 
-    public function createOrderItemsFixture(Proxy $orderHeader,
+    private int $quantityForInProcessOrderA = 10;
+    private int $quantityForInProcessOrderB = 20;
+
+    private Proxy|OrderItem $orderItemAForInProcessOrder;
+
+    private Proxy|OrderItem $orderItemBForInProcessOrder;
+
+    public function createOpenOrderItemsFixture(
+        Proxy $orderHeader,
         Proxy $productA, Proxy $productB
-    ): void {
-        $this->orderItemA = OrderItemFactory::createOne([
+    ): void
+    {
+        $this->orderItemAForOpenOrder = OrderItemFactory::createOne([
             'orderHeader' => $orderHeader,
             'product' => $productA,
-            'quantity' => $this->quantityA]);
-        $this->orderItemB = OrderItemFactory::createOne([
+            'quantity' => $this->quantityForOpenOrderA]);
+
+        $this->orderItemBForOpenOrder = OrderItemFactory::createOne([
             'orderHeader' => $orderHeader,
             'product' => $productB,
-            'quantity' => $this->quantityB]);
+            'quantity' => $this->quantityForOpenOrderB]);
+
+    }
+
+    public function createInProcessOrderItemsFixture(
+        Proxy $orderHeader,
+        Proxy $productA,
+        Proxy $productB
+    ): void
+    {
+        $this->orderItemAForInProcessOrder = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeader,
+            'product' => $productA,
+            'quantity' => $this->quantityForInProcessOrderA]);
+
+        $this->orderItemBForInProcessOrder = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeader,
+            'product' => $productB,
+            'quantity' => $this->quantityForInProcessOrderB]);
 
     }
 
