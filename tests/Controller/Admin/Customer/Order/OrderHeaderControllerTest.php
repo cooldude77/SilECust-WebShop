@@ -44,7 +44,7 @@ class OrderHeaderControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
         $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
         $this->createOrderShippingFixture($this->openOrderHeader);
 
@@ -55,7 +55,7 @@ class OrderHeaderControllerTest extends WebTestCase
             ->visit($uri)
             ->assertNotAuthenticated()
             ->use(function (KernelBrowser $kernelBrowser) {
-                $kernelBrowser->loginUser($this->userForCustomer->object());
+                $kernelBrowser->loginUser($this->userForCustomerA->object());
             })
             ->visit($uri)
             ->assertSuccessful()

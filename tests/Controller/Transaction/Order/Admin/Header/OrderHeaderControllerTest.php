@@ -32,26 +32,6 @@ class OrderHeaderControllerTest extends WebTestCase
         OrderItemFixture,
         Factories;
 
-    protected function setUp(): void
-    {
-
-        $this->createCustomerFixtures();
-        $this->createEmployeeFixtures();
-        $this->createProductFixtures();
-        $this->createLocationFixtures();
-        $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOpenOrderFixtures($this->customerA);
-        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderItemsFixture($this->afterPaymentSuccessOrderHeader, $this->productA, $this->productB);
-
-    }
-
-    protected function tearDown(): void
-    {
-        $this->browser()->visit('/logout');
-
-    }
 
     public function testListShouldDisplayOnlyNotOpenOrders()
     {
@@ -196,7 +176,7 @@ class OrderHeaderControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
         $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
         $this->createOpenOrderItemsFixture($this->afterPaymentSuccessOrderHeader, $this->productA, $this->productB);
 

@@ -102,7 +102,7 @@ class CartControllerTest extends WebTestCase
                 // Now: Order is created when cart is loaded
                 // Test : An order got created
                 // $order = $this->findOneBy(
-                //   OrderHeader::class, ['customer' => $this->customer->object()]
+                //   OrderHeader::class, ['customer' => $this->customerA->object()]
                 //);
                 // self::assertNotNull($order);
 

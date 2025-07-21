@@ -68,7 +68,7 @@ class OrderItemControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
         $this->createInProcessOrderItemsFixture($this->inProcessOrderHeader, $this->productA, $this->productB);
         $this->createPriceFixturesForItems($this->orderItemAForInProcessOrder, $this->orderItemBForInProcessOrder);
 
