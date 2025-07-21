@@ -75,7 +75,7 @@ class CustomerControllerTest extends WebTestCase
         $this->createEmployeeFixtures();
         $this->createCustomerFixtures();
 
-        $id = $this->customer->getId();
+        $id = $this->customerA->getId();
 
         $uri = "/admin/customer/$id/edit";
 
@@ -118,7 +118,7 @@ class CustomerControllerTest extends WebTestCase
         $this->createEmployeeFixtures();
         $this->createCustomerFixtures();
 
-        $id = $this->customer->getId();
+        $id = $this->customerA->getId();
         $uri = "/admin/customer/$id/display";
 
         $this->browser()

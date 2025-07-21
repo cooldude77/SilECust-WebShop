@@ -34,7 +34,7 @@ class AddressControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOpenOrderFixtures($this->customerA);
 
     }
 
@@ -49,7 +49,7 @@ class AddressControllerTest extends WebTestCase
 
         $uri = "/checkout/addresses?" . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout';
         $this->browser()->use(callback: function (Browser $browser) {
-            $browser->client()->loginUser($this->userForCustomer->object());
+            $browser->client()->loginUser($this->userForCustomerA->object());
         })
             // address exists
             ->interceptRedirects()->visit($uri)->assertRedirectedTo(
@@ -59,7 +59,7 @@ class AddressControllerTest extends WebTestCase
 
                 // assume address is created
                 $this->shippingAddress = CustomerAddressFactory::createOne(
-                    ['customer' => $this->customer,
+                    ['customer' => $this->customerA,
                         'addressType' => 'shipping',
                         'line1' => 'A Good House']
                 );
@@ -71,7 +71,7 @@ class AddressControllerTest extends WebTestCase
 
                 // assume address is created
                 $this->billingAddress = CustomerAddressFactory::createOne(
-                    ['customer' => $this->customer,
+                    ['customer' => $this->customerA,
                         'addressType' => 'billing',
                         'line1' => 'A Good House']
                 );
@@ -107,9 +107,9 @@ class AddressControllerTest extends WebTestCase
             . RoutingConstants::REDIRECT_UPON_SUCCESS_URL . '=/checkout/addresses';
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
-                $this->createOpenOrderFixtures($this->customer);
+                $this->createOpenOrderFixtures($this->customerA);
 
             })
             ->interceptRedirects()
@@ -144,7 +144,7 @@ class AddressControllerTest extends WebTestCase
 
                 $address = $this->findOneBy(
                     CustomerAddress::class,
-                    ['customer' => $this->customer->object()]
+                    ['customer' => $this->customerA->object()]
                 );
 
 
@@ -171,8 +171,8 @@ class AddressControllerTest extends WebTestCase
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $browser->client()->loginUser($this->userForCustomerA->object());
+                $this->createOpenOrderFixtures($this->customerA);
 
             })
             ->interceptRedirects()
@@ -205,7 +205,7 @@ class AddressControllerTest extends WebTestCase
 
                 $address = $this->findOneBy(
                     CustomerAddress::class,
-                    ['customer' => $this->customer->object()]
+                    ['customer' => $this->customerA->object()]
                 );
 
                 $orderAddress = OrderAddressFactory::find(['billingAddress' => $address]);
@@ -230,8 +230,8 @@ class AddressControllerTest extends WebTestCase
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $browser->client()->loginUser($this->userForCustomerA->object());
+                $this->createOpenOrderFixtures($this->customerA);
 
             })
             ->interceptRedirects()
@@ -267,7 +267,7 @@ class AddressControllerTest extends WebTestCase
 
                 $addressShipping = $this->findOneBy(
                     CustomerAddress::class,
-                    ['customer' => $this->customer->object(),'addressType'=>'shipping']
+                    ['customer' => $this->customerA->object(),'addressType'=>'shipping']
                 );
 
                 $orderAddress = OrderAddressFactory::find(['shippingAddress' => $addressShipping]);
@@ -292,16 +292,16 @@ class AddressControllerTest extends WebTestCase
         // one address is created already
 
         $address1Shipping = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 1']
+            ['customer' => $this->customerA, 'addressType' => 'shipping', 'line1' => 'Shipping 1']
         );
         $address2Shipping = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'shipping', 'line1' => 'Shipping 2']
+            ['customer' => $this->customerA, 'addressType' => 'shipping', 'line1' => 'Shipping 2']
         );
         $address1Billing = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
+            ['customer' => $this->customerA, 'addressType' => 'billing', 'line1' => 'billing 2']
         );
         $address2Billing = CustomerAddressFactory::createOne(
-            ['customer' => $this->customer, 'addressType' => 'billing', 'line1' => 'billing 2']
+            ['customer' => $this->customerA, 'addressType' => 'billing', 'line1' => 'billing 2']
         );
 
 
@@ -312,8 +312,8 @@ class AddressControllerTest extends WebTestCase
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $browser->client()->loginUser($this->userForCustomerA->object());
+                $this->createOpenOrderFixtures($this->customerA);
             })
             ->interceptRedirects()
             ->visit($uriShipping)
@@ -381,8 +381,8 @@ class AddressControllerTest extends WebTestCase
         $this
             ->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
-                $this->createOpenOrderFixtures($this->customer);
+                $browser->client()->loginUser($this->userForCustomerA->object());
+                $this->createOpenOrderFixtures($this->customerA);
             })
             ->interceptRedirects()
             ->visit($uriShipping)

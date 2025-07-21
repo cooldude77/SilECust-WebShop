@@ -28,7 +28,7 @@ class LoginManagementControllerTest extends WebTestCase
             // test: fill wrong creds
             ->visit($uri)
             ->fillField(
-                '_username', $this->loginForCustomerInString
+                '_username', $this->loginForCustomerAInString
             )->fillField(
                 '_password', 'Wrong Password'
             )
@@ -42,9 +42,9 @@ class LoginManagementControllerTest extends WebTestCase
 
         // test: fill correct cred
         $br->fillField(
-            '_username', $this->loginForCustomerInString
+            '_username', $this->loginForCustomerAInString
         )->fillField(
-            '_password', $this->passwordForCustomerInString
+            '_password', $this->passwordForCustomerAInString
         )
             ->interceptRedirects()
             ->click('login')

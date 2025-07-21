@@ -110,7 +110,7 @@ class MainControllerTest extends WebTestCase
 
         // authenticate before visit
         $this->browser()->use(function (Browser $browser) {
-            $browser->client()->loginUser($this->userForCustomer->object());
+            $browser->client()->loginUser($this->userForCustomerA->object());
         })
             ->interceptRedirects()
             ->visit($uri)

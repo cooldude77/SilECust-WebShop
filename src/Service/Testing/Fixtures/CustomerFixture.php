@@ -10,32 +10,32 @@ use Zenstruck\Foundry\Proxy;
 
 trait CustomerFixture
 {
-    private User|Proxy $userForCustomer;
+    private User|Proxy $userForCustomerA;
 
-    private string $loginForCustomerInString = 'cust@customer.com';
-    private string $passwordForCustomerInString = 'CustomerPassword';
-    private string $firstNameInString = 'Jack';
-    private string $lastNameInString = 'Johnson';
+    private string $loginForCustomerAInString = 'cust@customer.com';
+    private string $passwordForCustomerAInString = 'CustomerPassword';
+    private string $firstNameInStringForCustomerA = 'Jack';
+    private string $lastNameInStringForCustomerA = 'Johnson';
 
-    private string $customerEmailInString = 'cust@customer.com';
+    private string $customerEmailInStringForCustomerA = 'cust@customer.com';
 
-    private Proxy|Customer $customer;
+    private Proxy|Customer $customerA;
 
     public function createCustomerFixtures(): void
     {
 
-        $this->userForCustomer = UserFactory::createOne
+        $this->userForCustomerA = UserFactory::createOne
         (
-            ['login' => $this->loginForCustomerInString,
-             'password' => $this->passwordForCustomerInString,
+            ['login' => $this->loginForCustomerAInString,
+             'password' => $this->passwordForCustomerAInString,
              'roles' => ['ROLE_CUSTOMER']
             ]
         );
-        $this->customer = CustomerFactory::createOne([
-            'firstName' => $this->firstNameInString,
-            'lastName' => $this->lastNameInString,
-            'email' => $this->customerEmailInString,
-            'user' => $this->userForCustomer]);
+        $this->customerA = CustomerFactory::createOne([
+            'firstName' => $this->firstNameInStringForCustomerA,
+            'lastName' => $this->lastNameInStringForCustomerA,
+            'email' => $this->customerEmailInStringForCustomerA,
+            'user' => $this->userForCustomerA]);
 
     }
 }
