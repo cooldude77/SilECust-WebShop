@@ -55,7 +55,7 @@ class PaymentControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
         $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
         $this->createOrderShippingFixture($this->openOrderHeader);
 
@@ -63,7 +63,7 @@ class PaymentControllerTest extends WebTestCase
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             // start from here because shipping call is triggered here and shipping costs are added here
             ->visit('/checkout/order/view')
@@ -76,13 +76,13 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
 
         $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/success";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->interceptRedirects()
@@ -124,13 +124,13 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
 
         $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/failure";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->post($uri,

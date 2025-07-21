@@ -61,7 +61,7 @@ class ProductControllerTest extends WebTestCase
 
     public function testAddToCart()
     {
-        $this->createOrderFixtures($this->customer);
+        $this->createOrderFixtures($this->customerA);
 
         $uriAddProductA = "/product/" . $this->productA->getName();
 
@@ -74,7 +74,7 @@ class ProductControllerTest extends WebTestCase
             ->interceptRedirects()
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->interceptRedirects()
             ->visit($uriAddProductA)

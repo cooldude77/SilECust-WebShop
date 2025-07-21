@@ -39,7 +39,7 @@ class ResetPasswordControllerTest extends WebTestCase
                 self::assertPageTitleContains('Reset your password');
             })
             // Submit the reset password form and test email message is queued / sent
-            ->fillField('reset_password_request_form[login]', $this->customer->getUser()->getLogin())
+            ->fillField('reset_password_request_form[login]', $this->customerA->getUser()->getLogin())
             ->click('Send password reset email')
             ->assertSee('Password Reset Email Sent')
             ->assertSee('This link will expire in 1 hour');
@@ -47,7 +47,7 @@ class ResetPasswordControllerTest extends WebTestCase
         $link = '';
         $this->mailer()
             ->assertSentEmailCount(1)
-            ->assertEmailSentTo($this->userForCustomer->getLogin(), function (TestEmail $email) use (&$link) {
+            ->assertEmailSentTo($this->userForCustomerA->getLogin(), function (TestEmail $email) use (&$link) {
                 $email
                     ->assertSubject('Your password reset request')
                     ->assertFrom(self::$kernel->getContainer()->getParameter('silecust.sign_up.email.email_from_address'))
@@ -70,7 +70,7 @@ class ResetPasswordControllerTest extends WebTestCase
 
         $passwordHasher = static::getContainer()->get('security.user_password_hasher');
 
-        $user = UserFactory::find($this->customer->getUser());
+        $user = UserFactory::find($this->customerA->getUser());
 
         self::assertTrue($passwordHasher->isPasswordValid($user->object(), 'newStrongPassword'));
 

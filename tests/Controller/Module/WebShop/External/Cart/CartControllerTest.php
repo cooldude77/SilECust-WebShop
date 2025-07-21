@@ -61,7 +61,7 @@ class CartControllerTest extends WebTestCase
             ->assertRedirectedTo('/login')
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
 
             // Test: Visit after login
@@ -73,7 +73,7 @@ class CartControllerTest extends WebTestCase
 
                 /** @var OrderHeader $order */
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 // Previously:
@@ -107,7 +107,7 @@ class CartControllerTest extends WebTestCase
                 // self::assertNotNull($order);
 
                 // $this->assertNotNull($order->getGeneratedId());
-                $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customer->object()]);
+                $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customerA->object()]);
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                         'product' => $this->productA->object()]
@@ -127,7 +127,7 @@ class CartControllerTest extends WebTestCase
 
                 // Test : An order got created
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
@@ -158,7 +158,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 // Test : An order got created
@@ -193,7 +193,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertTrue(isset($cart[$this->productB->getId()]));
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 $this->assertNotNull($order);
@@ -221,7 +221,7 @@ class CartControllerTest extends WebTestCase
                 $this->assertNull($session->get(CartProductManager::CART_SESSION_KEY));
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
                         'product' => $this->productA->object()]
@@ -260,7 +260,7 @@ class CartControllerTest extends WebTestCase
             // todo: don't allow cart when user is not logged in
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->visit($cartUri)
             //Test :  add products to cart
@@ -284,9 +284,9 @@ class CartControllerTest extends WebTestCase
 
         $this->browser()->visit('/login')
             ->fillField(
-                '_username', $this->loginForCustomerInString
+                '_username', $this->loginForCustomerAInString
             )->fillField(
-                '_password', $this->passwordForCustomerInString
+                '_password', $this->passwordForCustomerAInString
             )
             ->click('login')
             ->followRedirects()
@@ -323,7 +323,7 @@ class CartControllerTest extends WebTestCase
             ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->use(function (KernelBrowser $browser) {
@@ -356,7 +356,7 @@ class CartControllerTest extends WebTestCase
             ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
@@ -371,7 +371,7 @@ class CartControllerTest extends WebTestCase
             ->assertSuccessful()
             ->use(function (\Zenstruck\Browser $browser) {
 
-                $orderHeader = OrderHeaderFactory::find(['customer' => $this->customer]);
+                $orderHeader = OrderHeaderFactory::find(['customer' => $this->customerA]);
                 $orderItems = OrderItemFactory::findBy(['orderHeader' => $orderHeader]);
                 // check product searlized
                 self::assertNotEmpty($orderItems[0]->getProductInJson());

@@ -25,7 +25,7 @@ class CustomerAddressControllerTest extends WebTestCase
      */
     public function testCreateBothShippingAndBillingAddressesAndMarkBothAsDefault()
     {
-        $uri = "/admin/customer/{$this->customer->getId()}/address/create";
+        $uri = "/admin/customer/{$this->customerA->getId()}/address/create";
 
 
         $this
@@ -51,7 +51,7 @@ class CustomerAddressControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $created = CustomerAddressFactory::findBy(array('customer' => $this->customer));
+        $created = CustomerAddressFactory::findBy(array('customer' => $this->customerA));
 
         self::assertCount(2, $created);
         self::assertTrue($created[0]->isDefault());
@@ -65,7 +65,7 @@ class CustomerAddressControllerTest extends WebTestCase
      */
     public function testCreateMultipleShippingAddressesAndMarkOneAsDefault()
     {
-        $uri = "/admin/customer/{$this->customer->getId()}/address/create";
+        $uri = "/admin/customer/{$this->customerA->getId()}/address/create";
 
         $this
             ->browser()
@@ -122,7 +122,7 @@ class CustomerAddressControllerTest extends WebTestCase
     }
     public function testCreateMultipleBillingAddressesAndMarkOneAsDefault()
     {
-        $uri = "/admin/customer/{$this->customer->getId()}/address/create";
+        $uri = "/admin/customer/{$this->customerA->getId()}/address/create";
 
         $this
             ->browser()
@@ -181,7 +181,7 @@ class CustomerAddressControllerTest extends WebTestCase
     public function testEditShippingAddress()
     {
 
-        $this->createCustomerAddress($this->customer);
+        $this->createCustomerAddress($this->customerA);
         $uri = "/admin/customer/address/{$this->addressShipping->getId()}/edit";
 
         $this
@@ -208,7 +208,7 @@ class CustomerAddressControllerTest extends WebTestCase
     public function testEditBillingAddress()
     {
 
-        $this->createCustomerAddress($this->customer);
+        $this->createCustomerAddress($this->customerA);
         $uri = "/admin/customer/address/{$this->addressBilling->getId()}/edit";
 
         $this

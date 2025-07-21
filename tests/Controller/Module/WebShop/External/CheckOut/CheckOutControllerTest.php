@@ -44,7 +44,7 @@ class CheckOutControllerTest extends WebTestCase
             // user is logged in
             // cart is empty
             ->use(function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
