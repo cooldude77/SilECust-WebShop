@@ -44,9 +44,9 @@ class OrderHeaderControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customerA);
-        $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderShippingFixture($this->openOrderHeader);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->productA, $this->productB);
+        $this->createOrderShippingFixture($this->openOrderHeaderA);
 
         // Unauthenticated entry
         $uri = '/my/orders';
@@ -59,8 +59,8 @@ class OrderHeaderControllerTest extends WebTestCase
             })
             ->visit($uri)
             ->assertSuccessful()
-            ->assertSee($this->afterPaymentSuccessOrderHeader->getGeneratedId())
-            ->assertNotSee($this->openOrderHeader->getGeneratedId());
+            ->assertSee($this->afterPaymentSuccessOrderHeaderA->getGeneratedId())
+            ->assertNotSee($this->openOrderHeaderA->getGeneratedId());
 
 
     }

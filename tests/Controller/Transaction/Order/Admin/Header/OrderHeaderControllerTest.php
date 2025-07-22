@@ -46,9 +46,9 @@ class OrderHeaderControllerTest extends WebTestCase
             })
             ->visit($uri)
             // open order should not be seen
-            ->assertNotSee($this->openOrderHeader->getGeneratedId())
+            ->assertNotSee($this->openOrderHeaderA->getGeneratedId())
             // others orders can be seen
-            ->assertSee($this->afterPaymentSuccessOrderHeader->getGeneratedId())
+            ->assertSee($this->afterPaymentSuccessOrderHeaderA->getGeneratedId())
             ->assertSuccessful();
     }
 
@@ -72,7 +72,7 @@ class OrderHeaderControllerTest extends WebTestCase
 
     public function testDisplayForOpenOrderShouldNotBeAllowed()
     {
-        $uri = "/admin/order/{$this->openOrderHeader->getGeneratedId()}/display";
+        $uri = "/admin/order/{$this->openOrderHeaderA->getGeneratedId()}/display";
 
         $this
             ->browser()
@@ -89,7 +89,7 @@ class OrderHeaderControllerTest extends WebTestCase
 
     public function testEditForOpenOrder()
     {
-        $uri = "/admin/order/{$this->openOrderHeader->getGeneratedId()}/edit";
+        $uri = "/admin/order/{$this->openOrderHeaderA->getGeneratedId()}/edit";
 
         $this
             ->browser()
@@ -106,7 +106,7 @@ class OrderHeaderControllerTest extends WebTestCase
 
     public function testEditForNonOpenOrder()
     {
-        $uri = "/admin/order/{$this->afterPaymentSuccessOrderHeader->getGeneratedId()}/edit";
+        $uri = "/admin/order/{$this->afterPaymentSuccessOrderHeaderA->getGeneratedId()}/edit";
 
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_SHIPPED]);
 
@@ -124,7 +124,7 @@ class OrderHeaderControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $journal = OrderJournalFactory::find(['orderHeader' => $this->afterPaymentSuccessOrderHeader]);
+        $journal = OrderJournalFactory::find(['orderHeader' => $this->afterPaymentSuccessOrderHeaderA]);
 
 
     }
@@ -132,7 +132,7 @@ class OrderHeaderControllerTest extends WebTestCase
     public function testAdminUrlEdit()
     {
 
-        $uri = "/admin?_function=order&_type=edit&generatedId={$this->afterPaymentSuccessOrderHeader->getGeneratedId()}";
+        $uri = "/admin?_function=order&_type=edit&generatedId={$this->afterPaymentSuccessOrderHeaderA->getGeneratedId()}";
 
         $this
             ->browser()
@@ -150,7 +150,7 @@ class OrderHeaderControllerTest extends WebTestCase
     public function testAdminUrlDisplay()
     {
 
-        $uri = "/admin?_function=order&_type=display&generatedId={$this->afterPaymentSuccessOrderHeader->getGeneratedId()}";
+        $uri = "/admin?_function=order&_type=display&generatedId={$this->afterPaymentSuccessOrderHeaderA->getGeneratedId()}";
 
         $this
             ->browser()
@@ -176,9 +176,9 @@ class OrderHeaderControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customerA);
-        $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOpenOrderItemsFixture($this->afterPaymentSuccessOrderHeader, $this->productA, $this->productB);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->productA, $this->productB);
+        $this->createOpenOrderItemsFixtureA($this->afterPaymentSuccessOrderHeaderA, $this->productA, $this->productB);
 
     }
 

@@ -9,52 +9,53 @@ use Zenstruck\Foundry\Proxy;
 trait OrderItemFixture
 {
 
-    private int $quantityForOpenOrderA = 10;
-    private int $quantityForOpenOrderB = 20;
+    private int $quantityForOpenOrderAProductA = 10;
+    private int $quantityForOpenOrderAProductB = 20;
 
-    private Proxy|OrderItem $orderItemAForOpenOrder;
+    private Proxy|OrderItem $orderItem1ForOpenOrderA;
 
-    private Proxy|OrderItem $orderItemBForOpenOrder;
+    private Proxy|OrderItem $orderItem2ForOpenOrderA;
 
-    private int $quantityForInProcessOrderA = 10;
-    private int $quantityForInProcessOrderB = 20;
+    private int $quantityForInProcessOrderAProduct1 = 10;
+    private int $quantityForInProcessOrderAProduct2 = 20;
 
-    private Proxy|OrderItem $orderItemAForInProcessOrder;
 
-    private Proxy|OrderItem $orderItemBForInProcessOrder;
+    private Proxy|OrderItem $orderItem1ForInProcessOrderA;
 
-    public function createOpenOrderItemsFixture(
-        Proxy $orderHeader,
-        Proxy $productA, Proxy $productB
+    private Proxy|OrderItem $orderItem2ForInProcessOrderA;
+
+    public function createOpenOrderItemsFixtureA(
+        Proxy $orderHeaderA,
+        Proxy $product1, Proxy $product2
     ): void
     {
-        $this->orderItemAForOpenOrder = OrderItemFactory::createOne([
-            'orderHeader' => $orderHeader,
-            'product' => $productA,
-            'quantity' => $this->quantityForOpenOrderA]);
+        $this->orderItem1ForOpenOrderA = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeaderA,
+            'product' => $product1,
+            'quantity' => $this->quantityForOpenOrderAProductA]);
 
-        $this->orderItemBForOpenOrder = OrderItemFactory::createOne([
-            'orderHeader' => $orderHeader,
-            'product' => $productB,
-            'quantity' => $this->quantityForOpenOrderB]);
+        $this->orderItem2ForOpenOrderA = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeaderA,
+            'product' => $product2,
+            'quantity' => $this->quantityForOpenOrderAProductB]);
 
     }
 
-    public function createInProcessOrderItemsFixture(
-        Proxy $orderHeader,
-        Proxy $productA,
-        Proxy $productB
+    public function createInProcessOrderItemsFixtureA(
+        Proxy $orderHeaderA,
+        Proxy $product1,
+        Proxy $product2
     ): void
     {
-        $this->orderItemAForInProcessOrder = OrderItemFactory::createOne([
-            'orderHeader' => $orderHeader,
-            'product' => $productA,
-            'quantity' => $this->quantityForInProcessOrderA]);
+        $this->orderItem1ForInProcessOrderA = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeaderA,
+            'product' => $product1,
+            'quantity' => $this->quantityForInProcessOrderAProduct1]);
 
-        $this->orderItemBForInProcessOrder = OrderItemFactory::createOne([
-            'orderHeader' => $orderHeader,
-            'product' => $productB,
-            'quantity' => $this->quantityForInProcessOrderB]);
+        $this->orderItem2ForInProcessOrderA = OrderItemFactory::createOne([
+            'orderHeader' => $orderHeaderA,
+            'product' => $product2,
+            'quantity' => $this->quantityForInProcessOrderAProduct2]);
 
     }
 

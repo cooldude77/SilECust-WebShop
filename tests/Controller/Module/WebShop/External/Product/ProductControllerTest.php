@@ -61,7 +61,7 @@ class ProductControllerTest extends WebTestCase
 
     public function testAddToCart()
     {
-        $this->createOrderFixtures($this->customerA);
+        $this->createOrderFixturesA($this->customerA);
 
         $uriAddProductA = "/product/" . $this->productA->getName();
 

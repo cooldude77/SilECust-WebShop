@@ -49,9 +49,9 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customerA);
-        $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderShippingFixture($this->openOrderHeader);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->productA, $this->productB);
+        $this->createOrderShippingFixture($this->openOrderHeaderA);
         
         $uri = '/checkout/order/view';
 

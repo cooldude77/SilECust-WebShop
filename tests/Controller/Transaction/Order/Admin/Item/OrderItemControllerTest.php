@@ -11,7 +11,6 @@ use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
-use Silecust\WebShop\Service\Testing\Utility\DieHere;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
@@ -35,7 +34,7 @@ class OrderItemControllerTest extends WebTestCase
 
     public function testEdit()
     {
-        $uri = "/admin/order/item/{$this->orderItemAForInProcessOrder->getId()}/edit";
+        $uri = "/admin/order/item/{$this->orderItem1ForInProcessOrderA->getId()}/edit";
 
         $this
             ->browser()
@@ -53,7 +52,7 @@ class OrderItemControllerTest extends WebTestCase
             ->click('Save')
             ->assertSuccessful();
 
-        $journal = OrderJournalFactory::find(['orderHeader' => $this->inProcessOrderHeader]);
+        $journal = OrderJournalFactory::find(['orderHeader' => $this->inProcessOrderHeaderA]);
 
         self::assertNotNull($journal);
 
@@ -68,9 +67,9 @@ class OrderItemControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customerA);
-        $this->createInProcessOrderItemsFixture($this->inProcessOrderHeader, $this->productA, $this->productB);
-        $this->createPriceFixturesForItems($this->orderItemAForInProcessOrder, $this->orderItemBForInProcessOrder);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createInProcessOrderItemsFixtureA($this->inProcessOrderHeaderA, $this->productA, $this->productB);
+        $this->createPriceFixturesForItems($this->orderItem1ForInProcessOrderA, $this->orderItem2ForInProcessOrderA);
 
 
     }

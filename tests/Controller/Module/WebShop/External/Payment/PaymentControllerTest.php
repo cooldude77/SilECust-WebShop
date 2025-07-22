@@ -55,11 +55,11 @@ class PaymentControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOrderFixtures($this->customerA);
-        $this->createOpenOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderShippingFixture($this->openOrderHeader);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->productA, $this->productB);
+        $this->createOrderShippingFixture($this->openOrderHeaderA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/start";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/start";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
@@ -76,9 +76,9 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOrderFixtures($this->customerA);
+        $this->createOrderFixturesA($this->customerA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/success";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/success";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
@@ -95,7 +95,7 @@ class PaymentControllerTest extends WebTestCase
                             ]
                     ]
                 ])
-            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1)
+            ->assertRedirectedTo("/order/{$this->openOrderHeaderA->getGeneratedId()}/success", 1)
             ->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
@@ -108,14 +108,14 @@ class PaymentControllerTest extends WebTestCase
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
-            OrderHeader::class, ['id' => $this->openOrderHeader->getId()]
+            OrderHeader::class, ['id' => $this->openOrderHeaderA->getId()]
         );
         self::assertEquals(
             OrderStatusTypes::ORDER_PAYMENT_COMPLETE,
             $header->getOrderStatusType()->getType()
         );
 
-        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
 
         $this->assertNotNull($journal);
     }
@@ -124,9 +124,9 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOrderFixtures($this->customerA);
+        $this->createOrderFixturesA($this->customerA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/failure";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/failure";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
@@ -146,14 +146,14 @@ class PaymentControllerTest extends WebTestCase
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
-            OrderHeader::class, ['id' => $this->openOrderHeader->object()]
+            OrderHeader::class, ['id' => $this->openOrderHeaderA->object()]
         );
         self::assertEquals(
             OrderStatusTypes::ORDER_PAYMENT_FAILED,
             $header->getOrderStatusType()->getType()
         );
 
-        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
 
         $this->assertNotNull($journal);
     }

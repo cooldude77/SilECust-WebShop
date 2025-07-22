@@ -12,16 +12,16 @@ trait OrderFixture
 {
 
 
-    private Proxy|null|OrderHeader $openOrderHeader = null;
-    private Proxy|null|OrderHeader $inProcessOrderHeader = null;
-    private Proxy|null|OrderHeader $afterPaymentSuccessOrderHeader = null;
+    private Proxy|null|OrderHeader $openOrderHeaderA = null;
+    private Proxy|null|OrderHeader $inProcessOrderHeaderA = null;
+    private Proxy|null|OrderHeader $afterPaymentSuccessOrderHeaderA = null;
 
-    public function createOrderFixtures(Proxy $customer): void
+    public function createOrderFixturesA(Proxy $customer): void
     {
 
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);
 
-        $this->openOrderHeader = OrderHeaderFactory::createOne
+        $this->openOrderHeaderA = OrderHeaderFactory::createOne
         (
             ['customer' => $customer->object(),
                 'orderStatusType' => $statusType->object()]
@@ -30,7 +30,7 @@ trait OrderFixture
 
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
 
-        $this->inProcessOrderHeader = OrderHeaderFactory::createOne
+        $this->inProcessOrderHeaderA = OrderHeaderFactory::createOne
         (
             [
                 'customer' => $customer->object(),
@@ -40,7 +40,7 @@ trait OrderFixture
 
         $statusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_COMPLETE]);
 
-        $this->afterPaymentSuccessOrderHeader = OrderHeaderFactory::createOne
+        $this->afterPaymentSuccessOrderHeaderA = OrderHeaderFactory::createOne
         (
             [
                 'customer' => $customer->object(),
