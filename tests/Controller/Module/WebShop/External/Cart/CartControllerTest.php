@@ -41,16 +41,16 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
         $clearCartUri = '/cart/clear';
 
-        $cartDeleteUri = "/cart/product/" . $this->productA->getId() . '/delete';
+        $cartDeleteUri = "/cart/product/" . $this->product1->getId() . '/delete';
 
         // Test : just visit cart
         $this->browser()
@@ -91,7 +91,7 @@ class CartControllerTest extends WebTestCase
             //Test :  add products to cart
             ->interceptRedirects()
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
@@ -110,7 +110,7 @@ class CartControllerTest extends WebTestCase
                 $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customerA->object()]);
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
 
                 self::assertNotNull($item);
@@ -118,7 +118,7 @@ class CartControllerTest extends WebTestCase
 
             // Test : add another product
             ->visit($uriAddProductB)
-            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product2->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
@@ -131,7 +131,7 @@ class CartControllerTest extends WebTestCase
                 );
 
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
 
                 $this->assertNotNull($item);
@@ -154,8 +154,8 @@ class CartControllerTest extends WebTestCase
                 $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
-                $this->assertEquals(4, $cart[$this->productA->getId()]->quantity);
-                $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
+                $this->assertEquals(4, $cart[$this->product1->getId()]->quantity);
+                $this->assertEquals(6, $cart[$this->product2->getId()]->quantity);
 
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customerA->object()]
@@ -164,14 +164,14 @@ class CartControllerTest extends WebTestCase
                 // Test : An order got created
                 self::assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
 
                 // Test : Order has right quantities
                 $this->assertEquals(4, $itemA->getQuantity());
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
                 // Test : Order has right quantities
                 $this->assertEquals(6, $itemB->getQuantity());
@@ -187,10 +187,10 @@ class CartControllerTest extends WebTestCase
                 $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Product is removed from cart
-                $this->assertTrue(empty($cart[$this->productA->getId()]));
+                $this->assertTrue(empty($cart[$this->product1->getId()]));
 
                 // Test : Other product still exists
-                $this->assertTrue(isset($cart[$this->productB->getId()]));
+                $this->assertTrue(isset($cart[$this->product2->getId()]));
 
                 $order = $this->findOneBy(
                     OrderHeader::class, ['customer' => $this->customerA->object()]
@@ -198,12 +198,12 @@ class CartControllerTest extends WebTestCase
 
                 $this->assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
                 // Test : Item A got removed
                 $this->assertNull($itemA);
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
                 // Test: Item B is still there
                 $this->assertNotNull($itemB);
@@ -224,12 +224,12 @@ class CartControllerTest extends WebTestCase
                     OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
                 $this->assertNull($itemA);
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
 
                 $this->assertNull($itemB);
@@ -247,12 +247,12 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
 
         // Test : just visit cart
@@ -265,14 +265,14 @@ class CartControllerTest extends WebTestCase
             ->visit($cartUri)
             //Test :  add products to cart
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
             ->assertSuccessful()
             ->visit($uriAddProductB)
-            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product2->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
@@ -297,8 +297,8 @@ class CartControllerTest extends WebTestCase
                 $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
-                $this->assertEquals(1, $cart[$this->productA->getId()]->quantity);
-                $this->assertEquals(2, $cart[$this->productB->getId()]->quantity);
+                $this->assertEquals(1, $cart[$this->product1->getId()]->quantity);
+                $this->assertEquals(2, $cart[$this->product2->getId()]->quantity);
 
             });
 
@@ -312,12 +312,12 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
         $browser = $this->browser()
             ->visit('/') // just to start the session
@@ -329,7 +329,7 @@ class CartControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
                 $this->createSessionKey($this->session);
-                $this->addProductToCart($this->session, $this->productA->object(), 10);
+                $this->addProductToCart($this->session, $this->product1->object(), 10);
             });
 
         $browser->visit($cartUri)
@@ -346,9 +346,9 @@ class CartControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createProductFixtures();
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
-        $uri = "/cart/product/" . $this->productA->getId() . '/add';
+        $uri = "/cart/product/" . $this->product1->getId() . '/add';
 
 
         $browser = $this
@@ -363,7 +363,7 @@ class CartControllerTest extends WebTestCase
                 $this->createSessionKey($this->session);
             })
             ->visit($uri)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )

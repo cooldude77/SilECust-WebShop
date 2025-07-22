@@ -54,7 +54,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
                 $this->addOption(
                     $browser,
                     'select[name="price_product_discount_create_form[product]"]',
-                    $this->productA->getId()
+                    $this->product1->getId()
                 );
 
                 $this->addOption(
@@ -62,14 +62,14 @@ class PriceProductDiscountControllerTest extends WebTestCase
                     $this->currency->getId()
                 );
 
-            })->fillField('price_product_discount_create_form[product]', $this->productA->getId())
+            })->fillField('price_product_discount_create_form[product]', $this->product1->getId())
             ->fillField('price_product_discount_create_form[currency]', $this->currency->getId())
             ->fillField('price_product_discount_create_form[value]', 10)
             ->click('Save')
             ->assertSuccessful();
 
         $created = $this->findOneBy(PriceProductDiscount::class, array('product' =>
-                                                                           $this->productA->object(
+                                                                           $this->product1->object(
                                                                            )));
 
         $this->assertEquals(10, $created->getValue());
@@ -88,7 +88,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
 
         $uri = "/admin/price/product/discount/{$this->productDiscountA->getId()}/edit";
@@ -106,7 +106,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
                 $this->addOption(
                     $browser,
                     'select[name="price_product_discount_edit_form[product]"]',
-                    $this->productA->getId()
+                    $this->product1->getId()
                 );
 
                 $this->addOption(
@@ -116,7 +116,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
 
 
             })
-            ->fillField('price_product_discount_edit_form[product]', $this->productA->getId())
+            ->fillField('price_product_discount_edit_form[product]', $this->product1->getId())
             ->fillField(
                 'price_product_discount_edit_form[currency]', $this->currency->getId()
             )
@@ -126,7 +126,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
 
         /** @var PriceProductDiscount $edited */
         $edited = $this->findOneBy(
-            PriceProductDiscount::class, ['product' => $this->productA->object()]
+            PriceProductDiscount::class, ['product' => $this->product1->object()]
         );
         $this->assertEquals(20, $edited->getValue());
 
@@ -143,7 +143,7 @@ class PriceProductDiscountControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $uri = "/admin/price/product/discount/{$this->productDiscountA->getId()}/edit";
 

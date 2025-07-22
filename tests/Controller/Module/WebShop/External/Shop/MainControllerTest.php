@@ -40,8 +40,8 @@ class MainControllerTest extends WebTestCase
         $this->browser()
             ->visit('/')
             ->assertSuccessful()
-            ->assertSee('Base Price not found for product Prod name A')
-            ->assertSee('Base Price not found for product Prod name B')
+            ->assertSee('Base Price not found for product Prod name 1')
+            ->assertSee('Base Price not found for product Prod name 2')
             // footer
             ->assertSee('Copyright @Silecust');
 

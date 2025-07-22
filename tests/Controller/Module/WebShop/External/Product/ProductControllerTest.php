@@ -39,7 +39,7 @@ class ProductControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
     }
 
@@ -51,8 +51,8 @@ class ProductControllerTest extends WebTestCase
             // don't allow cart when user is not logged in
             // not logged-in
             ->visit($uri)
-            ->assertSee($this->productA->getDescription())
-            ->assertSee($this->productB->getDescription())
+            ->assertSee($this->product1->getDescription())
+            ->assertSee($this->product2->getDescription())
             ->assertSee($this->priceProductBaseA->getPrice())
             ->assertSee($this->priceProductBaseB->getPrice())
             ->assertNotSee($this->productInactive->getDescription());
@@ -63,7 +63,7 @@ class ProductControllerTest extends WebTestCase
     {
         $this->createOrderFixturesA($this->customerA);
 
-        $uriAddProductA = "/product/" . $this->productA->getName();
+        $uriAddProductA = "/product/" . $this->product1->getName();
 
         // From the product page, click on add to cart button
         $this->browser()
@@ -79,7 +79,7 @@ class ProductControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uriAddProductA)
             ->fillField(
-                'cart_add_product_single_form[productId]', $this->productA->getId())
+                'cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
@@ -88,7 +88,7 @@ class ProductControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uriAddProductA)
             ->fillField(
-                'cart_add_product_single_form[productId]', $this->productA->getId())
+                'cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
@@ -99,7 +99,7 @@ class ProductControllerTest extends WebTestCase
                 $cart = $this->session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
-                $this->assertEquals(2, $cart[$this->productA->getId()]->quantity);
+                $this->assertEquals(2, $cart[$this->product1->getId()]->quantity);
             })
             ->assertRedirectedTo('/cart');
     }

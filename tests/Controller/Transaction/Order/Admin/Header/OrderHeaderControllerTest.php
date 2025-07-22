@@ -175,10 +175,10 @@ class OrderHeaderControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
         $this->createOrderFixturesA($this->customerA);
-        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->productA, $this->productB);
-        $this->createOpenOrderItemsFixtureA($this->afterPaymentSuccessOrderHeaderA, $this->productA, $this->productB);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->product1, $this->product2);
+        $this->createOpenOrderItemsFixtureA($this->afterPaymentSuccessOrderHeaderA, $this->product1, $this->product2);
 
     }
 

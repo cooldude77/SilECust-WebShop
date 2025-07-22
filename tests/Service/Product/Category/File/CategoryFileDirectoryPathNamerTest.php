@@ -17,7 +17,7 @@ class CategoryFileDirectoryPathNamerTest extends KernelTestCase
         self::bootKernel();
         $namer = new CategoryDirectoryImagePathProvider(static::$kernel->getProjectDir(), static::$kernel->getContainer()->getParameter('file_storage_path'));
 
-        $expected = static::$kernel->getProjectDir() . "/data/test/uploads/category/{$this->categoryA->getId()}/images/file_name.jpg";
-        assertEquals($expected,$namer->getFullPhysicalPathForFileByName($this->categoryA->object(),'file_name.jpg') );
+        $expected = static::$kernel->getProjectDir() . "/data/test/uploads/category/{$this->category1->getId()}/images/file_name.jpg";
+        assertEquals($expected,$namer->getFullPhysicalPathForFileByName($this->category1->object(),'file_name.jpg') );
     }
 }

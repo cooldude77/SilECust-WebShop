@@ -55,7 +55,7 @@ class PriceProductBaseControllerTest extends WebTestCase
                 $this->addOption(
                     $browser,
                     'select[name="price_product_base_create_form[product]"]',
-                    $this->productA->getId()
+                    $this->product1->getId()
                 );
 
                 $this->addOption(
@@ -63,13 +63,13 @@ class PriceProductBaseControllerTest extends WebTestCase
                     $this->currency->getId()
                 );
 
-            })->fillField('price_product_base_create_form[product]', $this->productA->getId())
+            })->fillField('price_product_base_create_form[product]', $this->product1->getId())
             ->fillField('price_product_base_create_form[currency]', $this->currency->getId())
             ->fillField('price_product_base_create_form[price]', 500)
             ->click('Save')
             ->assertSuccessful();
 
-        $created = PriceProductBaseFactory::find(array('product' => $this->productA));
+        $created = PriceProductBaseFactory::find(array('product' => $this->product1));
 
         $this->assertEquals(500, $created->getPrice());
 
@@ -87,7 +87,7 @@ class PriceProductBaseControllerTest extends WebTestCase
 
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
 
         $uri ="/admin/price/product/base/{$this->priceProductBaseA->getId()}/edit";
@@ -107,7 +107,7 @@ class PriceProductBaseControllerTest extends WebTestCase
                 $domDocument = $crawler->getNode(0)?->parentNode;
 
                 $option = $domDocument->createElement('option');
-                $option->setAttribute('value', $this->productA->getId());
+                $option->setAttribute('value', $this->product1->getId());
 
                 $selectElement = $crawler->filter('[name="price_product_base_edit_form[product]"]')
                     ->getNode(0);
@@ -126,7 +126,7 @@ class PriceProductBaseControllerTest extends WebTestCase
                     ->getNode(0);
                 $selectElement->appendChild($option);
             })
-            ->fillField('price_product_base_edit_form[product]', $this->productA->getId())
+            ->fillField('price_product_base_edit_form[product]', $this->product1->getId())
             ->fillField(
                 'price_product_base_edit_form[currency]', $this->currency->getId()
             )
@@ -135,7 +135,7 @@ class PriceProductBaseControllerTest extends WebTestCase
             ->assertSuccessful();
 
         /** @var PriceProductBase $edited */
-        $edited = $this->findOneBy(PriceProductBase::class, ['product' => $this->productA->object()]
+        $edited = $this->findOneBy(PriceProductBase::class, ['product' => $this->product1->object()]
         );
         $this->assertEquals(200, $edited->getPrice());
 
@@ -152,7 +152,7 @@ class PriceProductBaseControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $uri = "/admin/price/product/base/{$this->priceProductBaseA->getId()}/edit";
 
