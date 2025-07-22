@@ -17,7 +17,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
 use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Zenstruck\Browser;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 
@@ -63,14 +63,48 @@ class OrderHeaderControllerTest extends WebTestCase
             ->assertSee($this->inProcessOrderHeaderA->getGeneratedId())
             ->assertNotSee($this->inProcessOrderHeaderB->getGeneratedId())
             ->visit('/logout')
-             ->use(function (KernelBrowser $kernelBrowser) {
+            ->use(function (KernelBrowser $kernelBrowser) {
                 $kernelBrowser->loginUser($this->userForCustomerB->object());
             })
             ->visit($uri)
             ->assertNotSee($this->inProcessOrderHeaderA->getGeneratedId())
             ->assertSee($this->inProcessOrderHeaderB->getGeneratedId());
 
+    }
 
+    /**
+     * @return void
+     */
+    public function testViewOfOrdersWhenGeneratedIdMayBeGuessed()
+    {
+        $this->createCustomerFixtures();
+        $this->createCustomerFixturesB();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
+
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->inProcessOrderHeaderA, $this->product1, $this->product2);
+
+        $this->createOrderFixturesB($this->customerB);
+
+        $uri = "/my/orders/{$this->inProcessOrderHeaderA->getGeneratedId()}/display";
+
+        $this->browser()
+            ->use(function (KernelBrowser $kernelBrowser) {
+                $kernelBrowser->loginUser($this->userForCustomerA->object());
+            })
+            ->visit($uri)
+            ->assertSee($this->inProcessOrderHeaderA->getGeneratedId())
+            ->visit('/logout')
+            // login with another user
+            // and visit illegal Url again
+            ->use(function (KernelBrowser $kernelBrowser) {
+                $kernelBrowser->loginUser($this->userForCustomerB->object());
+            })
+            ->visit($uri)
+            ->expectException(AccessDeniedException::class);
     }
 
     protected function setUp(): void
