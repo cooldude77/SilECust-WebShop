@@ -1,11 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order;
+namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Header\Grid\Query;
 
 use Doctrine\Common\Collections\Criteria;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
-use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
-use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -31,24 +29,20 @@ readonly class OnOrderListQuery implements EventSubscriberInterface
     }
 
     /**
-     * @throws UserNotLoggedInException
+     * @param \Silecust\WebShop\Event\Component\Database\ListQueryEvent $listQueryEvent
+     * @throws \Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
+     * @throws \Silecust\WebShop\Exception\Security\User\UserNotLoggedInException
      */
     public
     function beforeQueryList(ListQueryEvent $listQueryEvent): void
     {
 
         $route = $this->router->match($listQueryEvent->getRequest()->getPathInfo());
-        if (!in_array($route['_route'], ['sc_my_orders']))
+        if ($route['_route'] != 'sc_my_orders')
             return;
 
-        if ($this->customerFromUserFinder->isLoggedInUserACustomer())
-            try {
-                $criteria = Criteria::create();
-                //$criteria->andWhere(
-                  //  Criteria::expr()->eq('oh.customer', $this->customerFromUserFinder->getLoggedInCustomer()));
-                $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelectAllButOpenOrders($criteria));
-            } catch (UserNotAssociatedWithACustomerException $e) {
-
-            }
+        $criteria = Criteria::create()->andWhere(
+            Criteria::expr()->eq('oh.customer', $this->customerFromUserFinder->getLoggedInCustomer()));
+        $listQueryEvent->setQuery($this->orderHeaderRepository->getQueryForSelectAllButOpenOrders($criteria));
     }
 }

@@ -9,8 +9,8 @@ use Zenstruck\Foundry\Proxy;
 trait OrderItemFixture
 {
 
-    private int $quantityForOpenOrderAProductA = 10;
-    private int $quantityForOpenOrderAProductB = 20;
+    private int $quantityForOpenOrderAProduct1 = 10;
+    private int $quantityForOpenOrderAProduct2 = 20;
 
     private Proxy|OrderItem $orderItem1ForOpenOrderA;
 
@@ -32,12 +32,12 @@ trait OrderItemFixture
         $this->orderItem1ForOpenOrderA = OrderItemFactory::createOne([
             'orderHeader' => $orderHeaderA,
             'product' => $product1,
-            'quantity' => $this->quantityForOpenOrderAProductA]);
+            'quantity' => $this->quantityForOpenOrderAProduct1]);
 
         $this->orderItem2ForOpenOrderA = OrderItemFactory::createOne([
             'orderHeader' => $orderHeaderA,
             'product' => $product2,
-            'quantity' => $this->quantityForOpenOrderAProductB]);
+            'quantity' => $this->quantityForOpenOrderAProduct2]);
 
     }
 
