@@ -1,11 +1,12 @@
 <?php
 
-namespace Silecust\WebShop\Tests\Controller\Admin\Customer\Order;
+namespace Silecust\WebShop\Tests\Controller\Admin\Customer\Order\Access;
 
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixtureB;
+use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureB;
@@ -18,6 +19,7 @@ use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 
@@ -37,19 +39,14 @@ class OrderHeaderControllerTest extends WebTestCase
         OrderFixtureB,
         SessionFactoryFixture,
         OrderShippingFixture,
+        EmployeeFixture,
         Factories;
 
     /**
      * @return void
      */
-    public function testListOfOrdersForCustomerAShouldNotListCustomerB()
+    public function testListOfOrdersForCustomerAShouldNotListOrdersOfCustomerB()
     {
-        $this->createCustomerFixtures();
-        $this->createCustomerFixturesB();
-        $this->createProductFixtures();
-        $this->createLocationFixtures();
-        $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
         $this->createOrderFixturesA($this->customerA);
         $this->createOrderFixturesB($this->customerB);
 
@@ -75,15 +72,8 @@ class OrderHeaderControllerTest extends WebTestCase
     /**
      * @return void
      */
-    public function testViewOfOrdersWhenGeneratedIdMayBeGuessed()
+    public function testIllegalDisplayOfOrderWhenGeneratedIdMayBeGuessed()
     {
-        $this->createCustomerFixtures();
-        $this->createCustomerFixturesB();
-        $this->createProductFixtures();
-        $this->createLocationFixtures();
-        $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
-
         $this->createOrderFixturesA($this->customerA);
         $this->createOpenOrderItemsFixtureA($this->inProcessOrderHeaderA, $this->product1, $this->product2);
 
@@ -107,6 +97,34 @@ class OrderHeaderControllerTest extends WebTestCase
             ->expectException(AccessDeniedException::class);
     }
 
+    /**
+     * @return void
+     */
+    public function doNotDeleteTestAccessEmployeeCanDisplayAllOrders()
+    {
+        // Silecust\WebShop\Tests\Controller\Transaction\Order\Admin\Header\OrderHeaderController
+    }
+
+    public function testCustomerCannotEditAnOrder()
+    {
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->inProcessOrderHeaderA, $this->product1, $this->product2);
+
+        $uri = "/admin/order/{$this->inProcessOrderHeaderA->getGeneratedId()}/edit";
+
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForCustomerA->object());
+            })
+            ->visit($uri)
+            ->expectException(AccessDeniedException::class);
+
+    }
+
     protected function setUp(): void
     {
 
@@ -117,6 +135,15 @@ class OrderHeaderControllerTest extends WebTestCase
 
         parent::setUp();
         $this->browser()->visit('/logout');
+
+        $this->createCustomerFixtures();
+        $this->createCustomerFixturesB();
+        $this->createEmployeeFixtures();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
+
 
     }
 

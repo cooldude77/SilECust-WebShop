@@ -96,6 +96,9 @@ class OrderHeaderController extends EnhancedAbstractController
             /** @var \Silecust\WebShop\Entity\OrderHeader $orderHeader */
             $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
 
+            $this->denyAccessUnlessGranted(CustomerVoter::EDIT, $orderHeader);
+
+
             if ($orderHeader == null)
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
 
@@ -165,7 +168,7 @@ class OrderHeaderController extends EnhancedAbstractController
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-            $this->denyAccessUnlessGranted(CustomerVoter::EDIT, $orderHeader);
+            $this->denyAccessUnlessGranted(CustomerVoter::DISPLAY, $orderHeader);
             // NOTE: This grid can be called as a subsection to main screen
             $displayParamsEvent = $eventDispatcher->dispatch(
                 new DisplayParamPropertyEvent($request), DisplayParamPropertyEvent::EVENT_NAME);

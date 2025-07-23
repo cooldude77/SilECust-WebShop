@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class EmployeeVoter extends Voter
 {
     const string EDIT = 'EDIT';
-    const string VIEW = 'VIEW';
+    const string DISPLAY = 'DISPLAY';
 
     public function __construct(
         private readonly AccessDecisionManagerInterface $accessDecisionManager,
@@ -25,7 +25,7 @@ final class EmployeeVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::VIEW])
+        return in_array($attribute, [self::EDIT, self::DISPLAY])
             && $subject instanceof OrderHeader
             && $this->employeeFromUserFinder->isLoggedInUserAnEmployee();
     }
