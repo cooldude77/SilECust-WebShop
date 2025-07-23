@@ -15,7 +15,7 @@ final class CustomerVoter extends Voter
     const string EDIT = 'EDIT';
     const string VIEW = 'VIEW';
 
-    public function __construct(private CustomerFromUserFinder $customerFromUserFinder)
+    public function __construct(private readonly CustomerFromUserFinder $customerFromUserFinder)
     {
     }
 
