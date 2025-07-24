@@ -37,7 +37,7 @@ class CustomerAddressControllerTest extends WebTestCase
             })
             // fill all remaining fields too
             ->visit($uri)
-            ->use(function (Browser $browser) {
+              ->use(function (Browser $browser) {
                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField('customer_address_create_form[line1]', 'Line 1')
@@ -181,8 +181,8 @@ class CustomerAddressControllerTest extends WebTestCase
     public function testEditShippingAddress()
     {
 
-        $this->createCustomerAddress($this->customerA);
-        $uri = "/admin/customer/address/{$this->addressShipping->getId()}/edit";
+        $this->createCustomerAddressA($this->customerA);
+        $uri = "/admin/customer/address/{$this->addressShippingA->getId()}/edit";
 
         $this
             ->browser()
@@ -208,8 +208,8 @@ class CustomerAddressControllerTest extends WebTestCase
     public function testEditBillingAddress()
     {
 
-        $this->createCustomerAddress($this->customerA);
-        $uri = "/admin/customer/address/{$this->addressBilling->getId()}/edit";
+        $this->createCustomerAddressA($this->customerA);
+        $uri = "/admin/customer/address/{$this->addressBillingA->getId()}/edit";
 
         $this
             ->browser()

@@ -1,8 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\Security\Voter\Order\Header;
+namespace Silecust\WebShop\Security\Voter\Address;
 
-use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Security\Voter\VoterConstants;
@@ -13,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CustomerVoter extends Voter
 {
+
     public function __construct(private readonly CustomerFromUserFinder $customerFromUserFinder)
     {
     }
@@ -21,9 +23,12 @@ final class CustomerVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [VoterConstants::EDIT, VoterConstants::DISPLAY])
-            && $subject instanceof OrderHeader
-            && $this->customerFromUserFinder->isLoggedInUserACustomer();
+        if (in_array($attribute, [VoterConstants::CREATE, VoterConstants::EDIT, VoterConstants::DISPLAY]))
+            if ($subject instanceof CustomerAddress || $subject instanceof Customer)
+                if ($this->customerFromUserFinder->isLoggedInUserACustomer())
+                    return true;
+
+        return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -34,17 +39,27 @@ final class CustomerVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        /** @var OrderHeader $orderHeader */
-        $orderHeader = $subject;
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case VoterConstants::EDIT:
-                return false;
-            case VoterConstants::DISPLAY:
+            case VoterConstants::CREATE:
                 try {
-                    return $orderHeader->getCustomer()->getId() ==
+                    /** @var Customer $customer */
+                    $customer = $subject;
+
+                    return $customer->getId() ==
                         $this->customerFromUserFinder->getLoggedInCustomer()->getId();
-                } catch (UserNotAssociatedWithACustomerException|UserNotLoggedInException ) {
+                } catch (UserNotAssociatedWithACustomerException|UserNotLoggedInException) {
+                    return false;
+                }
+            case VoterConstants::EDIT:
+            case VoterConstants::DISPLAY:
+
+                try {
+                    /** @var CustomerAddress $customerAddress */
+                    $customerAddress = $subject;
+                    return $customerAddress->getCustomer()->getId() ==
+                        $this->customerFromUserFinder->getLoggedInCustomer()->getId();
+                } catch (UserNotAssociatedWithACustomerException|UserNotLoggedInException) {
                     return false;
                 }
         }

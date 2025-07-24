@@ -1,8 +1,9 @@
 <?php
 
-namespace Silecust\WebShop\Security\Voter\Order\Header;
+namespace Silecust\WebShop\Security\Voter\Address;
 
-use Silecust\WebShop\Entity\OrderHeader;
+use Silecust\WebShop\Entity\Customer;
+use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Security\Voter\VoterConstants;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class EmployeeVoter extends Voter
 {
+
 
     public function __construct(
         private readonly AccessDecisionManagerInterface $accessDecisionManager,
@@ -24,9 +26,12 @@ final class EmployeeVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [VoterConstants::EDIT, VoterConstants::DISPLAY])
-            && $subject instanceof OrderHeader
-            && $this->employeeFromUserFinder->isLoggedInUserAnEmployee();
+        if (in_array($attribute, [VoterConstants::CREATE, VoterConstants::EDIT, VoterConstants::DISPLAY]))
+            if ($subject instanceof CustomerAddress || $subject instanceof Customer)
+                if ($this->employeeFromUserFinder->isLoggedInUserAnEmployee())
+                    return true;
+
+        return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

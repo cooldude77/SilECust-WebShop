@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 // src/Controller/CustomerController.php
 namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
@@ -7,6 +7,7 @@ namespace Silecust\WebShop\Controller\MasterData\Customer\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
@@ -16,6 +17,7 @@ use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\DTO\CustomerAddressDTO;
 use Silecust\WebShop\Repository\CustomerAddressRepository;
+use Silecust\WebShop\Security\Voter\VoterConstants;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,7 +34,7 @@ class CustomerAddressController extends EnhancedAbstractController
      */
     #[Route('/admin/customer/{id}/address/create', name: 'sc_admin_customer_address_create')]
     public function create(
-        int                      $id,
+        Customer                 $customer,
         EventDispatcherInterface $eventDispatcher,
         CustomerAddressDTOMapper $mapper,
         EntityManagerInterface   $entityManager,
@@ -40,9 +42,10 @@ class CustomerAddressController extends EnhancedAbstractController
     ): Response
     {
 
+        $this->denyAccessUnlessGranted(VoterConstants::CREATE, $customer);
 
         $customerAddressDTO = new CustomerAddressDTO();
-        $customerAddressDTO->customerId = $id;
+        $customerAddressDTO->customerId = $customer->getId();
 
         $form = $this->createForm(
             CustomerAddressCreateForm::class, $customerAddressDTO
@@ -89,7 +92,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
 
     #[Route('/admin/customer/address/{id}/edit', name: 'sc_admin_customer_address_edit')]
-    public function edit(int                      $id,
+    public function edit(CustomerAddress          $customerAddress,
                          CustomerAddressDTOMapper $customerAddressDTOMapper,
                          EntityManagerInterface   $entityManager,
                          Request                  $request
@@ -97,7 +100,9 @@ class CustomerAddressController extends EnhancedAbstractController
     {
         $this->setContentHeading($request, 'Edit Address');
 
-        $customerAddressDTO = $customerAddressDTOMapper->mapEntityToDtoForUpdate($id);
+        $this->denyAccessUnlessGranted(VoterConstants::EDIT, $customerAddress);
+
+        $customerAddressDTO = $customerAddressDTOMapper->mapEntityToDtoForUpdate($customerAddress->getId());
 
         $form = $this->createForm(CustomerAddressEditForm::class, $customerAddressDTO);
 
@@ -135,17 +140,14 @@ class CustomerAddressController extends EnhancedAbstractController
     #[Route('/admin/customer/address/{id}/display', name: 'sc_admin_customer_address_display')]
     public function display(
         CustomerAddressRepository $customerAddressRepository,
-        int                       $id,
+        CustomerAddress           $customerAddress,
         Request                   $request,
         EventDispatcherInterface  $eventDispatcher): Response
     {
         $this->setContentHeading($request, 'Display Address');
 
-        $customerAddress = $customerAddressRepository->find($id);
+        $this->denyAccessUnlessGranted(VoterConstants::DISPLAY, $customerAddress);
 
-        if (!$customerAddress) {
-            throw $this->createNotFoundException('No Address found for id ' . $id);
-        }
 
         // NOTE: This grid can be called as a subsection to main screen
         $displayParamsEvent = $eventDispatcher->dispatch(new DisplayParamPropertyEvent($request), DisplayParamPropertyEvent::EVENT_NAME);
@@ -180,7 +182,7 @@ class CustomerAddressController extends EnhancedAbstractController
      */
     #[Route('/admin/customer/{id}/address/list', name: 'sc_admin_customer_address_list')]
     public function list(
-        int $id,
+        int                      $id,
         Request                  $request,
         PaginatorInterface       $paginator,
         EventDispatcherInterface $eventDispatcher,

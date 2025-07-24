@@ -17,7 +17,7 @@ use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderEditForm;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
-use Silecust\WebShop\Security\Voter\Order\Header\CustomerVoter;
+use Silecust\WebShop\Security\Voter\VoterConstants;
 use Silecust\WebShop\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
 use Silecust\WebShop\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -96,7 +96,7 @@ class OrderHeaderController extends EnhancedAbstractController
             /** @var \Silecust\WebShop\Entity\OrderHeader $orderHeader */
             $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
 
-            $this->denyAccessUnlessGranted(CustomerVoter::EDIT, $orderHeader);
+            $this->denyAccessUnlessGranted(VoterConstants::EDIT, $orderHeader);
 
 
             if ($orderHeader == null)
@@ -168,7 +168,7 @@ class OrderHeaderController extends EnhancedAbstractController
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-            $this->denyAccessUnlessGranted(CustomerVoter::DISPLAY, $orderHeader);
+            $this->denyAccessUnlessGranted(VoterConstants::DISPLAY, $orderHeader);
             // NOTE: This grid can be called as a subsection to main screen
             $displayParamsEvent = $eventDispatcher->dispatch(
                 new DisplayParamPropertyEvent($request), DisplayParamPropertyEvent::EVENT_NAME);
