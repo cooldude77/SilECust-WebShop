@@ -16,5 +16,10 @@
 
 
         </div>
+        <div class="col-3">
+            {% include '@SilecustWebShop/admin/customer/ui/panel/section/content/grid/column/action/delete_link.html.twig' with {
+                "request":request,'listGrid':listGrid,'entity':entity} %}
+
+        </div>
     </div>
 </div>

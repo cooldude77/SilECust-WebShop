@@ -3,6 +3,7 @@
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Address;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeadController;
 use Silecust\WebShop\Controller\Module\WebShop\External\Common\Components\HeaderController;
@@ -27,7 +28,6 @@ use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckoutAddressChooseParser;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressQuery;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
-use Silecust\WebShop\Service\Module\WebShop\External\Address\Mapper\Existing\ChooseFromMultipleAddressDTOMapper;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -118,7 +118,6 @@ class AddressController extends EnhancedAbstractController
     ): RedirectResponse
     {
 
-        $ownRoute = $this->generateUrl('sc_web_shop_checkout_addresses');
         $customer = $customerFromUserFinder->getLoggedInCustomer();
 
         $addressesShipping = $customerAddressRepository->findBy(['customer' => $customer,
@@ -181,6 +180,7 @@ class AddressController extends EnhancedAbstractController
     /**
      * @throws UserNotAssociatedWithACustomerException
      * @throws UserNotLoggedInException
+     * @throws \Exception
      */
     public function create(
         Request                  $request,
@@ -199,7 +199,7 @@ class AddressController extends EnhancedAbstractController
 
         if ($request->query->get('type') == 'shipping')
             $customerAddressDTO->addressTypes[] = 'shipping';
-      if ($request->query->get('type') == 'billing')
+        if ($request->query->get('type') == 'billing')
             $customerAddressDTO->addressTypes[] = 'billing';
 
         $form = $this->createForm(
@@ -242,7 +242,7 @@ class AddressController extends EnhancedAbstractController
                 return $this->redirect(
                     $request->query->get(RoutingConstants::REDIRECT_UPON_SUCCESS_URL)
                 );
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $entityManager->rollback();
                 throw $exception;
             }
@@ -262,23 +262,23 @@ class AddressController extends EnhancedAbstractController
      *
      * @param CustomerAddressRepository $customerAddressRepository
      * @param CustomerFromUserFinder $customerFromUserFinder
-     * @param ChooseFromMultipleAddressDTOMapper $addressChooseMapper
+     * @param \Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressQuery $customerAddressQuery
      * @param CheckoutAddressChooseParser $checkoutAddressChooseParser
      * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
-     *
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @return Response
-     * @throws UserNotLoggedInException Choose from multiple addresses
-     * @throws UserNotAssociatedWithACustomerException
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Address\NoAddressChosenAtCheckout
+     * @throws \Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
+     * @throws \Silecust\WebShop\Exception\Security\User\UserNotLoggedInException Choose from multiple addresses
      */
     public function choose(CustomerAddressRepository          $customerAddressRepository,
                            CustomerFromUserFinder             $customerFromUserFinder,
-                           CustomerAddressQuery $customerAddressQuery,
-                           ChooseFromMultipleAddressDTOMapper $addressChooseMapper,
+                           CustomerAddressQuery               $customerAddressQuery,
                            CheckoutAddressChooseParser        $checkoutAddressChooseParser,
                            EventDispatcherInterface           $eventDispatcher,
-                           Request                $request,
-                           EntityManagerInterface $entityManager
+                           Request                            $request,
+                           EntityManagerInterface             $entityManager
     ): Response
     {
 
@@ -316,7 +316,7 @@ class AddressController extends EnhancedAbstractController
 
                     $address = $checkoutAddressChooseParser
                         ->setAddressInSession($data['addresses'], $request->query->get('type'));
-                } catch (NoAddressChosenAtCheckout $e) {
+                } catch (NoAddressChosenAtCheckout ) {
 
                     $this->addFlash('error', 'Please choose at least one address');
                     return $this->redirectToRoute('sc_web_shop_checkout_choose_address_from_list');
@@ -327,7 +327,7 @@ class AddressController extends EnhancedAbstractController
                 $entityManager->flush();
                 $entityManager->commit();
 
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $entityManager->rollback();
                 throw $exception;
             }

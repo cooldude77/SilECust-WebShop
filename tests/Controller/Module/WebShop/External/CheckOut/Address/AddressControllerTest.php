@@ -1,6 +1,13 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
 
-namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Address;
+/** @noinspection ALL */
+
+namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\CheckOut\Address;
 
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Entity\OrderAddress;
@@ -21,6 +28,9 @@ use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\Test\Factories;
 
+/**
+ * Address Process related to /checkout
+ */
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
@@ -55,7 +65,7 @@ class AddressControllerTest extends WebTestCase
             ->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/address/create?type=shipping&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )->use(callback: function (Browser $browser) {
+            )->use(callback: function () {
 
                 // assume address is created
                 $this->shippingAddress = CustomerAddressFactory::createOne(
@@ -67,7 +77,7 @@ class AddressControllerTest extends WebTestCase
             })->interceptRedirects()->visit($uri)->assertRedirectedTo(
                 '/checkout/address/create?type=billing&_redirect_upon_success_url=/checkout/addresses',
                 1
-            )->use(callback: function (Browser $browser) {
+            )->use(callback: function () {
 
                 // assume address is created
                 $this->billingAddress = CustomerAddressFactory::createOne(
@@ -318,8 +328,7 @@ class AddressControllerTest extends WebTestCase
             ->interceptRedirects()
             ->visit($uriShipping)
             ->use(callback: function (Browser $browser) use ($address1Shipping) {
-                $re = $browser->client()->getResponse();
-                $form = $browser->crawler()->selectButton('Choose')->form();
+                 $form = $browser->crawler()->selectButton('Choose')->form();
                 $form['address_choose_existing_multiple_form[addresses]']->select($address1Shipping->getId());
 
             })

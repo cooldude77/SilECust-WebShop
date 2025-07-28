@@ -31,6 +31,7 @@ class MainController extends EnhancedAbstractController
 
     /**
      * @param RouterInterface $router
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param Request $request
      * @return Response
      */
@@ -43,6 +44,7 @@ class MainController extends EnhancedAbstractController
     #[Route('/my/address/create', name: 'sc_my_address_create')]
     #[Route('/my/address/{id}/edit', name: 'sc_my_address_edit')]
     #[Route('/my/address/{id}/display', name: 'sc_my_address_display')]
+     #[Route('/my/address/{id}/delete', name: 'sc_my_address_delete')]
     #[Route('/my/orders/{generatedId}/display', name: 'sc_my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, EventDispatcherInterface $eventDispatcher, Request $request): Response
@@ -125,7 +127,8 @@ class MainController extends EnhancedAbstractController
 
     /**
      * @param SessionInterface $session
-     *
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return void
      */
     public function setSessionVariables(SessionInterface         $session,

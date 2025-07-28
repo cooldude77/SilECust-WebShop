@@ -5,14 +5,13 @@ namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Address\Grid;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
 use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 
-readonly class OnGridPropertyEvent implements EventSubscriberInterface
+readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 {
     /**
-     * @param RouterInterface $router
+     * @param \Silecust\WebShop\Service\Component\Event\EventRouteChecker $eventRouteChecker
      */
-    public function __construct(private readonly EventRouteChecker $eventRouteChecker
+    public function __construct(private EventRouteChecker $eventRouteChecker
     )
     {
     }
@@ -66,6 +65,13 @@ readonly class OnGridPropertyEvent implements EventSubscriberInterface
                         'route' => 'sc_my_address_display',
                         'anchorText' => 'Display Address',
                         'redirect_upon_success_route' => 'sc_my_addresses'
+                    ],
+                    'delete_link' => [
+                        'delete_link_allowed' => true,
+                        'link_id' => ' id-delete-address',
+                        'route' => 'sc_my_address_delete',
+                        'anchorText' => 'Delete Address',
+                        'redirect_upon_success_route' => 'sc_my_address_delete'
                     ]
                 ],
 

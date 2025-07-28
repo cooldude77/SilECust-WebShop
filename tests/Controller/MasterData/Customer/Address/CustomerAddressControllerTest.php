@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 
 namespace Silecust\WebShop\Tests\Controller\MasterData\Customer\Address;
 
@@ -13,6 +13,9 @@ use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 
+/**
+ * Test Urls related to admin of Customer Address
+ */
 class CustomerAddressControllerTest extends WebTestCase
 {
 
@@ -37,7 +40,7 @@ class CustomerAddressControllerTest extends WebTestCase
             })
             // fill all remaining fields too
             ->visit($uri)
-              ->use(function (Browser $browser) {
+            ->use(function (Browser $browser) {
                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField('customer_address_create_form[line1]', 'Line 1')
@@ -99,7 +102,6 @@ class CustomerAddressControllerTest extends WebTestCase
             })
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $reposne = $browser->client()->getResponse();
                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField('customer_address_create_form[line1]', 'Line 111')
@@ -117,9 +119,13 @@ class CustomerAddressControllerTest extends WebTestCase
 
         self::assertFalse($created1->isDefault());
         self::assertTrue($created2->isDefault());
-        
+
 
     }
+
+    /**
+     * @return void
+     */
     public function testCreateMultipleBillingAddressesAndMarkOneAsDefault()
     {
         $uri = "/admin/customer/{$this->customerA->getId()}/address/create";
@@ -156,8 +162,7 @@ class CustomerAddressControllerTest extends WebTestCase
             })
             ->visit($uri)
             ->use(function (Browser $browser) {
-                $reposne = $browser->client()->getResponse();
-                $this->addOption($browser, 'select', $this->postalCode->getId());
+                 $this->addOption($browser, 'select', $this->postalCode->getId());
             })
             ->fillField('customer_address_create_form[line1]', 'Line 111')
             ->fillField('customer_address_create_form[line2]', 'Line 22')
@@ -174,10 +179,13 @@ class CustomerAddressControllerTest extends WebTestCase
 
         self::assertFalse($created1->isDefault());
         self::assertTrue($created2->isDefault());
-        
+
 
     }
 
+    /**
+     * @return void
+     */
     public function testEditShippingAddress()
     {
 
@@ -205,6 +213,10 @@ class CustomerAddressControllerTest extends WebTestCase
         self::assertTrue($created->isDefault());
 
     }
+
+    /**
+     * @return void
+     */
     public function testEditBillingAddress()
     {
 
@@ -231,12 +243,40 @@ class CustomerAddressControllerTest extends WebTestCase
 
         self::assertTrue($created->isDefault());
 
-     
 
     }
 
-   
 
+    /**
+     * @return void
+     */
+    public function testDeleteAddress()
+    {
+
+        $this->createCustomerAddressA($this->customerA);
+        $address = $this->addressShippingA;
+
+        $uri = "/admin/customer/address/{$this->addressShippingA->getId()}/delete";
+
+        $this
+            ->browser()
+            ->visit($uri)
+            ->assertNotAuthenticated()
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            // fill all remaining fields too
+            ->visit($uri)
+            ->assertSuccessful();
+
+        self::assertCount(0, CustomerAddressFactory::findBy(['id' => $address->getId()]));
+
+    }
+
+
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         $this->createEmployeeFixtures();
@@ -244,6 +284,9 @@ class CustomerAddressControllerTest extends WebTestCase
         $this->createLocationFixtures();
     }
 
+    /**
+     * @return void
+     */
     protected function tearDown(): void
     {
         $this->browser()->visit('/logout');
