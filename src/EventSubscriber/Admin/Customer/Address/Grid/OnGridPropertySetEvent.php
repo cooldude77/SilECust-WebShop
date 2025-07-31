@@ -68,7 +68,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                     ],
                     'delete_link' => [
                         'delete_link_allowed' => true,
-                        'link_id' => ' id-delete-address',
+                        'link_id' => 'id-delete-address',
                         'route' => 'sc_my_address_delete',
                         'anchorText' => 'Delete Address',
                         'redirect_upon_success_route' => 'sc_my_address_delete'

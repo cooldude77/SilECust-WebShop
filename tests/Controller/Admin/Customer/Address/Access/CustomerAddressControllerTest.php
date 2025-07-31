@@ -28,7 +28,7 @@ class CustomerAddressControllerTest extends WebTestCase
     use HasBrowser, EmployeeFixture, CustomerFixture, CustomerFixtureB, CustomerAddressFixture, CustomerAddressBFixture, SelectElement, LocationFixture, Factories;
 
 
-    public function testEditShippingAddress()
+    public function testEditShippingAddressByAnotherCustomerDenied()
     {
 
         $this->createCustomerAddressA($this->customerA);
@@ -47,7 +47,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     }
 
-    public function testEditBillingAddress()
+    public function testEditBillingAddressByAnotherCustomerDenied()
     {
 
         $this->createCustomerAddressA($this->customerA);
@@ -65,7 +65,7 @@ class CustomerAddressControllerTest extends WebTestCase
             ->expectException(AccessDeniedException::class);
 
     }
-  public function testDisplayShippingAddress()
+  public function testDisplayShippingAddressByAnotherCustomerDenied()
     {
 
         $this->createCustomerAddressA($this->customerA);
@@ -84,7 +84,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
     }
 
-    public function testDisplayBillingAddress()
+    public function testDisplayBillingAddressByAnotherCustomerDenied()
     {
 
         $this->createCustomerAddressA($this->customerA);

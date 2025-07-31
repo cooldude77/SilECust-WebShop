@@ -6,9 +6,19 @@
         <a class="link-primary" id="{{ listGrid.config.delete_link.link_id ~"-delete-"~id }}" href="{{ href }}">
             <i class="bi bi-trash pe-2"></i></a>
     </div>
+    <div id="dialog" title="Basic dialog"></div>
 {% endif %}
-<script>
-    $(document).ready(function(){
+<script type="module">
+    $(document).ready(function () {
+
+        $("[id^=id-delete-address]").click(function (e) {
+            let retVal = confirm('Do you want to continue ?');
+            if (retVal === false) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+
+        });
 
     });
 </script>

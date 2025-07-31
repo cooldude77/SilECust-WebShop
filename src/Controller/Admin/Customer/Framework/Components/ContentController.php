@@ -167,6 +167,33 @@ class ContentController extends EnhancedAbstractController
 
     }
 
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder $customerFromUserFinder
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException
+     * @throws \Silecust\WebShop\Exception\Security\User\UserNotLoggedInException
+     */
+    public function addressDelete(Request $request, CustomerFromUserFinder $customerFromUserFinder): Response
+    {
+
+        $customer = $customerFromUserFinder->getLoggedInCustomer();
+
+        $formResponse = $this->forward(CustomerAddressController::class . '::delete',
+            ['request' => $request, 'id' => $request->attributes->get('id')]);
+
+
+        if ($formResponse instanceof JsonResponse)
+            return $this->redirect($this->generateUrl('sc_my_addresses'));
+
+        return $this->render(
+            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
+            [
+                'content' => $formResponse->getContent()
+            ]);
+
+    }
+
     public function orderDisplay(Request $request): Response
     {
 

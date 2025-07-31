@@ -44,7 +44,7 @@ class MainController extends EnhancedAbstractController
     #[Route('/my/address/create', name: 'sc_my_address_create')]
     #[Route('/my/address/{id}/edit', name: 'sc_my_address_edit')]
     #[Route('/my/address/{id}/display', name: 'sc_my_address_display')]
-     #[Route('/my/address/{id}/delete', name: 'sc_my_address_delete')]
+    #[Route('/my/address/{id}/delete', name: 'sc_my_address_delete')]
     #[Route('/my/orders/{generatedId}/display', name: 'sc_my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, EventDispatcherInterface $eventDispatcher, Request $request): Response
@@ -82,7 +82,7 @@ class MainController extends EnhancedAbstractController
                     'addressCreate'
                 );
                 break;
-             case 'sc_my_address_display':
+            case 'sc_my_address_display':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressDisplay'
@@ -92,6 +92,12 @@ class MainController extends EnhancedAbstractController
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressEdit'
+                );
+                break;
+            case 'sc_my_address_delete':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressDelete'
                 );
                 break;
             case 'sc_my_orders':
