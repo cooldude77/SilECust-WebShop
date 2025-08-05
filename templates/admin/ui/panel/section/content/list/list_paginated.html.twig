@@ -1,28 +1,25 @@
 {# -- Page For Grid level pagination --  #}
-{#  do some dumping  #}
- {# -- Create Link -- #}
-
 <div id="silecust-admin-grid" class="p-2 border-2 border-secondary">
     {# -- Create Row Header -- #}
     {% if listGrid.grid_heading is defined %}
-        <div>
-            <h2> {{ listGrid.grid_heading }}</h2>
+        <div class="d-flex">
+            <h2 class="p-2"> {{ listGrid.grid_heading }}</h2>
+
+            {#  Create link  #}
+            <div class="p-2 d-inline ms-auto">
+                {% set event = dispatchGridCreateLinkEvent({
+                    "request":request,
+                    'listGrid':listGrid
+                }) %}
+                {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+            </div>
         </div>
     {% endif %}
-    <div id="silecust-admin-search-box" class="row">
+    {#  Search box #}
+    <div id="silecust-admin-search-box" class="p-2 d-inline ms-auto">
         {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
     </div>
-    <div id="silecust-admin-create-link">
-        {% set event = dispatchGridCreateLinkEvent({
-            "request":request,
-            'listGrid':listGrid
-        }) %}
-        {% include event.getTemplate with {
-            "request":request,'listGrid':listGrid} %}
-
-
-    </div>
-
+    {#  Grid Header #}
     <div id="silecust-admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
         {% set event = dispatchGridRowHeaderEvent({
             "request":request,
@@ -31,10 +28,10 @@
         {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
     </div>
 
-    {# -- Pagination starts -- #}
+    {# Pagination starts #}
     {% if pagination is not null and pagination|length > 0 %}
         {% for entity in pagination %}
-            {# -- Row level --  #}
+            {# Grid Row  #}
             {% set event = dispatchGridRowDataEvent({
                 "request":request,
                 'listGrid':listGrid
@@ -43,7 +40,7 @@
 
         {% endfor %}
         <div class="navigation">
-            {# -- Pagination --  #}
+            {# Pagination  #}
             {% set event = dispatchGridPaginationEvent({
                 "request":request,
                 'listGrid':listGrid
@@ -51,32 +48,19 @@
             {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
         </div>
     {% else %}
+        {# No records found #}
         <p id="no-records-found">No records found</p>
     {% endif %}
 </div>
 
-{% if request.attribute.twig_is_grid_secondary is defined %}
 <script type="module">
     // A $( document ).ready() block.
     $(document).ready(function () {
-        console.log("ready!");
-        let a = $("#silecust-admin-create-link");
-        a.hide();
         let b = $("#silecust-admin-search-box")
-        let c = $("#silecust-admin-content-heading h2");
-        c.after(a);
-        a.show();
+        let heading = $("#silecust-admin-content-heading h2");
+        let create = $("#silecust-admin-create-link");
+
+        heading.after(create);
 
     });
 </script>
-{% else %}
-    <script type="module">
-        // A $( document ).ready() block.
-        $(document).ready(function () {
-            let b = $("#silecust-admin-search-box")
-            // let c = $("#silecust-admin-content-heading h2");
-            b.hide();
-
-        });
-    </script>
-{% endif %}
