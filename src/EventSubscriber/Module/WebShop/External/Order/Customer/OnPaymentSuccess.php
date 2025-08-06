@@ -1,21 +1,19 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Customer;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
-use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentSuccessResponseResolverInterface;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
-use Silecust\WebShop\Service\Transaction\Order\OrderSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 readonly class OnPaymentSuccess implements EventSubscriberInterface
 {
     public function __construct(
-        private PaymentSuccessResponseResolverInterface $paymentSuccessResponseResolver,
-        private OrderSave                               $orderSave,
-        private OrderRead                               $orderRead,
-        private CustomerFromUserFinder                  $customerFromUserFinder)
+        private OrderRead              $orderRead,
+        private CustomerFromUserFinder $customerFromUserFinder,
+        private SerializerInterface    $serializer)
     {
         //todo: add snapshot
     }
@@ -23,7 +21,7 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PaymentSuccessEvent::EVENT_NAME => ['afterPaymentSuccess', 1]
+            PaymentSuccessEvent::EVENT_NAME => ['afterPaymentSuccess',2]
         ];
 
     }
@@ -37,11 +35,7 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
 
         $orderHeader = $this->orderRead->getOpenOrder($this->customerFromUserFinder->getLoggedInCustomer());
 
-
-        if ($this->orderRead->getPayment($orderHeader) == null) {
-            $this->orderSave->savePayment($orderHeader,
-                $this->paymentSuccessResponseResolver->resolve($paymentEvent->getRequest()));
-        }
+        $orderHeader->setCustomerInJson($this->serializer->serialize($orderHeader->getCustomer(),'json'));
 
     }
 }

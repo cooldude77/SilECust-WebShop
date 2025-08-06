@@ -1,29 +1,29 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Payment;
+namespace Silecust\WebShop\EventSubscriber\Module\WebShop\External\Order\Status;
 
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentSuccessResponseResolverInterface;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentSuccess implements EventSubscriberInterface
 {
     public function __construct(
-        private PaymentSuccessResponseResolverInterface $paymentSuccessResponseResolver,
         private OrderSave                               $orderSave,
         private OrderRead                               $orderRead,
         private CustomerFromUserFinder                  $customerFromUserFinder)
-    {
+     {
         //todo: add snapshot
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            PaymentSuccessEvent::EVENT_NAME => ['afterPaymentSuccess', 1]
+            PaymentSuccessEvent::EVENT_NAME => ['afterPaymentSuccess', 0]
         ];
 
     }
@@ -37,11 +37,7 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
 
         $orderHeader = $this->orderRead->getOpenOrder($this->customerFromUserFinder->getLoggedInCustomer());
 
-
-        if ($this->orderRead->getPayment($orderHeader) == null) {
-            $this->orderSave->savePayment($orderHeader,
-                $this->paymentSuccessResponseResolver->resolve($paymentEvent->getRequest()));
-        }
+        $this->orderSave->setOrderStatus($orderHeader, OrderStatusTypes::ORDER_PAYMENT_COMPLETE);
 
     }
 }
