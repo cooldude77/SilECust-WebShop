@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 // src/controller/customerController.php
 namespace Silecust\WebShop\Controller\MasterData\Customer;
 
@@ -7,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\CustomerEditForm;
 use Silecust\WebShop\Form\MasterData\Customer\DTO\CustomerDTO;
@@ -107,7 +108,11 @@ class CustomerController extends EnhancedAbstractController
             $this->addFlash(
                 'success', "Customer updated successfully"
             );
-            return new JsonResponse(['id' => $id, 'message' => "Customer updated successfully"], 200);
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Customer updated successfully"]
+                ), 200
+            );
         }
 
         return $this->render('@SilecustWebShop/master_data/customer/customer_edit.html.twig', ['form' => $form]);
@@ -165,8 +170,8 @@ class CustomerController extends EnhancedAbstractController
         // todo: find a solution for overflow
         $this->setContentHeading($request, 'Customers');
 
-        $listGridEvent = $this->eventDispatcher->dispatch(new GridPropertyEvent($request,
-            ['event_caller' => $this::LIST_IDENTIFIER]), GridPropertyEvent::EVENT_NAME);
+        $listGridEvent = $this->eventDispatcher->dispatch(new GridPropertySetEvent($request,
+            ['event_caller' => $this::LIST_IDENTIFIER]), GridPropertySetEvent::EVENT_NAME);
 
 
         $query = $searchEntity->getQueryForSelect($request, $customerRepository,

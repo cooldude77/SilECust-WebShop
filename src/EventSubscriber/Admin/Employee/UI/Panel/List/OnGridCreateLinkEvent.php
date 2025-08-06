@@ -2,8 +2,8 @@
 
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\UI\Panel\List;
 
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
+use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -14,9 +14,11 @@ use Symfony\Component\Routing\RouterInterface;
 readonly class OnGridCreateLinkEvent implements EventSubscriberInterface
 {
     /**
-     * @param RouterInterface $router
+     * @param \Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder $employeeFromUserFinder
+     * @param \Silecust\WebShop\Service\Component\Event\EventRouteChecker $eventRouteChecker
      */
-    public function __construct(private readonly EmployeeFromUserFinder $employeeFromUserFinder)
+    public function __construct(private EmployeeFromUserFinder $employeeFromUserFinder,
+                                private EventRouteChecker      $eventRouteChecker)
     {
     }
 
@@ -37,10 +39,17 @@ readonly class OnGridCreateLinkEvent implements EventSubscriberInterface
      */
     public function beforeDisplay(GridCreateLinkEvent $event): void
     {
-
         if ($this->employeeFromUserFinder->isLoggedInUserAnEmployee()) {
-            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
-        }
+            if ($this->eventRouteChecker->isAdminRoute($event->getData()['request']))
+                if (!$this->eventRouteChecker->checkFunctions($event->getData()['request'], ['employee_address'])) {
+                    $event->setTemplate('@SilecustWebShop/admin/employee/customer/address/ui/panel/section/content/grid/top_level/create_link.html.twig');
+                    return;
+                }
 
+
+            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
+
+
+        }
     }
 }

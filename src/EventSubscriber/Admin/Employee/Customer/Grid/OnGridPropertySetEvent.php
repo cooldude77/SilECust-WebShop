@@ -1,31 +1,31 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Customer\Grid;
 
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-readonly class OnGridPropertyEvent implements EventSubscriberInterface
+readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 {
     /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param \Silecust\WebShop\Service\Component\Event\EventRouteChecker $eventRouteChecker
      */
-    public function __construct(private readonly EventRouteChecker $eventRouteChecker
+    public function __construct(private EventRouteChecker $eventRouteChecker
     )
     {
     }
     public static function getSubscribedEvents(): array
     {
         return [
-            GridPropertyEvent::EVENT_NAME => 'setProperty'
+            GridPropertySetEvent::EVENT_NAME => 'setProperty'
         ];
 
     }
 
-    public function setProperty(GridPropertyEvent $event): void
+    public function setProperty(GridPropertySetEvent $event): void
     {
 
         if (!

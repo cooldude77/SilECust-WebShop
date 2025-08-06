@@ -7,6 +7,7 @@ use Silecust\WebShop\Controller\MasterData\Customer\Address\CustomerAddressContr
 use Silecust\WebShop\Controller\MasterData\Customer\CustomerController;
 use Silecust\WebShop\Controller\Transaction\Order\Admin\Header\OrderHeaderController;
 use Silecust\WebShop\Controller\Transaction\Order\Admin\Item\OrderItemController;
+use Silecust\WebShop\Exception\Admin\Employee\FrameWork\Components\ResponseFromControllerInvalid;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
 use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
@@ -102,15 +103,31 @@ class ContentController extends EnhancedAbstractController
             ['request' => $request, 'id' => $customer->getId()]);
 
 
-        if ($formResponse instanceof JsonResponse)
-            return $this->redirect($this->generateUrl('sc_my_addresses'));
+        return $this->forwardToRouteBasedOnResponse($formResponse, 'sc_my_addresses');
+
+    }
+
+    private function forwardToRouteBasedOnResponse(Response $response, $forwardToRoute)
+    {
+        if ($response instanceof JsonResponse)
+            throw new ResponseFromControllerInvalid("The response is a JsonResponse Object. The response should be a Response object with serialized values in case of success");
+
+
+        $content = $response->getContent();
+
+        // if the content is a twig template, unserialize will throw exception
+        $unserialized = @unserialize($content);
+
+        // success
+        // response has a serialized array
+        if ($unserialized == true)
+            return $this->redirectToRoute($forwardToRoute);
 
         return $this->render(
             '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
             [
-                'content' => $formResponse->getContent()
+                'content' => $response->getContent()
             ]);
-
     }
 
     /**
@@ -129,14 +146,8 @@ class ContentController extends EnhancedAbstractController
             ['request' => $request, 'id' => $request->attributes->get('id')]);
 
 
-        if ($formResponse instanceof JsonResponse)
-            return $this->redirect($this->generateUrl('sc_my_addresses'));
+        return $this->forwardToRouteBasedOnResponse($formResponse, 'sc_my_addresses');
 
-        return $this->render(
-            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
-            [
-                'content' => $formResponse->getContent()
-            ]);
 
     }
 
@@ -156,14 +167,7 @@ class ContentController extends EnhancedAbstractController
             ['request' => $request, 'id' => $request->attributes->get('id')]);
 
 
-        if ($formResponse instanceof JsonResponse)
-            return $this->redirect($this->generateUrl('sc_my_addresses'));
-
-        return $this->render(
-            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
-            [
-                'content' => $formResponse->getContent()
-            ]);
+        return $this->forwardToRouteBasedOnResponse($formResponse, 'sc_my_addresses');
 
     }
 
@@ -183,14 +187,8 @@ class ContentController extends EnhancedAbstractController
             ['request' => $request, 'id' => $request->attributes->get('id')]);
 
 
-        if ($formResponse instanceof JsonResponse)
-            return $this->redirect($this->generateUrl('sc_my_addresses'));
+        return $this->forwardToRouteBasedOnResponse($formResponse, 'sc_my_addresses');
 
-        return $this->render(
-            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
-            [
-                'content' => $formResponse->getContent()
-            ]);
 
     }
 
@@ -229,15 +227,6 @@ class ContentController extends EnhancedAbstractController
         $formResponse = $this->forward(CustomerController::class . '::edit', [
             'request' => $request, 'id' => $customer->getId()]);
 
-        if ($formResponse instanceof JsonResponse)
-            return $this->redirect($this->generateUrl('sc_my_personal_info'));
-
-        return $this->render(
-            '@SilecustWebShop/admin/customer/ui/my_generic_content.html.twig',
-            [
-                'content' => $formResponse->getContent()
-            ]);
-
+        return $this->forwardToRouteBasedOnResponse($formResponse, 'sc_my_personal_info');
     }
-
 }

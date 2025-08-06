@@ -95,7 +95,8 @@ class PanelActionListMapBuilder
                             'create' => 'sc_admin_customer_address_create',
                             'edit' => 'sc_admin_customer_address_edit',
                             'display' => 'sc_admin_customer_address_display',
-                            'list' => 'sc_admin_customer_address_list'
+                            'list' => 'sc_admin_customer_address_list',
+                            'delete' => 'sc_admin_customer_address_delete'
                         ]
                     ],
                     'employee' => [

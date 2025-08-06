@@ -8,9 +8,9 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
 #}
 {% set context_route= request.session.get('context_route') != null ?request.session.get('context_route') : 'sc_admin_panel' %}
 
-{% set function =listGrid.function is defined ? listGrid.function: request.get('_function') %}
+{% set function = 'customer_address' %}
 
-{% set after =  path(context_route,{'_function': function,'_type':'display'}) %}
+{% set after =  path(context_route,{'_function': function,'_type':'list','id':listGrid.id}) %}
 
 {% set parameterList = {'_function':function,'_type':'create'} %}
 

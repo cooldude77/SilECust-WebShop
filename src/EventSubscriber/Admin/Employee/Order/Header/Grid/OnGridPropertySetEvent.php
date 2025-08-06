@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\EventSubscriber\Admin\Employee\Order\Header\Grid;
 
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -11,9 +11,10 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
 {
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(private AuthorizationCheckerInterface $authorizationChecker,
-                                private readonly RouterInterface      $router
+                                private RouterInterface $router
     )
     {
     }
@@ -21,17 +22,17 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GridPropertyEvent::EVENT_NAME => 'setProperty'
+            GridPropertySetEvent::EVENT_NAME => 'setProperty'
         ];
 
     }
 
-    public function setProperty(GridPropertyEvent $event): void
+    public function setProperty(GridPropertySetEvent $event): void
     {
 
         $route = $this->router->match($event->getRequest()->getPathInfo());
 
-        if (!in_array($route['_route'], [ 'sc_admin_order_list']))
+        if ($route['_route'] != 'sc_admin_order_list')
             if (!($event->getRequest()->query->get('_function') == 'order'
                 && $event->getRequest()->query->get('_type') == 'list')
             ) return;

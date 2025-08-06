@@ -9,7 +9,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderHeaderChangedEvent;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OrderHeaderNotFound;
@@ -195,9 +195,9 @@ class OrderHeaderController extends EnhancedAbstractController
         Request                  $request
     ): Response
     {
-        /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
-            GridPropertyEvent::EVENT_NAME
+        /** @var GridPropertySetEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertySetEvent($request),
+            GridPropertySetEvent::EVENT_NAME
         );
 
         $listGrid = $listEvent->getListGridProperties();

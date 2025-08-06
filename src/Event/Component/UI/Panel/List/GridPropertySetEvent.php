@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  * Set when order list event is called, here you can set list properties dynamically
  *
  */
-class GridPropertyEvent extends Event
+class GridPropertySetEvent extends Event
 {
     public const string EVENT_NAME = 'list_grid.property';
     private ?array $data;

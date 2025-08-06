@@ -11,7 +11,7 @@ use Silecust\WebShop\Entity\Customer;
 use Silecust\WebShop\Entity\CustomerAddress;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Exception\MasterData\Customer\Address\AddressTypeNotProvided;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressCreateForm;
 use Silecust\WebShop\Form\MasterData\Customer\Address\CustomerAddressEditForm;
@@ -20,7 +20,6 @@ use Silecust\WebShop\Repository\CustomerAddressRepository;
 use Silecust\WebShop\Security\Voter\VoterConstants;
 use Silecust\WebShop\Service\MasterData\Customer\Address\CustomerAddressDTOMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,7 +34,6 @@ class CustomerAddressController extends EnhancedAbstractController
     #[Route('/admin/customer/{id}/address/create', name: 'sc_admin_customer_address_create')]
     public function create(
         Customer                 $customer,
-        EventDispatcherInterface $eventDispatcher,
         CustomerAddressDTOMapper $mapper,
         EntityManagerInterface   $entityManager,
         Request                  $request
@@ -63,27 +61,22 @@ class CustomerAddressController extends EnhancedAbstractController
 
 
             foreach ($customerAddress as $address) {
-
                 $entityManager->persist($address);
             }
             $entityManager->flush();
-            $a = $entityManager->getRepository(CustomerAddress::class)->findAll();
             $this->addFlash(
                 'success', "Customer Address created successfully"
             );
 
             // $id = $customerAddress->getId();
 
-            return new JsonResponse(
+            return new Response(
                 serialize(
                     ['message' => "Customer Address(es) created successfully"]
                 ), 201
             );
 
         }
-
-        $errors = $form->getErrors(true);
-
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/create/create.html.twig', ['form' => $form]
         );
@@ -112,7 +105,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
             /** @var CustomerAddressDTO $data */
             $data = $form->getData();
-// todo : In display actually check if value of postalcode changed
+            // todo : In display actually check if value of postal code changed
             $customerAddress = $customerAddressDTOMapper->mapDtoToEntityForUpdate($data);
 
             $entityManager->persist($customerAddress);
@@ -124,7 +117,7 @@ class CustomerAddressController extends EnhancedAbstractController
                 'success', "Address updated successfully"
             );
 
-            return new JsonResponse(
+            return new Response(
                 serialize(
                     ['id' => $id, 'message' => "Customer Address updated successfully"]
                 ), 200
@@ -139,10 +132,9 @@ class CustomerAddressController extends EnhancedAbstractController
 
     #[Route('/admin/customer/address/{id}/display', name: 'sc_admin_customer_address_display')]
     public function display(
-        CustomerAddressRepository $customerAddressRepository,
-        CustomerAddress           $customerAddress,
-        Request                   $request,
-        EventDispatcherInterface  $eventDispatcher): Response
+        CustomerAddress          $customerAddress,
+        Request                  $request,
+        EventDispatcherInterface $eventDispatcher): Response
     {
         $this->setContentHeading($request, 'Display Address');
 
@@ -169,12 +161,18 @@ class CustomerAddressController extends EnhancedAbstractController
         }
 
         $customerAddressRepository->remove($customerAddress);
+        $this->addFlash(
+            'success', "Address deleted"
+        );
 
-        return new JsonResponse(['id' => $id, 'message' => "Customer Address Delete"]);
+        return new Response(
+            serialize(['message' => "Customer Address Delete"])
+        );
     }
 
 
     /**
+     * @param int $id
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @param EventDispatcherInterface $eventDispatcher
@@ -189,13 +187,15 @@ class CustomerAddressController extends EnhancedAbstractController
 
     ): Response
     {
-     //   $this->setContentHeading($request, 'Addresses');
+        //$this->setContentHeading($request, 'Addresses');
 
         // NOTE: This grid can be called as a subsection to main screen
-        $listGridEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, [
-            'event_caller' => $this::LIST_IDENTIFIER,
-            'id' => $id,
-        ]), GridPropertyEvent::EVENT_NAME);
+        $listGridEvent = $eventDispatcher->dispatch(new GridPropertySetEvent(
+            $request,
+            [
+                'event_caller' => $this::LIST_IDENTIFIER,
+                'id' => $id,
+            ]), GridPropertySetEvent::EVENT_NAME);
 
         $listQueryEvent = $eventDispatcher->dispatch(new ListQueryEvent($request,
             [
@@ -207,12 +207,17 @@ class CustomerAddressController extends EnhancedAbstractController
 
         // todo : to bring price ( calculated field on the list)
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */ $request->query->getInt('page', 1),
-            /*page number*/ 10 /*limit per page*/
+            $query,
+            $request->query->getInt('page', 1),
+            10
         );
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
-            ['pagination' => $pagination, 'listGrid' => $listGridEvent->getListGridProperties(), 'request' => $request]
+            [
+                'pagination' => $pagination,
+                'listGrid' => $listGridEvent->getListGridProperties(),
+                'request' => $request
+            ]
         );
     }
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\BeforeOrderItemChangedEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
@@ -24,6 +24,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderItemController extends EnhancedAbstractController
 {
+    /**
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound
+     */
     #[Route('/admin/order/{id}/item/create', name: 'sc_admin_order_item_create')]
     public function create(
         int                         $id,
@@ -168,9 +172,9 @@ class OrderItemController extends EnhancedAbstractController
     {
 
 
-        /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, ['id' => $id]),
-            GridPropertyEvent::EVENT_NAME
+        /** @var GridPropertySetEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertySetEvent($request, ['id' => $id]),
+            GridPropertySetEvent::EVENT_NAME
         );
 
         $listGrid = $listEvent->getListGridProperties();
