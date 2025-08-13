@@ -1,26 +1,27 @@
 {# -- Page For Grid level pagination --  #}
-<div id="silecust-admin-grid" class="p-2 border-2 border-secondary">
+<div id="admin-grid" class="p-2 border-2 border-secondary">
     {# -- Create Row Header -- #}
+    {#
     {% if listGrid.grid_heading is defined %}
-        <div class="d-flex">
+        <div class="d-flex" id="admin-content-grid-heading">
             <h2 class="p-2"> {{ listGrid.grid_heading }}</h2>
-
-            {#  Create link  #}
-            <div class="p-2 d-inline ms-auto">
-                {% set event = dispatchGridCreateLinkEvent({
-                    "request":request,
-                    'listGrid':listGrid
-                }) %}
-                {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-            </div>
         </div>
     {% endif %}
+    #}
+    {#  Create link  #}
+    <div class="p-2 d-inline ms-auto" id="admin-content-grid-create-link-div">
+        {% set event = dispatchGridCreateLinkEvent({
+            "request":request,
+            'listGrid':listGrid
+        }) %}
+        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+    </div>
     {#  Search box #}
-    <div id="silecust-admin-search-box" class="p-2 d-inline ms-auto">
+    <div id="admin-search-box" class="p-2 d-inline ms-auto">
         {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
     </div>
     {#  Grid Header #}
-    <div id="silecust-admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
+    <div id="admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
         {% set event = dispatchGridRowHeaderEvent({
             "request":request,
             'listGrid':listGrid
@@ -56,9 +57,9 @@
 <script type="module">
     // A $( document ).ready() block.
     $(document).ready(function () {
-        let b = $("#silecust-admin-search-box")
-        let heading = $("#silecust-admin-content-heading h2");
-        let create = $("#silecust-admin-create-link");
+        let b = $("#admin-search-box")
+        let heading = $("#admin-content-heading h2");
+        let create = $("#admin-content-grid-create-link-div");
 
         heading.after(create);
 

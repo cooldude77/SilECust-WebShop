@@ -6,7 +6,6 @@ use Silecust\WebShop\Event\Component\UI\Panel\List\GridCreateLinkEvent;
 use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
 use Silecust\WebShop\Service\Security\User\Employee\EmployeeFromUserFinder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 /**
  *
@@ -39,17 +38,18 @@ readonly class OnGridCreateLinkEvent implements EventSubscriberInterface
      */
     public function beforeDisplay(GridCreateLinkEvent $event): void
     {
-        if ($this->employeeFromUserFinder->isLoggedInUserAnEmployee()) {
-            if ($this->eventRouteChecker->isAdminRoute($event->getData()['request']))
-                if (!$this->eventRouteChecker->checkFunctions($event->getData()['request'], ['employee_address'])) {
-                    $event->setTemplate('@SilecustWebShop/admin/employee/customer/address/ui/panel/section/content/grid/top_level/create_link.html.twig');
-                    return;
-                }
+        if (!$this->employeeFromUserFinder->isLoggedInUserAnEmployee())
+            return;
 
+        if (!$this->eventRouteChecker->isAdminRoute($event->getData()['request']))
+            return;
 
-            $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
-
-
+        if ($this->eventRouteChecker->checkFunctions($event->getData()['request'], ['customer_address'])) {
+            $event->setTemplate('@SilecustWebShop/admin/employee/customer/address/ui/panel/section/content/grid/top_level/create_link.html.twig');
+            return;
         }
+        $event->setTemplate('@SilecustWebShop/admin/employee/ui/panel/section/content/grid/top_level/create_link.html.twig');
+
+
     }
 }
