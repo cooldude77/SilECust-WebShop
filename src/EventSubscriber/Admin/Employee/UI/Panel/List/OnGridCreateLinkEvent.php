@@ -41,10 +41,11 @@ readonly class OnGridCreateLinkEvent implements EventSubscriberInterface
         if (!$this->employeeFromUserFinder->isLoggedInUserAnEmployee())
             return;
 
-        if (!$this->eventRouteChecker->isAdminRoute($event->getData()['request']))
-            return;
+        // check admin function or atleast admin URL
+        //  if (!$this->eventRouteChecker->isAdminRoute($event->getData()['request']))
+        //      return;
 
-        if ($this->eventRouteChecker->checkFunctions($event->getData()['request'], ['customer_address'])) {
+        if ($this->eventRouteChecker->isInRouteList($event->getData()['request'], ['sc_admin_customer_address_list'])) {
             $event->setTemplate('@SilecustWebShop/admin/employee/customer/address/ui/panel/section/content/grid/top_level/create_link.html.twig');
             return;
         }

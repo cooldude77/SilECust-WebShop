@@ -187,7 +187,7 @@ class CustomerAddressController extends EnhancedAbstractController
 
     ): Response
     {
-        //$this->setContentHeading($request, 'Addresses');
+        $this->setContentHeading($request, 'Addresses');
 
         // NOTE: This grid can be called as a subsection to main screen
         $listGridEvent = $eventDispatcher->dispatch(new GridPropertySetEvent(
