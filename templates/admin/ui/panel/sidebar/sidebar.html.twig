@@ -8,11 +8,20 @@
 <script type="module">
     $(document).ready(function () {
 
+        // when clicked on button
         $("#sidebar ul button").on("click", function () {
-            $(this).toggleClass("arrow-down");
-            let siblings = $(this).siblings(".list-item");
+
+            // remove all displayed ( closes all open items)
             $("#sidebar ul .item").removeClass("displayed");
+            // reset all buttons to horizontal arrows
+            $("#sidebar ul button" ).removeClass("arrow-down")
+
+            // set arrow to down for this item ( clicked)
+            $(this).toggleClass("arrow-down");
+            // opens the item
+            let siblings = $(this).siblings(".list-item");
             $(siblings).children(".item").toggleClass("displayed");
+
         });
     })
 </script>
