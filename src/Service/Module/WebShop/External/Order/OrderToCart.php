@@ -3,15 +3,20 @@
 namespace Silecust\WebShop\Service\Module\WebShop\External\Order;
 
 use Silecust\WebShop\Entity\OrderItem;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 
 readonly class OrderToCart
 {
-    public function __construct(private CartSessionProductService $cartSessionProductService
+    public function __construct(private CartProductManager $cartSessionProductService
     ) {
     }
 
+    /**
+     * @param array $orderItems
+     * @return void
+     * @throws \Silecust\WebShop\Exception\Module\WebShop\External\Cart\Session\ProductNotFoundInCart
+     */
     public function copyProductsFromOrderToCart(array $orderItems): void
     {
 
@@ -25,7 +30,7 @@ readonly class OrderToCart
             // to avoid event chaining store errors in session ???
 
             $this->cartSessionProductService->addItemToCart(
-                new CartSessionObject
+                new CartItem
                 (
                     $item->getProduct()->getId(),
                     $item->getQuantity()

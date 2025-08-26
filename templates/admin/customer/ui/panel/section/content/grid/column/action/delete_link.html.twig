@@ -1,0 +1,7 @@
+{% set id  = attribute(entity, 'id') %}
+    {% set href =  path( listGrid.config.delete_link.route,{'id':id}) %}
+<div class="d-flex flex mb-1 ml-0 ">
+    <a class="link-primary" id="{{ listGrid.config.delete_link.link_id ~"-delete-"~id }}" href="{{ href }}">
+        <i class="bi bi-trash pe-2"></i></a>
+</div>
+<div id="dialog" title="Basic dialog"></div>

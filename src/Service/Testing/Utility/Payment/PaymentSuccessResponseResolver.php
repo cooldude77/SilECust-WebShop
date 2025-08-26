@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PaymentSuccessResponseResolver implements PaymentSuccessResponseResolverInterface
 {
-    public function resolve(Request $request): string
+    public function resolve(Request $request): string|false
     {
         $paymentResponse = [
             "id" => "pay_G8VQzjPLoAvm6D",

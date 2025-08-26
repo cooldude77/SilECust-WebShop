@@ -5,7 +5,6 @@
             <div class="col-3">
 
                 {% set event = dispatchGridColumnEvent({"request":request,'column':column,'listGrid':listGrid,'entity':entity}) %}
-                {% dump column %}
                 {% include event.getTemplate with  {
                     "request":request,'column':event.getData.column,'listGrid':listGrid,'entity':entity} %}
 
@@ -17,5 +16,13 @@
 
 
         </div>
+        {% if listGrid.config.delete_link.delete_link_allowed is defined
+            and listGrid.config.delete_link.delete_link_allowed ==true %}
+            <div class="col-3">
+                {% include '@SilecustWebShop/admin/customer/ui/panel/section/content/grid/column/action/delete_link.html.twig' with {
+                    "request":request,'listGrid':listGrid,'entity':entity} %}
+
+            </div>
+        {% endif %}
     </div>
 </div>

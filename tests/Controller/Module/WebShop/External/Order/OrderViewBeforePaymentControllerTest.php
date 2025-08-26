@@ -48,10 +48,10 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOpenOrderFixtures($this->customer);
-        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderShippingFixture($this->openOrderHeader);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->product1, $this->product2);
+        $this->createOrderShippingFixture($this->openOrderHeaderA);
         
         $uri = '/checkout/order/view';
 
@@ -59,7 +59,7 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
             ->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->visit($uri)
             ->assertSee(4930);

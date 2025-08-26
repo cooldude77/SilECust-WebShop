@@ -1,11 +1,11 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Payment;
 
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderJournal;
 use Silecust\WebShop\Entity\OrderPayment;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -54,16 +54,16 @@ class PaymentControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
-        $this->createOpenOrderFixtures($this->customer);
-        $this->createOrderItemsFixture($this->openOrderHeader, $this->productA, $this->productB);
-        $this->createOrderShippingFixture($this->openOrderHeader);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
+        $this->createOrderFixturesA($this->customerA);
+        $this->createOpenOrderItemsFixtureA($this->openOrderHeaderA, $this->product1, $this->product2);
+        $this->createOrderShippingFixture($this->openOrderHeaderA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/start";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/start";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             // start from here because shipping call is triggered here and shipping costs are added here
             ->visit('/checkout/order/view')
@@ -76,13 +76,13 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixturesA($this->customerA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/success";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/success";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->interceptRedirects()
@@ -95,27 +95,27 @@ class PaymentControllerTest extends WebTestCase
                             ]
                     ]
                 ])
-            ->assertRedirectedTo("/order/{$this->openOrderHeader->getGeneratedId()}/success", 1)
+            ->assertRedirectedTo("/order/{$this->openOrderHeaderA->getGeneratedId()}/success", 1)
             ->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
                 // check cart is emptied
                 self::assertNull(
-                    $this->session->get(CartSessionProductService::CART_SESSION_KEY)
+                    $this->session->get(CartProductManager::CART_SESSION_KEY)
                 );
 
             });
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
-            OrderHeader::class, ['id' => $this->openOrderHeader->getId()]
+            OrderHeader::class, ['id' => $this->openOrderHeaderA->getId()]
         );
         self::assertEquals(
             OrderStatusTypes::ORDER_PAYMENT_COMPLETE,
             $header->getOrderStatusType()->getType()
         );
 
-        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
 
         $this->assertNotNull($journal);
     }
@@ -124,13 +124,13 @@ class PaymentControllerTest extends WebTestCase
     {
         $this->createCustomerFixtures();
         $this->createLocationFixtures();
-        $this->createOpenOrderFixtures($this->customer);
+        $this->createOrderFixturesA($this->customerA);
 
-        $uri = "/payment/order/{$this->openOrderHeader->getGeneratedId()}/failure";
+        $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/failure";
 
         $this->browser()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->post($uri,
@@ -146,14 +146,14 @@ class PaymentControllerTest extends WebTestCase
 
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
-            OrderHeader::class, ['id' => $this->openOrderHeader->object()]
+            OrderHeader::class, ['id' => $this->openOrderHeaderA->object()]
         );
         self::assertEquals(
             OrderStatusTypes::ORDER_PAYMENT_FAILED,
             $header->getOrderStatusType()->getType()
         );
 
-        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeader->object()]);
+        $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
 
         $this->assertNotNull($journal);
     }

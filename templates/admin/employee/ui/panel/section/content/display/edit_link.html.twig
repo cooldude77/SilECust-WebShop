@@ -1,19 +1,25 @@
-{% if app.environment == 'dev' %}
-    {{ dump(params) }}
-{% endif %}
-{% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
-{% set function =  app.request.get('_function') %}
-{% set  id = app.request.get('id') %}
-{% set after =  path(context_route,
-    {
-        '_function':function,
-        '_type':'display',
-        'id':id}) %}
+{#  Edit Link template for link generate in display template for the entity #}
 
-<a href="{{ path(context_route,
-    {
-        '_function': function,
-        '_type':'edit',
-        'id':id,
-        '_redirect_upon_success_url': after
-    }) }}" id="{{ params.link_id ~"-edit-"~id }}" class="btn btn-secondary"><i class="bi bi-pencil pe-2"></i>Edit </a>
+{% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+
+{% set function =  request.get('_function') %}
+
+{% if params.config.edit_link.use_entity_field_as_id is defined %}
+        {% set id_field  = params.config.edit_link.use_entity_field_as_id %}
+{% else %}
+        {% set id_field = 'id' %}
+{% endif %}
+{# Any other field than id? Default is id #}
+{% set id_field_value_array = {(id_field): attribute(entity,id_field) } %}
+
+
+{% set redirect_to_link =  path(context_route,{
+        '_function':function,
+        '_type':'display'}
+        | merge (id_field_value_array)) %}
+
+<a href="{{ path(context_route,{'_function': function,'_type':'edit'}
+        | merge (id_field_value_array)
+        | merge ({'_redirect_upon_success_url': redirect_to_link})
+) }}" id="{{ params.link_id ~"-edit" }}"
+   class="btn btn-secondary"><i class="bi bi-pencil pe-2"></i>Edit </a>

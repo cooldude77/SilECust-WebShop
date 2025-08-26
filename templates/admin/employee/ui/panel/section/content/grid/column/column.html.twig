@@ -10,10 +10,13 @@
     {% endif %}
 
 {% else %}
-    {% if column.value is defined %}
+    {% if column.type is defined and column.type == 'icon' %}
+        {% if column.value == true %}
+            <i class="bi bi-check"></i>
+        {% endif %}
+    {% elseif column.value is defined %}
         {{ column.value }}
     {% else %}
         {{ attribute(entity, column.propertyName) }}
     {% endif %}
-
 {% endif %}

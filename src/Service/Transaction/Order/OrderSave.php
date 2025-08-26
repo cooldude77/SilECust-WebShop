@@ -22,7 +22,7 @@ use Silecust\WebShop\Repository\OrderStatusRepository;
 use Silecust\WebShop\Repository\OrderStatusTypeRepository;
 use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
 use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -102,7 +102,7 @@ readonly class OrderSave
 
         /**
          * @var   int $key
-         * @var  CartSessionObject $cartObject
+         * @var  CartItem $cartObject
          */
         foreach ($cartArray as $key => $cartObject) /** @var OrderItem $orderItem */ {
             foreach ($orderItems as $orderItem) {
@@ -260,7 +260,8 @@ readonly class OrderSave
 
     /**
      * @param OrderHeader $orderHeader
-     * @param array $data
+     * @param float $value
+     * @param array $shippingConditions
      * @param OrderShipping|null $orderShipping
      * @return void
      */

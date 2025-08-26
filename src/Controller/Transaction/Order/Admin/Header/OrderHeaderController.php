@@ -4,18 +4,20 @@ namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Header;
 
 // ...
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Event\Component\Database\ListQueryEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayParamPropertyEvent;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
-use Silecust\WebShop\Event\Transaction\Order\Header\OrderHeaderChangedEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
+use Silecust\WebShop\Event\Transaction\Order\Header\BeforeOrderHeaderChangedEvent;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OpenOrderEditedInAdminPanel;
 use Silecust\WebShop\Exception\Transaction\Order\Admin\Header\OrderHeaderNotFound;
 use Silecust\WebShop\Form\Transaction\Order\Header\DTO\OrderHeaderDTO;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderCreateForm;
 use Silecust\WebShop\Form\Transaction\Order\Header\OrderHeaderEditForm;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
+use Silecust\WebShop\Security\Voter\VoterConstants;
 use Silecust\WebShop\Service\Transaction\Order\Admin\Header\OrderStatusValidator;
 use Silecust\WebShop\Service\Transaction\Order\Mapper\Components\OrderHeaderDTOMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,7 +28,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class OrderHeaderController extends EnhancedAbstractController
 {
     // Right now no creation from panel
-    // #[Route('/admin/order/create', name: 'sc_admin_route_order_create')]
+    // #[Route('/admin/order/create', name: 'sc_admin_order_create')]
     public function createOrderHeader(
         EntityManagerInterface $entityManager,
         OrderHeaderDTOMapper   $orderHeaderMapper,
@@ -75,8 +77,9 @@ class OrderHeaderController extends EnhancedAbstractController
      * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
-    #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_route_order_edit')]
+    #[Route('/admin/order/{generatedId}/edit', name: 'sc_admin_order_edit')]
     public function edit(
         string                   $generatedId,
         OrderHeaderDTOMapper     $mapper,
@@ -88,34 +91,50 @@ class OrderHeaderController extends EnhancedAbstractController
     ): Response
     {
 
+        $this->setContentHeading($request, "Edit Order $generatedId");
         try {
+            /** @var \Silecust\WebShop\Entity\OrderHeader $orderHeader */
             $orderHeader = $orderHeaderRepository->findOneBy(['generatedId' => $generatedId]);
+
+            $this->denyAccessUnlessGranted(VoterConstants::EDIT, $orderHeader);
+
 
             if ($orderHeader == null)
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
+
+
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
-            $orderHeaderDTO = new OrderHeaderDTO();
-            $orderHeaderDTO->id = $orderHeader->getId();
+            $orderHeaderDTO = $mapper->mapEntityToDtoForEdit($orderHeader);
 
-            $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO);
+            $form = $this->createForm(OrderHeaderEditForm::class, $orderHeaderDTO, ['statusType' => $orderHeader->getOrderStatusType()]);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $entityManager->beginTransaction();
 
-                $orderHeader = $mapper->mapDtoToEntityForEdit(
-                    $form->getData()
-                );
 
-                $entityManager->persist($orderHeader);
-                $entityManager->flush();
+                    /** @var OrderHeaderDTO $orderHeaderDTO */
+                    $orderHeaderDTO = $form->getData();
 
-                $eventDispatcher->dispatch(new OrderHeaderChangedEvent($orderHeader), OrderHeaderChangedEvent::EVENT_NAME);
+                    $event = new BeforeOrderHeaderChangedEvent();
+                    $event->setOrderHeader($orderHeader);
+                    $event->setRequestData(json_decode(json_encode($orderHeaderDTO), true));
 
-                $this->addFlash(
-                    'success', "Order updated successfully"
-                );
+                    $eventDispatcher->dispatch($event, BeforeOrderHeaderChangedEvent::EVENT_NAME);
+
+                    $mapper->mapDtoToEntityForEdit($orderHeaderDTO);
+
+                    $entityManager->flush();
+                    $entityManager->commit();
+
+                } catch (Exception $exception) {
+                    $entityManager->rollback();
+                    throw $exception;
+                }
+                $this->addFlash('success', "Order updated successfully");
 
                 return new Response(
                     serialize(
@@ -133,7 +152,7 @@ class OrderHeaderController extends EnhancedAbstractController
 
     }
 
-    #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_route_order_display')]
+    #[Route('/admin/order/{generatedId}/display', name: 'sc_admin_order_display')]
     public function display(
         string                   $generatedId,
         EventDispatcherInterface $eventDispatcher,
@@ -149,6 +168,7 @@ class OrderHeaderController extends EnhancedAbstractController
                 throw  new OrderHeaderNotFound(['generatedId' => $generatedId]);
             $orderStatusValidator->checkOrderStatus($orderHeader, 'edit');
 
+            $this->denyAccessUnlessGranted(VoterConstants::DISPLAY, $orderHeader);
             // NOTE: This grid can be called as a subsection to main screen
             $displayParamsEvent = $eventDispatcher->dispatch(
                 new DisplayParamPropertyEvent($request), DisplayParamPropertyEvent::EVENT_NAME);
@@ -168,16 +188,16 @@ class OrderHeaderController extends EnhancedAbstractController
         }
     }
 
-    #[Route('/admin/order/list', name: 'sc_admin_route_order_list')]
+    #[Route('/admin/order/list', name: 'sc_admin_order_list')]
     public function list(
         PaginatorInterface       $paginator,
         EventDispatcherInterface $eventDispatcher,
         Request                  $request
     ): Response
     {
-        /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request),
-            GridPropertyEvent::EVENT_NAME
+        /** @var GridPropertySetEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertySetEvent($request),
+            GridPropertySetEvent::EVENT_NAME
         );
 
         $listGrid = $listEvent->getListGridProperties();

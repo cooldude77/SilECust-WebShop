@@ -57,7 +57,7 @@ class ProductControllerTest extends WebTestCase
                 $this->addOption(
                     $browser,
                     'select[name="product_create_form[category]"]',
-                    $this->categoryA->getId()
+                    $this->category1->getId()
                 );
             })
             ->fillField('product_create_form[name]', 'Prod1')
@@ -82,7 +82,7 @@ class ProductControllerTest extends WebTestCase
     {
 
         $this->createProductFixtures();
-        $uri = "/admin/product/{$this->productA->getId()}/edit";
+        $uri = "/admin/product/{$this->product1->getId()}/edit";
 
         $visit = $this->browser()
             ->visit($uri)
@@ -96,21 +96,21 @@ class ProductControllerTest extends WebTestCase
                 $this->addOption(
                     $browser,
                     'select[name="product_edit_form[category]"]',
-                    $this->categoryB->getId()
+                    $this->category2->getId()
                 );
             })
             ->fillField('product_edit_form[name]', 'Prod11')
             ->fillField('product_edit_form[description]', 'Product 11')
-            ->fillField('product_edit_form[category]', $this->categoryB->getId())
+            ->fillField('product_edit_form[category]', $this->category2->getId())
             ->uncheckField('product_edit_form[isActive]')
             ->click('Save')
             ->assertSuccessful();
 
-        $edited = ProductFactory::find($this->productA->getId());
+        $edited = ProductFactory::find($this->product1->getId());
 
         $this->assertEquals("Prod11", $edited->getName());
         $this->assertEquals("Product 11", $edited->getDescription());
-        $this->assertEquals($this->categoryB->getId(), $edited->getCategory()->getId());
+        $this->assertEquals($this->category2->getId(), $edited->getCategory()->getId());
         $this->assertFalse($edited->isIsActive());
 
     }
@@ -156,7 +156,7 @@ class ProductControllerTest extends WebTestCase
     {
 
         $this->createProductFixtures();
-        $uri = "/admin/product/list?searchTerm={$this->productA->getName()}";
+        $uri = "/admin/product/list?searchTerm={$this->product1->getName()}";
         $this
             ->browser()
             ->visit($uri)
@@ -165,8 +165,8 @@ class ProductControllerTest extends WebTestCase
                 $browser->client()->loginUser($this->userForEmployee->object());
             })
             ->visit($uri)
-            ->assertSee($this->productA->getName())
-            ->assertNotSee($this->productB->getName())
+            ->assertSee($this->product1->getName())
+            ->assertNotSee($this->product2->getName())
             ->assertSuccessful();
 
     }

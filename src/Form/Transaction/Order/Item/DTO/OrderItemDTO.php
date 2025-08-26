@@ -13,4 +13,6 @@ class OrderItemDTO
 
     public ?int $quantity = 0;
 
+    public ?string $changeNote = null;
+
 }

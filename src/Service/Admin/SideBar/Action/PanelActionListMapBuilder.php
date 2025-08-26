@@ -10,7 +10,7 @@ class PanelActionListMapBuilder
     private PanelActionListMap $actionListMap;
 
     /**
-     * function - product/customer / webshop etc
+     * function - product/customer / web shop etc.
      * route -> route names related to processes of a function
      */
     public function build(): PanelActionListMapBuilder
@@ -95,7 +95,8 @@ class PanelActionListMapBuilder
                             'create' => 'sc_admin_customer_address_create',
                             'edit' => 'sc_admin_customer_address_edit',
                             'display' => 'sc_admin_customer_address_display',
-                            'list' => 'sc_admin_customer_address_list'
+                            'list' => 'sc_admin_customer_address_list',
+                            'delete' => 'sc_admin_customer_address_delete'
                         ]
                     ],
                     'employee' => [
@@ -148,18 +149,18 @@ class PanelActionListMapBuilder
                     ],
                     'order' => [
                         'routes' => [
-                            'create' => 'sc_admin_route_order_create',
-                            'edit' => 'sc_admin_route_order_edit',
-                            'display' => 'sc_admin_route_order_display',
-                            'list' => 'sc_admin_route_order_list'
+                            'create' => 'sc_admin_order_create',
+                            'edit' => 'sc_admin_order_edit',
+                            'display' => 'sc_admin_order_display',
+                            'list' => 'sc_admin_order_list'
                         ]
                     ],
                     'order_item' => [
                         'routes' => [
-                            'create' => 'sc_admin_route_order_item_create',
-                            'edit' => 'sc_admin_route_order_item_edit',
-                            'display' => 'sc_admin_route_order_item_display',
-                            'list' => 'sc_admin_route_order_item_list'
+                            'create' => 'sc_admin_order_item_create',
+                            'edit' => 'sc_admin_order_item_edit',
+                            'display' => 'sc_admin_order_item_display',
+                            'list' => 'sc_admin_order_item_list'
                         ]
                     ],
                     'file' => [
@@ -219,6 +220,7 @@ class PanelActionListMapBuilder
 
     /**
      * @return PanelActionListMap
+     * @throws \Silecust\WebShop\Exception\Admin\SideBar\Action\EmptyActionListMapException
      */
     public function getPanelActionListMap(): PanelActionListMap
     {

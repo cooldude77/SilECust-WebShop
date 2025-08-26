@@ -158,6 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\PrePersist]
+    #[Ignore]
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -176,6 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\PreUpdate]
+    #[Ignore]
     public function setUpdatedInEvent(): void
     {
         $this->updatedAt = new \DateTimeImmutable();

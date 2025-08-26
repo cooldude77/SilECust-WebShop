@@ -44,10 +44,12 @@ class MainControllerTest extends WebTestCase
 
         $this->browser()
             ->use(function (SymfonyBrowser $kernelBrowser) {
-                $kernelBrowser->loginUser($this->userForCustomer->object());
+                $kernelBrowser->loginUser($this->userForCustomerA->object());
             })
             ->visit($uri)
             ->assertSuccessful()
+            // footer
+            ->assertSee('Copyright @Silecust')
             ->visit($uri)
             ->click('a#sidebar-link-my-order-list')
             ->assertSuccessful()
@@ -101,7 +103,7 @@ class MainControllerTest extends WebTestCase
         $this->browser()->visit($uri)
             ->assertNotAuthenticated()
             ->use(callback: function (Browser $browser) {
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->interceptRedirects()
             ->visit($uri)

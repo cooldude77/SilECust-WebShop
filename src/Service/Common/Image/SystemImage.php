@@ -23,4 +23,5 @@ readonly class SystemImage
     {
         return $this->projectDirectory . '/vendor/silecust/web-shop/src/System/Images/' . 'silecust_logo.png';
     }
+
 }

@@ -2,15 +2,16 @@
 
 namespace Silecust\WebShop\Event\Module\WebShop\External\Payment;
 
+use Silecust\WebShop\Entity\OrderHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PaymentFailureEvent extends Event
 {
 
-    public const string AFTER_PAYMENT_FAILURE = 'payment.post.failure';
+    public const string EVENT_NAME = 'payment.post.failure';
 
-    public function __construct(private readonly Request $request)
+    public function __construct(private readonly OrderHeader $orderHeader,private readonly Request $request)
     {
     }
 
@@ -18,6 +19,9 @@ class PaymentFailureEvent extends Event
     {
         return $this->request;
     }
-
+    public function getOrderHeader(): OrderHeader
+    {
+        return $this->orderHeader;
+    }
 
 }

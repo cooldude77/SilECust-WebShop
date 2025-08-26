@@ -49,6 +49,8 @@ class MainControllerTest extends WebTestCase
                 $kernelBrowser->loginUser($this->userForEmployee->object());
             })
             ->visit($uri)
+            // footer
+            ->assertSee('Copyright @Silecust')
             ->click('a#sidebar-link-category-list')
             ->assertSuccessful()
             ->assertOn('/admin', ['_function=category&_type=list'])
@@ -110,7 +112,7 @@ class MainControllerTest extends WebTestCase
 
         // authenticate before visit
         $this->browser()->use(function (Browser $browser) {
-            $browser->client()->loginUser($this->userForCustomer->object());
+            $browser->client()->loginUser($this->userForCustomerA->object());
         })
             ->interceptRedirects()
             ->visit($uri)

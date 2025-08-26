@@ -4,12 +4,13 @@ namespace Silecust\WebShop\Controller\Transaction\Order\Admin\Item;
 
 // ...
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertyEvent;
+use Silecust\WebShop\Event\Component\UI\Panel\List\GridPropertySetEvent;
 use Silecust\WebShop\Event\Component\UI\Panel\List\TopLevel\DisplayParametersEvent;
+use Silecust\WebShop\Event\Transaction\Order\Item\BeforeOrderItemChangedEvent;
 use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemAddEvent;
-use Silecust\WebShop\Event\Transaction\Order\Item\OrderItemEditEvent;
 use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use Silecust\WebShop\Form\Transaction\Order\Item\OrderItemCreateForm;
 use Silecust\WebShop\Form\Transaction\Order\Item\OrderItemEditForm;
@@ -23,12 +24,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OrderItemController extends EnhancedAbstractController
 {
-    #[Route('/order/{id}/item/create', name: 'sc_order_item_create')]
-    public function create(int                         $id, EntityManagerInterface $entityManager,
-                           OrderItemDTOMapper          $orderItemMapper,
-                           OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
-                           EventDispatcherInterface    $eventDispatcher,
-                           Request                     $request
+    /**
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound
+     */
+    #[Route('/admin/order/{id}/item/create', name: 'sc_admin_order_item_create')]
+    public function create(
+        int                         $id,
+        EntityManagerInterface      $entityManager,
+        OrderItemDTOMapper          $orderItemMapper,
+        OrderItemPaymentPriceMapper $orderItemPaymentPriceMapper,
+        EventDispatcherInterface    $eventDispatcher,
+        Request                     $request
     ): Response
     {
         $orderItemDTO = new OrderItemDTO();
@@ -71,7 +78,11 @@ class OrderItemController extends EnhancedAbstractController
         );
     }
 
-    #[Route('/order/item/{id}/edit', name: 'sc_order_item_edit')]
+    /**
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound
+     * @throws \Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound
+     */
+    #[Route('/admin/order/item/{id}/edit', name: 'sc_admin_order_item_edit')]
     public function edit(int                         $id,
                          OrderItemDTOMapper          $mapper,
                          EntityManagerInterface      $entityManager,
@@ -92,15 +103,27 @@ class OrderItemController extends EnhancedAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $orderItem = $mapper->mapDtoToEntityForEdit($form->getData());
+            try {
+                $entityManager->beginTransaction();
 
-            $orderItemPaymentPrice = $orderItemPaymentPriceMapper->mapToEntityForEdit($orderItem);
+                /** @var OrderItemDTO $orderItemDTOSubmit */
+                $orderItemDTOSubmit = $form->getData();
 
-            $entityManager->persist($orderItem);
-            $entityManager->persist($orderItemPaymentPrice);
+                $eventDispatcher->dispatch(new BeforeOrderItemChangedEvent($orderItem,
+                    json_decode(json_encode($orderItemDTOSubmit), true)),
+                    BeforeOrderItemChangedEvent::EVENT_NAME);
 
-            $entityManager->flush();
-            $eventDispatcher->dispatch(new OrderItemEditEvent($orderItem), OrderItemEditEvent::EVENT_NAME);
+                $mapper->mapDtoToEntityForEdit($orderItemDTO);
+
+                $orderItemPaymentPriceMapper->mapToEntityForEdit($orderItem);
+
+                $entityManager->flush();
+                $entityManager->commit();
+
+            } catch (Exception $exception) {
+                $entityManager->rollback();
+                throw $exception;
+            }
 
             $this->addFlash(
                 'success', "Order Item updated successfully"
@@ -113,12 +136,12 @@ class OrderItemController extends EnhancedAbstractController
             );
         }
 
-        return $this->render('@SilecustWebShop/transaction/order/item/order_item_edit.html.twig', ['form' => $form]);
+        return $this->render('@SilecustWebShop/transaction/admin/order/item/order_item_edit.html.twig', ['form' => $form]);
 
 
     }
 
-    #[Route('/order/item/{id}/display', name: 'sc_order_item_display')]
+    #[Route('/admin/order/item/{id}/display', name: 'sc_admin_order_item_display')]
     public function display(OrderItemRepository $OrderItemRepository, int $id, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $OrderItem = $OrderItemRepository->find($id);
@@ -135,11 +158,11 @@ class OrderItemController extends EnhancedAbstractController
 
         return $this->render(
             '@SilecustWebShop/transaction/admin/order/item/order_item_display.html.twig',
-            ['entity' => $OrderItem, 'request'=>$request,'params' => $displayParams]
+            ['entity' => $OrderItem, 'request' => $request, 'params' => $displayParams]
         );
     }
 
-    #[Route('/order/{id}/item/list', name: 'sc_order_item_list')]
+    #[Route('/admin/order/{id}/item/list', name: 'sc_admin_order_item_list')]
     public function list(int                      $id,
                          EventDispatcherInterface $eventDispatcher,
                          PaginatorInterface       $paginator,
@@ -149,9 +172,9 @@ class OrderItemController extends EnhancedAbstractController
     {
 
 
-        /** @var GridPropertyEvent $listEvent */
-        $listEvent = $eventDispatcher->dispatch(new GridPropertyEvent($request, ['id' => $id]),
-            GridPropertyEvent::EVENT_NAME
+        /** @var GridPropertySetEvent $listEvent */
+        $listEvent = $eventDispatcher->dispatch(new GridPropertySetEvent($request, ['id' => $id]),
+            GridPropertySetEvent::EVENT_NAME
         );
 
         $listGrid = $listEvent->getListGridProperties();

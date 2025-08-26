@@ -23,7 +23,7 @@ class MyProfilePageControllerTest extends WebTestCase
         $this->browser()
             ->use(function (KernelBrowser $browser) {
 
-                $browser->loginUser($this->userForCustomer->object());
+                $browser->loginUser($this->userForCustomerA->object());
             })
             ->visit($uri)
             ->assertSuccessful();

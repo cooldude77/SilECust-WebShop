@@ -2,10 +2,10 @@
 
 namespace Silecust\WebShop\Entity;
 
-use Silecust\WebShop\Repository\OrderHeaderRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Silecust\WebShop\Repository\OrderHeaderRepository;
 
 #[ORM\Entity(repositoryClass: OrderHeaderRepository::class)]
 class OrderHeader
@@ -20,7 +20,7 @@ class OrderHeader
     private ?Customer $customer = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateTimeOfOrder = null;
+    private ?DateTimeInterface $dateTimeOfOrder = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,6 +28,9 @@ class OrderHeader
 
     #[ORM\Column(length: 255)]
     private ?string $generatedId = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private mixed $customerInJson = null;
 
     public function getId(): ?int
     {
@@ -46,12 +49,12 @@ class OrderHeader
         return $this;
     }
 
-    public function getDateTimeOfOrder(): ?\DateTimeInterface
+    public function getDateTimeOfOrder(): ?DateTimeInterface
     {
         return $this->dateTimeOfOrder;
     }
 
-    public function setDateTimeOfOrder(\DateTimeInterface $dateTimeOfOrder): static
+    public function setDateTimeOfOrder(DateTimeInterface $dateTimeOfOrder): static
     {
         $this->dateTimeOfOrder = $dateTimeOfOrder;
 
@@ -78,6 +81,18 @@ class OrderHeader
     public function setGeneratedId(string $generatedId): static
     {
         $this->generatedId = $generatedId;
+
+        return $this;
+    }
+
+    public function getCustomerInJson(): mixed
+    {
+        return $this->customerInJson;
+    }
+
+    public function setCustomerInJson(mixed $customerInJson): static
+    {
+        $this->customerInJson = $customerInJson;
 
         return $this;
     }

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class FooterController extends EnhancedAbstractController
 {
 
-    public function header(Request $request): Response
+    public function footer(Request $request): Response
     {
         return $this->render(
             '@SilecustWebShop/module/web_shop/external/base/footer.html.twig'

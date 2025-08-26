@@ -7,7 +7,7 @@ use Silecust\WebShop\Form\Transaction\Order\Item\DTO\OrderItemDTO;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 use Silecust\WebShop\Repository\OrderItemRepository;
 use Silecust\WebShop\Repository\ProductRepository;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 
 /**
  *
@@ -15,7 +15,6 @@ use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionPro
 readonly class OrderItemDTOMapper
 {
     /**
-     * @param CartSessionProductService $cartSessionService
      * @param OrderItemRepository $orderItemRepository
      * @param OrderHeaderRepository $orderHeaderRepository
      * @param ProductRepository $productRepository

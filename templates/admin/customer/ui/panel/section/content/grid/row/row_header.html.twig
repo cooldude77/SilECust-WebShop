@@ -7,3 +7,9 @@
 <div class="col-3 px-2">
     {# for edit column #}
 </div>
+{% if listGrid.config.delete_link.delete_link_allowed is defined
+    and listGrid.config.delete_link.delete_link_allowed ==true %}
+    <div class="col-3 px-2">
+        {#  for delete link #}
+    </div>
+{% endif %}

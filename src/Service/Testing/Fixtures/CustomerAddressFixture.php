@@ -9,15 +9,16 @@ use Zenstruck\Foundry\Proxy;
 
 trait CustomerAddressFixture
 {
-    private Proxy|CustomerAddress $addressBilling;
-    private Proxy|CustomerAddress $addressShipping;
+    private Proxy|CustomerAddress $addressBillingA;
+    private Proxy|CustomerAddress $addressShippingA;
 
-    public function createCustomerAddress(Proxy|Customer $customer): void
+    public function createCustomerAddressA(Proxy|Customer $customer): void
     {
 
-        $this->addressBilling = CustomerAddressFactory::createOne(['customer' => $customer,
-                                                                   'addressType' => 'billing']);
-        $this->addressShipping = CustomerAddressFactory::createOne(['customer' => $customer,
-                                                                    'addressType' => 'shipping']);
+        $this->addressBillingA = CustomerAddressFactory::createOne(['customer' => $customer,
+            'addressType' => 'billing']);
+        $this->addressShippingA = CustomerAddressFactory::createOne(['customer' => $customer,
+            'addressType' => 'shipping']);
     }
+
 }

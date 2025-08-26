@@ -6,3 +6,21 @@
         '_type': listGrid.function is defined ? listGrid.function:request.get('_type')
     }
 ) }}
+        {% if listGrid.config.delete_link.delete_link_allowed is defined
+            and listGrid.config.delete_link.delete_link_allowed ==true %}
+
+            <script type="module">
+                $(document).ready(function () {
+
+                    $("[id^=id-delete-address]").click(function (e) {
+                        let retVal = confirm('Do you want to continue ?');
+                        if (retVal === false) {
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                        }
+
+                    });
+
+                });
+            </script>
+        {% endif %}

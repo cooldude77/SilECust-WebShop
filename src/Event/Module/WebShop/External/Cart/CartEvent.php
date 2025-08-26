@@ -8,14 +8,4 @@ use Symfony\Contracts\EventDispatcher\Event;
 class CartEvent extends Event
 {
 
-    public function __construct(private $customer)
-    {
-    }
-
-    public function getCustomer(): Customer
-    {
-        return $this->customer;
-    }
-
-
 }

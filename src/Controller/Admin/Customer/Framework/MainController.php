@@ -3,6 +3,11 @@
 namespace Silecust\WebShop\Controller\Admin\Customer\Framework;
 
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Admin\Customer\Framework\Components\ContentController;
+use Silecust\WebShop\Controller\Admin\Customer\Framework\Components\FooterController;
+use Silecust\WebShop\Controller\Admin\Customer\Framework\Components\HeadController;
+use Silecust\WebShop\Controller\Admin\Customer\Framework\Components\HeaderController;
+use Silecust\WebShop\Controller\Admin\Customer\Framework\Components\SideBarController;
 use Silecust\WebShop\Event\Admin\Customer\Framework\Head\PreHeadForwardingEvent;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelContentController;
 use Silecust\WebShop\Service\Component\UI\Panel\Components\PanelFooterController;
@@ -26,6 +31,7 @@ class MainController extends EnhancedAbstractController
 
     /**
      * @param RouterInterface $router
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      * @param Request $request
      * @return Response
      */
@@ -38,6 +44,7 @@ class MainController extends EnhancedAbstractController
     #[Route('/my/address/create', name: 'sc_my_address_create')]
     #[Route('/my/address/{id}/edit', name: 'sc_my_address_edit')]
     #[Route('/my/address/{id}/display', name: 'sc_my_address_display')]
+    #[Route('/my/address/{id}/delete', name: 'sc_my_address_delete')]
     #[Route('/my/orders/{generatedId}/display', name: 'sc_my_order_display')]
     #[Route('/my/orders/items/{id}/display', name: 'sc_my_order_item_display')]
     public function dashboard(RouterInterface $router, EventDispatcherInterface $eventDispatcher, Request $request): Response
@@ -75,7 +82,7 @@ class MainController extends EnhancedAbstractController
                     'addressCreate'
                 );
                 break;
-             case 'sc_my_address_display':
+            case 'sc_my_address_display':
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressDisplay'
@@ -85,6 +92,12 @@ class MainController extends EnhancedAbstractController
                 $session->set(
                     PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
                     'addressEdit'
+                );
+                break;
+            case 'sc_my_address_delete':
+                $session->set(
+                    PanelContentController::CONTENT_CONTROLLER_CLASS_METHOD_NAME,
+                    'addressDelete'
                 );
                 break;
             case 'sc_my_orders':
@@ -120,7 +133,8 @@ class MainController extends EnhancedAbstractController
 
     /**
      * @param SessionInterface $session
-     *
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return void
      */
     public function setSessionVariables(SessionInterface         $session,

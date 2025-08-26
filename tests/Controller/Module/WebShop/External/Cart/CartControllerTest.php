@@ -7,7 +7,7 @@ use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderItem;
 use Silecust\WebShop\Factory\OrderHeaderFactory;
 use Silecust\WebShop\Factory\OrderItemFactory;
-use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\CartSessionProductService;
+use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
@@ -34,13 +34,6 @@ class CartControllerTest extends WebTestCase
         CartFixture,
         SessionFactoryFixture, Factories;
 
-    protected function setUp(): void
-    {
-        $this->browser()->visit('/logout');
-
-
-    }
-
     public function testInCartProcesses()
     {
 
@@ -48,16 +41,16 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
         $clearCartUri = '/cart/clear';
 
-        $cartDeleteUri = "/cart/product/" . $this->productA->getId() . '/delete';
+        $cartDeleteUri = "/cart/product/" . $this->product1->getId() . '/delete';
 
         // Test : just visit cart
         $this->browser()
@@ -68,7 +61,7 @@ class CartControllerTest extends WebTestCase
             ->assertRedirectedTo('/login')
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
 
             // Test: Visit after login
@@ -76,11 +69,11 @@ class CartControllerTest extends WebTestCase
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
                 // Test : Cart got created
-                $this->assertNotNull($this->session->get(CartSessionProductService::CART_SESSION_KEY));
+                $this->assertNotNull($this->session->get(CartProductManager::CART_SESSION_KEY));
 
                 /** @var OrderHeader $order */
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 // Previously:
@@ -98,7 +91,7 @@ class CartControllerTest extends WebTestCase
             //Test :  add products to cart
             ->interceptRedirects()
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
@@ -108,16 +101,16 @@ class CartControllerTest extends WebTestCase
 
                 // Now: Order is created when cart is loaded
                 // Test : An order got created
-               // $order = $this->findOneBy(
-                 //   OrderHeader::class, ['customer' => $this->customer->object()]
+                // $order = $this->findOneBy(
+                //   OrderHeader::class, ['customer' => $this->customerA->object()]
                 //);
-               // self::assertNotNull($order);
+                // self::assertNotNull($order);
 
-               // $this->assertNotNull($order->getGeneratedId());
-                $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customer->object()]);
+                // $this->assertNotNull($order->getGeneratedId());
+                $order = $this->findOneBy(OrderHeader::class, ['customer' => $this->customerA->object()]);
                 // item got created
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
 
                 self::assertNotNull($item);
@@ -125,7 +118,7 @@ class CartControllerTest extends WebTestCase
 
             // Test : add another product
             ->visit($uriAddProductB)
-            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product2->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
@@ -134,11 +127,11 @@ class CartControllerTest extends WebTestCase
 
                 // Test : An order got created
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 $item = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
 
                 $this->assertNotNull($item);
@@ -158,27 +151,27 @@ class CartControllerTest extends WebTestCase
             ->use(function (\Zenstruck\Browser $browser) {
 
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+                $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
-                $this->assertEquals(4, $cart[$this->productA->getId()]->quantity);
-                $this->assertEquals(6, $cart[$this->productB->getId()]->quantity);
+                $this->assertEquals(4, $cart[$this->product1->getId()]->quantity);
+                $this->assertEquals(6, $cart[$this->product2->getId()]->quantity);
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 // Test : An order got created
                 self::assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
 
                 // Test : Order has right quantities
                 $this->assertEquals(4, $itemA->getQuantity());
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
                 // Test : Order has right quantities
                 $this->assertEquals(6, $itemB->getQuantity());
@@ -187,35 +180,36 @@ class CartControllerTest extends WebTestCase
 
 
             // Test: item delete from cart
+            ->interceptRedirects()
             ->visit($cartDeleteUri)
             ->use(function (\Zenstruck\Browser $browser) {
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+                $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Product is removed from cart
-                $this->assertTrue(empty($cart[$this->productA->getId()]));
+                $this->assertTrue(empty($cart[$this->product1->getId()]));
 
                 // Test : Other product still exists
-                $this->assertTrue(isset($cart[$this->productB->getId()]));
+                $this->assertTrue(isset($cart[$this->product2->getId()]));
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
 
                 $this->assertNotNull($order);
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
                 // Test : Item A got removed
                 $this->assertNull($itemA);
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
                 // Test: Item B is still there
                 $this->assertNotNull($itemB);
 
             })
-
+            ->assertRedirectedTo($cartUri)
             // Test: clear cart
             ->interceptRedirects()
             ->visit($cartUri)
@@ -224,18 +218,18 @@ class CartControllerTest extends WebTestCase
                 $session = $browser->client()->getRequest()->getSession();
 
                 // Test: Cart is cleared
-                $this->assertNull($session->get(CartSessionProductService::CART_SESSION_KEY));
+                $this->assertNull($session->get(CartProductManager::CART_SESSION_KEY));
 
                 $order = $this->findOneBy(
-                    OrderHeader::class, ['customer' => $this->customer->object()]
+                    OrderHeader::class, ['customer' => $this->customerA->object()]
                 );
                 $itemA = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productA->object()]
+                        'product' => $this->product1->object()]
                 );
                 $this->assertNull($itemA);
 
                 $itemB = $this->findOneBy(OrderItem::class, ['orderHeader' => $order,
-                        'product' => $this->productB->object()]
+                        'product' => $this->product2->object()]
                 );
 
                 $this->assertNull($itemB);
@@ -253,12 +247,12 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
 
         // Test : just visit cart
@@ -266,19 +260,19 @@ class CartControllerTest extends WebTestCase
             // todo: don't allow cart when user is not logged in
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->visit($cartUri)
             //Test :  add products to cart
             ->visit($uriAddProductA)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
             ->click('button[name="addToCart"]')
             ->assertSuccessful()
             ->visit($uriAddProductB)
-            ->fillField('cart_add_product_single_form[productId]', $this->productB->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product2->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 2
             )
@@ -290,9 +284,9 @@ class CartControllerTest extends WebTestCase
 
         $this->browser()->visit('/login')
             ->fillField(
-                '_username', $this->loginForCustomerInString
+                '_username', $this->loginForCustomerAInString
             )->fillField(
-                '_password', $this->passwordForCustomerInString
+                '_password', $this->passwordForCustomerAInString
             )
             ->click('login')
             ->followRedirects()
@@ -300,11 +294,11 @@ class CartControllerTest extends WebTestCase
             ->use(function (\Zenstruck\Browser $browser) {
 
                 $session = $browser->client()->getRequest()->getSession();
-                $cart = $session->get(CartSessionProductService::CART_SESSION_KEY);
+                $cart = $session->get(CartProductManager::CART_SESSION_KEY);
 
                 // Test: Cart has right items and quantities
-                $this->assertEquals(1, $cart[$this->productA->getId()]->quantity);
-                $this->assertEquals(2, $cart[$this->productB->getId()]->quantity);
+                $this->assertEquals(1, $cart[$this->product1->getId()]->quantity);
+                $this->assertEquals(2, $cart[$this->product2->getId()]->quantity);
 
             });
 
@@ -318,24 +312,24 @@ class CartControllerTest extends WebTestCase
         $this->createProductFixtures();
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
         $cartUri = '/cart';
 
-        $uriAddProductA = "/cart/product/" . $this->productA->getId() . '/add';
-        $uriAddProductB = "/cart/product/" . $this->productB->getId() . '/add';
+        $uriAddProductA = "/cart/product/" . $this->product1->getId() . '/add';
+        $uriAddProductB = "/cart/product/" . $this->product2->getId() . '/add';
 
         $browser = $this->browser()
             ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
 
             })
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
                 $this->createSessionKey($this->session);
-                $this->addProductToCart($this->session, $this->productA->object(), 10);
+                $this->addProductToCart($this->session, $this->product1->object(), 10);
             });
 
         $browser->visit($cartUri)
@@ -352,9 +346,9 @@ class CartControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createCurrencyFixtures($this->country);
         $this->createProductFixtures();
-        $this->createPriceFixtures($this->productA, $this->productB, $this->currency);
+        $this->createPriceFixtures($this->product1, $this->product2, $this->currency);
 
-        $uri = "/cart/product/" . $this->productA->getId() . '/add';
+        $uri = "/cart/product/" . $this->product1->getId() . '/add';
 
 
         $browser = $this
@@ -362,14 +356,14 @@ class CartControllerTest extends WebTestCase
             ->visit('/') // just to start the session
             ->use(function (Browser $browser) {
                 // log in User
-                $browser->client()->loginUser($this->userForCustomer->object());
+                $browser->client()->loginUser($this->userForCustomerA->object());
             })
             ->use(function (KernelBrowser $browser) {
                 $this->createSession($browser);
                 $this->createSessionKey($this->session);
             })
             ->visit($uri)
-            ->fillField('cart_add_product_single_form[productId]', $this->productA->getId())
+            ->fillField('cart_add_product_single_form[productId]', $this->product1->getId())
             ->fillField(
                 'cart_add_product_single_form[quantity]', 1
             )
@@ -377,13 +371,20 @@ class CartControllerTest extends WebTestCase
             ->assertSuccessful()
             ->use(function (\Zenstruck\Browser $browser) {
 
-                $orderHeader = OrderHeaderFactory::find(['customer' => $this->customer]);
+                $orderHeader = OrderHeaderFactory::find(['customer' => $this->customerA]);
                 $orderItems = OrderItemFactory::findBy(['orderHeader' => $orderHeader]);
                 // check product searlized
                 self::assertNotEmpty($orderItems[0]->getProductInJson());
                 self::assertJson($orderItems[0]->getProductInJson());
 
             });;
+
+    }
+
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
 
     }
 }

@@ -1,6 +1,12 @@
 {% include '@SilecustWebShop/admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
-{{
-render(controller(  'Silecust\\WebShop\\Controller\\Location\\StateController::list',
-    {'id':attribute(entity,'id'),'request':app.request}))
-}}
+<div>
+    <h2>States </h2>
+    <a
+            href="{{ path('sc_admin_panel',{
+                '_function':'state',
+                '_type':'list',
+                'id':request.get('id')
+            })
+            }}"> view ...</a>
+</div>
 

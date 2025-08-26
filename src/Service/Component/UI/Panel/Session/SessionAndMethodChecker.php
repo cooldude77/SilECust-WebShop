@@ -14,19 +14,19 @@ readonly class SessionAndMethodChecker
 
     public function checkSessionVariablesAndMethod(string $className, string $methodName): bool
     {
-        $a = $this->requestStack->getSession()->get($className) != null;
+        $classQualifierInSession = $this->requestStack->getSession()->get($className);
 
-        $b = $this->requestStack->getSession()->get($methodName) != null;
+        $methodQualifierInSession = $this->requestStack->getSession()->get($methodName);
 
         // return if they don't exist in session
-        if (!($a || $b)) {
+        if (!($classQualifierInSession != null || $methodQualifierInSession != null)) {
             return false;
         }
 
         // check if they exist in code
         return method_exists(
-            $this->requestStack->getSession()->get($className),
-            $this->requestStack->getSession()->get($methodName)
+            $classQualifierInSession,
+            $methodQualifierInSession
         );
     }
 }

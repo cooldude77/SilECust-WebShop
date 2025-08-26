@@ -38,14 +38,14 @@ readonly class OrderItemPaymentPriceMapper
      */
     public function mapToEntityForEdit(OrderItem $orderItem): OrderItemPaymentPrice
     {
-        $priceObjectEntity = $this->orderItemPaymentPriceRepository->find($orderItem->getId());
+        $orderItemPaymentPriceEntity = $this->orderItemPaymentPriceRepository->findOneBy(['orderItem' => $orderItem] );
 
         $priceObject = $this->priceCalculator->getPriceObject($orderItem);
 
-        $priceObjectEntity->setBasePrice($priceObject->getBasePriceAmount());
-        $priceObjectEntity->setDiscount($priceObject->getDiscountAmount());
-        $priceObjectEntity->setRateOfTax($priceObject->getTaxRatePercentage());
+        $orderItemPaymentPriceEntity->setBasePrice($priceObject->getBasePriceAmount());
+        $orderItemPaymentPriceEntity->setDiscount($priceObject->getDiscountAmount());
+        $orderItemPaymentPriceEntity->setTaxRate($priceObject->getTaxRatePercentage());
 
-        return $priceObjectEntity;
+        return $orderItemPaymentPriceEntity;
     }
 }

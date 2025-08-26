@@ -16,10 +16,10 @@ class CustomerCreateCommandTest extends KernelTestCase
     public function testCreateSampleCustomer()
     {
         $this->executeConsoleCommand('silecust:customer:sample:create', [
-            $this->customerEmailInString,
-            $this->firstNameInString,
-            $this->lastNameInString,
-            $this->passwordForCustomerInString
+            $this->customerEmailInStringForCustomerA,
+            $this->firstNameInStringForCustomerA,
+            $this->lastNameInStringForCustomerA,
+            $this->passwordForCustomerAInString
         ])
             ->assertSuccessful(); // command exit code is 0
         $uri = '/login';
@@ -29,9 +29,9 @@ class CustomerCreateCommandTest extends KernelTestCase
             ->visit($uri)
             // test: fill correct cred
             ->fillField(
-                '_username', $this->customerEmailInString
+                '_username', $this->customerEmailInStringForCustomerA
             )->fillField(
-                '_password', $this->passwordForCustomerInString
+                '_password', $this->passwordForCustomerAInString
             )
             ->interceptRedirects()
             ->click('login')

@@ -2,16 +2,15 @@
 
 namespace Silecust\WebShop\Controller\Module\WebShop\External\Payment;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Entity\OrderPayment;
-use Silecust\WebShop\Event\Component\UI\Twig\BeforeTwigRenderInController;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentFailureEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentStartEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentSuccessEvent;
 use Silecust\WebShop\Event\Module\WebShop\External\Payment\PaymentValidationEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
-use Silecust\WebShop\Exception\Module\WebShop\External\Payment\PaymentInfoNotFound;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -38,32 +37,39 @@ class PaymentController extends EnhancedAbstractController
         EventDispatcherInterface $eventDispatcher,
         OrderRead                $orderRead,
         Request                  $request,
+        EntityManagerInterface   $entityManager,
         HeaderPriceCalculator    $headerPriceCalculator): Response
     {
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
+        try {
+            $entityManager->beginTransaction();
 
-        // set your id for validation later in this event
-        $event = new PaymentStartEvent($orderHeader);
-        $eventDispatcher->dispatch($event, PaymentStartEvent::BEFORE_PAYMENT_PROCESS);
+            // set your id for validation later in this event
+            $event = new PaymentStartEvent($orderHeader);
+            $eventDispatcher->dispatch($event, PaymentStartEvent::BEFORE_PAYMENT_PROCESS);
 
+            $entityManager->flush();
+            $entityManager->commit();
+
+        } catch (Exception $exception) {
+            $entityManager->rollback();
+            throw $exception;
+        }
         //todo: order object validator
         $finalPrice = $headerPriceCalculator->calculateOrderValue($orderHeader);
 
-        //todo: tests pending for events
-        $event = new BeforeTwigRenderInController($request);
-        $eventDispatcher->dispatch($event, BeforeTwigRenderInController::BEFORE_TWIG_RENDER);
-
-        return $event->getView() == null ?
-            $this->render('@SilecustWebShop/module/web_shop/external/payment/start.html.twig',
-                ['finalPrice' => $finalPrice, 'orderHeader' => $orderHeader]) :
-            $this->render($event->getView());
-
+        return $this->render('@SilecustWebShop/module/web_shop/external/payment/start.html.twig',
+            ['finalPrice' => $finalPrice, 'orderHeader' => $orderHeader]);
     }
 
 
     /**
-     * @throws PaymentInfoNotFound
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * @param string $generatedId
+     * @param \Silecust\WebShop\Service\Transaction\Order\OrderRead $orderRead
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route('/payment/order/{generatedId}/success', name: 'sc_web_shop_payment_success')]
     public function onPaymentSuccess(
@@ -71,31 +77,44 @@ class PaymentController extends EnhancedAbstractController
         string                   $generatedId,
         OrderRead                $orderRead,
         Request                  $request,
+        EntityManagerInterface   $entityManager,
+
     ): Response
     {
 
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
 
-        // This method should throw exception in case payment details are not validated
-        // The custom event handler must issue stopPropagation as early as possible
-        $event = new PaymentValidationEvent($orderHeader, $request);
-        $eventDispatcher->dispatch($event, PaymentValidationEvent::ON_PAYMENT_VALIDATION);
+        try {
+            $entityManager->beginTransaction();
 
-        if ($event->isPropagationStopped()) {
-            return new Response('There was an error in payment', 403);
-        } else {
+            // This method should throw exception in case payment details are not validated
+            // The custom event handler must issue stopPropagation as early as possible
+            $event = new PaymentValidationEvent($orderHeader, $request);
+            $eventDispatcher->dispatch($event, PaymentValidationEvent::ON_PAYMENT_VALIDATION);
 
-            $event = new PaymentSuccessEvent($request);
-            $eventDispatcher->dispatch($event, PaymentSuccessEvent::EVENT_NAME);
+            if ($event->isPropagationStopped()) {
+                return new Response('There was an error in payment', 403);
+            } else {
 
-            $this->addFlash('success', 'Your payment was successful');
-            $this->addFlash('success', 'Your order was created and is in under process');
+                $event = new PaymentSuccessEvent($orderHeader, $request);
+                $eventDispatcher->dispatch($event, PaymentSuccessEvent::EVENT_NAME);
 
-            return $this->redirectToRoute('sc_module_web_shop_order_complete_details',
-                ['generatedId' => $orderHeader->getGeneratedId()]);
+                $entityManager->flush();
+                $entityManager->commit();
+            }
+        } catch (Exception $exception) {
+            $entityManager->rollback();
+            throw $exception;
         }
+
+        $this->addFlash('success', 'Your payment was successful');
+        $this->addFlash('success', 'Your order was created and is in under process');
+
+        return $this->redirectToRoute('sc_module_web_shop_order_complete_details',
+            ['generatedId' => $orderHeader->getGeneratedId()]);
     }
+
 
     /**
      * @param string $generatedId
@@ -107,21 +126,35 @@ class PaymentController extends EnhancedAbstractController
      * // This method should throw exception in case payment details are not validated
      * // The custom event handler must issue stopPropagation as early as possible
      */
-    #[Route('/payment/order/{generatedId}/failure', 'web_shop_payment_failure')]
+    #[
+        Route('/payment/order/{generatedId}/failure', 'web_shop_payment_failure')]
     public function onPaymentFailure(
         string                   $generatedId,
         OrderRead                $orderRead,
         EventDispatcherInterface $eventDispatcher,
         Request                  $request,
+        EntityManagerInterface   $entityManager,
+
     ): Response
     {
 
         $orderHeader = $orderRead->getOrderByGeneratedId($generatedId);
+        try {
+            $entityManager->beginTransaction();
 
-        // This method should throw exception in case payment details are not validated
-        // The custom event handler must issue stopPropagation as early as possible
-        $event = new PaymentFailureEvent($request);
-        $eventDispatcher->dispatch($event, PaymentFailureEvent::AFTER_PAYMENT_FAILURE);
+            // This method should throw exception in case payment details are not validated
+            // The custom event handler must issue stopPropagation as early as possible
+            $event = new PaymentFailureEvent($orderHeader, $request);
+            $eventDispatcher->dispatch($event, PaymentFailureEvent::EVENT_NAME);
+
+
+            $entityManager->flush();
+            $entityManager->commit();
+
+        } catch (Exception $exception) {
+            $entityManager->rollback();
+            throw $exception;
+        }
 
         if (!$event->isPropagationStopped()) {
 

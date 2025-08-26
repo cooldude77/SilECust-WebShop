@@ -1,4 +1,4 @@
-{%  set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
+{%  set context_route= request.session.get('context_route') != null ?request.session.get('context_route') : 'sc_admin_panel' %}
 {% set after =  path(context_route,
     {
         '_function':function,

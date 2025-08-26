@@ -1,31 +1,28 @@
 {#
-Issue: A
+Note:
 Session cannot be used in testing as test will not have the same container as app container
 ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-session-in-functional-test
     and
     https://github.com/liip/LiipFunctionalTestBundle/issues/414 --> no solution
     Thus this check and setting of context_route for unit testing when url is not called from admin_panel
 #}
+{% set context_route= request.session.get('context_route') != null ?request.session.get('context_route') : 'sc_admin_panel' %}
 
-{% set context_route= app.session.get('context_route') != null ?app.session.get('context_route') : 'sc_admin_panel' %}
-{% set function =listGrid.function is defined ? listGrid.function: app.request.get('_function') %}
-{% set after =  path(context_route,
-    {
-        '_function': function,
-        '_type':'display'
-    }) %}
+{% set function =listGrid.function is defined ? listGrid.function: request.get('_function') %}
 
-   {% set parameterList = {
-       '_function':function,
-       '_type':'create'
-   } %}
-   {% if listGrid.id is defined %}
-       {% set parameterList = parameterList|merge({'id':listGrid.id}) %}
-   {% endif %}
-    {% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
+{% set after =  path(context_route,{'_function': function,'_type':'display'}) %}
 
-    {% set href = path(context_route,parameterList) %}
+{% set parameterList = {'_function':function,'_type':'create'} %}
 
-<a class="btn btn-secondary active" href="{{ href }}">
+{% if listGrid.id is defined %}
+    {% set parameterList = parameterList|merge({'id':listGrid.id}) %}
+{% elseif listGrid.parent_id is defined %}
+    {% set parameterList = parameterList|merge({'id':listGrid.parent_id}) %}
+{% endif %}
+
+{% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
+{% set href = path(context_route,parameterList) %}
+
+<a href="{{ href }}">
     <i class="bi bi-plus-circle-fill pe-2"></i>{{ function | title | replace({'_':' '}) }}</a>
 
