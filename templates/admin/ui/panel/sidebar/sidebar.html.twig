@@ -11,6 +11,7 @@
         $("#sidebar ul button").on("click", function () {
             $(this).toggleClass("arrow-down");
             let siblings = $(this).siblings(".list-item");
+            $("#sidebar ul .item").removeClass("displayed");
             $(siblings).children(".item").toggleClass("displayed");
         });
     })
