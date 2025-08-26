@@ -1,6 +1,17 @@
-<ul id="side-bar-list-content" class="nav nav-pills flex-column">
-    {% for section in sideBar.sections %}
-        {% include  '@SilecustWebShop/admin/ui/panel/sidebar/components/_li_section_with_header.html.twig' with section %}
-    {% endfor %}
+<div id="sidebar">
+    <ul id="list" class="nav nav-pills flex-column">
+        {% for section in sideBar.sections %}
+            {% include  '@SilecustWebShop/admin/ui/panel/sidebar/components/list_item_with_header.html.twig' with section %}
+        {% endfor %}
+    </ul>
+</div>
+<script type="module">
+    $(document).ready(function () {
 
-</ul>
+        $("#sidebar ul button").on("click", function () {
+            $(this).toggleClass("arrow-down");
+            let siblings = $(this).siblings(".list-item");
+            $(siblings).children(".item").toggleClass("displayed");
+        });
+    })
+</script>

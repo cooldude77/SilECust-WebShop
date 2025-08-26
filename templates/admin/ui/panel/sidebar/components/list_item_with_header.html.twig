@@ -1,0 +1,10 @@
+<div>
+    <button class="top-level btn d-inline-flex align-items-center rounded">
+        {{ section.header_text }}
+    </button>
+    <ul class="list-item list-unstyled fw-normal pb-1 small">
+        {% for item in section.items %}
+            {% include '@SilecustWebShop/admin/ui/panel/sidebar/components/list_item_with_hyperlink.html.twig' with item %}
+        {% endfor %}
+    </ul>
+</div>
