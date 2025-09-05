@@ -5,7 +5,7 @@
 <div id="category-hierarchy" class="mt-1">
     {% if categories is defined and categories is not empty %}
         {% for category in categories %}
-            {{ _self.recursive(category) }}
+            {{ _self.recursive(category,1) }}
         {% endfor %}
     {% else %}
         <p>
@@ -14,16 +14,43 @@
         </p>
     {% endif %}
 </div>
-{% macro recursive(category) %}
-    <ul>
+{% macro recursive(category,level) %}
+
+    {% set display_key= "" %}
+    {% set display_key = "" %}
+    {% set innerHtml = "" %}
+
+    <ul class="list {{ level > 1 ? "":"active" }} level-{{ level}} ">
         {% for key,value in category %}
             {% if key == 'name' %}
-                <li>
-                    <a href="{{ path('sc_home',{'category':value}) }}">{{ category.description }}</a>
-                </li>
+                {% set display_key= key %}
+                {% set display_key = category.description %}
             {% elseif value is iterable %}
-                {{ _self.recursive(value) }}
+                {% set innerHtml =  _self.recursive(value,level+1) %}
             {% endif %}
         {% endfor %}
+        <li class="list-items">
+            <a href="{{ path('sc_home',{'category':display_key}) }}"><i
+                        class="bi bi-plus"></i> {{ display_key }} </a>
+            {{ innerHtml }}
+        </li>
     </ul>
 {% endmacro recursive %}
+
+<script type="module">
+    $(document).ready(function () {
+
+        // when clicked on button
+        $("#category-hierarchy ul li").on("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+
+            if ($(this).children("ul").length > 0) {
+                let children = $(this).children("ul");
+                $(children).toggleClass("active");
+            }
+
+        });
+    })
+</script>

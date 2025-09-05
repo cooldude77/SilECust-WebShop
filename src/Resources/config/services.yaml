@@ -45,6 +45,9 @@ services:
     Silecust\WebShop\Twig\EventDispatcher\GridCreateLinkEventDispatcher:
         tags:
             -{ name: twig.extension }
+    Silecust\WebShop\Service\Twig\Extension\TwigTests:
+        tags:
+            -{ name: twig.extension }
 when@test:
     services:
         session.storage.factory.mock_file:
