@@ -19,8 +19,12 @@
     {% set display_key= "" %}
     {% set display_key = "" %}
     {% set innerHtml = "" %}
-
-    <ul class="list {{ level > 1 ? "":"active" }} level-{{ level}} ">
+{#
+all attributes have been deliberately made active as there are two possibilities
+a) The list expands and doesn't do anything till last node ( listing of product related to last leaf node)
+    b) The list expands as well as opens up the product list
+#}
+    <ul class="list active level-{{ level}} ">
         {% for key,value in category %}
             {% if key == 'name' %}
                 {% set display_key= key %}
@@ -36,7 +40,9 @@
         </li>
     </ul>
 {% endmacro recursive %}
-
+{#
+    // Do not delete. You may use your own framework to decide on what to do with clicks
+    // todo: customize thru config ?
 <script type="module">
     $(document).ready(function () {
 
@@ -52,5 +58,18 @@
             }
 
         });
+        // when clicked on button
+        $("#category-hierarchy ul li a").on("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+
+            if ($(this).children("ul").length > 0) {
+                let children = $(this).children("ul");
+                $(children).toggleClass("active");
+            }
+
+        });
     })
 </script>
+#}
