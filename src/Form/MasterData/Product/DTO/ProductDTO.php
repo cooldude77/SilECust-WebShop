@@ -34,7 +34,7 @@ class ProductDTO
         groups: ['edit']
     )]
     public ?int $id = 0;
-    public bool $isActive;
+    public bool $active;
 
     #[Assert\GreaterThan(
         value: 0

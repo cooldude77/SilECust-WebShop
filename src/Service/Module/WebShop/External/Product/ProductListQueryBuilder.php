@@ -85,7 +85,7 @@ readonly class ProductListQueryBuilder
 
             $builder = $this->getBuilderForAllProductQuery();
         }
-        $builder->andWhere('p.isActive = true');
+        $builder->andWhere('p.active = true');
 
         return $builder;
     }

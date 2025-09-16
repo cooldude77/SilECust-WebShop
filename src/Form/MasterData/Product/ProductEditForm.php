@@ -32,7 +32,7 @@ class ProductEditForm extends CustomFormType
         $builder->add('name', TextType::class);
         $builder->add('description', TextType::class);
         $builder->add('category', CategoryAutoCompleteField::class, ['mapped' => false]);
-        $builder->add('isActive', CheckboxType::class, ['required' => false]);
+        $builder->add('active', CheckboxType::class, ['required' => false]);
         $builder->add('save', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {

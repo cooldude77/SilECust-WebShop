@@ -69,7 +69,7 @@ class ProductControllerTest extends WebTestCase
 
         $this->assertEquals("Prod1", $created->getName());
         $this->assertEquals("Product 1", $created->getDescription());
-        $this->assertTrue($created->isIsActive());
+        $this->assertTrue($created->isActive());
 
 
     }
@@ -102,7 +102,7 @@ class ProductControllerTest extends WebTestCase
             ->fillField('product_edit_form[name]', 'Prod11')
             ->fillField('product_edit_form[description]', 'Product 11')
             ->fillField('product_edit_form[category]', $this->category2->getId())
-            ->uncheckField('product_edit_form[isActive]')
+            ->uncheckField('product_edit_form[active]')
             ->click('Save')
             ->assertSuccessful();
 
@@ -111,7 +111,7 @@ class ProductControllerTest extends WebTestCase
         $this->assertEquals("Prod11", $edited->getName());
         $this->assertEquals("Product 11", $edited->getDescription());
         $this->assertEquals($this->category2->getId(), $edited->getCategory()->getId());
-        $this->assertFalse($edited->isIsActive());
+        $this->assertFalse($edited->isActive());
 
     }
 

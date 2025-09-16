@@ -45,7 +45,7 @@ class Product
     private ?ProductType $type = null;
 
     #[ORM\Column]
-    private ?bool $isActive = false;
+    private ?bool $active = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $longDescription = null;
@@ -110,14 +110,14 @@ class Product
         return $this->name;
     }
 
-    public function isIsActive(): ?bool
+    public function isActive(): ?bool
     {
-        return $this->isActive;
+        return $this->active;
     }
 
-    public function setIsActive(bool $isActive): static
+    public function setActive(bool $active): static
     {
-        $this->isActive = $isActive;
+        $this->active = $active;
 
         return $this;
     }

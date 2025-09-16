@@ -50,7 +50,7 @@ final class ProductFactory extends ModelFactory
             'category' => CategoryFactory::new(),
             'name' => self::faker()->text(255),
             'description' => self::faker()->text(5000),
-            'isActive' => self::faker()->boolean(),
+            'active' => self::faker()->boolean(),
         ];
     }
 

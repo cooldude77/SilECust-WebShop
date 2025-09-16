@@ -48,7 +48,7 @@ trait ProductFixture
             'category' => $this->category1,
             'name' => $this->product1Name,
             'description' => $this->product1Description,
-            'isActive' => true]);
+            'active' => true]);
 
         $this->category2 = CategoryFactory::createOne(
 
@@ -59,13 +59,13 @@ trait ProductFixture
         $this->product2 = ProductFactory::createOne(['category' => $this->category2,
             'name' => $this->product2Name,
             'description' => $this->product2Description,
-            'isActive' => true]);     
+            'active' => true]);
         
         
         $this->productInactive = ProductFactory::createOne(['category' => $this->category1,
             'name' => $this->productInactiveName,
             'description' => $this->productInactiveDescription,
-            'isActive' => false]);
+            'active' => false]);
     }
 
 }

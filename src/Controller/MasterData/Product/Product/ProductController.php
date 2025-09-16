@@ -143,12 +143,15 @@ class ProductController extends EnhancedAbstractController
                 [
                     'label' => 'Name',
                     'propertyName' => 'name',
-                    'link_id' => 'id-display-product'],
+                    'link_id' => 'id-display-product'
+                ],
                 [
                     'label' => 'Description',
-                    'propertyName' => 'description'],
+                    'propertyName' => 'description'
+                ]
             ]
         ];
+
 
         return $this->render(
             '@SilecustWebShop/master_data/product/product_display.html.twig',
