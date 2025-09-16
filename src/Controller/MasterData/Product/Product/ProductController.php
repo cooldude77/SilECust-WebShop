@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\QueryException;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
+use Silecust\WebShop\Controller\Component\UI\Display\DisplayPropertyType;
 use Silecust\WebShop\Form\MasterData\Product\DTO\ProductDTO;
 use Silecust\WebShop\Form\MasterData\Product\ProductCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\ProductEditForm;
@@ -148,6 +149,11 @@ class ProductController extends EnhancedAbstractController
                 [
                     'label' => 'Description',
                     'propertyName' => 'description'
+                ],
+                [
+                    'label' => 'Active',
+                    'propertyName' => 'active',
+                    'propertyType'=> DisplayPropertyType::BOOLEAN
                 ]
             ]
         ];

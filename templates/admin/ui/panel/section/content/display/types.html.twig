@@ -1,0 +1,19 @@
+{% if event.data.column.propertyType is defined %}
+    {% if event.data.column.propertyType == constant('Silecust\\WebShop\\Controller\\Component\\UI\\Display\\DisplayPropertyType::BOOLEAN') %}
+        <div class="field-type-boolean">
+            {% if attribute(entity,column.propertyName) == true %}
+                <i class="bi bi-toggle-on h3 field-type-boolean-true" style="color: lightgreen" data-toggle="tooltip" data-placement="top"
+                   title="Product is active"></i>
+            {% else %}
+                <i class="bi bi-toggle-off h3 field-type-boolean-false" style="color: red" data-toggle="tooltip" data-placement="top"
+                   title="Product is inactive"></i>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    {% if(event.data.column.value is defined and event.data.column.value != null) %}
+        {{ event.data.column.value }}
+    {% else %}
+        {{ attribute(entity,column.propertyName) }}
+    {% endif %}
+{% endif %}

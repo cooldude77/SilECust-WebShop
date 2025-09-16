@@ -6,23 +6,23 @@
     </div>
 </div>
 {% for column in params.fields %}
-
     <div class="row my-1 py-2">
-        <div class="col-sm-3 bg-light">
-            <p class="font-weight-bolder"> {{ column.label }}:</p>
-        </div>\
-        <div class="col">
+        <div id="field-name-{{ column.label }}" class="field-name col-sm-3 bg-light p-2">
+            <div class="font-weight-bolder"> {{ column.label }} :</div>
+        </div>
+        <div id="field-value-for-name-{{ column.label }}" class="field-value-for-name col-sm-3 p-2">
             {% set event = dispatchFieldValueEvent({
                 'params':params,
                 'request': request,
                 'entity':entity,
                 'column':column
             }) %}
-            {% if(event.data.column.value is defined and event.data.column.value != null) %}
-                {{ event.data.column.value }}
-            {% else %}
-            {{ attribute(entity,column.propertyName) }}
-            {% endif %}
+
+            {% include '@SilecustWebShop/admin/ui/panel/section/content/display/types.html.twig' with {
+                'event':event
+            }
+            %}
+
         </div>
     </div>
 {% endfor %}
