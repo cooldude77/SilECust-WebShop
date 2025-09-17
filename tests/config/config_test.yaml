@@ -12,12 +12,7 @@ services:
       - '../../src/Event/'
       - '../../src/Exception/'
 
-  Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMap:
-    autoconfigure: false
-    autowire: false
-  Silecust\WebShop\Service\Admin\SideBar\List\PanelSideBarListMap:
-    autoconfigure: false
-    autowire: false
+
   Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Object\CartSessionObject:
     autoconfigure: false
     autowire: false

@@ -4,7 +4,9 @@ namespace Silecust\WebShop\Service\Admin\SideBar\Action;
 
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 class ListMap
 {
     private array $actionList;
