@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Service\Admin\SideBar\Action;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\FunctionNotFoundInMap;
 use Silecust\WebShop\Exception\Admin\SideBar\Action\TypeNotFoundInMap;
 
-class PanelActionListMap
+class ListMap
 {
     private array $actionList;
 

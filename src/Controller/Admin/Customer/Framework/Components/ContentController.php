@@ -10,7 +10,7 @@ use Silecust\WebShop\Controller\Transaction\Order\Admin\Item\OrderItemController
 use Silecust\WebShop\Exception\Admin\Employee\FrameWork\Components\ResponseFromControllerInvalid;
 use Silecust\WebShop\Exception\Security\User\Customer\UserNotAssociatedWithACustomerException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
-use Silecust\WebShop\Service\Admin\SideBar\Action\PanelActionListMapBuilder;
+use Silecust\WebShop\Service\Admin\SideBar\Action\ListMapBuilder;
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +20,8 @@ use Symfony\Component\Routing\RouterInterface;
 class ContentController extends EnhancedAbstractController
 {
 
-    public function dashboard(Request                   $request, RouterInterface $router,
-                              PanelActionListMapBuilder $builder,
+    public function dashboard(Request        $request, RouterInterface $router,
+                              ListMapBuilder $builder,
     ): Response
     {
         return $this->render(

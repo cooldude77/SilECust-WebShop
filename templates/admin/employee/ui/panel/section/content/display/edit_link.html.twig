@@ -5,21 +5,23 @@
 {% set function =  request.get('_function') %}
 
 {% if params.config.edit_link.use_entity_field_as_id is defined %}
-        {% set id_field  = params.config.edit_link.use_entity_field_as_id %}
+    {% set id_field  = params.config.edit_link.use_entity_field_as_id %}
 {% else %}
-        {% set id_field = 'id' %}
+    {% set id_field = 'id' %}
 {% endif %}
 {# Any other field than id? Default is id #}
 {% set id_field_value_array = {(id_field): attribute(entity,id_field) } %}
 
 
 {% set redirect_to_link =  path(context_route,{
-        '_function':function,
-        '_type':'display'}
-        | merge (id_field_value_array)) %}
+    '_function':function,
+    '_type':'display'}
+    | merge (id_field_value_array)) %}
 
-<a href="{{ path(context_route,{'_function': function,'_type':'edit'}
-        | merge (id_field_value_array)
-        | merge ({'_redirect_upon_success_url': redirect_to_link})
-) }}" id="{{ params.link_id ~"-edit" }}"
-   class="btn btn-secondary"><i class="bi bi-pencil pe-2"></i>Edit </a>
+{% set path = path(context_route,{'_function': function,'_type':'edit'}
+    | merge (id_field_value_array)
+    | merge ({'_redirect_upon_success_url': redirect_to_link})
+) %}
+<a href="{{ path }}" id="{{ params.link_id ~"-edit" }}" class="edit-link btn btn-secondary">
+    <i class="bi bi-pencil pe-2"></i>Edit
+</a>

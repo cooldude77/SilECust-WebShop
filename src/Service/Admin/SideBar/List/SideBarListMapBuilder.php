@@ -2,12 +2,12 @@
 
 namespace Silecust\WebShop\Service\Admin\SideBar\List;
 
-class PanelSideBarListMapBuilder
+class SideBarListMapBuilder
 {
 
-    public function build(string $adminUrl): PanelSideBarListMap
+    public function build(string $adminUrl): SideBarListMap
     {
-        return new PanelSideBarListMap(
+        return new SideBarListMap(
 
             [
                 'sections' =>

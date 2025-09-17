@@ -2,7 +2,7 @@
 
 namespace Silecust\WebShop\Service\Admin\SideBar\List;
 
-class PanelSideBarListMap
+class SideBarListMap
 {
     private array $sideBarList;
 

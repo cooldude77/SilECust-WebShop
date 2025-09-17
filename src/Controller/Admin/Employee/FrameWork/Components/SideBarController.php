@@ -5,7 +5,7 @@ namespace Silecust\WebShop\Controller\Admin\Employee\FrameWork\Components;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Exception\Security\User\Employee\UserNotAssociatedWithAnEmployeeException;
 use Silecust\WebShop\Exception\Security\User\UserNotLoggedInException;
-use Silecust\WebShop\Service\Admin\SideBar\Role\RoleBasedSideBarList;
+use Silecust\WebShop\Service\Admin\SideBar\Role\SideBarRoleBasedListFilter;
 use Silecust\WebShop\Service\Component\UI\Panel\PanelMainController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class SideBarController extends EnhancedAbstractController
 {
 
-    public function sideBar(RoleBasedSideBarList $roleBasedSideBarList,
-        SessionInterface $session
+    public function sideBar(SideBarRoleBasedListFilter $roleBasedSideBarList,
+                            SessionInterface           $session
     ): Response {
         try {
             $sideBar = $roleBasedSideBarList->getListBasedOnRole(

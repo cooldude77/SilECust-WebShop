@@ -20,9 +20,16 @@
 
             {% include '@SilecustWebShop/admin/ui/panel/section/content/display/types.html.twig' with {
                 'event':event
-            }
-            %}
+            } %}
 
         </div>
     </div>
 {% endfor %}
+<script type="module">
+    $(document).ready(function () {
+
+        let x = $(".edit-link");
+        let y = $("h2#admin-content-heading span")
+        y.after(x);
+    });
+</script>
