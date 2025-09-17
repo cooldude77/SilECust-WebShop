@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
 use Silecust\WebShop\Entity\CategoryImage;
 use Silecust\WebShop\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
 use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageCreateForm;
@@ -30,65 +29,6 @@ class CategoryImageController extends EnhancedAbstractController
     /**
      * @param int $id
      * @param EntityManagerInterface $entityManager
-     * @param CategoryImageDTOMapper $categoryImageDTOMapper
-     * @param CommonUtility $commonUtility
-     * @param Request $request
-     *
-     * @return Response
-     */
-    #[Route('/admin/category/{id}/image/create', name: 'sc_admin_category_file_image_create')]
-    public function create(int                    $id, EntityManagerInterface $entityManager,
-                           CategoryImageOperation $categoryImageOperation,
-                           CategoryRepository     $categoryRepository,
-                           CategoryImageDTOMapper $categoryImageDTOMapper, CommonUtility $commonUtility,
-                           Request                $request
-    ): Response
-    {
-        $category = $categoryRepository->find(['id' => $id]);
-
-        // Todo : validate if category exists
-
-        $categoryImageDTO = new CategoryImageDTO();
-        $categoryImageDTO->categoryId = $id;
-
-        $form = $this->createForm(CategoryImageCreateForm::class, $categoryImageDTO);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CategoryImageDTO $categoryImageDTO */
-            $categoryImageDTO = $form->getData();
-
-            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
-            $categoryImageOperation->createOrReplace(
-                $categoryImage, $categoryImageDTO->getUploadedFile()
-            );
-
-
-            $entityManager->persist($categoryImage);
-            $entityManager->flush();
-
-            $id = $categoryImage->getId();
-
-            $this->addFlash(
-                'success', "Category file image created successfully"
-            );
-
-            return new Response(
-                serialize(
-                    ['id' => $id, 'message' => "Category file image  created successfully"]
-                ), 200
-            );
-        }
-
-        return $this->render(
-            '@SilecustWebShop/master_data/category/image/category_image_create.html.twig', ['form' => $form]
-        );
-    }
-
-    /**
-     * @param int $id
-     * @param EntityManagerInterface $entityManager
      * @param CategoryImageRepository $categoryImageRepository
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
      * @param CategoryImageOperation $categoryImageService
@@ -96,7 +36,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * @return Response
      *
-     * id is CategoryImage Id
+     * id is CategoryImage ID
      */
     #[Route('/admin/category/image/{id}/edit', name: 'sc_admin_category_file_image_edit')]
     public function edit(int                     $id, EntityManagerInterface $entityManager,
@@ -105,6 +45,8 @@ class CategoryImageController extends EnhancedAbstractController
                          CategoryImageOperation  $categoryImageService, Request $request
     ): Response
     {
+        $this->setContentHeading($request, 'Edit category image');
+
         $categoryImage = $categoryImageRepository->find($id);
 
         $categoryImageDTO = $categoryImageDTOMapper->mapEntityToDto(
@@ -149,6 +91,9 @@ class CategoryImageController extends EnhancedAbstractController
 
     }
 
+    /**
+     * @throws \Doctrine\ORM\Query\QueryException
+     */
     #[Route('/admin/category/{id}/image/list', name: 'sc_admin_category_file_image_list')]
     public function list(int                     $id,
                          CategoryRepository      $categoryRepository,
@@ -166,14 +111,25 @@ class CategoryImageController extends EnhancedAbstractController
         $listGrid = ['title' => "Category Files",
             'function' => 'category_file_image',
             'link_id' => 'id-category-image-file',
-            'columns' => [['label' => 'Your fileName',
-                'propertyName' => 'yourFileName',
-                'action' => 'display',],
-                ['label' => 'FileName', 'propertyName' => 'name'],],
-            'createButtonConfig' => ['link_id' => ' id-create-file-image',
+            'id' => $id,
+            'columns' => [
+                [
+                    'label' => 'Your fileName',
+                    'propertyName' => 'yourFileName',
+                    'action' => 'display',
+                ],
+                [
+                    'label' => 'FileName',
+                    'propertyName' => 'name'
+                ],
+            ],
+            'createButtonConfig' => [
+                'link_id' => ' id-create-file-image',
                 'function' => 'category_file_image',
                 'id' => $id,
-                'anchorText' => 'Category File']];
+                'anchorText' => 'Category File'
+            ]
+        ];
 
         $query = $searchEntity->getQueryForSelect($request, $categoryImageRepository, ['yourFileName', 'name'],
             Criteria::create()->where(Criteria::expr()->eq('category', $category)));
@@ -187,6 +143,63 @@ class CategoryImageController extends EnhancedAbstractController
         return $this->render(
             '@SilecustWebShop/admin/ui/panel/section/content/list/list_paginated.html.twig',
             ['pagination' => $pagination, 'listGrid' => $listGrid, 'request' => $request]
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $entityManager
+     * @param \Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation $categoryImageOperation
+     * @param CategoryImageDTOMapper $categoryImageDTOMapper
+     * @param Request $request
+     *
+     * @return Response
+     */
+    #[Route('/admin/category/{id}/image/create', name: 'sc_admin_category_file_image_create')]
+    public function create(int                    $id, EntityManagerInterface $entityManager,
+                           CategoryImageOperation $categoryImageOperation,
+                           CategoryImageDTOMapper $categoryImageDTOMapper,
+                           Request                $request
+    ): Response
+    {
+
+        // Todo : validate if category exists
+
+        $categoryImageDTO = new CategoryImageDTO();
+        $categoryImageDTO->categoryId = $id;
+
+        $form = $this->createForm(CategoryImageCreateForm::class, $categoryImageDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var CategoryImageDTO $categoryImageDTO */
+            $categoryImageDTO = $form->getData();
+
+            $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
+            $categoryImageOperation->createOrReplace(
+                $categoryImage, $categoryImageDTO->getUploadedFile()
+            );
+
+
+            $entityManager->persist($categoryImage);
+            $entityManager->flush();
+
+            $id = $categoryImage->getId();
+
+            $this->addFlash(
+                'success', "Category file image created successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Category file image  created successfully"]
+                ), 200
+            );
+        }
+
+        return $this->render(
+            '@SilecustWebShop/master_data/category/image/category_image_create.html.twig', ['form' => $form]
         );
     }
 
@@ -224,12 +237,15 @@ class CategoryImageController extends EnhancedAbstractController
     /**
      * @param CategoryImageRepository $categoryImageRepository
      * @param int $id
-     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
     #[Route('/admin/category/image/{$id}/display/', name: 'sc_admin_category_file_image_display')]
     public function display(CategoryImageRepository $categoryImageRepository, int $id, Request $request): Response
     {
+        $this->setContentHeading($request, 'Display category image');
+
+
         $categoryImage = $categoryImageRepository->findOneBy(['id' => $id]);
         if (!$categoryImage) {
             throw $this->createNotFoundException('No Category Image found for file id ' . $id);

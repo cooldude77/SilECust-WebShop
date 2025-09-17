@@ -3,7 +3,6 @@
 namespace Silecust\WebShop\Form\Common\File;
 
 use Silecust\WebShop\Form\Common\File\DTO\FileDTO;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -22,7 +21,7 @@ class FileEditForm extends AbstractType
 
         $builder->add('yourFileName', TextType::class);
 
-        $builder->add('uploadedFile', FileType::class, ['label' => 'File', 'required' => false]);
+        $builder->add('uploadedFile', FileType::class, ['label' => 'File']);
 
         $builder->add('save', SubmitType::class);
 

@@ -11,11 +11,31 @@ readonly class EventRouteChecker
     {
     }
 
+    public function isAdminRoute(Request $request): bool
+    {
+        return $this->isInRouteList($request, ['sc_admin_panel']);
+    }
+
     public function isInRouteList(Request $request, array $routes): bool
     {
         $route = $this->router->match($request->getPathInfo());
 
         return in_array($route['_route'], $routes);
+    }
+
+    public function checkFunctions(Request $request, array $allowedFunction): bool
+    {
+        return in_array($request->query->get('_function'), $allowedFunction);
+
+    }
+
+    public function checkIfTrue(Request $request,array $routeListArray, string $function, string $type): bool
+    {
+        return $this->isInRouteList($request, ['sc_admin_panel', 'sc_admin_category_file_image_list'])
+            &&
+            $this->hasFunction($request, 'category_file_image')
+            &&
+            $this->hasType($request, 'list');
     }
 
     public function hasFunction(Request $request, string $functionName): bool
@@ -29,16 +49,5 @@ readonly class EventRouteChecker
     {
         // order item list is never shown standalone
         return $request->query->get('_type') == $type;
-    }
-
-    public function isAdminRoute(Request $request): bool
-    {
-        return $this->isInRouteList($request, ['sc_admin_panel']);
-    }
-
-    public function checkFunctions(Request $request, array $allowedFunction): bool
-    {
-        return in_array($request->query->get('_function'), $allowedFunction);
-
     }
 }

@@ -1,5 +1,11 @@
 {% include '@SilecustWebShop/admin/ui/panel/section/content/display/display.html.twig' with {'params':params} %}
-{{
-    render(controller(  'Silecust\\WebShop\\Controller\\MasterData\\Category\\Image\\CategoryImageController::list',
-        {'id':attribute(entity,"id"),'request':app.request}))
-}}
+<div>
+    <h3>Category Images </h3>
+    <a
+            href="{{ path('sc_admin_panel',{
+                '_function':'category_file_image',
+                '_type':'list',
+                'id':request.get('id')
+            })
+            }}"> view ...</a>
+</div>
