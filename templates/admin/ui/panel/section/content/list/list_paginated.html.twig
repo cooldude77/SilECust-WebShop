@@ -21,40 +21,44 @@
         {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
     </div>
 
-    {#  Grid Header #}
-    <div id="admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
-        {% set event = dispatchGridRowHeaderEvent({
+    <table class="table table-hover">
+        {#  Grid Header #}
+        <thead>
+        <tr>
+            {% set event = dispatchGridRowHeaderEvent({
+                "request":request,
+                'listGrid':listGrid
+            }) %}
+            {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+        </tr>
+        </thead>
+        {# Pagination starts #}
+        {% if pagination is not null and pagination|length > 0 %}
+            <div class="grid-data-container">
+                {% for entity in pagination %}
+                    {# Grid Row  #}
+
+                    {% set event = dispatchGridRowDataEvent({
+                        "request":request,
+                        'listGrid':listGrid
+                    }) %}
+                    {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+                {% endfor %}
+            </div>
+
+        {% else %}
+            {# No records found #}
+            <p id="no-records-found">No records found</p>
+        {% endif %}
+    </table>
+    <div class="navigation">
+        {# Pagination  #}
+        {% set event = dispatchGridPaginationEvent({
             "request":request,
             'listGrid':listGrid
         }) %}
         {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
     </div>
-    {# Pagination starts #}
-    {% if pagination is not null and pagination|length > 0 %}
-        <div class="grid-data-container">
-            {% for entity in pagination %}
-                {# Grid Row  #}
-
-                {% set event = dispatchGridRowDataEvent({
-                    "request":request,
-                    'listGrid':listGrid
-                }) %}
-                {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-            {% endfor %}
-        </div>
-        <div class="navigation">
-            {# Pagination  #}
-            {% set event = dispatchGridPaginationEvent({
-                "request":request,
-                'listGrid':listGrid
-            }) %}
-            {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-        </div>
-    {% else %}
-        {# No records found #}
-        <p id="no-records-found">No records found</p>
-    {% endif %}
-
 </div>
 
 

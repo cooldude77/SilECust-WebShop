@@ -1,15 +1,15 @@
 {# -- row header -- #}
 {% for column in listGrid.columns %}
-    <div class="col-3 px-2">
+    <th scope="col">
         {{ column.label }}
-    </div>
+    </th>
 {% endfor %}
-<div class="col-3 px-2">
+<th scope="col">
     {# for edit column #}
-</div>
+</th>
 {% if listGrid.config.delete_link.delete_link_allowed is defined
     and listGrid.config.delete_link.delete_link_allowed ==true %}
-    <div class="col-3 px-2">
+    <th scope="col">
         {#  for delete link #}
-    </div>
+    </th>
 {% endif %}
