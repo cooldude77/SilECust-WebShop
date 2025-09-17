@@ -1,18 +1,16 @@
 {% extends '@SilecustWebShop/application_base.html.twig' %}
 {% block body %}
     <div id="wrapper" class="h-100 container">
-        <div class="row">
-            <div id="header" class="col">
-                {% block header %}
-                {% endblock %}
-            </div>
+        <div id="header" class="row">
+            {% block header %}
+            {% endblock %}
         </div>
-        <div class="row">
+        <div id="content" class="row">
             <div id="sidebar-wrapper" class="col-sm-3 border-end ms-3 py-3">
                 {% block sidebar %}
                 {% endblock %}
             </div>
-            <div id="content-wrapper" class="col-sm  py-3">
+            <div id="content-data-wrapper" class="col-sm  py-3">
                 {% block flash_messages %}
                     {% include '@SilecustWebShop/admin/ui/flash/flash_messages.html.twig' %}
                 {% endblock %}
