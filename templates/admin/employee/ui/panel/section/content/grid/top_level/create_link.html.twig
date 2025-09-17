@@ -23,6 +23,6 @@ ref: https://stackoverflow.com/questions/49987418/how-to-set-some-data-in-sessio
 {% set parameterList = parameterList|merge({'_redirect_upon_success_url': after}) %}
 {% set href = path(context_route,parameterList) %}
 
-<a href="{{ href }}">
-    <i class="bi bi-plus-circle-fill pe-2"></i>{{ function | title | replace({'_':' '}) }}</a>
+<a href="{{ href }}" class= "create-link btn btn-secondary">
+    <i class="bi bi-plus-circle-fill pe-2"></i>&nbsp;{{ function | title | replace({'_':' '}) }}</a>
 

@@ -8,18 +8,19 @@
         </div>
     {% endif %}
     #}
+
     {#  Create link  #}
-    <div class="p-2 d-inline ms-auto" id="admin-content-grid-create-link-div">
-        {% set event = dispatchGridCreateLinkEvent({
-            "request":request,
-            'listGrid':listGrid
-        }) %}
-        {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
-    </div>
+    {% set event = dispatchGridCreateLinkEvent({
+        "request":request,
+        'listGrid':listGrid
+    }) %}
+    {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+
     {#  Search box #}
     <div id="admin-search-box" class="p-2 d-inline ms-auto">
         {{ render(controller('\\Silecust\\WebShop\\Controller\\Component\\UI\\Search\\SearchController::search',{'request':request})) }}
     </div>
+
     {#  Grid Header #}
     <div id="admin-grid-row-header" class="row py-2 fw-bold bg-light my-2">
         {% set event = dispatchGridRowHeaderEvent({
@@ -28,18 +29,19 @@
         }) %}
         {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
     </div>
-
     {# Pagination starts #}
     {% if pagination is not null and pagination|length > 0 %}
-        {% for entity in pagination %}
-            {# Grid Row  #}
-            {% set event = dispatchGridRowDataEvent({
-                "request":request,
-                'listGrid':listGrid
-            }) %}
-            {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+        <div class="grid-data-container">
+            {% for entity in pagination %}
+                {# Grid Row  #}
 
-        {% endfor %}
+                {% set event = dispatchGridRowDataEvent({
+                    "request":request,
+                    'listGrid':listGrid
+                }) %}
+                {% include event.getTemplate with {"request":request,'listGrid':listGrid} %}
+            {% endfor %}
+        </div>
         <div class="navigation">
             {# Pagination  #}
             {% set event = dispatchGridPaginationEvent({
@@ -52,16 +54,15 @@
         {# No records found #}
         <p id="no-records-found">No records found</p>
     {% endif %}
+
 </div>
 
+
 <script type="module">
-    // A $( document ).ready() block.
     $(document).ready(function () {
-        let b = $("#admin-search-box")
-        let heading = $("#admin-content-heading h2");
-        let create = $("#admin-content-grid-create-link-div");
 
-        heading.after(create);
-
+        let x = $(".create-link");
+        let y = $("h2#admin-content-heading span")
+        y.after(x);
     });
 </script>

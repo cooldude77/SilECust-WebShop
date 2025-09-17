@@ -4,7 +4,7 @@
     {% set parameterList = {'_redirect_upon_success_url': after} %}
     {% set href = path(listGrid.config.create_link.route,parameterList) %}
 
-    <a class="btn btn-secondary active" href="{{ href }}">
-        <i class="bi bi-plus-circle-fill"></i>{{ listGrid.config.create_link.anchorText }}
+    <a class= "create-link btn btn-secondary" href="{{ href }}">
+        <i class="bi bi-plus-circle-fill"></i>&nbsp;{{ listGrid.config.create_link.anchorText }}
     </a>
 {% endif %}
