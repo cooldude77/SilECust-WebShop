@@ -1,6 +1,6 @@
 <?php
 
-namespace Silecust\WebShop\EventSubscriber\Admin\Employee\MasterData\Category\Image;
+namespace Silecust\WebShop\EventSubscriber\Admin\Employee\MasterData\Product\Image;
 
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Silecust\WebShop\Service\Component\Event\EventRouteChecker;
@@ -36,12 +36,11 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     public function beforeDisplay(GridColumnEvent $event): void
     {
 
-
         if (!$this->eventRouteChecker
             ->checkIfAdminOrDirectInvocationTrue(
                 $event->getData()['request'],
-                'sc_admin_category_file_image_list',
-                'category_file_image',
+                'sc_admin_product_file_image_list',
+                'product_file_image',
                 'list'
             )
         )
@@ -50,7 +49,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
         $data = $event->getData();
 
         $column = $event->getData()['column'];
-        /** @var \Silecust\WebShop\Entity\CategoryImage $entity */
+        /** @var \Silecust\WebShop\Entity\ProductImage $entity */
         $entity = $event->getData()['entity'];
 
 

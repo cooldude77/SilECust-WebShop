@@ -23,9 +23,9 @@ class CategoryImageEditForm extends AbstractType
             // removing save from the original form so that we don't have two save buttons
             $form = $event->getForm();
             $fileForm = $form->get("fileDTO");
-            $fileForm->remove("save");
+            $fileForm->remove("Save");
         });
-        $builder->add('save', SubmitType::class, array('label' => 'Submit'));
+        $builder->add('Save', SubmitType::class, array('label' => 'Save'));
 
     }
 
