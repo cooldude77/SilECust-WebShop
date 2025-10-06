@@ -25,7 +25,7 @@ class ProductImageEditForm extends AbstractType
             $fileForm = $form->get("fileDTO");
             $fileForm->remove("save");
         });
-        $builder->add('save', SubmitType::class);
+        $builder->add('save', SubmitType::class,['label'=>'Save']);
 
     }
 

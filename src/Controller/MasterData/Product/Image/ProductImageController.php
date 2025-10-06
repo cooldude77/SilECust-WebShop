@@ -6,12 +6,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
 use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
+use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Entity\ProductImage;
 use Silecust\WebShop\Form\MasterData\Product\Image\DTO\ProductImageDTO;
 use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageEditForm;
 use Silecust\WebShop\Repository\ProductImageRepository;
-use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Common\Image\SystemImage;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
@@ -39,19 +39,17 @@ class ProductImageController extends EnhancedAbstractController
      * @return Response
      */
     #[Route('/admin/product/{id}/image/create', name: 'sc_admin_product_file_image_create')]
-    public function create(int                   $id, EntityManagerInterface $entityManager,
+    public function create(Product               $product, EntityManagerInterface $entityManager,
                            ProductImageOperation $productImageOperation,
-                           ProductRepository     $productRepository,
                            ProductImageDTOMapper $productImageDTOMapper, CommonUtility $commonUtility,
                            Request               $request
     ): Response
     {
-        $product = $productRepository->find(['id' => $id]);
 
         // Todo : validate if product exists
 
         $productImageDTO = new ProductImageDTO();
-        $productImageDTO->productId = $id;
+        $productImageDTO->productId = $product->getId();
 
         $form = $this->createForm(ProductImageCreateForm::class, $productImageDTO, ['validation_groups' => 'create']);
 
@@ -102,9 +100,8 @@ class ProductImageController extends EnhancedAbstractController
      */
     #[Route('/admin/product/image/{id}/edit', name: 'sc_admin_product_file_image_edit')]
     public function edit(
-        int                    $id,
+        ProductImage           $productImage,
         EntityManagerInterface $entityManager,
-        ProductImageRepository $productImageRepository,
         ProductImageDTOMapper  $productImageDTOMapper,
         ProductImageOperation  $productImageService, Request $request
     ): Response
@@ -112,7 +109,6 @@ class ProductImageController extends EnhancedAbstractController
 
         $this->setContentHeading($request, 'Edit product image');
 
-        $productImage = $productImageRepository->find($id);
 
         $productImageDTO = $productImageDTOMapper->mapEntityToDtoForEdit(
             $productImage
@@ -144,7 +140,7 @@ class ProductImageController extends EnhancedAbstractController
 
             return new Response(
                 serialize(
-                    ['id' => $id, 'message' => "Product file image  updated successfully"]
+                    ['id' => $productImage->getId(), 'message' => "Product file image  updated successfully"]
                 ), 200
             );
         }
@@ -161,7 +157,7 @@ class ProductImageController extends EnhancedAbstractController
      * @throws \Doctrine\ORM\Query\QueryException
      */
     #[Route('/admin/product/{id}/image/list', name: 'sc_admin_product_file_image_list')]
-    public function list(int                    $id,
+    public function list(Product                $product,
                          ProductImageRepository $productImageRepository,
                          PaginatorInterface     $paginator,
                          SearchEntityInterface  $searchEntity,
@@ -175,7 +171,7 @@ class ProductImageController extends EnhancedAbstractController
         $listGrid = ['title' => "Product Files",
             'function' => 'product_file_image',
             'link_id' => 'id-product-image-file',
-            'id' => $id,
+            'id' => $product->getId(),
             'columns' => [
                 [
                     'label' => 'Your fileName',
@@ -189,7 +185,7 @@ class ProductImageController extends EnhancedAbstractController
             'createButtonConfig' => [
                 'link_id' => ' id-create-file-image',
                 'function' => 'product_file_image',
-                'id' => $id,
+                'id' => $product->getId(),
                 'anchorText' => 'Product File'
             ]
         ];
@@ -219,13 +215,11 @@ class ProductImageController extends EnhancedAbstractController
      * @return Response
      */
     #[Route('/admin/product/image/{id}/fetch', name: 'sc_admin_product_file_image_fetch')]
-    public function fetch(int                               $id, ProductImageRepository $productImageRepository,
+    public function fetch(ProductImage                      $productImage,
                           ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
     ): Response
     {
 
-        /** @var ProductImage $productImage */
-        $productImage = $productImageRepository->findOneBy(['id' => $id]);
         $path = $productDirectoryImagePathProvider->getFullPhysicalPathForFileByName(
             $productImage->getProduct(), $productImage->getFile()->getName()
         );
@@ -246,15 +240,11 @@ class ProductImageController extends EnhancedAbstractController
      * @return Response
      */
     #[Route('/admin/product/image/{$id}/display/', name: 'sc_admin_product_file_image_display')]
-    public function display(ProductImageRepository $productImageRepository, int $id, Request $request): Response
+    public function display(ProductImage           $productImage,
+                            ProductImageRepository $productImageRepository, Request $request): Response
     {
         $this->setContentHeading($request, 'Display product image');
 
-
-        $productImage = $productImageRepository->findOneBy(['id' => $id]);
-        if (!$productImage) {
-            throw $this->createNotFoundException('No Product Image found for file id ' . $id);
-        }
         $entity = ['id' => $productImage->getId(),
             'name' => $productImage->getFile()->getName(),
             'yourFileName' => $productImage->getFile()->getYourFileName()];
@@ -286,24 +276,17 @@ class ProductImageController extends EnhancedAbstractController
      * To be displayed in img tag
      */
     #[Route('product/image/img-tag/{id}', name: 'sc_product_image_file_for_img_tag')]
-    public function getFileContentsById(int                               $id, ProductImageRepository $productImageRepository,
+    public function getFileContentsById(ProductImage                      $productImage,
                                         ProductDirectoryImagePathProvider $productDirectoryImagePathProvider,
                                         SystemImage                       $systemImage
     ): Response
     {
-
-        /** @var ProductImage $productImage */
-        $productImage = $productImageRepository->findOneBy(['id' => $id]);
-
-        if ($productImage != null) {
-            $path = $productDirectoryImagePathProvider->getFullPhysicalPathForFileByName(
-                $productImage->getProduct(), $productImage->getFile()->getName()
-            );
-        }
+        $path = $productDirectoryImagePathProvider->getFullPhysicalPathForFileByName(
+            $productImage->getProduct(), $productImage->getFile()->getName()
+        );
         if (!isset($path) || !file_exists($path)) {
             $path = $systemImage->getNoImageForProductPath();
         }
-
 
         return new BinaryFileResponse($path);
 

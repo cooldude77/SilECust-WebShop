@@ -8,12 +8,12 @@ use Silecust\WebShop\Form\MasterData\Category\Image\DTO\CategoryImageDTO;
 use Silecust\WebShop\Repository\CategoryImageRepository;
 use Silecust\WebShop\Repository\CategoryRepository;
 
-class CategoryImageDTOMapper
+readonly class CategoryImageDTOMapper
 {
 
-    public function __construct(private readonly FileDTOMapper $fileDTOMapper,
-        private readonly CategoryRepository $categoryRepository,
-        private readonly CategoryImageRepository $categoryImageRepository
+    public function __construct(private FileDTOMapper $fileDTOMapper,
+        private CategoryRepository                    $categoryRepository,
+        private CategoryImageRepository               $categoryImageRepository
     ) {
     }
 
@@ -45,14 +45,16 @@ class CategoryImageDTOMapper
 
     }
 
-    public function mapEntityToDto(CategoryImage $categoryImage): CategoryImageDTO
+    public function mapEntityToDtoForEdit(CategoryImage $categoryImage): CategoryImageDTO
     {
-        $dto = new CategoryImageDTO();
-
-        $dto->fileDTO = $this->fileDTOMapper->mapEntityToFileDto($categoryImage->getFile());
+        $categoryImageDTO = new CategoryImageDTO();
 
 
-        return $dto;
+        $categoryImageDTO->id = $categoryImage->getId();
+        $categoryImageDTO->fileDTO = $this->fileDTOMapper->mapEntityToFileDto($categoryImage->getFile());
+
+
+        return $categoryImageDTO;
 
     }
 

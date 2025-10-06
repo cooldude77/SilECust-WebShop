@@ -70,7 +70,7 @@ class CategoryImageControllerTest extends WebTestCase
         // ************
         // Edit Testing
 
-        $uri = "/admin/category/image/{$category->getId()}/edit";
+        $uri = "/admin/category/image/{$categoryImage->getId()}/edit";
 
         $fileNameEdit = 'test_2.jpg';
         $filePathEdit = __DIR__ . '/' . $fileNameEdit;
