@@ -22,7 +22,7 @@ class ProductFileDirectoryPathNamerTest extends KernelTestCase
             static::$kernel->getContainer()->getParameter('file_storage_path'),
             static::$kernel->getContainer()->getParameter('uploads_segment'));
 
-        $expected = static::$kernel->getProjectDir() . "/data/test/uploads/product/$this->product1->getId()/images/file_name.png";
+        $expected = static::$kernel->getProjectDir() . "/data/test/uploads/product/{$this->product1->getId()}/images/file_name.png";
         assertEquals($expected, $namer->getFullPhysicalPathForFileByName($this->product1->object(), 'file_name.png'));
     }
 }
