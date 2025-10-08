@@ -2,11 +2,16 @@
 
 namespace Silecust\WebShop\Service\Common\File;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FilePhysicalOperation
+readonly class FilePhysicalOperation
 {
+
+    public function __construct(private Filesystem $filesystem)
+    {
+    }
 
     public function createOrReplaceFile(UploadedFile $fileHandle,
                                         string       $fileName,
@@ -15,5 +20,9 @@ class FilePhysicalOperation
         return $fileHandle->move($directoryForFileToBeMoved, $fileName);
     }
 
+    public function removeFile(string $filePathAndName): void
+    {
+        $this->filesystem->remove($filePathAndName);
+    }
 
 }

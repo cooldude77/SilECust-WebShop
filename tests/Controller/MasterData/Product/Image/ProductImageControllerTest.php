@@ -1,16 +1,22 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+
+/** @noinspection ALL */
 
 namespace Silecust\WebShop\Tests\Controller\MasterData\Product\Image;
 
-use Silecust\WebShop\Factory\ProductFactory;
 use Silecust\WebShop\Factory\ProductImageFactory;
+use Silecust\WebShop\Factory\ProductFactory;
 use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use SplFileInfo;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
+use function Symfony\Component\String\u;
 
 class ProductImageControllerTest extends WebTestCase
 {
@@ -72,7 +78,7 @@ class ProductImageControllerTest extends WebTestCase
 
         $uri = "/admin/product/image/{$productImage->getId()}/edit";
 
-        $fileNameEdit = 'test_2.jpg';
+        $fileNameEdit = 'test_image_jpeg.jpg';
         $filePathEdit = __DIR__ . '/' . $fileNameEdit;
         $uploadedFileEdit = new UploadedFile(
             $filePathEdit, $fileNameEdit
@@ -124,6 +130,56 @@ class ProductImageControllerTest extends WebTestCase
             ->assertSuccessful()
             ->assertSee($productImage->getFile()->getYourFileName())
             ->assertSee($productImage->getFile()->getName());
+        // ************
+        // file type change test
+
+
+        $uri = "/admin/product/image/{$productImage->getId()}/edit";
+
+        $fileNameEditPNG = 'test_image_png.png';
+        $filePathEditPNG = __DIR__ . '/' . $fileNameEditPNG;
+        $uploadedFileEditPNG = new UploadedFile(
+            $filePathEditPNG, $fileNameEditPNG
+        );
+
+        $visit = $this
+            ->browser()
+            ->visit($uri)
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $response = $browser->client()->getResponse();
+            });
+
+        $form = $visit->crawler()->selectButton('Save')->form();
+        $name = $form->get('product_image_edit_form[fileDTO][name]')->getValue();
+
+        $visit
+            ->fillField('product_image_edit_form[fileDTO][yourFileName]', 'MyFile')
+            ->fillField(
+                'product_image_edit_form[fileDTO][uploadedFile]', $uploadedFileEditPNG)
+            ->click('Save')
+            ->assertSuccessful();
+
+        // check if ProductImage File is updated
+
+        $productImage = ProductImageFactory::find($productImage);
+
+        self::assertTrue(u($productImage->getFile()->getName())->endsWith('.png'));
+        $uploadedToServerFilePathAfterEditPNG = $provider->getFullPhysicalPathForFileByName(
+            $product->object(), $productImage->getFile()->getName());
+
+        self::assertFileExists($uploadedToServerFilePathAfterEditPNG);
+
+        // check if extension changed in file
+        self::assertEquals('png',(new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
+
+        // test: file is correct?
+        self::assertEquals(md5_file($filePathEditPNG), md5_file($uploadedToServerFilePathAfterEditPNG));
+
+        // test: file name is correct?
 
 
     }

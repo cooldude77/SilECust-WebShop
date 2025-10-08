@@ -3,32 +3,25 @@
 namespace Silecust\WebShop\Service\MasterData\Product\Image\Provider;
 
 use Silecust\WebShop\Service\Common\File\Base\AbstractFileDirectoryPathProvider;
-use Silecust\WebShop\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  *  Directory Structure:
  *
  *  Product: Base Kernel Dir/public/files/Products/{id}/{filename.extension}
  */
-class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
+class ProductDirectoryPathProvider extends AbstractFileDirectoryPathProvider
 {
 
-    private string $ownPathSegment = '/product';
 
+    public function __construct(
+        #[Autowire(param: 'kernel.project_dir')] string $projectDir,
+        #[Autowire(param: 'file_storage_path')] string  $fileStoragePathFromParameter,
+        #[Autowire(param: 'uploads_segment')] string    $uploadsSegment,
 
-    public function getBaseFolderPath(): string
+    )
     {
-     return    $this->getPhysicalFilePathForFiles(). $this->ownPathSegment;
-    }
-
-    /**
-     * @return string
-     * Provides complete directory path ( but not the file name )
-     */
-    protected function getPhysicalFilePathForFiles(): string
-    {
-
-        return parent::getPhysicalFilePathForFiles().$this->ownPathSegment;
+        parent::__construct($projectDir, $fileStoragePathFromParameter, $uploadsSegment, '/product');
     }
 
 }

@@ -28,9 +28,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryImageController extends EnhancedAbstractController
 {
     /**
-     * @param int $id
+     * @param \Silecust\WebShop\Entity\CategoryImage $categoryImage
      * @param EntityManagerInterface $entityManager
-     * @param CategoryImageRepository $categoryImageRepository
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
      * @param CategoryImageOperation $categoryImageService
      * @param Request $request
@@ -64,7 +63,7 @@ class CategoryImageController extends EnhancedAbstractController
                 $form->getData(), $categoryImage
             );
 
-            $categoryImageService->createOrReplace(
+            $categoryImageService->createOrReplaceFileAndUpdateEntity(
                 $categoryImage, $categoryImageDTO->getUploadedFile()
             );
 
@@ -145,7 +144,7 @@ class CategoryImageController extends EnhancedAbstractController
     }
 
     /**
-     * @param int $id
+     * @param \Silecust\WebShop\Entity\Category $category
      * @param EntityManagerInterface $entityManager
      * @param \Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation $categoryImageOperation
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
@@ -176,7 +175,7 @@ class CategoryImageController extends EnhancedAbstractController
             $categoryImageDTO = $form->getData();
 
             $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
-            $categoryImageOperation->createOrReplace(
+            $categoryImageOperation->createOrReplaceFileAndUpdateEntity(
                 $categoryImage, $categoryImageDTO->getUploadedFile()
             );
 
@@ -206,8 +205,7 @@ class CategoryImageController extends EnhancedAbstractController
      *
      * Fetch is to display image standalone ( call by URL at the top )
      *
-     * @param int $id
-     * @param CategoryImageRepository $categoryImageRepository
+     * @param \Silecust\WebShop\Entity\CategoryImage $categoryImage
      * @param CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
      *
      * @return Response
@@ -233,8 +231,7 @@ class CategoryImageController extends EnhancedAbstractController
     }
 
     /**
-     * @param CategoryImageRepository $categoryImageRepository
-     * @param int $id
+     * @param \Silecust\WebShop\Entity\CategoryImage $categoryImage
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
@@ -270,8 +267,7 @@ class CategoryImageController extends EnhancedAbstractController
 
 
     /**
-     * @param int $id from CategoryImage->getId()
-     * @param CategoryImageRepository $categoryImageRepository
+     * @param \Silecust\WebShop\Entity\CategoryImage $categoryImage
      * @param CategoryDirectoryImagePathProvider $categoryDirectoryImagePathProvider
      *
      * @return Response

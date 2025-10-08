@@ -6,11 +6,13 @@ use Silecust\WebShop\Factory\CategoryFactory;
 use Silecust\WebShop\Factory\CategoryImageFactory;
 use Silecust\WebShop\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
+use SplFileInfo;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Zenstruck\Browser;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
+use function Symfony\Component\String\u;
 
 class CategoryImageControllerTest extends WebTestCase
 {
@@ -72,7 +74,7 @@ class CategoryImageControllerTest extends WebTestCase
 
         $uri = "/admin/category/image/{$categoryImage->getId()}/edit";
 
-        $fileNameEdit = 'test_2.jpg';
+        $fileNameEdit = 'test_image_jpeg.jpg';
         $filePathEdit = __DIR__ . '/' . $fileNameEdit;
         $uploadedFileEdit = new UploadedFile(
             $filePathEdit, $fileNameEdit
@@ -125,6 +127,56 @@ class CategoryImageControllerTest extends WebTestCase
             ->assertSee($categoryImage->getFile()->getYourFileName())
             ->assertSee($categoryImage->getFile()->getName());
 
+        // ************
+        // file type change test
+
+
+        $uri = "/admin/category/image/{$categoryImage->getId()}/edit";
+
+        $fileNameEditPNG = 'test_image_png.png';
+        $filePathEditPNG = __DIR__ . '/' . $fileNameEditPNG;
+        $uploadedFileEditPNG = new UploadedFile(
+            $filePathEditPNG, $fileNameEditPNG
+        );
+
+        $visit = $this
+            ->browser()
+            ->visit($uri)
+            ->use(callback: function (Browser $browser) {
+                $browser->client()->loginUser($this->userForEmployee->object());
+            })
+            ->visit($uri)
+            ->use(function (Browser $browser) {
+                $response = $browser->client()->getResponse();
+            });
+
+        $form = $visit->crawler()->selectButton('Save')->form();
+        $name = $form->get('category_image_edit_form[fileDTO][name]')->getValue();
+
+        $visit
+            ->fillField('category_image_edit_form[fileDTO][yourFileName]', 'MyFile')
+            ->fillField(
+                'category_image_edit_form[fileDTO][uploadedFile]', $uploadedFileEditPNG)
+            ->click('Save')
+            ->assertSuccessful();
+
+        // check if CategoryImage File is updated
+
+        $categoryImage = CategoryImageFactory::find($categoryImage);
+
+        self::assertTrue(u($categoryImage->getFile()->getName())->endsWith('.png'));
+        $uploadedToServerFilePathAfterEditPNG = $provider->getFullPhysicalPathForFileByName(
+            $category->object(), $categoryImage->getFile()->getName());
+
+        self::assertFileExists($uploadedToServerFilePathAfterEditPNG);
+
+        // check if extension changed in file
+        self::assertEquals('png',(new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
+
+        // test: file is correct?
+        self::assertEquals(md5_file($filePathEditPNG), md5_file($uploadedToServerFilePathAfterEditPNG));
+
+        // test: file name is correct?
 
     }
 

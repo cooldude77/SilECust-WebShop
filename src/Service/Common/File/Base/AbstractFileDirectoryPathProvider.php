@@ -2,35 +2,28 @@
 
 namespace Silecust\WebShop\Service\Common\File\Base;
 
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Silecust\WebShop\Service\Common\File\Provider\Interfaces\DirectoryPathProviderInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 define('DS', DIRECTORY_SEPARATOR);
 
-class AbstractFileDirectoryPathProvider
+#[Exclude]
+class AbstractFileDirectoryPathProvider implements DirectoryPathProviderInterface
 {
-    /**
-     * @var string
-     */
-    private string $projectDir;
-    private string $baseFilePathSegment;
 
-    private string $uploadsSegment ='/uploads';
 
     public function __construct(
-        #[Autowire(param: 'kernel.project_dir')]
-        string $projectDir,  #[Autowire(param: 'file_storage_path')]
-    string $fileStoragePathFromParameter)
+        private readonly string $projectDir,
+        private readonly string $fileStoragePathFromParameter,
+        private readonly string $uploadsSegment,
+        private readonly string $componentLevelPathSegment)
     {
-
-        $this->projectDir = $projectDir;
-
-        $this->baseFilePathSegment = $fileStoragePathFromParameter.$this->uploadsSegment;
 
     }
 
-    private function getProjectDir(): string
+    public function getBaseFolderPath(): string
     {
-        return $this->projectDir;
+        return $this->getPhysicalFilePathForFiles() . $this->componentLevelPathSegment;
     }
 
     /**
@@ -40,17 +33,21 @@ class AbstractFileDirectoryPathProvider
     protected function getPhysicalFilePathForFiles(): string
     {
 
-        return $this->getProjectDir() . $this->getBaseFilePathSegment();
+        return $this->getProjectDir() . $this->getPathToUploadsSegment() . $this->componentLevelPathSegment;
+    }
+
+    private function getProjectDir(): string
+    {
+        return $this->projectDir;
     }
 
     /**
      * @return string
      * Only provides the segment till uploads folder
      */
-    public function getBaseFilePathSegment(): string
+    public function getPathToUploadsSegment(): string
     {
-        return $this->baseFilePathSegment;
+        return $this->fileStoragePathFromParameter . $this->uploadsSegment;
     }
-
 
 }

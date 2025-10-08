@@ -60,7 +60,7 @@ class ProductImageController extends EnhancedAbstractController
             $productImageDTO = $form->getData();
 
             $productImage = $productImageDTOMapper->mapDtoToEntityForCreate($productImageDTO);
-            $productImageOperation->createOrReplace(
+            $productImageOperation->createOrReplaceFileAndUpdateEntity(
                 $productImage, $productImageDTO->getUploadedFile()
             );
 
@@ -126,7 +126,7 @@ class ProductImageController extends EnhancedAbstractController
                 $form->getData(), $productImage
             );
 
-            $productImageService->createOrReplace(
+            $productImageService->createOrReplaceFileAndUpdateEntity(
                 $productImage, $productImageDTO->getUploadedFile()
             );
 

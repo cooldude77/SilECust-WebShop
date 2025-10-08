@@ -1,4 +1,4 @@
-# Change these to your own convinience
+# Change these to your own convenience
 parameters:
   database.url: mysql://dbAdmin:dbPassword@127.0.0.1:3306/silecust_bundle?charset=utf8mb4
   silecust.sign_up.email.email_from_address: from@fromAddress
@@ -6,3 +6,4 @@ parameters:
   silecust.sign_up.email.headline: A Headline
   silecust.default_country: IN
   file_storage_path: '/data/test'
+  uploads_segment: '/uploads'
