@@ -1,13 +1,9 @@
-<?php /** @noinspection ALL */
-/** @noinspection ALL */
-/** @noinspection ALL */
-
-/** @noinspection ALL */
+<?php /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 
 namespace Silecust\WebShop\Tests\Controller\MasterData\Product\Image;
 
-use Silecust\WebShop\Factory\ProductImageFactory;
 use Silecust\WebShop\Factory\ProductFactory;
+use Silecust\WebShop\Factory\ProductImageFactory;
 use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use SplFileInfo;
@@ -130,6 +126,7 @@ class ProductImageControllerTest extends WebTestCase
             ->assertSuccessful()
             ->assertSee($productImage->getFile()->getYourFileName())
             ->assertSee($productImage->getFile()->getName());
+
         // ************
         // file type change test
 
@@ -141,6 +138,8 @@ class ProductImageControllerTest extends WebTestCase
         $uploadedFileEditPNG = new UploadedFile(
             $filePathEditPNG, $fileNameEditPNG
         );
+
+        $fileToBeReplacedPathJPG = $provider->getFullPhysicalPathForFileByName($product->object(), $fileNameEdit);
 
         $visit = $this
             ->browser()
@@ -174,13 +173,14 @@ class ProductImageControllerTest extends WebTestCase
         self::assertFileExists($uploadedToServerFilePathAfterEditPNG);
 
         // check if extension changed in file
-        self::assertEquals('png',(new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
+        self::assertEquals('png', (new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
 
         // test: file is correct?
         self::assertEquals(md5_file($filePathEditPNG), md5_file($uploadedToServerFilePathAfterEditPNG));
 
-        // test: file name is correct?
+        // test: check if old file deleted?
 
+        self::assertFileDoesNotExist($fileToBeReplacedPathJPG);
 
     }
 
@@ -200,6 +200,4 @@ class ProductImageControllerTest extends WebTestCase
         shell_exec("rm -rf " . $path);
     }
 
-    // Todo: Create List test case
-    // todo: create edit test case
 }

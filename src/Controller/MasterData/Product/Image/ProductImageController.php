@@ -2,20 +2,20 @@
 
 namespace Silecust\WebShop\Controller\MasterData\Product\Image;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Silecust\Framework\Service\Component\Controller\EnhancedAbstractController;
-use Silecust\WebShop\Controller\Common\Utility\CommonUtility;
 use Silecust\WebShop\Entity\Product;
 use Silecust\WebShop\Entity\ProductImage;
 use Silecust\WebShop\Form\MasterData\Product\Image\DTO\ProductImageDTO;
 use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageCreateForm;
 use Silecust\WebShop\Form\MasterData\Product\Image\Form\ProductImageEditForm;
 use Silecust\WebShop\Repository\ProductImageRepository;
-use Silecust\WebShop\Service\Common\Image\SystemImage;
+use Silecust\WebShop\Repository\ProductRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
 use Silecust\WebShop\Service\MasterData\Product\Image\Mapper\ProductImageDTOMapper;
-use Silecust\WebShop\Service\MasterData\Product\Image\ProductImageOperation;
+use Silecust\WebShop\Service\MasterData\Product\Image\ProductImageFileOperation;
 use Silecust\WebShop\Service\MasterData\Product\Image\Provider\ProductDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,92 +28,30 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductImageController extends EnhancedAbstractController
 {
     /**
-     * @param int $id
+     * @param \Silecust\WebShop\Entity\ProductImage $productImage
      * @param EntityManagerInterface $entityManager
-     * @param \Silecust\WebShop\Service\MasterData\Product\Image\ProductImageOperation $productImageOperation
-     * @param \Silecust\WebShop\Repository\ProductRepository $productRepository
      * @param ProductImageDTOMapper $productImageDTOMapper
-     * @param CommonUtility $commonUtility
-     * @param Request $request
-     *
-     * @return Response
-     */
-    #[Route('/admin/product/{id}/image/create', name: 'sc_admin_product_file_image_create')]
-    public function create(Product               $product, EntityManagerInterface $entityManager,
-                           ProductImageOperation $productImageOperation,
-                           ProductImageDTOMapper $productImageDTOMapper, CommonUtility $commonUtility,
-                           Request               $request
-    ): Response
-    {
-
-        // Todo : validate if product exists
-
-        $productImageDTO = new ProductImageDTO();
-        $productImageDTO->productId = $product->getId();
-
-        $form = $this->createForm(ProductImageCreateForm::class, $productImageDTO, ['validation_groups' => 'create']);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var ProductImageDTO $productImageDTO */
-            $productImageDTO = $form->getData();
-
-            $productImage = $productImageDTOMapper->mapDtoToEntityForCreate($productImageDTO);
-            $productImageOperation->createOrReplaceFileAndUpdateEntity(
-                $productImage, $productImageDTO->getUploadedFile()
-            );
-
-
-            $entityManager->persist($productImage);
-            $entityManager->flush();
-
-            $id = $productImage->getId();
-
-            $this->addFlash(
-                'success', "Product file image created successfully"
-            );
-
-            return new Response(
-                serialize(
-                    ['id' => $id, 'message' => "Product file image  created successfully"]
-                ), 200
-            );
-        }
-
-        return $this->render('@SilecustWebShop/master_data/product/image/product_image_create.html.twig', ['form' =>
-                $form]
-        );
-    }
-
-    /**
-     * @param int $id
-     * @param EntityManagerInterface $entityManager
-     * @param ProductImageRepository $productImageRepository
-     * @param ProductImageDTOMapper $productImageDTOMapper
-     * @param ProductImageOperation $productImageService
+     * @param ProductImageFileOperation $productImageService
      * @param Request $request
      *
      * @return Response
      *
-     * id is ProductImage id
+     * id is ProductImage ID
+     * @throws \Exception
      */
     #[Route('/admin/product/image/{id}/edit', name: 'sc_admin_product_file_image_edit')]
-    public function edit(
-        ProductImage           $productImage,
-        EntityManagerInterface $entityManager,
-        ProductImageDTOMapper  $productImageDTOMapper,
-        ProductImageOperation  $productImageService, Request $request
+    public function edit(ProductImage              $productImage,
+                         EntityManagerInterface    $entityManager,
+                         ProductImageDTOMapper     $productImageDTOMapper,
+                         ProductImageFileOperation $productImageService, Request $request
     ): Response
     {
-
         $this->setContentHeading($request, 'Edit product image');
-
 
         $productImageDTO = $productImageDTOMapper->mapEntityToDtoForEdit(
             $productImage
         );
-        $form = $this->createForm(ProductImageEditForm::class, $productImageDTO, ['validation_groups' => 'edit']);
+        $form = $this->createForm(ProductImageEditForm::class, $productImageDTO);
 
         $form->handleRequest($request);
 
@@ -126,7 +64,7 @@ class ProductImageController extends EnhancedAbstractController
                 $form->getData(), $productImage
             );
 
-            $productImageService->createOrReplaceFileAndUpdateEntity(
+            $productImageService->createOrUpdateFileAndEntity(
                 $productImage, $productImageDTO->getUploadedFile()
             );
 
@@ -152,12 +90,12 @@ class ProductImageController extends EnhancedAbstractController
 
     }
 
-
     /**
      * @throws \Doctrine\ORM\Query\QueryException
      */
     #[Route('/admin/product/{id}/image/list', name: 'sc_admin_product_file_image_list')]
     public function list(Product                $product,
+                         ProductRepository      $productRepository,
                          ProductImageRepository $productImageRepository,
                          PaginatorInterface     $paginator,
                          SearchEntityInterface  $searchEntity,
@@ -165,7 +103,7 @@ class ProductImageController extends EnhancedAbstractController
     ):
     Response
     {
-        $this->setContentHeading($request, 'Product Files');
+        $this->setContentHeading($request, 'Product Images');
 
 
         $listGrid = ['title' => "Product Files",
@@ -179,7 +117,8 @@ class ProductImageController extends EnhancedAbstractController
                     'action' => 'display',
                 ],
                 [
-                    'label' => 'FileName', 'propertyName' => 'name'
+                    'label' => 'FileName',
+                    'propertyName' => 'name'
                 ],
             ],
             'createButtonConfig' => [
@@ -190,7 +129,8 @@ class ProductImageController extends EnhancedAbstractController
             ]
         ];
 
-        $query = $searchEntity->getQueryForSelect($request, $productImageRepository, ['yourFileName', 'name']);
+        $query = $searchEntity->getQueryForSelect($request, $productImageRepository, ['yourFileName', 'name'],
+            Criteria::create()->where(Criteria::expr()->eq('product', $product)));
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -205,18 +145,77 @@ class ProductImageController extends EnhancedAbstractController
     }
 
     /**
+     * @param \Silecust\WebShop\Entity\Product $product
+     * @param EntityManagerInterface $entityManager
+     * @param \Silecust\WebShop\Service\MasterData\Product\Image\ProductImageFileOperation $productImageOperation
+     * @param ProductImageDTOMapper $productImageDTOMapper
+     * @param Request $request
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    #[Route('/admin/product/{id}/image/create', name: 'sc_admin_product_file_image_create')]
+    public function create(Product                   $product,
+                           EntityManagerInterface    $entityManager,
+                           ProductImageFileOperation $productImageOperation,
+                           ProductImageDTOMapper     $productImageDTOMapper,
+                           Request                   $request
+    ): Response
+    {
+
+        // Todo : validate if product exists
+
+        $productImageDTO = new ProductImageDTO();
+        $productImageDTO->productId = $product->getId();
+
+        $form = $this->createForm(ProductImageCreateForm::class, $productImageDTO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var ProductImageDTO $productImageDTO */
+            $productImageDTO = $form->getData();
+
+            $productImage = $productImageDTOMapper->mapDtoToEntityForCreate($productImageDTO);
+            $productImageOperation->createOrUpdateFileAndEntity(
+                $productImage, $productImageDTO->getUploadedFile()
+            );
+
+
+            $entityManager->persist($productImage);
+            $entityManager->flush();
+
+            $id = $productImage->getId();
+
+            $this->addFlash(
+                'success', "Product file image created successfully"
+            );
+
+            return new Response(
+                serialize(
+                    ['id' => $id, 'message' => "Product file image  created successfully"]
+                ), 200
+            );
+        }
+
+        return $this->render(
+            '@SilecustWebShop/master_data/product/image/product_image_create.html.twig', ['form' => $form]
+        );
+    }
+
+    /**
      *
      * Fetch is to display image standalone ( call by URL at the top )
      *
-     * @param int $id
-     * @param ProductImageRepository $productImageRepository
+     * @param \Silecust\WebShop\Entity\ProductImage $productImage
      * @param ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
      *
      * @return Response
      */
     #[Route('/admin/product/image/{id}/fetch', name: 'sc_admin_product_file_image_fetch')]
-    public function fetch(ProductImage                      $productImage,
-                          ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
+    public function fetch(
+        ProductImage                      $productImage,
+        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
     ): Response
     {
 
@@ -234,16 +233,16 @@ class ProductImageController extends EnhancedAbstractController
     }
 
     /**
-     * @param ProductImageRepository $productImageRepository
-     * @param int $id
+     * @param \Silecust\WebShop\Entity\ProductImage $productImage
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
     #[Route('/admin/product/image/{$id}/display/', name: 'sc_admin_product_file_image_display')]
-    public function display(ProductImage           $productImage,
-                            ProductImageRepository $productImageRepository, Request $request): Response
+    public function display(ProductImage $productImage,
+                            Request      $request): Response
     {
         $this->setContentHeading($request, 'Display product image');
+
 
         $entity = ['id' => $productImage->getId(),
             'name' => $productImage->getFile()->getName(),
@@ -251,11 +250,14 @@ class ProductImageController extends EnhancedAbstractController
 
         $displayParams = ['title' => 'ProductImage',
             'editButtonLinkText' => 'Edit',
-            'link_id' => 'id-edit-file',
-            'fields' => [['label' => 'Your Name',
-                'propertyName' => 'yourFileName',
-                'link_id' => 'id-display-image-file'],
-                ['label' => 'Name', 'propertyName' => 'name'],
+            'link_id' => 'id-edit-link',
+            'fields' => [
+                ['label' => 'Your Name',
+                    'propertyName' => 'yourFileName',
+                    'link_id' => 'id-display-image-file'],
+                ['label' => 'Name',
+                    'propertyName' => 'name',
+                    'link_id' => 'id-name'],
             ]];
 
         return $this->render(
@@ -267,26 +269,22 @@ class ProductImageController extends EnhancedAbstractController
 
 
     /**
-     * @param int $id from ProductImage->getId()
-     * @param ProductImageRepository $productImageRepository
+     * @param \Silecust\WebShop\Entity\ProductImage $productImage
      * @param ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
-     * @param \Silecust\WebShop\Service\Common\Image\SystemImage $systemImage
+     *
      * @return Response
      *
      * To be displayed in img tag
      */
     #[Route('product/image/img-tag/{id}', name: 'sc_product_image_file_for_img_tag')]
     public function getFileContentsById(ProductImage                      $productImage,
-                                        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider,
-                                        SystemImage                       $systemImage
+                                        ProductDirectoryImagePathProvider $productDirectoryImagePathProvider
     ): Response
     {
+
         $path = $productDirectoryImagePathProvider->getFullPhysicalPathForFileByName(
             $productImage->getProduct(), $productImage->getFile()->getName()
         );
-        if (!isset($path) || !file_exists($path)) {
-            $path = $systemImage->getNoImageForProductPath();
-        }
 
         return new BinaryFileResponse($path);
 
