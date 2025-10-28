@@ -14,7 +14,7 @@ use Silecust\WebShop\Form\MasterData\Category\Image\Form\CategoryImageEditForm;
 use Silecust\WebShop\Repository\CategoryImageRepository;
 use Silecust\WebShop\Repository\CategoryRepository;
 use Silecust\WebShop\Service\Component\UI\Search\SearchEntityInterface;
-use Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation;
+use Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageFileOperation;
 use Silecust\WebShop\Service\MasterData\Category\Image\Mapper\CategoryImageDTOMapper;
 use Silecust\WebShop\Service\MasterData\Category\Image\Provider\CategoryDirectoryImagePathProvider;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -31,18 +31,19 @@ class CategoryImageController extends EnhancedAbstractController
      * @param \Silecust\WebShop\Entity\CategoryImage $categoryImage
      * @param EntityManagerInterface $entityManager
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
-     * @param CategoryImageOperation $categoryImageService
+     * @param CategoryImageFileOperation $categoryImageService
      * @param Request $request
      *
      * @return Response
      *
      * id is CategoryImage ID
+     * @throws \Exception
      */
     #[Route('/admin/category/image/{id}/edit', name: 'sc_admin_category_file_image_edit')]
-    public function edit(CategoryImage          $categoryImage,
-                         EntityManagerInterface $entityManager,
-                         CategoryImageDTOMapper $categoryImageDTOMapper,
-                         CategoryImageOperation $categoryImageService, Request $request
+    public function edit(CategoryImage              $categoryImage,
+                         EntityManagerInterface     $entityManager,
+                         CategoryImageDTOMapper     $categoryImageDTOMapper,
+                         CategoryImageFileOperation $categoryImageService, Request $request
     ): Response
     {
         $this->setContentHeading($request, 'Edit category image');
@@ -63,7 +64,7 @@ class CategoryImageController extends EnhancedAbstractController
                 $form->getData(), $categoryImage
             );
 
-            $categoryImageService->createOrReplaceFileAndUpdateEntity(
+            $categoryImageService->createOrUpdateFileAndEntity(
                 $categoryImage, $categoryImageDTO->getUploadedFile()
             );
 
@@ -146,18 +147,19 @@ class CategoryImageController extends EnhancedAbstractController
     /**
      * @param \Silecust\WebShop\Entity\Category $category
      * @param EntityManagerInterface $entityManager
-     * @param \Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageOperation $categoryImageOperation
+     * @param \Silecust\WebShop\Service\MasterData\Category\Image\CategoryImageFileOperation $categoryImageOperation
      * @param CategoryImageDTOMapper $categoryImageDTOMapper
      * @param Request $request
      *
      * @return Response
+     * @throws \Exception
      */
     #[Route('/admin/category/{id}/image/create', name: 'sc_admin_category_file_image_create')]
-    public function create(Category               $category,
-                           EntityManagerInterface $entityManager,
-                           CategoryImageOperation $categoryImageOperation,
-                           CategoryImageDTOMapper $categoryImageDTOMapper,
-                           Request                $request
+    public function create(Category                   $category,
+                           EntityManagerInterface     $entityManager,
+                           CategoryImageFileOperation $categoryImageOperation,
+                           CategoryImageDTOMapper     $categoryImageDTOMapper,
+                           Request                    $request
     ): Response
     {
 
@@ -175,7 +177,7 @@ class CategoryImageController extends EnhancedAbstractController
             $categoryImageDTO = $form->getData();
 
             $categoryImage = $categoryImageDTOMapper->mapDtoToEntityForCreate($categoryImageDTO);
-            $categoryImageOperation->createOrReplaceFileAndUpdateEntity(
+            $categoryImageOperation->createOrUpdateFileAndEntity(
                 $categoryImage, $categoryImageDTO->getUploadedFile()
             );
 

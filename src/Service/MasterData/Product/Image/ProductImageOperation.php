@@ -78,7 +78,7 @@ readonly class ProductImageOperation
             $fileName = $this->resetFileName($fileName, $extensionExistingFile, $extensionUploadedFile);
             assertStringContainsString($extensionUploadedFile, $fileName);
             // remove old file
-            $this->filePhysicalOperation->removeFile($dir . '/' . $fileName);
+            $this->filePhysicalOperation->copyFileAndMakeATempDeletedFile($dir . '/' . $fileName);
             // update product Image
             $this->updateProductImage($productImage, $fileName);
 

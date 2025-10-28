@@ -139,6 +139,8 @@ class CategoryImageControllerTest extends WebTestCase
             $filePathEditPNG, $fileNameEditPNG
         );
 
+        $fileToBeReplacedPathJPG = $provider->getFullPhysicalPathForFileByName($category->object(), $fileNameEdit);
+
         $visit = $this
             ->browser()
             ->visit($uri)
@@ -171,12 +173,14 @@ class CategoryImageControllerTest extends WebTestCase
         self::assertFileExists($uploadedToServerFilePathAfterEditPNG);
 
         // check if extension changed in file
-        self::assertEquals('png',(new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
+        self::assertEquals('png', (new SplFileInfo($uploadedToServerFilePathAfterEditPNG))->getExtension());
 
         // test: file is correct?
         self::assertEquals(md5_file($filePathEditPNG), md5_file($uploadedToServerFilePathAfterEditPNG));
 
-        // test: file name is correct?
+        // test: check if old file deleted?
+
+        self::assertFileDoesNotExist($fileToBeReplacedPathJPG);
 
     }
 

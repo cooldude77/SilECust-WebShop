@@ -1,9 +1,9 @@
 <?php
 
 use Doctrine\Deprecations\Deprecation;
+use Silecust\WebShop\Tests\TestKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -12,9 +12,13 @@ if (class_exists(Deprecation::class)) {
 }
 
 bootstrap();
+/**
+ * @return void
+ * @throws \Exception
+ */
 function bootstrap(): void
 {
-    $kernel = new \Silecust\WebShop\Tests\TestKernel('test', true);
+    $kernel = new TestKernel('test', true);
     $kernel->boot();
 
     $application = new Application($kernel);
