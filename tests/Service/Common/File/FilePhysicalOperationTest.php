@@ -72,9 +72,9 @@ class FilePhysicalOperationTest extends TestCase
         $uploadedFileMock = $this->createMock(UploadedFile::class);
         $uploadedFileMock->method('getExtension')->willReturn('pdf');
 
-        // Mock getExtensionExistingFile to return 'txt'
+        // Mock getExtensionOfExistingFile to return 'txt'
         $reflection = new \ReflectionClass($this->fileOperation);
-        $method = $reflection->getMethod('getExtensionExistingFile');
+        $method = $reflection->getMethod('getExtensionOfExistingFile');
         $method->setAccessible(true);
 
         $extensionExistingFile = 'txt';
@@ -86,7 +86,7 @@ class FilePhysicalOperationTest extends TestCase
         $dir = '/tmp';
         $fileName = 'file.test';
 
-        $extension = $this->fileOperation->getExtensionExistingFile($dir, $fileName);
+        $extension = $this->fileOperation->getExtensionOfExistingFile($dir, $fileName);
         $this->assertEquals('test', $extension);
     }
 

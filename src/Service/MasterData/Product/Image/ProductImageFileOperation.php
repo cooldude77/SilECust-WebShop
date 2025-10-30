@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use function PHPUnit\Framework\assertNotNull;
 
 
-readonly class ProductImageFileOperation
+class ProductImageFileOperation
 {
 
     public function __construct(
@@ -40,15 +40,17 @@ readonly class ProductImageFileOperation
         $toBeDeletedFileName = '';
 
         // it may be now be a png instead of a jpg
-        if ($this->hasFileNameChanged($directory, $fileName, $uploadedFile)) {
-            // delete file with old filename
-            $toBeDeletedFileName = $this->deleteFile($directory, $fileName);
+        if ($this->fileExists($directory, $fileName) && $this->hasFileNameChanged($directory, $fileName, $uploadedFile)) {
 
             // get same file name but with extension changed
+            $oldFileName = $fileName;
             $fileName = $this->getFileNameUsingNewExtension($fileName, $directory, $uploadedFile);
 
             // update product Image
             $this->updateEntity($productImage, $fileName);
+
+            // delete file with old filename
+            $toBeDeletedFileName = $this->deleteFile($directory, $oldFileName);
 
         }
 
@@ -84,6 +86,11 @@ readonly class ProductImageFileOperation
         return $productImage->getFile()->getName();
     }
 
+    private function fileExists(string $directory, ?string $fileName): bool
+    {
+        return $this->filePhysicalOperation->exists($directory, $fileName);
+    }
+
     /**
      * @param string $directory
      * @param string|null $fileName
@@ -96,27 +103,18 @@ readonly class ProductImageFileOperation
     }
 
     /**
-     * @param string $directory
-     * @param string|null $fileName
-     * @return string
-     */
-    public function deleteFile(string $directory, ?string $fileName): string
-    {
-        return $this->filePhysicalOperation->copyFileAndMakeATempDeletedFile($directory . '/' . $fileName);
-    }
-
-    /**
      * @param string|null $fileName
      * @param string $directory
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile
      * @return string
+     * @throws \Silecust\WebShop\Exception\Common\File\FileDoesNotExist
      */
     public function getFileNameUsingNewExtension(?string $fileName, string $directory, UploadedFile $uploadedFile): string
     {
         return $this->filePhysicalOperation->getFileNameUsingNewExtension(
             $fileName,
-            $this->filePhysicalOperation->getExtensionExistingFile($directory, $fileName),
-            $uploadedFile->getExtension());
+            $this->filePhysicalOperation->getExtensionOfExistingFile($directory, $fileName),
+            $uploadedFile->getClientOriginalExtension());
     }
 
     /**
@@ -127,6 +125,16 @@ readonly class ProductImageFileOperation
     public function updateEntity(ProductImage $productImage, string $fileName): void
     {
         $productImage->getFile()->setName($fileName);
+    }
+
+    /**
+     * @param string $directory
+     * @param string|null $fileName
+     * @return string
+     */
+    public function deleteFile(string $directory, ?string $fileName): string
+    {
+        return $this->filePhysicalOperation->copyFileAndMakeATempDeletedFile($directory . '/' . $fileName);
     }
 
 
