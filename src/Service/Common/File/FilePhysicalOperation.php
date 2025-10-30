@@ -84,10 +84,16 @@ readonly class FilePhysicalOperation
     public
     function getExtensionOfExistingFile(string $dir, ?string $fileName): string
     {
-        if (!file_exists($dir . DIRECTORY_SEPARATOR . $fileName))
+
+        if (!$this->filesystem->exists($dir . DIRECTORY_SEPARATOR . $fileName))
             throw new FileDoesNotExist($dir, $fileName);
 
         return (new SplFileInfo($dir . '/' . $fileName))->getExtension();
+    }
+
+    public function exists(string $directory, ?string $fileName): bool
+    {
+        return $this->filesystem->exists($directory . DIRECTORY_SEPARATOR . $fileName);
     }
 
     /**
@@ -120,10 +126,5 @@ readonly class FilePhysicalOperation
     {
         if ($fileName != null)
             $this->filesystem->remove($fileName);
-    }
-
-    public function exists(string $directory, ?string $fileName): bool
-    {
-        return $this->filesystem->exists($directory . DIRECTORY_SEPARATOR . $fileName);
     }
 }
