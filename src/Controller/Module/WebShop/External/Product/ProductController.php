@@ -105,42 +105,37 @@ class ProductController extends EnhancedAbstractController
         $event = new ProductListingQueryEvent($request);
         $eventDispatcher->dispatch($event, ProductListingQueryEvent::LIST_QUERY_EVENT);
 
-        $pagination = $paginator->paginate(
-            $event->getQuery(), /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
+        // if there was any exception in event dispatching
+        if ($event->isPropagationStopped())
+            return $this->render(
+                '@SilecustWebShop/module/web_shop/external/product/product_list_search_criteria_error.html.twig',
+            );
+        else {
+            $pagination = $paginator->paginate(
+                $event->getQuery(), /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                10 /*limit per page*/
+            );
 
-        $sortForm = $this->createForm(WebShopProductSorter::class);
+            $sortForm = $this->createForm(WebShopProductSorter::class);
 
-        $sortForm->handleRequest($request);
+            $sortForm->handleRequest($request);
 
 
-        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+            if ($sortForm->isSubmitted() && $sortForm->isValid()) {
 
-            $queryParams = $this->mergeQueryParameters($request, $sortForm);
+                $queryParams = $this->mergeQueryParameters($request, $sortForm);
 
-            return $this->redirectToRoute('sc_home', $queryParams);
+                return $this->redirectToRoute('sc_home', $queryParams);
+            }
+
+            return $this->render(
+                '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
+                [
+                    'pagination' => $pagination,
+                    'sortForm' => $sortForm]
+            );
         }
-
-        return $this->render(
-            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
-            ['pagination' => $pagination,
-                'sortForm' => $sortForm]
-        );
-    }
-
-    public function listBySearchTerm(Request $request, ProductRepository $productRepository
-    ): Response
-    {
-        $products = $productRepository->search($request->get('searchTerm'));
-
-        return $this->render(
-            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
-            ['products' => $products]
-        );
-
-
     }
 
     /**
@@ -157,6 +152,19 @@ class ProductController extends EnhancedAbstractController
         $queryParams['order'] =
             $sortForm->get('order')->getData();
         return $queryParams;
+    }
+
+    public function listBySearchTerm(Request $request, ProductRepository $productRepository
+    ): Response
+    {
+        $products = $productRepository->search($request->get('searchTerm'));
+
+        return $this->render(
+            '@SilecustWebShop/module/web_shop/external/product/product_list.html.twig',
+            ['products' => $products]
+        );
+
+
     }
 
 }

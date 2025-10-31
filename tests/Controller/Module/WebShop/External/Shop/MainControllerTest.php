@@ -72,10 +72,33 @@ class MainControllerTest extends WebTestCase
 
     }
 
+    public function testOnClickACategoryShouldNotCreateProblem()
+    {
+        $this->createCustomerFixtures();
+        $this->createProductFixtures();
+        $this->createLocationFixtures();
+        $this->createCurrencyFixtures($this->country);
+
+        $categoryDescription = $this->category1->getDescription();
+
+        $this->browser()
+            ->visit('/')
+            ->assertSuccessful()
+            ->click($categoryDescription)
+            ->assertSuccessful();
+
+        // wrong category description
+        $this->browser()
+            ->visit('/?category=asdaca')
+            ->assertSuccessful()
+            // Test: should show meaningful message to end user
+            ->assertSee("Product Search Criteria not valid");
+    }
+
+
     protected function setUp(): void
     {
         $this->browser()->visit('/logout');
-
 
     }
 }
