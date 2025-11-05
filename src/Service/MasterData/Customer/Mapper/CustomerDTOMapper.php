@@ -43,6 +43,7 @@ class CustomerDTOMapper
         $customer->setLastName($customerDTO->lastName);
         $customer->setGivenName($customerDTO->givenName);
         $customer->setEmail($customerDTO->email);
+        $customer->setPhoneNumber($customerDTO->phoneNumber);
 
         return $customer;
 

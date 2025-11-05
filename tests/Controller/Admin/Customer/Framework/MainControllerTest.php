@@ -18,19 +18,6 @@ class MainControllerTest extends WebTestCase
     use HasBrowser, AuthenticateTestEmployee, EmployeeFixture, CustomerFixture, SuperAdminFixture, Factories;
 
 
-    protected function setUp(): void
-    {
-
-        // When tests are run together , there might be a conflict in case of login user from another test not
-        // logged out before another user login is tested and errors may happen
-        // Individually these tests may run fine
-        // So users are logged out before testing
-
-        parent::setUp();
-        $this->browser()->visit('/logout');
-
-    }
-
     /**
      * @return void
      */
@@ -62,7 +49,6 @@ class MainControllerTest extends WebTestCase
 
 
     }
-
 
     /**
      * @return void
@@ -123,7 +109,24 @@ class MainControllerTest extends WebTestCase
         $created = CustomerFactory::find(array('firstName' => "New First Name"));
 
         $this->assertEquals("New First Name", $created->getFirstName());
+        $this->assertEquals('New Middle Name', $created->getMiddleName());
+        $this->assertEquals('New Last Name', $created->getLastName());
+        $this->assertEquals('f@g.com', $created->getEmail());
+        $this->assertEquals('+9188888888', $created->getPhoneNumber());
 
+
+    }
+
+    protected function setUp(): void
+    {
+
+        // When tests are run together , there might be a conflict in case of login user from another test not
+        // logged out before another user login is tested and errors may happen
+        // Individually these tests may run fine
+        // So users are logged out before testing
+
+        parent::setUp();
+        $this->browser()->visit('/logout');
 
     }
 }
