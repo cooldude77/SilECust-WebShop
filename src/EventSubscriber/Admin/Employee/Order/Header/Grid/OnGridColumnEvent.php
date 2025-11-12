@@ -16,8 +16,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     /**
      * @param RouterInterface $router
      */
-    public function __construct(private RouterInterface                $router,
-                                private readonly HeaderPriceCalculator $orderPriceValueCalculator)
+    public function __construct(private RouterInterface       $router,
+                                private HeaderPriceCalculator $orderPriceValueCalculator)
     {
     }
 
@@ -41,7 +41,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
 
         $route = $this->router->match($event->getData()['request']->getPathInfo());
 
-        if (!in_array($route['_route'], [ 'sc_admin_panel','sc_admin_order_list']))
+        if (!in_array($route['_route'], ['sc_admin_panel', 'sc_admin_order_list']))
             if (!($event->getData()['request']->query->get('_function') == 'order'
                 && $event->getData()['request']->query->get('_type') == 'list')
             )
@@ -67,7 +67,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 break;
             case 'dateTimeOfOrder':
                 {
-                    $column['value'] = $entity->getDateTimeOfOrder()->format('d-m-Y H:i:s');
+                    //todo
+                    $column['value'] = 'a';//$entity->getDateTimeOfOrder()->format('d-m-Y H:i:s');
                     $data['column'] = $column;
                 }
                 break;

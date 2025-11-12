@@ -48,7 +48,6 @@ final class OrderHeaderFactory extends ModelFactory
     {
         return [
             'customer' => CustomerFactory::new(),
-            'dateTimeOfOrder' => self::faker()->dateTime(),
             'generatedId'=>uniqid()
         ];
     }

@@ -2,6 +2,8 @@
 
 namespace Silecust\WebShop\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -24,15 +26,20 @@ class OrderStatus
     #[ORM\JoinColumn(nullable: false)]
     private ?OrderStatusType $orderStatusType = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateOfStatusSet = null;
+    /**
+     * @var \DateTimeInterface|null
+     * See Order.md for conversion to UTC
+     */
+    #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
+    private ?DateTimeInterface $dateOfStatusSet = null;
+
+
+    #[ORM\Column(length: 255)]
+    private string|null $timeZoneOfStatusSet = null;
+
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = null;
-
-    #[ORM\Column(type: Types::OBJECT)]
-    private ?object $snapShot = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -62,12 +69,12 @@ class OrderStatus
         return $this;
     }
 
-    public function getDateOfStatusSet(): ?\DateTimeInterface
+    public function getDateOfStatusSet(): ?DateTimeInterface
     {
         return $this->dateOfStatusSet;
     }
 
-    public function setDateOfStatusSet(\DateTimeInterface $dateOfStatusSet): static
+    public function setDateOfStatusSet(DateTimeInterface $dateOfStatusSet): static
     {
         $this->dateOfStatusSet = $dateOfStatusSet;
 
@@ -86,21 +93,21 @@ class OrderStatus
         return $this;
     }
 
-    public function getSnapShot(): ?object
-    {
-        return $this->snapShot;
-    }
-
-    public function setSnapShot(object $snapShot): static
-    {
-        $this->snapShot = $snapShot;
-
-        return $this;
-    }
 
     #[ORM\PrePersist]
     public function setDatesOnCreation(): void
     {
-        $this->dateOfStatusSet = new \DateTimeImmutable();
+        $presentDateAndTime = new DateTimeImmutable('now');
+
+        $this->setDateOfStatusSet($presentDateAndTime);
+        $this->timeZoneOfStatusSet = $presentDateAndTime->getTimezone()->getName();
+
     }
+
+    public function getTimeZoneOfStatusSet(): ?string
+    {
+        return $this->timeZoneOfStatusSet;
+    }
+
+
 }

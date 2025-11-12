@@ -6,7 +6,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderShippingFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
@@ -28,7 +28,7 @@ class OrderViewBeforePaymentControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         OrderItemFixture,
         SessionFactoryFixture,
         OrderShippingFixture,

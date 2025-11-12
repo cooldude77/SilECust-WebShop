@@ -17,7 +17,7 @@ use Silecust\WebShop\Service\Component\Routing\RoutingConstants;
 use Silecust\WebShop\Service\Module\WebShop\External\Address\CheckOutAddressSession;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
 use Silecust\WebShop\Service\Testing\Utility\FindByCriteria;
 use Silecust\WebShop\Service\Testing\Utility\SelectElement;
@@ -34,7 +34,7 @@ use Zenstruck\Foundry\Test\Factories;
 class AddressControllerTest extends WebTestCase
 {
     use HasBrowser, CustomerFixture, LocationFixture, SelectElement, SessionFactoryFixture,
-        FindByCriteria, OrderFixture, Factories;
+        FindByCriteria, OrderFixtureForTypeA, Factories;
 
 
     private Proxy|CustomerAddress $shippingAddress;

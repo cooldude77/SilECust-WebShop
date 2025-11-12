@@ -37,11 +37,10 @@ readonly class OnPaymentSuccess implements EventSubscriberInterface
 
         $orderHeader = $this->orderRead->getOpenOrder($this->customerFromUserFinder->getLoggedInCustomer());
 
-
-        if ($this->orderRead->getPayment($orderHeader) == null) {
-            $this->orderSave->savePayment($orderHeader,
-                $this->paymentSuccessResponseResolver->resolve($paymentEvent->getRequest()));
-        }
+        $this->orderSave->setOrderPaymentSuccess(
+            $orderHeader,
+            $this->paymentSuccessResponseResolver->resolve($paymentEvent->getRequest())
+        );
 
     }
 }

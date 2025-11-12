@@ -9,7 +9,6 @@ use Silecust\WebShop\Service\Module\WebShop\External\Payment\Resolver\PaymentFai
 use Silecust\WebShop\Service\Security\User\Customer\CustomerFromUserFinder;
 use Silecust\WebShop\Service\Transaction\Order\OrderRead;
 use Silecust\WebShop\Service\Transaction\Order\OrderSave;
-use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 readonly class OnPaymentFailure implements EventSubscriberInterface
@@ -42,11 +41,7 @@ readonly class OnPaymentFailure implements EventSubscriberInterface
     public function afterPaymentFailure(PaymentFailureEvent $paymentEvent): void
     {
         $orderHeader = $this->orderRead->getOpenOrder($this->customerFromUserFinder->getLoggedInCustomer());
-
-
-        $this->orderSave->setOrderStatus($orderHeader, OrderStatusTypes::ORDER_PAYMENT_FAILED);
-
-        $this->orderSave->savePayment(
+        $this->orderSave->setOrderPaymentFailed(
             $orderHeader,
             $this->paymentFailureResponseResolver->resolve($paymentEvent->getRequest())
         );

@@ -53,9 +53,7 @@ final class OrderStatusFactory extends PersistentProxyObjectFactory
         return [
             'dateOfStatusSet' => self::faker()->dateTime(),
             'note' => self::faker()->text(),
-            'orderHeader' => OrderHeaderFactory::new(),
-            'orderStatusType' => OrderStatusTypeFactory::new(),
-            'snapShot' => null, // TODO add OBJECT type manually
+            'orderHeader' => OrderHeaderFactory::new()
         ];
     }
 

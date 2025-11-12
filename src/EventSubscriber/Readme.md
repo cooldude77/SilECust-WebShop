@@ -1,0 +1,2 @@
+It is important not to dispatch any event from EvenSubscribers and listeners. Need to follow this philosophy as much as
+possible. Instead, use event priority of event subscriber to define a complete process.

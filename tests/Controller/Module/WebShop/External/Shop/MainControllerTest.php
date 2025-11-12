@@ -6,7 +6,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\SessionFactoryFixture;
@@ -26,7 +26,7 @@ class MainControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         SessionFactoryFixture,
         Factories;
 
@@ -89,7 +89,7 @@ class MainControllerTest extends WebTestCase
 
         // wrong category description
         $this->browser()
-            ->visit('/?category=asdaca')
+            ->visit('/?category=any-random')
             ->assertSuccessful()
             // Test: should show meaningful message to end user
             ->assertSee("Product Search Criteria not valid");

@@ -7,7 +7,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
@@ -26,7 +26,7 @@ class OrderItemControllerTest extends WebTestCase
         PriceFixture,
         LocationFixture,
         CurrencyFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         OrderItemFixture,
         PriceFixture,
         Factories;

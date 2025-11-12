@@ -1,4 +1,8 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+
+/** @noinspection ALL */
 
 namespace Silecust\WebShop\Repository;
 
@@ -50,14 +54,14 @@ class OrderHeaderRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function create(Customer $customer): \Silecust\WebShop\Entity\OrderHeader
+    public function create(Customer $customer): OrderHeader
     {
 
         $orderHeader = new OrderHeader();
 
         $orderHeader->setCustomer($customer);
 
-        $orderHeader->setDateTimeOfOrder(new \DateTime());
+        //   $orderHeader->setDateTimeOfOrder(new \DateTime());
 
         $orderStatusType = $this->getEntityManager()->getRepository(OrderStatusType::class)
             ->findOneBy(

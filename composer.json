@@ -20,6 +20,7 @@
     "knplabs/knp-paginator-bundle": "^6.6",
     "monolog/monolog": "^3.8",
     "silecust/framework": "dev-master",
+    "simpod/doctrine-utcdatetime": "^0.3.0",
     "symfony/asset-mapper": "7.2.*",
     "symfony/console": "7.2.*",
     "symfony/form": "7.2.*",

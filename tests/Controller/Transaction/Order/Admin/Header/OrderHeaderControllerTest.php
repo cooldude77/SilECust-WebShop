@@ -3,12 +3,13 @@
 namespace Silecust\WebShop\Tests\Controller\Transaction\Order\Admin\Header;
 
 use Silecust\WebShop\Factory\OrderJournalFactory;
+use Silecust\WebShop\Factory\OrderStatusFactory;
 use Silecust\WebShop\Factory\OrderStatusTypeFactory;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\ProductFixture;
@@ -28,7 +29,7 @@ class OrderHeaderControllerTest extends WebTestCase
         PriceFixture,
         LocationFixture,
         CurrencyFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         OrderItemFixture,
         Factories;
 
@@ -50,6 +51,11 @@ class OrderHeaderControllerTest extends WebTestCase
             // others orders can be seen
             ->assertSee($this->afterPaymentSuccessOrderHeaderA->getGeneratedId())
             ->assertSuccessful();
+
+        $x = OrderStatusFactory::findBy(['orderHeader' => $this->afterPaymentSuccessOrderHeaderA]);
+
+        //    \DAMA\DoctrineTestBundle\Doctrine\DBAL\StaticDriver::commit();
+        //    die;
     }
 
     public function testCreate()

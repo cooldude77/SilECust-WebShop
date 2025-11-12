@@ -18,27 +18,28 @@ use Silecust\WebShop\Repository\OrderItemPaymentPriceRepository;
 use Silecust\WebShop\Repository\OrderItemRepository;
 use Silecust\WebShop\Repository\OrderPaymentRepository;
 use Silecust\WebShop\Repository\OrderShippingRepository;
-use Silecust\WebShop\Repository\OrderStatusRepository;
 use Silecust\WebShop\Repository\OrderStatusTypeRepository;
 use Silecust\WebShop\Service\Component\Database\DatabaseOperations;
 use Silecust\WebShop\Service\MasterData\Price\PriceByCountryCalculator;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Session\Item\CartItem;
 use Silecust\WebShop\Service\Transaction\Order\IdGeneration\OrderIdStrategyInterface;
-use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatusTypes;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatus;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
 /**
- *
+ * The class to create and manipulate orders
+ * Note: This class only persists data and not flush it as there could be further events down the line
+ * So flush is done by the end process calling it ( mostly controllers)
  */
 readonly class OrderSave
 {
 
     /**
+     * @param \Silecust\WebShop\Service\Transaction\Order\Status\OrderStatus $orderStatus
      * @param OrderHeaderRepository $orderHeaderRepository
      * @param OrderItemRepository $orderItemRepository
      * @param OrderAddressRepository $orderAddressRepository
-     * @param OrderStatusRepository $orderStatusRepository
      * @param OrderStatusTypeRepository $orderStatusTypeRepository
      * @param OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository
      * @param OrderIdStrategyInterface $orderIdStrategy
@@ -49,10 +50,10 @@ readonly class OrderSave
      * @param SerializerInterface $serializer
      */
     public function __construct(
+        private OrderStatus                     $orderStatus,
         private OrderHeaderRepository           $orderHeaderRepository,
         private OrderItemRepository             $orderItemRepository,
         private OrderAddressRepository          $orderAddressRepository,
-        private OrderStatusRepository           $orderStatusRepository,
         private OrderStatusTypeRepository       $orderStatusTypeRepository,
         private OrderItemPaymentPriceRepository $orderItemPaymentPriceRepository,
         private OrderIdStrategyInterface        $orderIdStrategy,
@@ -78,15 +79,9 @@ readonly class OrderSave
         $orderHeader = $this->orderHeaderRepository->create($customer);
         $orderHeader->setGeneratedId($this->orderIdStrategy->generateOrderId());
 
-        $type = $this->orderStatusTypeRepository->findOneBy(['type' => OrderStatusTypes::ORDER_CREATED]);
+        $this->orderStatus->onOrderCreate($orderHeader);
 
-        $orderStatus = $this->orderStatusRepository->create($orderHeader, $type);
-        $orderStatus->setNote("Order Created");
-        $this->databaseOperations->persist($orderStatus);
         $this->databaseOperations->persist($orderHeader);
-
-        // $this->databaseOperations->flush();
-
     }
 
 
@@ -112,8 +107,6 @@ readonly class OrderSave
                 }
             }
         }
-       // $this->databaseOperations->flush();
-       // $this->databaseOperations->clear();
 
 
     }
@@ -132,9 +125,6 @@ readonly class OrderSave
             }
 
         }
-       // $this->databaseOperations->flush();
-      //  $this->databaseOperations->clear();
-
 
     }
 
@@ -148,9 +138,6 @@ readonly class OrderSave
         foreach ($orderItems as $item) {
             $this->databaseOperations->remove($item);
         }
-       // $this->databaseOperations->flush();
-       // $this->databaseOperations->clear();
-
 
     }
 
@@ -162,7 +149,7 @@ readonly class OrderSave
      */
     public function createOrUpdateAddress(?OrderHeader    $orderHeader,
                                           CustomerAddress $address,
-                                          array $currentAddressesForOrder
+                                          array           $currentAddressesForOrder
 
     ): void
     {
@@ -180,8 +167,6 @@ readonly class OrderSave
                 $currentAddressesForOrder[0]->setBillingAddress($address);
 
         }
-        // Not to be flushed here
-        //    $this->databaseOperations->flush();
     }
 
     /**
@@ -195,8 +180,29 @@ readonly class OrderSave
 
         $orderHeader->setOrderStatusType($orderStatusType);
 
-       // $this->databaseOperations->flush();
+    }
 
+    public function setOrderPaymentComplete(OrderHeader $orderHeader): void
+    {
+        $this->orderStatus->setOrderPaymentSuccess($orderHeader);
+    }
+
+    public function setOrderPaymentSuccess(OrderHeader $orderHeader, string $paymentInformation): void
+    {
+        $this->orderStatus->setOrderPaymentSuccess($orderHeader);
+
+        $orderPaymentInformation = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
+        $this->databaseOperations->persist($orderPaymentInformation);
+    }
+
+    public function setOrderToInProcess(OrderHeader $orderHeader): void
+    {
+        $this->orderStatus->setOrderToInProcess($orderHeader);
+    }
+
+    public function setOrderToCompleted(OrderHeader $orderHeader): void
+    {
+        $this->orderStatus->setOrderToCompleted($orderHeader);
     }
 
     /**
@@ -207,7 +213,7 @@ readonly class OrderSave
     {
         // todo: check if the item already exists
         $orderItem = $this->orderItemRepository->create($orderHeader, $product, $quantity);
-        $orderItem->setProductInJson($this->serializer->serialize($product,'json'));
+        $orderItem->setProductInJson($this->serializer->serialize($product, 'json'));
 
         $priceObject = $this->priceByCountryCalculator->getPriceObject($orderItem);
         $itemPaymentPrice = $this->orderItemPaymentPriceRepository->create($orderItem, $priceObject);
@@ -215,7 +221,6 @@ readonly class OrderSave
         $this->databaseOperations->persist($itemPaymentPrice);
 
     }
-
 
     /**
      * @param OrderItem $orderItem
@@ -248,18 +253,6 @@ readonly class OrderSave
 
     /**
      * @param OrderHeader $orderHeader
-     * @param string $paymentInformation
-     * @return void
-     */
-    public function savePayment(OrderHeader $orderHeader, string $paymentInformation): void
-    {
-        $orderPayment = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
-        $this->databaseOperations->save($orderPayment);
-
-    }
-
-    /**
-     * @param OrderHeader $orderHeader
      * @param float $value
      * @param array $shippingConditions
      * @param OrderShipping|null $orderShipping
@@ -275,8 +268,6 @@ readonly class OrderSave
             $orderShipping->setShippingConditionsInJson($shippingConditions);
         }
 
-        // flush and commit to be done in controller classes
-        // $this->databaseOperations->flush();
     }
 
     public function incrementQuantityOfItem(OrderItem $orderItem): void
@@ -284,4 +275,12 @@ readonly class OrderSave
         $orderItem->setQuantity($orderItem->getQuantity() + 1);
     }
 
+    public function setOrderPaymentFailed(OrderHeader $orderHeader, string $paymentInformation): void
+    {
+        $this->orderStatus->setOrderPaymentFailed($orderHeader);
+
+        $orderPaymentInformation = $this->orderPaymentRepository->create($orderHeader, $paymentInformation);
+        $this->databaseOperations->persist($orderPaymentInformation);
+
+    }
 }

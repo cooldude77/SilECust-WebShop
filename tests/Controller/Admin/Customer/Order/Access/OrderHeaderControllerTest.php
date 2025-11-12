@@ -8,8 +8,8 @@ use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixtureB;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureB;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeB;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderShippingFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
@@ -34,9 +34,9 @@ class OrderHeaderControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         OrderItemFixture,
-        OrderFixtureB,
+        OrderFixtureForTypeB,
         SessionFactoryFixture,
         OrderShippingFixture,
         EmployeeFixture,

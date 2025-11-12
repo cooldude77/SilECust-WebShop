@@ -5,12 +5,14 @@ namespace Silecust\WebShop\Tests\Controller\Module\WebShop\External\Payment;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Entity\OrderJournal;
 use Silecust\WebShop\Entity\OrderPayment;
+use Silecust\WebShop\Factory\OrderPaymentFactory;
+use Silecust\WebShop\Factory\OrderStatusFactory;
 use Silecust\WebShop\Service\Module\WebShop\External\Cart\Product\Manager\CartProductManager;
 use Silecust\WebShop\Service\Testing\Fixtures\CartFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CurrencyFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
-use Silecust\WebShop\Service\Testing\Fixtures\OrderFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderShippingFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\PriceFixture;
@@ -34,19 +36,11 @@ class PaymentControllerTest extends WebTestCase
         LocationFixture,
         FindByCriteria,
         CartFixture,
-        OrderFixture,
+        OrderFixtureForTypeA,
         OrderItemFixture,
         OrderShippingFixture,
         SessionFactoryFixture,
         Factories;
-
-    protected function setUp(): void
-    {
-        $this->browser()->visit('/logout');
-
-
-    }
-
 
     public function testOnPaymentStart()
     {
@@ -78,6 +72,13 @@ class PaymentControllerTest extends WebTestCase
         $this->createLocationFixtures();
         $this->createOrderFixturesA($this->customerA);
 
+        $paymentSuccessResponseFromGateway = [
+            'payment_id' => 'An id',
+            'date' => 'today',
+            'time' => 'now',
+            'status' => 'accepted'
+        ];
+
         $uri = "/payment/order/{$this->openOrderHeaderA->getGeneratedId()}/success";
 
         $this->browser()
@@ -90,22 +91,23 @@ class PaymentControllerTest extends WebTestCase
                 [
                     'body' => [
                         OrderPayment::PAYMENT_GATEWAY_RESPONSE =>
-                            [
-                                'payment_id' => 'An id'
-                            ]
+                            $paymentSuccessResponseFromGateway
                     ]
-                ])
+                ]
+            )
             ->assertRedirectedTo("/order/{$this->openOrderHeaderA->getGeneratedId()}/success", 1)
             ->use(callback: function (KernelBrowser $browser) {
                 $this->createSession($browser);
 
-                // check cart is emptied
+                // Test: check cart is emptied
                 self::assertNull(
                     $this->session->get(CartProductManager::CART_SESSION_KEY)
                 );
 
             });
 
+
+        // Test: Check order status in header
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
             OrderHeader::class, ['id' => $this->openOrderHeaderA->getId()]
@@ -115,9 +117,28 @@ class PaymentControllerTest extends WebTestCase
             $header->getOrderStatusType()->getType()
         );
 
+        // Test: Check journal
         $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
-
         $this->assertNotNull($journal);
+
+        // Test: Check status(es) in status table
+        $orderStatusArray = OrderStatusFactory::findBy(['orderHeader' => $header]);
+
+        self::assertEquals(OrderStatusTypes::ORDER_CREATED, $orderStatusArray[0]->getOrderStatusType()->getType());
+        self::assertEquals(OrderStatusTypes::ORDER_PAYMENT_COMPLETE, $orderStatusArray[1]->getOrderStatusType()->getType());
+
+        // Test: Check Payment into
+        $orderPayment = OrderPaymentFactory::find(['orderHeader' => $header]);
+        // From resolver
+        self::assertEquals(json_encode([
+            "id" => "pay_G8VQzjPLoAvm6D",
+            "entity" => "payment",
+            "amount" => 1000,
+            "currency" => "INR",
+            "status" => "captured",
+            "order_id" => "order_G8VPOayFxWEU28"
+
+        ]), $orderPayment->getPaymentResponse());
     }
 
     public function testOnPaymentFailure()
@@ -143,7 +164,7 @@ class PaymentControllerTest extends WebTestCase
                     ]
                 ]);
 
-
+        // Test: Check order status in header
         /** @var OrderHeader $header */
         $header = $this->findOneBy(
             OrderHeader::class, ['id' => $this->openOrderHeaderA->object()]
@@ -156,5 +177,32 @@ class PaymentControllerTest extends WebTestCase
         $journal = $this->findOneBy(OrderJournal::class, ['orderHeader' => $this->openOrderHeaderA->object()]);
 
         $this->assertNotNull($journal);
+
+        // Test: Check status(es) in status table
+        $orderStatusArray = OrderStatusFactory::findBy(['orderHeader' => $header]);
+
+        self::assertEquals(OrderStatusTypes::ORDER_CREATED, $orderStatusArray[0]->getOrderStatusType()->getType());
+        self::assertEquals(OrderStatusTypes::ORDER_PAYMENT_FAILED, $orderStatusArray[1]->getOrderStatusType()->getType());
+
+        // Test: Check Payment into
+        $orderPayment = OrderPaymentFactory::find(['orderHeader' => $header]);
+
+        // From resolver
+        self::assertEquals(json_encode([
+            "id" => "pay_G8VQzjPLoAvm6D",
+            "entity" => "payment",
+            "amount" => 1000,
+            "currency" => "INR",
+            "status" => "failure",
+            "order_id" => "order_G8VPOayFxWEU28"
+
+        ]), $orderPayment->getPaymentResponse());
+    }
+
+    protected function setUp(): void
+    {
+        $this->browser()->visit('/logout');
+
+
     }
 }

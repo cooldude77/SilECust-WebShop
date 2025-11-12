@@ -2,12 +2,12 @@
 
 namespace Silecust\WebShop\Entity;
 
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Silecust\WebShop\Repository\OrderHeaderRepository;
 
 #[ORM\Entity(repositoryClass: OrderHeaderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class OrderHeader
 {
     #[ORM\Id]
@@ -19,8 +19,6 @@ class OrderHeader
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $customer = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $dateTimeOfOrder = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -45,18 +43,6 @@ class OrderHeader
     public function setCustomer(Customer $customer): static
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getDateTimeOfOrder(): ?DateTimeInterface
-    {
-        return $this->dateTimeOfOrder;
-    }
-
-    public function setDateTimeOfOrder(DateTimeInterface $dateTimeOfOrder): static
-    {
-        $this->dateTimeOfOrder = $dateTimeOfOrder;
 
         return $this;
     }
@@ -96,4 +82,6 @@ class OrderHeader
 
         return $this;
     }
+
+
 }
