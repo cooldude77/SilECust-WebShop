@@ -7,12 +7,14 @@ use Silecust\WebShop\Event\Component\UI\Panel\Display\DisplayFieldValueEvent;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductBaseNotFound;
 use Silecust\WebShop\Exception\MasterData\Pricing\Item\PriceProductTaxNotFound;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatus;
 
 readonly class OrderHeaderFieldDisplayMapper
 {
 
     public function __construct(
-        private HeaderPriceCalculator $headerPriceCalculator)
+        private HeaderPriceCalculator $headerPriceCalculator,
+        private OrderStatus           $orderStatus)
     {
     }
 
@@ -22,6 +24,7 @@ readonly class OrderHeaderFieldDisplayMapper
      * @return mixed
      * @throws PriceProductBaseNotFound
      * @throws PriceProductTaxNotFound
+     * @throws \Exception
      */
     public function mapData(DisplayFieldValueEvent $event, string $route1): mixed
     {
@@ -35,7 +38,9 @@ readonly class OrderHeaderFieldDisplayMapper
 
             case 'dateTimeOfOrder':
                 {
-                    $column['value'] = $entity->getDateTimeOfOrder()->format('d-m-Y H:i:s');
+
+                    $date = $this->orderStatus->getOrderCreatedAtDate($entity);
+                    $column['value'] = $date->format('d-m-Y H:i:s');
                     $data['column'] = $column;
                 }
                 break;

@@ -42,8 +42,16 @@ All these status are available in class `OrderStatusTypes`
 
 All status changes will create a record in status table.
 
-- ORDER_CREATED : It is an implicit order and it will not be visible to customer
+- ORDER_CREATED : It is an implicit order, and it will not be visible to customer
 - ORDER_PAYMENT_COMPLETED: It will add a record to status and also payment information in `OrderPayment` table
+
+### Dates While doing order status changes
+
+Status Set Date and TimeZone
+- First time the status was set, cannot be changed
+
+- Future plans are to allow installation specific status mapped to System Status
+    - Another status date time field for mentioning when the particular sub status was changed
 
 # Journal:
 

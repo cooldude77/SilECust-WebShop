@@ -52,7 +52,7 @@ final class OrderJournalFactory extends PersistentProxyObjectFactory
     {
         return [
             'changeNote' => self::faker()->text(),
-            'createdAt' => self::faker()->dateTime(),
+            'statusCreatedAt' => self::faker()->dateTime(),
             'orderHeader' => OrderHeaderFactory::new(),
             'orderSnapShot' => [],
         ];

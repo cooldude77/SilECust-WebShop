@@ -39,7 +39,6 @@ class OrderStatusMapper
         $orderStatus = $this->orderStatusRepository->create($orderHeader, $orderStatusType);
         $orderStatus->setOrderStatusType($orderStatusType);
 
-        $orderStatus->setDateOfStatusSet(new DateTime());
         $orderStatus->setNote($note);
 
         // snapshot will be created after flush

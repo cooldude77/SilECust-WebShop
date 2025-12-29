@@ -45,7 +45,7 @@ readonly class OnGridPropertySetEvent implements EventSubscriberInterface
                 ],
                 [
                     'label' => 'Date Of Order',
-                    'propertyName' => 'dateTimeOfOrder'
+                    'propertyName' => 'dateTimeOfOrder' // not a real property
                 ],
                 [
                     'label' => 'Status',

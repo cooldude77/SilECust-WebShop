@@ -23,6 +23,7 @@ trait OrderFixtureForTypeA
     public function createOrderFixturesA(Proxy $customer): void
     {
 
+        // Create Open Order
         // status:created
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);
         $this->openOrderHeaderA = OrderHeaderFactory::createOne
@@ -34,6 +35,7 @@ trait OrderFixtureForTypeA
         );
         OrderStatusFactory::createOne(['orderHeader' => $this->openOrderHeaderA, 'orderStatusType' => $orderStatusType]);
 
+        // Create In Process Order
         // need two status to reach in_process
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
         $this->inProcessOrderHeaderA = OrderHeaderFactory::createOne
@@ -46,15 +48,12 @@ trait OrderFixtureForTypeA
         // create status
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);
         OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
-        $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_COMPLETE]);
-        OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
         OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
 
-
-        // After payment
+        // Create Payment complete Order
+        // payment
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_COMPLETE]);
-        OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
         $this->afterPaymentSuccessOrderHeaderA = OrderHeaderFactory::createOne
         (
             [
@@ -64,6 +63,8 @@ trait OrderFixtureForTypeA
         );
 
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);
+        OrderStatusFactory::createOne(['orderHeader' => $this->afterPaymentSuccessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
+        $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
         OrderStatusFactory::createOne(['orderHeader' => $this->afterPaymentSuccessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_COMPLETE]);
         OrderStatusFactory::createOne(['orderHeader' => $this->afterPaymentSuccessOrderHeaderA, 'orderStatusType' => $orderStatusType]);

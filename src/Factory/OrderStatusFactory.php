@@ -51,7 +51,7 @@ final class OrderStatusFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateOfStatusSet' => self::faker()->dateTime(),
+            'statusCreatedAt' => self::faker()->dateTime(),
             'note' => self::faker()->text(),
             'orderHeader' => OrderHeaderFactory::new()
         ];

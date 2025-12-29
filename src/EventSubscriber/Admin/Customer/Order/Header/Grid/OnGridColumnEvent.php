@@ -5,6 +5,7 @@ namespace Silecust\WebShop\EventSubscriber\Admin\Customer\Order\Header\Grid;
 use Silecust\WebShop\Entity\OrderHeader;
 use Silecust\WebShop\Event\Component\UI\Panel\List\GridColumnEvent;
 use Silecust\WebShop\Service\Transaction\Order\Price\Header\HeaderPriceCalculator;
+use Silecust\WebShop\Service\Transaction\Order\Status\OrderStatus;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -17,7 +18,8 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
      * @param RouterInterface $router
      */
     public function __construct(private RouterInterface       $router,
-                                private HeaderPriceCalculator $orderPriceValueCalculator)
+                                private HeaderPriceCalculator $orderPriceValueCalculator,
+                                private OrderStatus           $orderStatus)
     {
     }
 
@@ -35,6 +37,7 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
     /**
      * @param GridColumnEvent $event
      * @return void
+     * @throws \Exception
      */
     public function beforeDisplay(GridColumnEvent $event): void
     {
@@ -56,11 +59,9 @@ readonly class OnGridColumnEvent implements EventSubscriberInterface
                 $data['column'] = $column;
                 break;
             case 'dateTimeOfOrder':
-                {
-          //todo
-                    $column['value'] = 'a';//$entity->getDateTimeOfOrder()->format('d-m-Y H:i:s');
-                    $data['column'] = $column;
-                }
+                $date = $this->orderStatus->getOrderCreatedAtDate($entity);
+                $column['value'] = $date->format('d-m-Y H:i:s');
+                $data['column'] = $column;
                 break;
             case 'orderStatusType':
                 $column['value'] = $entity->getOrderStatusType()->getDescription();

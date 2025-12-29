@@ -29,14 +29,14 @@ class OrderStatus
     /**
      * @var \DateTimeInterface|null
      * See Order.md for conversion to UTC
+     * This date cannot be changed once set
      */
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeInterface $dateOfStatusSet = null;
+    private ?DateTimeInterface $statusCreatedAt = null;
 
 
     #[ORM\Column(length: 255)]
-    private string|null $timeZoneOfStatusSet = null;
-
+    private string|null $statusCreatedAtTimeZone = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = null;
@@ -69,14 +69,14 @@ class OrderStatus
         return $this;
     }
 
-    public function getDateOfStatusSet(): ?DateTimeInterface
+    public function getStatusCreatedAt(): ?DateTimeInterface
     {
-        return $this->dateOfStatusSet;
+        return $this->statusCreatedAt;
     }
 
-    public function setDateOfStatusSet(DateTimeInterface $dateOfStatusSet): static
+    public function setStatusCreatedAt(DateTimeInterface $statusCreatedAt): static
     {
-        $this->dateOfStatusSet = $dateOfStatusSet;
+        $this->statusCreatedAt = $statusCreatedAt;
 
         return $this;
     }
@@ -99,14 +99,14 @@ class OrderStatus
     {
         $presentDateAndTime = new DateTimeImmutable('now');
 
-        $this->setDateOfStatusSet($presentDateAndTime);
-        $this->timeZoneOfStatusSet = $presentDateAndTime->getTimezone()->getName();
+        $this->setStatusCreatedAt($presentDateAndTime);
+        $this->statusCreatedAtTimeZone = $presentDateAndTime->getTimezone()->getName();
 
     }
 
-    public function getTimeZoneOfStatusSet(): ?string
+    public function getStatusCreatedAtTimeZone(): ?string
     {
-        return $this->timeZoneOfStatusSet;
+        return $this->statusCreatedAtTimeZone;
     }
 
 
