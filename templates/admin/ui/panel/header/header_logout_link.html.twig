@@ -1,3 +1,16 @@
-<a class="nav-link" href="{{ path('sc_app_logout') }}" title="logout">
+<a class="nav-link" href="{{ path('sc_app_logout') }}" id="logout" title="logout">
     <i class="bi bi-box-arrow-right"></i>
 </a>
+<script type="module">
+    $(document).ready(function () {
+        $("#logout").click(function () {
+            if(confirm("Are you sure you want to logout?")){
+
+            }
+            else{
+                return false;
+            }
+        });
+    })
+    ;
+</script>
