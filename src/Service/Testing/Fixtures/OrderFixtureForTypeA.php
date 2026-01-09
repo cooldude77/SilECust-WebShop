@@ -20,6 +20,8 @@ trait OrderFixtureForTypeA
     private Proxy|null|OrderHeader $inProcessOrderHeaderA = null;
     private Proxy|null|OrderHeader $afterPaymentSuccessOrderHeaderA = null;
 
+    private Proxy|null|OrderHeader $afterPaymentFailureOrderHeaderA = null;
+
     public function createOrderFixturesA(Proxy $customer): void
     {
 
@@ -50,6 +52,22 @@ trait OrderFixtureForTypeA
         OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
         $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
         OrderStatusFactory::createOne(['orderHeader' => $this->inProcessOrderHeaderA, 'orderStatusType' => $orderStatusType]);
+
+        // Create Payment Failure Order
+        // need two status to reach payment failure
+        $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_IN_PROCESS]);
+        $this->afterPaymentFailureOrderHeaderA = OrderHeaderFactory::createOne
+        (
+            [
+                'customer' => $customer->object(),
+                'orderStatusType' => $orderStatusType->object()
+            ]
+        );
+        // create status
+        $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_CREATED]);
+        OrderStatusFactory::createOne(['orderHeader' => $this->afterPaymentFailureOrderHeaderA, 'orderStatusType' => $orderStatusType]);
+        $orderStatusType = OrderStatusTypeFactory::find(['type' => OrderStatusTypes::ORDER_PAYMENT_FAILED]);
+        OrderStatusFactory::createOne(['orderHeader' => $this->afterPaymentFailureOrderHeaderA, 'orderStatusType' => $orderStatusType]);
 
         // Create Payment complete Order
         // payment

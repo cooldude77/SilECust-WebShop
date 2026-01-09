@@ -142,6 +142,9 @@ readonly class OrderStatus
     }
 
     /**
+     * The Order created date is always the date order was initiated in the shopping cart
+     * TODO: A way to change the date to any date , a system admin may want
+     * Standard is to have it as order initiated in shopping cart
      * @param \Silecust\WebShop\Entity\OrderHeader $entity
      * @return \DateTimeImmutable
      * @throws \Exception
@@ -150,10 +153,10 @@ readonly class OrderStatus
 
     {
 
-        $date = $this->getOrderStatusByType($entity, OrderStatusTypes::ORDER_IN_PROCESS)
+        $date = $this->getOrderStatusByType($entity, OrderStatusTypes::ORDER_CREATED)
             ->getStatusCreatedAt();
 
-        $timeZone = new \DateTimeZone($this->getOrderStatusByType($entity, OrderStatusTypes::ORDER_IN_PROCESS)->getStatusCreatedAtTimeZone());
+        $timeZone = new \DateTimeZone($this->getOrderStatusByType($entity, OrderStatusTypes::ORDER_CREATED)->getStatusCreatedAtTimeZone());
         $date->setTimezone($timeZone);
 
         return \DateTimeImmutable::createFromInterface($date);

@@ -8,6 +8,7 @@ use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\CustomerFixtureB;
 use Silecust\WebShop\Service\Testing\Fixtures\EmployeeFixture;
 use Silecust\WebShop\Service\Testing\Fixtures\LocationFixture;
+use Silecust\WebShop\Service\Testing\Fixtures\OrderDateFinder;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeA;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderFixtureForTypeB;
 use Silecust\WebShop\Service\Testing\Fixtures\OrderItemFixture;
@@ -40,7 +41,34 @@ class OrderHeaderControllerTest extends WebTestCase
         SessionFactoryFixture,
         OrderShippingFixture,
         EmployeeFixture,
-        Factories;
+        Factories,
+        OrderDateFinder;
+
+    /**
+     * @return void
+     */
+    public function testListOfOrdersForCustomerA()
+    {
+        $this->createOrderFixturesA($this->customerA);
+
+        $uri = "/my/orders";
+
+        $this->browser()
+            ->use(function (KernelBrowser $kernelBrowser) {
+                $kernelBrowser->loginUser($this->userForCustomerA->object());
+            })
+            ->visit($uri)
+            ->assertSee($this->inProcessOrderHeaderA->getGeneratedId())
+            ->assertSee($this->afterPaymentSuccessOrderHeaderA->getGeneratedId())
+            ->assertSee($this->afterPaymentFailureOrderHeaderA->getGeneratedId())
+            ->assertNotSee($this->openOrderHeaderA->getGeneratedId())
+            ->use(function (Browser $browser) {
+                $browser->assertSee($this->getOrderCreatedStatusDate($this->inProcessOrderHeaderA));
+                $browser->assertSee($this->getOrderCreatedStatusDate($this->afterPaymentSuccessOrderHeaderA));
+                $browser->assertSee($this->getOrderCreatedStatusDate($this->afterPaymentFailureOrderHeaderA));
+            });
+
+    }
 
     /**
      * @return void
